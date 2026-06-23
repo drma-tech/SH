@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="SH.API/SH.API.csproj" Id="f658cbae-4aac-4fb8-b8a4-a9dd89468c7c" />
   <Project Path="SH.Shared/SH.Shared.csproj" />
+  <Project Path="SH.WEB/SH.WEB.csproj" Id="06349f1c-8c02-4dc7-acf2-f214269bc90a" />
 </Solution>

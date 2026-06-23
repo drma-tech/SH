@@ -1,0 +1,59 @@
+{
+  "id": "shared-home",
+  "name": "Shared Home: Live, share, and be",
+  "short_name": "Shared Home",
+  "description": "Find your next home and be part of a community",
+  "background_color": "#ffffff",
+  "theme_color": "#03173d",
+  "start_url": "/",
+  "dir": "ltr",
+  "scope": "/",
+  "lang": "en-US",
+  "orientation": "any",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "iarc_rating_id": "xxx",
+  "prefer_related_applications": true,
+  "related_applications": [
+    {
+      "platform": "windows",
+      "url": "https://apps.microsoft.com/detail/xxx",
+      "id": "xxx"
+    },
+    {
+      "platform": "webapp",
+      "url": "https://www.shared-home.com"
+    }
+  ],
+  "categories": [
+    "entertainment",
+    "lifestyle",
+    "social"
+  ],
+  "icons": [
+    {
+      "src": "icon/icon-71.webp",
+      "type": "image/webp",
+      "sizes": "71x71"
+    },
+    {
+      "src": "icon/icon-192.webp",
+      "type": "image/webp",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon/icon-512.webp",
+      "type": "image/webp",
+      "sizes": "512x512"
+    }
+  ],
+  "launch_handler": {
+    "client_mode": [
+      "navigate-existing",
+      "auto"
+    ]
+  }
+}

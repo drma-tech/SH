@@ -1,0 +1,35 @@
+﻿@inherits BaseComponentCore<AppleSubscriptionManager>
+
+@using SH.WEB.Modules.Subscription.Core
+@using SH.WEB.Modules.Subscription.Resources
+
+@inject PaymentConfigurationApi ConfigurationApi
+
+<MudCard Outlined="true" Elevation="4">
+    <MudCardContent Class="pa-3">
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="@Translations.Product" Text="@Client?.GetActiveSubscription()?.Product?.GetName()" ReadOnly="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="@Translations.Cycle" Text="@Client?.GetActiveSubscription()?.Cycle?.GetName()" ReadOnly="true" ShrinkLabel="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Created At" Text="@Client?.GetActiveSubscription()?.CreatedAt.DateTime.ToShortDateString()" ReadOnly="true" ShrinkLabel="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="Expires Date" Text="@Client?.GetActiveSubscription()?.ExpiresDate?.DateTime.ToShortDateString()" ReadOnly="true" ShrinkLabel="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="@Translations.PaymentProvider" Text="@Client?.GetActiveSubscription()?.Provider?.GetName()" ReadOnly="true"></MudTextField>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudTextField T="string" Label="@Translations.IsActive" Text="@Client?.GetActiveSubscription()?.IsActive().ToString()" ReadOnly="true" ShrinkLabel="true"></MudTextField>
+            </MudItem>
+        </MudGrid>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    [Parameter][EditorRequired] public AuthPrincipal? Client { get; set; }
+}

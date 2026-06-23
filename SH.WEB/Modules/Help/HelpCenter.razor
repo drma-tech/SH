@@ -1,0 +1,242 @@
+﻿@page "/{culture}/help"
+@inherits PageCore<HelpCenter>
+
+@using SH.WEB.Modules.Auth.Core
+
+@inject PrincipalApi PrincipalApi
+@inject LoginApi LoginApi
+
+<HeadComponent Title="@SeoTranslations.HelpCenter" Description="@SeoTranslations.HelpCenterDesc.Format(AppInfo.Title)" Url=@($"/{Culture}/help") Index="false"></HeadComponent>
+<PageSectionComponent IsPageHeader="true" Title="@SeoTranslations.HelpCenter" Description="@SeoTranslations.HelpCenterDesc.Format(AppInfo.Title)"></PageSectionComponent>
+
+<PageSectionComponent Title="Quick Actions">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Window().InvokeVoidAsync("eval", "Userback && Userback.openForm('general', 'form');"); })">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Feedback"></MudIcon>
+                    Feedback
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href="mailto:support@streamingdiscovery.com">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Mail"></MudIcon>
+                    Contact Support
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/help/faq")>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Chat"></MudIcon>
+                    Browse FAQ
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/compare")>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Checklist"></MudIcon>
+                    Compare
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Troubleshooting">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ShowCache(cts.Token); })">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Memory"></MudIcon>
+                    @Button.ShowCache
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@(async () => { await JsRuntime.Utils().ClearAllStorage(); })">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Clear"></MudIcon>
+                    @Button.ClearCache
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/regions")>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Language"></MudIcon>
+                    Browse by Region
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="@GlobalTranslations.AppLanguage">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            @foreach (var lang in Enum.GetValues<AppLanguage>().Where(p => AppStateStatic.SitemapTranslations.Contains(p.ToString())))
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudButton Variant="Variant.Filled" FullWidth="true" Href="@($"/{lang.ToString()}/help")" OnClick="@(() => Navigation.NavigateTo($"/{lang.ToString()}/help", true))">
+                        <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Translate"></MudIcon>
+                        @lang.GetName()
+                    </MudButton>
+                </MudItem>
+            }
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Account">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@DownloadData" Disabled="AppStateStatic.Principal == null">
+                    Download Data
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@DeleteAccount" Disabled="AppStateStatic.Principal == null">
+                    @SH.WEB.Modules.Profile.Resources.Translations.DeleteAccount
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Legal & Privacy">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/legal/terms") Rel="nofollow">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.DocumentScanner"></MudIcon>
+                    @WEB.Modules.Help.Resources.Translations.TermsUse
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/legal/privacy") Rel="nofollow">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.VerifiedUser"></MudIcon>
+                    @WEB.Modules.Help.Resources.Translations.PrivacyPolicy
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/legal/credits") Rel="nofollow">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.People"></MudIcon>
+                    @WEB.Modules.Help.Resources.Translations.Credits
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Get the App">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            @foreach (var store in AppInfo.Stores)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudButton Variant="Variant.Filled" FullWidth="true" Href="@store.Url" Target="_blank" rel="noopener">
+                        <MudImage Src="@store.Logo" Class="me-2" Style="width: 20px; vertical-align: top;" Alt="@store.Store" />
+                        @store.Store
+                    </MudButton>
+                </MudItem>
+            }
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Company">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/company/about-us")>
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Business"></MudIcon>
+                    About us
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href="mailto:contact@drma-tech.com">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Email"></MudIcon>
+                    Contact us
+                </MudButton>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <MudButton Variant="Variant.Filled" FullWidth="true" Href="https://www.drma-tech.com" Target="_blank" rel="noopener">
+                    <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Web"></MudIcon>
+                    Website
+                </MudButton>
+            </MudItem>
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="More from DRMA Tech">
+    <BodyFragment>
+        <MudGrid Spacing="@Css.SpaceSmall">
+            @foreach (var product in AppInfo.Products)
+            {
+                <MudItem xs="12" sm="6" md="4" lg="3">
+                    <MudButton Variant="Variant.Filled" FullWidth="true" Href="@product.Url" Target="_blank" rel="noopener">
+                        <MudImage Src="@product.Logo" Class="me-2" Style="width: 20px; vertical-align: top;" Alt="@product.Title" />
+                        @product.Title
+                    </MudButton>
+                </MudItem>
+            }
+        </MudGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+@code {
+    private async Task DownloadData()
+    {
+        try
+        {
+            if (AppStateStatic.Principal == null) return;
+
+            var data = new SuperData() { Principal = AppStateStatic.Principal };
+
+            var sub = AppStateStatic.Principal.GetActiveSubscription();
+
+            data.Login = await LoginApi.Get(cts.Token);
+          
+            var fileName = $"{AppInfo.Title.ToSlug()}_{AppStateStatic.Principal.AuthProviders[0]}_{DateTime.UtcNow:yyyyMMdd_HHmmss}.json";
+            await JsRuntime.Utils().DownloadFile(fileName, "application/json", data.ConvertFromObjectToBytes(), cts.Token);
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
+    }
+
+    private async Task DeleteAccount()
+    {
+        try
+        {
+            if (AppStateStatic.Principal == null) return;
+
+            if (AppStateStatic.Principal.GetActiveSubscription() != null)
+            {
+                await DialogService.ShowMessageBoxAsync("You still have an active subscription", "Please cancel your subscription before deleting your profile.");
+                return;
+            }
+
+            if (await DialogService.ShowMessageBoxAsync(AppInfo.Title, GlobalTranslations.SureDeleteAccount, Button.Ok, Button.Cancel) ?? false)
+            {
+                //remove data from cosmos db
+                await PrincipalApi.Remove(cts.Token);
+
+                //TODO: remove data from supabase table
+
+                //close current login session
+                await Logout();
+            }
+            else
+            {
+                await ShowInfo(GlobalTranslations.OperationCanceled);
+            }
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
+    }
+
+    private async Task Logout()
+    {
+        await JsRuntime.Supabase().SignOutAsync(cts.Token);
+    }
+}

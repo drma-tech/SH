@@ -1,0 +1,50 @@
+﻿@inherits BaseComponentCore<NotFoundComponent>
+
+<PageTitle>404 - Not found</PageTitle>
+<HeadContent>
+    <meta name="robots" content="noindex" />
+</HeadContent>
+
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
+
+    .container {
+        height: calc(100vh - 64px - 32px - 48px - 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 4rem;
+        color: #dc3545;
+        margin: 0;
+    }
+
+    p {
+        font-size: 1.3rem;
+        margin: 16px 0;
+    }
+
+    a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container">
+    <div>
+        <h1>404</h1>
+        <p>@SH.WEB.Modules.Auth.Resources.Translations.NothingThisAddress</p>
+        <a href=@($"/{Culture}")>Return to homepage</a>
+    </div>
+</div>
+
+@code {
+    private string Culture => Navigation.GetCulture();
+}

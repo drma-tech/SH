@@ -1,0 +1,88 @@
+﻿@using Microsoft.JSInterop
+@inject NavigationManager Navigation
+@inject IJSRuntime Js
+
+<PageTitle>@TitleFull</PageTitle>
+
+<HeadContent>
+
+    @if (!Index)
+    {
+        <meta name="robots" content="noindex" />
+    }
+
+    <meta name="description" content="@Description" />
+
+    <!-- Bing -->
+    <meta http-equiv="content-language" content="@Culture?.ToLower()" />
+
+    <link rel="canonical" href="@CanonicalUrl" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+    <!-- hreflang -->
+    @foreach (var lang in AppStateStatic.SitemapTranslations)
+    {
+        <link rel="alternate" href="@GetUrlForLanguage(lang)" hreflang="@lang" />
+    }
+
+    <!-- x-default -->
+    @if (AppStateStatic.SitemapTranslations.Length > 0)
+    {
+        <link rel="alternate" href="@GetUrlForLanguage("en")" hreflang="x-default" />
+    }
+
+    @if (Shared)
+    {
+        <link rel="image_src" href="@ImageUrl">
+
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="@CanonicalUrl" />
+        <meta property="og:site_name" content="@AppInfo.Title" />
+        <meta property="og:title" content="@TitleFull" />
+        <meta property="og:description" content="@Description" />
+        <meta property="og:image" content="@ImageUrl" />
+    }
+
+</HeadContent>
+
+<script>
+    window.setHtmlLang = function (lang) {
+        document.documentElement.lang = lang;
+    };
+</script>
+
+@code {
+    [Parameter, EditorRequired] public string? Title { get; set; }
+    [Parameter, EditorRequired] public string Url { get; set; }
+    [Parameter, EditorRequired] public bool Index { get; set; }
+
+    [Parameter] public string? Description { get; set; }
+    /// <summary>
+    /// optional, but absolute url is necessary if provided
+    /// </summary>
+    [Parameter] public string? Image { get; set; }
+
+    [Parameter] public bool Shared { get; set; }
+
+    public string? Culture => AppStateStatic.GetCulture(Navigation);
+    private string? TitleFull => $"{Title} | {AppInfo.Title}";
+    private string? CanonicalUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{Url.TrimStart('/')}";
+    private string? ImageUrl => Image ?? $"{AppInfo.WebSite}/icon/icon-192.webp";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !string.IsNullOrEmpty(Culture))
+        {
+            await Js.InvokeVoidAsync("setHtmlLang", Culture);
+        }
+    }
+
+    private string GetUrlForLanguage(string lang)
+    {
+        var segments = Url.TrimStart('/').Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+        var path = segments.Length > 1 ? string.Join("/", segments.Skip(1)) : string.Empty;
+
+        return $"{AppInfo.WebSite}/{lang}/{path}".TrimEnd('/');
+    }
+}

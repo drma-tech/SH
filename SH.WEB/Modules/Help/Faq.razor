@@ -1,0 +1,62 @@
+﻿@page "/{culture}/help/faq"
+@inherits PageCore<Faq>
+
+<HeadComponent Title="FAQ" Url=@($"/{Culture}/help/faq") Description="@($"Find answers to common questions about {AppInfo.Title}, including accounts, lists, recommendations, subscriptions, and platform usage.")" Index="false"></HeadComponent>
+<PageSectionComponent IsPageHeader="true" Title="FAQ" Description="@($"Find answers to common questions about {AppInfo.Title}, including accounts, lists, recommendations, subscriptions, and platform usage.")"></PageSectionComponent>
+
+<MudExpansionPanels Outlined="true" Elevation="0" Class="@Css.Build().Medium("mb")">
+    <MudExpansionPanel Disabled="true" HideIcon="true">
+        <TitleContent>
+            <div class="d-flex">
+                <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.PrivacyTip" class="@Css.Build().Small("mr")"></MudIcon>
+                <MudText Color="Color.Primary">Privacy & Data</MudText>
+            </div>
+        </TitleContent>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="What user data does the platform collect?" HeaderClass="mud-secondary-text">
+        We collect minimal data: email for login, platform preferences, and usage metadata like IP and login times. No personal sensitive information is stored.
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Are my lists and data shared with others?" HeaderClass="mud-secondary-text">
+        Private lists you create are visible only to you unless you choose to share a public link. Public lists are curated by the platform and accessible to all users.
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+<MudExpansionPanels Outlined="true" Elevation="0" Class="@Css.Build().Medium("mb")">
+    <MudExpansionPanel Disabled="true" HideIcon="true">
+        <TitleContent>
+            <div class="d-flex">
+                <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.AccountCircle" class="@Css.Build().Small("mr")"></MudIcon>
+                <MudText Color="Color.Primary">Account & Access</MudText>
+            </div>
+        </TitleContent>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Do I need to create an account?" HeaderClass="mud-secondary-text">
+        No account is required to browse public lists and general content. Creating an account lets you save your preferences and manage your personal lists.
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="What information is required to register?" HeaderClass="mud-secondary-text">
+        Only an email address is required to create an account. No personal data beyond that is collected.
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Can I delete my account and data?" HeaderClass="mud-secondary-text">
+        Yes, you can delete your account anytime, which removes your saved lists and preferences from our system.
+    </MudExpansionPanel>
+</MudExpansionPanels>
+
+<MudExpansionPanels Outlined="true" Elevation="0" Class="@Css.Build().Medium("mb")">
+    <MudExpansionPanel Disabled="true" HideIcon="true">
+        <TitleContent>
+            <div class="d-flex">
+                <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Payment" class="@Css.Build().Small("mr")"></MudIcon>
+                <MudText Color="Color.Primary">Subscriptions & Payments</MudText>
+            </div>
+        </TitleContent>
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="Is the platform free?" HeaderClass="mud-secondary-text">
+        Yes, basic access is free. Premium subscriptions unlock benefits such as no ads and larger list capacities.
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="How do I manage my subscription?" HeaderClass="mud-secondary-text">
+        You can manage or cancel your subscription at any time in your account billing settings.
+    </MudExpansionPanel>
+    <MudExpansionPanel Text="How is payment processed?" HeaderClass="mud-secondary-text">
+        Payments are securely handled by our partner Paddle. We do not store full payment details on our servers.
+    </MudExpansionPanel>
+</MudExpansionPanels>

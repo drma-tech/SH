@@ -14,6 +14,11 @@ public class CustomAttribute : Attribute
     public string? Description { get; set; }
     public bool ShowDescription { get; set; } = true;
 
+    /// <summary>
+    ///     format: Title 1|Description 1|Title 2|Description 2
+    /// </summary>
+    public string? Tips { get; set; }
+
     public Type? ResourceType { get; set; }
 }
 
@@ -53,6 +58,8 @@ public static class CustomAttributeHelper
                 attr.Placeholder = rm.GetString(attr.Placeholder)?.Replace(@"\n", Environment.NewLine) ?? attr.Placeholder.Replace(@"\n", Environment.NewLine) + " (incomplete translation)";
             if (!string.IsNullOrEmpty(attr.Description))
                 attr.Description = rm.GetString(attr.Description) ?? attr.Description + " (incomplete translation)";
+            if (!string.IsNullOrEmpty(attr.Tips))
+                attr.Tips = rm.GetString(attr.Tips) ?? attr.Tips + " (incomplete translation)";
         }
 
         return attr;

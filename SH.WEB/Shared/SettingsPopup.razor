@@ -1,0 +1,78 @@
+﻿@using SH.WEB.Modules.Subscription.Core
+@inherits ComponentCore<SettingsPopup>
+
+@inject IpInfoApi IpInfoApi
+
+<MudDialog Style="width: 100%">
+    <DialogContent>
+        <MudGrid Spacing="@Css.SpaceMedium">
+            <MudItem xs="12">
+                <MudSelect Value="@Language" ValueChanged="@((AppLanguage vl) => AppLanguageValueChanged(vl))" Label="@GlobalTranslations.AppLanguage"
+                           HelperText="@GlobalTranslations.AppLanguageDesc" FullWidth="true">
+                    @foreach (var item in appLanguages.OrderBy(p => p.GetName()))
+                    {
+                        <MudSelectItem Value="@item">@item.GetName()</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudItem>           
+            <MudItem xs="12">
+                <MudText Class="mb-1" Style="font-size: 14px;">@GlobalTranslations.AppTheme</MudText>
+                <MudToggleGroup Value="DarkMode" ValueChanged="(bool vl) => DarkModeChanged(vl)" SelectionMode="SelectionMode.SingleSelection"
+                                Vertical="false" Color="Color.Primary">
+                    <MudToggleItem Value="false">
+                        <MudIcon Icon="@Icons.Material.Filled.LightMode" Title="@GlobalTranslations.LightMode" Class="me-1"></MudIcon>
+                        @GlobalTranslations.LightMode
+                    </MudToggleItem>
+                    <MudToggleItem Value="true">
+                        <MudIcon Icon="@Icons.Material.Filled.DarkMode" Title="@GlobalTranslations.DarkMode" Class="me-1"></MudIcon>
+                        @GlobalTranslations.DarkMode
+                    </MudToggleItem>
+                </MudToggleGroup>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@(() => { MudDialog?.Close(); })">
+            @Button.Close
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
+
+    private readonly AppLanguage[] appLanguages = Enum.GetValues<AppLanguage>();
+
+    public AppLanguage Language { get; set; } = AppLanguage.en;
+    public bool DarkMode { get; set; } = false;
+
+    protected override async Task ProcessInitialData()
+    {
+        Language = await AppStateStatic.GetAppLanguage(JsRuntime, cts.Token);
+        DarkMode = await AppStateStatic.GetDarkMode(JsRuntime, cts.Token) ?? false;
+    }
+
+    protected async Task AppLanguageValueChanged(AppLanguage value)
+    {
+        Language = value;
+
+        await JsRuntime.Utils().SetStorage("app-language", value, JavascriptContext.Default.AppLanguage, cts.Token);
+
+        var uri = new Uri(Navigation.Uri);
+        var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries).Skip(1);
+        var newPath = $"/{value.ToString().ToLower()}/{string.Join("/", segments)}";
+
+        Navigation.NavigateTo($"{newPath}{uri.Query}".TrimEnd('/'), forceLoad: true);
+    }
+
+    protected async Task DarkModeChanged(bool value)
+    {
+        DarkMode = value;
+
+        await JsRuntime.Utils().SetStorage("dark-mode", value, JavascriptContext.Default.Boolean, cts.Token);
+
+        AppStateStatic.ChangeDarkMode(value);
+    }
+
+}

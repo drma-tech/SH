@@ -1,0 +1,223 @@
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Routing
+@using SH.WEB.Layout
+@using SH.WEB.Modules.Auth.Resources
+@using Microsoft.JSInterop
+@using System.Globalization
+@using Toolbelt.Blazor.PWA.Updater.Service
+
+@inject NavigationManager Navigation
+@inject IPWAUpdaterService PWAUpdaterService
+@inject IJSRuntime JsRuntime
+
+<CustomErrorBoundary @ref="_boundary" OnErrorCallback="OnAppError">
+    <ChildContent>
+        <CascadingAuthenticationState>
+            @if (_showNotFound)
+            {
+                <NotFoundComponent></NotFoundComponent>
+            }
+            else
+            {
+                <Router AppAssembly="@typeof(App).Assembly">
+                    <Found Context="routeData">
+                        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                            <NotAuthorized>
+                                <NotAuthorizeComponent></NotAuthorizeComponent>
+                            </NotAuthorized>
+                            <Authorizing>
+                                <MudAlert Severity="Severity.Warning" Variant="Variant.Filled" Dense="true" Icon="@IconsFA.Solid.Icon("spinner").Animation(IconAnimation.Spin).Font">
+                                    @Translations.AuthenticationInProgress
+                                </MudAlert>
+                            </Authorizing>
+                        </AuthorizeRouteView>
+                        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                    </Found>
+                    <NotFound>
+                        <NotFoundComponent></NotFoundComponent>
+                    </NotFound>
+                </Router>
+            }
+        </CascadingAuthenticationState>
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <div style="border: 1px solid #dc3545; background-color: #f8d7da; color: #721c24; padding: 16px; border-radius: 8px; max-width: 800px; margin: 40px auto;">
+            <h3 style="margin-top: 0;">⚠️ Something went wrong</h3>
+
+            <p style="margin: 8px 0;">
+                Something unexpected happened and the app could not continue. We already received this error.
+            </p>
+            <p style="background:#fff; border:1px solid #ccc; padding:8px; border-radius:4px; max-height:200px; overflow:auto; font-size: 0.85rem; ">
+                @ex.Message
+            </p>
+
+            <p style="margin-top: 40px;">
+                In the meantime, you can try one of the following:
+            </p>
+
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:8px;">
+                <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="ReloadPage">
+                    🔄 Refresh
+                </button>
+                @if (_isUpdateAvailable)
+                {
+                    <button style="padding:8px 16px; background:#007bff; border:none; border-radius:4px; color:#fff; cursor:pointer;" @onclick="UpdateNowAsync">
+                        ⬆️ Force Update
+                    </button>
+                }
+                else
+                {
+                    <button style="padding:8px 16px; background:#6c757d; border:none; border-radius:4px; color:#fff; cursor:unset">
+                        New version not yet available.
+                    </button>
+                }
+            </div>
+        </div>
+    </ErrorContent>
+</CustomErrorBoundary>
+
+@code {
+    ErrorBoundary? _boundary;
+    bool _isUpdateAvailable = false;
+    bool _showNotFound = false;
+    System.Threading.Timer? _updateCheckTimer;
+
+    #region Utils
+
+    private string? GetFirstSegment()
+    {
+        var uri = new Uri(Navigation.Uri);
+        var path = uri.AbsolutePath;
+
+        var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        return segments.FirstOrDefault()?.ToLowerInvariant();
+    }
+
+    private string BuildUrl(string path, string? query) => query.NotEmpty() ? $"{path}{query}" : path;
+
+    #endregion Utils
+
+    protected override void OnInitialized()
+    {
+        if (AppStateStatic.IsPrerendering(Navigation))
+        {
+            var first = GetFirstSegment();
+
+            if (first.IsValidLanguage())
+            {
+                ConfigureCulture(first);
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync() //prerendering doesnt trigger OnInitializedAsync
+    {
+        var uri = new Uri(Navigation.Uri);
+        var path = uri.AbsolutePath;
+        var query = uri.Query;
+
+        var first = GetFirstSegment();
+        var allowedFirstSegments = new[] { "legal", "help", "company" };
+
+        if (first.IsValidLanguage()) //language specified
+        {
+            if (path.Length > 1 && path.EndsWith('/'))
+            {
+                var newPath = path.TrimEnd('/');
+
+                Navigation.NavigateTo(BuildUrl(newPath, query), replace: true);
+                return;
+            }
+        }
+        else if (first.Empty() || first == "default" || allowedFirstSegments.Contains(first)) //language not specified (try detect language and redirect)
+        {
+            var lang = await AppStateStatic.GetAppLanguage(JsRuntime, CancellationToken.None);
+            var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            var newPath = segments.Any() ? $"/{lang}/{string.Join("/", segments.Except(new[] { "default" }))}".TrimEnd('/') : $"/{lang}";
+
+            Navigation.NavigateTo(BuildUrl(newPath, query), replace: true);
+            return;
+        }
+        else //anything else -> render not found
+        {
+            _showNotFound = true;
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        _boundary?.Recover();
+    }
+
+    private async Task OnAppError(Exception ex)
+    {
+        SentrySdk.CaptureException(ex);
+
+        _isUpdateAvailable = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
+        StateHasChanged();
+
+        StartUpdatePolling();
+    }
+
+    void StartUpdatePolling()
+    {
+        if (_updateCheckTimer != null) return;
+
+        _updateCheckTimer = new System.Threading.Timer(async _ =>
+        {
+            try
+            {
+                var available = await JsRuntime.InvokeAsync<bool>("checkUpdateReady");
+                if (available && !_isUpdateAvailable)
+                {
+                    _isUpdateAvailable = true;
+                    await InvokeAsync(StateHasChanged);
+
+                    await _updateCheckTimer!.DisposeAsync();
+                }
+            }
+            catch
+            {
+                // Ignore errors
+            }
+        }, null, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+    }
+
+    private async Task ReloadPage()
+    {
+        await JsRuntime.Utils().ClearAllStorage();
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+    }
+
+    private async Task UpdateNowAsync()
+    {
+        await JsRuntime.Utils().ClearAllStorage();
+        await this.PWAUpdaterService.SkipWaitingAsync();
+    }
+
+    private void ConfigureCulture(string? lang)
+    {
+        if (lang.Empty()) return;
+
+        //app language
+
+        CultureInfo cultureInfo;
+
+        try
+        {
+            cultureInfo = new CultureInfo(lang);
+        }
+        catch (Exception)
+        {
+            cultureInfo = CultureInfo.CurrentCulture;
+        }
+
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
+
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+    }
+
+}

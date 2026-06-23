@@ -1,0 +1,141 @@
+﻿@using Microsoft.JSInterop
+@inject NavigationManager Navigation
+@inject IJSRuntime JsRuntime
+
+@implements IDisposable
+
+@if (AppStateStatic.Breakpoint == Breakpoint.Sm) //mobile or tablet
+{
+    //todo: smaller footer
+}
+else if (AppStateStatic.Breakpoint > Breakpoint.Sm) //other bigger devices
+{
+    <MudDivider Class="@Css.Build().Small("mb").Raw("mt-10")"></MudDivider>
+    <MudGrid Justify="Justify.Center" Style="overflow: auto;" Spacing="@Css.SpaceSmall">
+        <MudItem xs="12" sm="3" md="2">
+            <MudList T="string" Dense="true" Gutters="false">
+                <MudListSubheader Gutters="false">
+                    <MudText Color="Color.Secondary">
+                        Company
+                    </MudText>
+                </MudListSubheader>
+                <MudListItem Text="About us" Href=@($"/{Culture}/company/about-us") Class="py-0" Disabled="_blockedActions" />
+                <MudListItem Text="Website" Href="https://www.drma-tech.com" Target="_blank" rel="noopener" Class="py-0" />
+            </MudList>
+        </MudItem>
+        <MudItem xs="12" sm="3" md="2">
+            <MudList T="string" Dense="true" Gutters="false">
+                <MudListSubheader Gutters="false">
+                    <MudText Color="Color.Secondary">
+                        @GlobalTranslations.GetTheApp
+                    </MudText>
+                </MudListSubheader>
+                @if (CurrentPlatform == Platform.webapp)
+                {
+                    var filter = new Platform[] { Platform.windows, Platform.play, Platform.ios };
+                    @foreach (var store in AppInfo.Stores.Where(p => filter.Contains(p.Platform)))
+                    {
+                        <MudListItem Href="@store.Url" Target="_blank" rel="noopener" Class="py-0">
+                            <ChildContent>
+                                <MudImage Src="@store.Logo" Class="me-1" Style="width: 20px; vertical-align: top;" Alt="@store.Store" />
+                                @store.Store
+                            </ChildContent>
+                        </MudListItem>
+                    }
+                }
+                else if (CurrentPlatform == Platform.windows)
+                {
+                    var filter = new Platform[] { Platform.play, Platform.ios };
+                    @foreach (var store in AppInfo.Stores.Where(p => filter.Contains(p.Platform)))
+                    {
+                        <MudListItem Href="@store.Url" Target="_blank" rel="noopener" Class="py-0">
+                            <ChildContent>
+                                <MudImage Src="@store.Logo" Class="me-1" Style="width: 20px; vertical-align: top;" Alt="@store.Store" />
+                                @store.Store
+                            </ChildContent>
+                        </MudListItem>
+                    }
+                }
+                else
+                {
+                    var filter = new Platform[] { Platform.windows };
+                    @foreach (var store in AppInfo.Stores.Where(p => filter.Contains(p.Platform)))
+                    {
+                        <MudListItem Href="@store.Url" Target="_blank" rel="noopener" Class="py-0">
+                            <ChildContent>
+                                <MudImage Src="@store.Logo" Class="me-1" Style="width: 20px; vertical-align: top;" Alt="@store.Store" />
+                                @store.Store
+                            </ChildContent>
+                        </MudListItem>
+                    }
+                }
+                <MudListItem Href=@($"/{Culture}/help#get-the-app") Class="py-0">
+                    <ChildContent>
+                        <MudIcon Icon="@Icons.Material.Filled.Apps" Class="ma-0 me-1" Style="vertical-align: middle;" />
+                        More
+                    </ChildContent>
+                </MudListItem>
+            </MudList>
+        </MudItem>
+        <MudItem xs="12" sm="3" md="2">
+            <MudList T="string" Dense="true" Gutters="false">
+                <MudListSubheader Gutters="false">
+                    <MudText Color="Color.Secondary">
+                        Support
+                    </MudText>
+                </MudListSubheader>
+                <MudListItem Text="Help Center" Href=@($"/{Culture}/help") Class="py-0" Disabled="_blockedActions" />
+                <MudListItem Text="Contact" Href="mailto:support@streamingdiscovery.com" Class="py-0" />
+                <MudListItem Text="@WEB.Modules.Help.Resources.Translations.FAQ" Href=@($"/{Culture}/help/faq") Class="py-0" Disabled="_blockedActions" />
+                <MudListItem Text="Compare" Href=@($"/{Culture}/compare") Class="py-0" Disabled="_blockedActions" />
+            </MudList>
+        </MudItem>
+        <MudItem xs="12" sm="3" md="2">
+            <MudList T="string" Dense="true" Gutters="false">
+                <MudListSubheader Gutters="false">
+                    <MudText Color="Color.Secondary">
+                        Legal
+                    </MudText>
+                </MudListSubheader>
+                <MudListItem Text="@WEB.Modules.Help.Resources.Translations.TermsUse" Href=@($"/{Culture}/legal/terms") Class="py-0" rel="nofollow" Disabled="_blockedActions" />
+                <MudListItem Text="@WEB.Modules.Help.Resources.Translations.PrivacyPolicy" Href=@($"/{Culture}/legal/privacy") Class="py-0" rel="nofollow" Disabled="_blockedActions" />
+                <MudListItem Text="@WEB.Modules.Help.Resources.Translations.Credits" Href=@($"/{Culture}/legal/credits") Class="py-0" rel="nofollow" Disabled="_blockedActions" />
+            </MudList>
+        </MudItem>
+    </MudGrid>
+}
+
+<style>
+    .mud-list-item-avatar {
+        min-width: 40px;
+    }
+</style>
+
+@code {
+    private string Culture => Navigation.GetCulture();
+
+    private static readonly Random rnd = new Random();
+    private bool _blockedActions => Navigation.Uri.Contains("register-user") || Navigation.Uri.Contains("ask-consent");
+    private Platform? CurrentPlatform;
+    protected readonly CancellationTokenSource cts = new();
+
+    protected override void OnInitialized()
+    {
+        AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), cts.Token);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            CurrentPlatform = await AppStateStatic.GetPlatform(JsRuntime, cts.Token);
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+        GC.SuppressFinalize(this);
+    }
+}

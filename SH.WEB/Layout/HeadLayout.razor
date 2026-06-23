@@ -1,0 +1,284 @@
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.JSInterop
+@using SH.WEB.Modules.Auth.Core
+@using SH.WEB.Modules.Subscription.Core
+
+@implements IDisposable
+
+@inject PaymentPublicApi PaymentPublicApi
+@inject PrincipalApi PrincipalApi
+
+@inject NavigationManager Navigation
+@inject IDialogService DialogService
+@inject IJSRuntime JsRuntime
+@inject ISnackbar Snackbar
+@inject ILogger<HeadLayout> Logger
+
+@if (_processing)
+{
+    <MudProgressLinear Color="Color.Secondary" Indeterminate="true" Style="position: fixed; z-index: 1400;" />
+}
+<MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
+
+    <MudButton StartIcon="@Icons.Material.Filled.House" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="@menuClass" Disabled="_blockedActions">
+        @Menu.Home
+    </MudButton>
+    <MudButton StartIcon="@Icons.Material.Filled.Person" Color="@GetColor($"/{Culture}/profile")" Href=@($"/{Culture}/profile") Variant="@GetVariant($"/{Culture}/profile")" Class="@menuClass" Disabled="_blockedActions" Target="_self" Rel="nofollow">
+        @Menu.Profile
+    </MudButton>
+
+    <MudSpacer />
+
+    @if (!AppStateStatic.IsPremiumUser)
+    {
+        <MudIconButton Color="Color.Warning" Icon="@IconsFA.Solid.Icon("gem").Animation(IconAnimation.Fade).Font" Style="margin-right: -8px;" OnClick="@OpenSubscription" />
+    }
+
+    <MudIconButton Icon="@Icons.Material.Filled.Apps" Color="Color.Inherit" Class="me-1" OnClick="@(() => { _openApps = true; })" />
+
+    <AuthorizeView>
+        <Authorized>
+            <MudAvatar>
+                <MudImage Src=@(AppStateStatic.User?.FindFirst(c => c.Type == "avatar")?.Value ?? "images/no-user.webp") onclick="@(() => { _openMenu = true; })" Style="cursor: pointer;"></MudImage>
+            </MudAvatar>
+        </Authorized>
+        <NotAuthorized>
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(() => { _openMenu = true; })" />
+        </NotAuthorized>
+    </AuthorizeView>
+</MudAppBar>
+
+<MudDrawer @bind-Open="@_openMenu" Anchor="Anchor.Right" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="275px">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6" Color="Color.Primary">@AppInfo.Title</MudText>
+    </MudDrawerHeader>
+    <MudNavMenu>
+        <AuthorizeView>
+            <Authorized>
+                <div style="padding: 8px 16px 8px 16px; display: flex; align-items: center;">
+                    <MudAvatar Size="Size.Small" Class="me-3">
+                        <MudImage Src=@(AppStateStatic.User?.FindFirst(c => c.Type == "avatar")?.Value ?? "images/no-user.webp")></MudImage>
+                    </MudAvatar>
+                    <div>
+                        <MudText Style="font-size: 14px;">
+                            @AppStateStatic.User?.FindFirst(c => c.Type == "name")?.Value
+                        </MudText>
+                        <MudText Style="font-size: 14px;">
+                            @AppStateStatic.User?.FindFirst(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value
+                        </MudText>
+                    </div>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+
+        <MudDivider></MudDivider>
+
+        @if (AppStateStatic.IsPremiumUser)
+        {
+            <MudNavLink Icon="@Icons.Material.Filled.Diamond" OnClick="@OpenSubscription">
+                My Subscription
+            </MudNavLink>
+        }
+        else
+        {
+            <MudNavLink Icon="@Icons.Material.Filled.Diamond" OnClick="@OpenSubscription" IconColor="Color.Warning" Style="color: var(--mud-palette-warning)">
+                Unlock Benefits
+            </MudNavLink>
+        }
+
+        <MudDivider></MudDivider>
+
+        <AuthorizeView>
+            <Authorized>
+                <MudNavLink Icon="@Icons.Material.Filled.VerifiedUser" OnClick="@MyAccount">
+                    @Modules.Auth.Resources.Translations.MyAccount
+                </MudNavLink>
+            </Authorized>
+        </AuthorizeView>
+        <MudNavLink Icon="@Icons.Material.Filled.Settings" OnClick="@OpenConfigurations">
+            Settings
+        </MudNavLink>
+        <MudNavLink Icon="@Icons.Material.Filled.HelpCenter" Href=@($"/{Culture}/help")>
+            Help Center
+        </MudNavLink>
+
+        <MudDivider></MudDivider>
+
+        <AuthorizeView>
+            <Authorized>
+                <MudNavLink Icon="@Icons.Material.Filled.Logout" OnClick="@Logout" Disabled="_blockedActions">
+                    @Button.Logout
+                </MudNavLink>
+            </Authorized>
+            <NotAuthorized>
+                <MudNavLink Icon="@Icons.Material.Filled.Login" OnClick="Login" Disabled="_blockedActions" IconColor="Color.Secondary" Style="color: var(--mud-palette-secondary)">
+                    @Button.Login
+                </MudNavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudNavMenu>
+    <MudSpacer></MudSpacer>
+    <MudText Typo="Typo.caption" Align="Align.Center" Class="mb-2">
+        @($"Version: {AppStateStatic.Version}")
+    </MudText>
+</MudDrawer>
+
+<MudDrawer @bind-Open="@_openApps" Anchor="Anchor.Right" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="275px">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6" Color="Color.Primary"> @GlobalTranslations.MorefromDRMATech</MudText>
+    </MudDrawerHeader>
+    @foreach (var product in AppInfo.Products)
+    {
+        <MudDivider Style="flex-grow: unset;"></MudDivider>
+        <div style="padding: 8px 16px 0px 16px; display: flex; align-items: center;">
+            <MudImage Src=@product.Logo Style="width: 40px;" Class="me-2"></MudImage>
+            <div>
+                <MudText Style="font-size: 14px;" Color="Color.Secondary">
+                    @product.Title
+                </MudText>
+                <MudText Style="font-size: 14px;" Color="Color.Inherit">
+                    @product.SubTitle
+                </MudText>
+            </div>
+        </div>
+        <MudLink style="padding: 0px 16px 8px 16px;" Href="@product.Url" Target="_blank" Color="Color.Tertiary">
+            @(new Uri(product.Url).Host)
+        </MudLink>
+    }
+</MudDrawer>
+
+@code {
+    [Parameter][SupplyParameterFromQuery(Name = "stripe_session_id")] public string? stripe_session_id { get; set; }
+    private string Culture => Navigation.GetCulture();
+
+    private bool _openMenu = false;
+    private bool _openApps = false;
+
+    private int _processingCount = 0;
+    private bool _processing => _processingCount > 0;
+
+    private bool _blockedActions => Navigation.Uri.Contains("register-user") || Navigation.Uri.Contains("ask-consent");
+    private string menuClass => AppStateStatic.Breakpoint == Breakpoint.Xs ? "icon-text-button" : "px-3";
+
+    private readonly TaskHelper _taskHelper = new();
+    protected readonly CancellationTokenSource cts = new();
+
+    protected override void OnInitialized()
+    {
+        Navigation.LocationChanged += delegate { StateHasChanged(); };
+
+        AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), cts.Token);
+
+        PrincipalApi.DataChanged += principal => StateHasChanged();
+        
+        //avoid - Object reference not set to an instance of an object.
+        //commit: breakpoint refactorer / ActionDispatcher and TaskDispatcher (2026-05-25)
+        if (!Navigation.IsPrerendering())
+        {
+            AppStateStatic.ProcessingStarted.Subscribe(async () =>
+            {
+                Interlocked.Increment(ref _processingCount);
+                await InvokeAsync(StateHasChanged);
+            }, cts.Token);
+
+            AppStateStatic.ProcessingFinished.Subscribe(async () =>
+            {
+                Interlocked.Decrement(ref _processingCount);
+                await Task.Delay(200);
+                await InvokeAsync(StateHasChanged);
+            }, cts.Token);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (stripe_session_id.NotEmpty())
+            {
+                var success = await PaymentPublicApi.StripeValidateSession(stripe_session_id, cts.Token);
+
+                if (success)
+                {
+                    await ShowSuccess("Subscription successful!");
+                }
+                else
+                {
+                    await ShowError("Something didn’t go as expected. If your payment wasn’t completed, please try again. You can also contact support for assistance.");
+                }
+            }
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task Login()
+    {
+        _openMenu = false;
+        Navigation.NavigateTo($"/{Culture}/auth/login?returnUrl={Uri.EscapeDataString(Navigation.Uri.Split('#')[0])}");
+    }
+
+    private async Task Logout()
+    {
+        _openMenu = false;
+        await JsRuntime.Supabase().SignOutAsync(cts.Token);
+    }
+
+    private async Task OpenConfigurations()
+    {
+        _openMenu = false;
+        await DialogService.SettingsPopup();
+    }
+
+    private async Task MyAccount()
+    {
+        _openMenu = false;
+        await DialogService.AccountPopup();
+    }
+
+    private Color GetColor(string endpoint)
+    {
+        return Focused(endpoint) ? Color.Primary : Color.Inherit;
+    }
+
+    private Variant GetVariant(string endpoint)
+    {
+        return Focused(endpoint) ? Variant.Filled : Variant.Text;
+    }
+
+    private bool Focused(string endpoint)
+    {
+        var uri = new Uri(Navigation.Uri);
+
+        return string.Equals(uri.AbsolutePath, endpoint, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private async Task OpenSubscription()
+    {
+        _openMenu = false;
+        await DialogService.SubscriptionPopup();
+    }
+
+    protected async Task ShowSuccess(string message)
+    {
+        Snackbar.Add(message, Severity.Success);
+
+        await JsRuntime.Utils().PlayBeep(880, 100, "sine", cts.Token);
+        await JsRuntime.Utils().Vibrate([40], cts.Token);
+    }
+
+    protected async Task ShowError(string message)
+    {
+        Snackbar.Add(message, Severity.Error);
+
+        await JsRuntime.Utils().PlayBeep(220, 400, "square", cts.Token);
+        await JsRuntime.Utils().Vibrate([200, 100, 200], cts.Token);
+    }
+
+    void IDisposable.Dispose()
+    {
+        cts.Cancel();
+        cts.Dispose();
+        GC.SuppressFinalize(this);
+    }
+}

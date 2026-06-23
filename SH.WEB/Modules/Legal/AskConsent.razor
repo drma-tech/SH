@@ -1,0 +1,35 @@
+﻿@page "/{culture}/legal/ask-consent"
+@using SH.WEB.Modules.Auth.Resources
+
+@inherits PageCore<AskConsent>
+
+<HeadComponent Title="Ask Consent" Url=@($"/{Culture}/legal/ask-consent") Index="false"></HeadComponent>
+
+<MudPaper Elevation="0" Outlined="true" Class="@Css.Build().Small("pa")">
+    <MudCheckBox @bind-Value="_terms1" Color="Color.Primary" Class="@Css.Build().Small("mb")">
+        <MudText Inline="true">
+            @((MarkupString)string.Format(Translations.Terms1, $"<a href='/{Culture}/legal/terms' target='_blank' rel='noopener' class='mud-link mud-primary-text mud-link-underline-hover'>{Modules.Help.Resources.Translations.TermsUse}</a>", $"<a href='/{Culture}/legal/privacy' target='_blank' rel='noopener' class='mud-link mud-primary-text mud-link-underline-hover'>{Modules.Help.Resources.Translations.PrivacyPolicy}</a>"))
+        </MudText>
+    </MudCheckBox>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Consent" Disabled="(!_terms1)">
+        @Button.Confirm
+    </MudButton>
+</MudPaper>
+
+@code {
+    private bool _terms1 { get; set; } = false;
+
+    private async Task Consent()
+    {
+        try
+        {
+            await JsRuntime.Utils().SetStorage("consent", true, JavascriptContext.Default.Boolean, cts.Token);
+            Navigation.NavigateTo($"/{Culture}", true);
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
+    }
+}

@@ -1,0 +1,198 @@
+﻿using Newtonsoft.Json;
+using System.Net;
+using System.Net.Http.Json;
+using System.Text;
+
+namespace SH.API.Core;
+
+public static class ExternalApiHelper
+{
+    //public static async Task<T?> GetdTmdbList<T>(this HttpClient http, string requestUri, string? token, CancellationToken cancellationToken)
+    //    where T : class
+    //{
+    //    //no access limits
+    //    //multiple languages
+
+    //    using var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+    //    request.Headers.Add("Accept", "application/json");
+    //    request.Headers.Add("Authorization", $"Bearer {token}");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task AddTmdbListItem(this HttpClient http, int listId, int tmdbId, MediaType type, string? token, CancellationToken cancellationToken)
+    //{
+    //    using var request = new HttpRequestMessage(HttpMethod.Post, $"https://api.tmdb.org/4/list/{listId}/items");
+
+    //    request.Headers.Add("Accept", "application/json");
+    //    request.Headers.Add("Authorization", $"Bearer {token}");
+    //    var obj = new { items = new[] { new { media_type = type == MediaType.movie ? "movie" : "tv", media_id = tmdbId } } };
+    //    request.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode)
+    //    {
+    //        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+    //        throw new UnhandledException(responseContent);
+    //    }
+    //}
+
+    //public static async Task RemoveTmdbListItem(this HttpClient http, int listId, int tmdbId, MediaType type, string? token, CancellationToken cancellationToken)
+    //{
+    //    using var request = new HttpRequestMessage(HttpMethod.Delete, $"https://api.tmdb.org/4/list/{listId}/items");
+
+    //    request.Headers.Add("Accept", "application/json");
+    //    request.Headers.Add("Authorization", $"Bearer {token}");
+    //    var obj = new { items = new[] { new { media_type = type == MediaType.movie ? "movie" : "tv", media_id = tmdbId } } };
+    //    request.Content = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode)
+    //    {
+    //        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+    //        throw new UnhandledException(responseContent);
+    //    }
+    //}
+
+    //public static async Task<T?> GetTrailersByYoutubeSearch<T>(this HttpClient http, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 500 / Day
+    //    //only english
+
+    //    const string id = "UCzcRQ3vRNr6fJ1A9rqFn7QA";
+    //    using var request = new HttpRequestMessage(HttpMethod.Get, $"https://youtube-search-and-download.p.rapidapi.com/channel?id={id}&sort=n");
+
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Host", "youtube-search-and-download.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode)
+    //    {
+    //        if (response.StatusCode == HttpStatusCode.TooManyRequests) return null;
+
+    //        throw new UnhandledException(response.ReasonPhrase);
+    //    }
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task<T?> GetReviewsByImdb8<T>(this HttpClient http, string? tconst, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 500 / Month
+    //    //there is a language/country filter, but its not working
+
+    //    if (string.IsNullOrEmpty(tconst)) return null;
+
+    //    using var request = new HttpRequestMessage(HttpMethod.Get, $"https://imdb8.p.rapidapi.com/title/v2/get-metacritic?tconst={tconst}");
+
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Host", "imdb8.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task<T?> GetNewsByImdb8<T>(this HttpClient http, string? category, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 500 / Month
+    //    //there is a language/country filter, but its not working
+
+    //    using var request = new HttpRequestMessage(HttpMethod.Get, $"https://imdb8.p.rapidapi.com/news/v2/get-by-category?category={category?.ToUpper() ?? "MOVIE"}&first=30&language=en-US");
+
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Host", "imdb8.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task<T?> GetFilmShowRatings<T>(this HttpClient http, string? imdbId, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 100 / Day
+
+    //    if (string.IsNullOrEmpty(imdbId)) return null;
+
+    //    using var request = new HttpRequestMessage();
+    //    request.Method = HttpMethod.Get;
+    //    request.RequestUri = new Uri($"https://film-show-ratings.p.rapidapi.com/item/?id={imdbId}");
+    //    request.Headers.Add("x-rapidapi-key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.Add("x-rapidapi-host", "film-show-ratings.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task<T?> GetMoviesRatings2<T>(this HttpClient http, string? imdbId, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 10 / Day
+
+    //    if (string.IsNullOrEmpty(imdbId)) return null;
+
+    //    using var request = new HttpRequestMessage();
+    //    request.Method = HttpMethod.Get;
+    //    request.RequestUri = new Uri($"https://movies-ratings2.p.rapidapi.com/ratings?id={imdbId}");
+    //    request.Headers.Add("x-rapidapi-key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.Add("x-rapidapi-host", "movies-ratings2.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task<T?> GetUnifiedMovie<T>(this HttpClient http, string? tmdbId, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 500 / Month
+
+    //    if (string.IsNullOrEmpty(tmdbId)) return null;
+
+    //    using var request = new HttpRequestMessage();
+    //    request.Method = HttpMethod.Get;
+    //    request.RequestUri = new Uri($"https://unified-movie-api.p.rapidapi.com/v1/movies/{tmdbId}?region=US");
+    //    request.Headers.Add("x-rapidapi-key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.Add("x-rapidapi-host", "unified-movie-api.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+
+    //public static async Task<T?> GetMostPopular<T>(this HttpClient http, string route, CancellationToken cancellationToken) where T : class
+    //{
+    //    //hard limit: 100 / Month
+    //    //only english
+
+    //    if (string.IsNullOrEmpty(route)) return null;
+
+    //    using var request = new HttpRequestMessage(HttpMethod.Get, $"https://imdb236.p.rapidapi.com/api/imdb/{route}");
+
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Key", ApiStartup.Configurations.RapidAPI?.Key);
+    //    request.Headers.TryAddWithoutValidation("X-RapidAPI-Host", "imdb236.p.rapidapi.com");
+
+    //    var response = await http.SendAsync(request, cancellationToken);
+
+    //    if (!response.IsSuccessStatusCode) throw new UnhandledException(response.ReasonPhrase);
+
+    //    return await response.Content.ReadFromJsonAsync<T>(cancellationToken);
+    //}
+}

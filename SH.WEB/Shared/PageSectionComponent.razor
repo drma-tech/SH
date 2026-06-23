@@ -1,0 +1,230 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JsRuntime
+
+@if (Visible)
+{
+    <div class="@BodyClass">
+        @if (IsPageHeader)
+        {
+            <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 4px 4px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
+                <MudToolBar WrapContent="true" Gutters="false" Style="min-height: auto;">
+                    @if (!string.IsNullOrEmpty(Icon))
+                    {
+                        <MudIcon Icon="@Icon" Class="me-2" Color="Color" Style="@($"font-size: {headerImageSize} !important; width: auto;")"></MudIcon>
+                    }
+                    else if (!string.IsNullOrEmpty(Image))
+                    {
+                        <MudImage Src="@Image" Class="me-2" Style="@GetImageStyle(true)" Alt="@Image"></MudImage>
+                    }
+                    @if (IsMobile)
+                    {
+                        <MudText Typo="Typo.h1" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
+                            @Title
+                        </MudText>
+                        @if (Subtitle.NotEmpty())
+                        {
+                            <MudText Typo="Typo.subtitle1" Color="Color.Secondary" Style="@($"font-size: {subtitleFontSize}; line-height: 1.2; width: 100%;")" Class="mt-1">
+                                @Subtitle
+                            </MudText>
+                        }
+                    }
+                    else
+                    {
+                        <div>
+                            <MudText Typo="Typo.h1" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
+                                @Title
+                            </MudText>
+                            @if (Subtitle.NotEmpty())
+                            {
+                                <MudText Typo="Typo.subtitle1" Color="Color.Secondary" Style="@($"font-size: {subtitleFontSize}; line-height: 1.2;")">
+                                    @Subtitle
+                                </MudText>
+                            }
+                        </div>
+                    }
+                    @if (Link.NotEmpty())
+                    {
+                        <MudSpacer />
+                        <MudTooltip Text="Official Website">
+                            <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" Href="@Link" Target="_blank" Rel="noopener" Size="Size.Medium" />
+                        </MudTooltip>
+                    }
+                </MudToolBar>
+                @if (Description.NotEmpty())
+                {
+                    <div style="text-align: justify;" class="@Css.Build().Small("mt")">
+                        <MudText Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
+                            @Description
+                        </MudText>
+                    </div>
+                }
+            </MudPaper>
+            @if (ExtraFragment != null)
+            {
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
+                    @ExtraFragment
+                </MudPaper>
+            }
+            @if (ShowActions && (HasActions || UrlShare.NotEmpty()))
+            {
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
+                    <MudToolBar WrapContent="true" Dense="true" Gutters="false" Style="min-height: auto;">
+                        @ActionsFragment
+                        @if (UrlShare.NotEmpty())
+                        {
+                            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Share"
+                                       OnClick="@(() => JsRuntime.Utils().Share(Title, Description, AbsolutelUrl, CancellationToken.None))">
+                                @Button.Share
+                            </MudButton>
+                        }
+                    </MudToolBar>
+                </MudPaper>
+            }
+        }
+        else
+        {
+            @if (ShowHeader)
+            {
+                <div class="@Css.Build().Small("mb")">
+                    <MudToolBar WrapContent="true" Dense="true" Gutters="false" Style="min-height: auto;">
+                        @if (!string.IsNullOrEmpty(Icon))
+                        {
+                            <MudIcon Icon="@Icon" Class="me-2" Color="Color" Style="@($"font-size: {sectionImageSize} !important; width: auto;")"></MudIcon>
+                        }
+                        else if (!string.IsNullOrEmpty(Image))
+                        {
+                            <MudImage Src="@Image" Class="me-2" Style="@GetImageStyle(false)" Alt="@Image"></MudImage>
+                        }
+                        @if (IsMobile)
+                        {
+                            <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
+                                @Title
+                            </MudText>
+                            @if (Subtitle.NotEmpty())
+                            {
+                                <MudText Typo="Typo.subtitle1" Color="Color.Secondary" Style="@($"font-size: {subtitleFontSize}; line-height: 1.2; width: 100%;")" Class="mt-1">
+                                    @Subtitle
+                                </MudText>
+                            }
+                        }
+                        else
+                        {
+                            <div>
+                                <MudText Typo="Typo.h2" Color="Color" Style="@($"font-size: {titleFontSize}; line-height: 1.2;")" id="@Title.ToSlug()">
+                                    @Title
+                                </MudText>
+                                @if (Subtitle.NotEmpty())
+                                {
+                                    <MudText Typo="Typo.subtitle1" Color="Color.Secondary" Style="@($"font-size: {subtitleFontSize}; line-height: 1.2;")">
+                                        @Subtitle
+                                    </MudText>
+                                }
+                            </div>
+                        }
+                        @if (Link.NotEmpty())
+                        {
+                            <MudSpacer />
+                            <MudTooltip Text="Official Website">
+                                <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Link" Href="@Link" Target="_blank" Rel="noopener" Size="Size.Medium" />
+                            </MudTooltip>
+                        }
+                    </MudToolBar>
+                    @if (Description.NotEmpty())
+                    {
+                        <div style="text-align: justify;" class="@Css.Build().Small("mt")">
+                            @* LCP breakdown -> variant font-size *@
+                            <MudText Style="@($"line-height: {(IsMobile ? "1.0" : "1.2")}; letter-spacing: {(IsMobile ? "normal" : "inherit")}; font-size: 0.9rem;")">
+                                @Description
+                            </MudText>
+                        </div>
+                    }
+                </div>
+            }
+            @if (ExtraFragment != null)
+            {
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
+                    @ExtraFragment
+                </MudPaper>
+            }
+            @if (ShowActions && HasActions)
+            {
+                <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 4px 4px 0px 0px;" : "")}")" Outlined="true" Elevation="0">
+                    <MudToolBar WrapContent="true" Dense="true" Gutters="false" Style="min-height: auto;">
+                        @ActionsFragment
+                    </MudToolBar>
+                </MudPaper>
+            }
+            @if (HasBody)
+            {
+                @if (HasBodyBox)
+                {
+                    <MudPaper Class="@Css.Build().Small("pa")" Style="@($"background-color: transparent; {(HasActions ? "border-radius: 0px 0px 4px 4px;" : "")}")" Outlined="true" Elevation="0">
+                        @BodyFragment
+                    </MudPaper>
+                }
+                else
+                {
+                    @BodyFragment
+                }
+            }
+        }
+
+    </div>
+}
+
+@code {
+    //Header
+    [Parameter] public bool IsPageHeader { get; set; } = false;
+    [Parameter] public string? Title { get; set; }
+    [Parameter] public string? Subtitle { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public string? Link { get; set; }
+    [Parameter] public bool ShowHeader { get; set; } = true;
+    [Parameter] public bool ShowActions { get; set; } = true;
+    [Parameter] public string? UrlShare { get; set; }
+
+    //Layout
+    [Parameter] public Color Color { get; set; } = MudBlazor.Color.Primary;
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public string? Image { get; set; }
+    [Parameter] public string? ImageStyle { get; set; }
+    [Parameter] public bool Visible { get; set; } = true;
+    [Parameter] public string? CustomBodyClass { get; set; }
+    [Parameter] public bool HasBodyBox { get; set; } = true;
+
+    //Fragments
+    [Parameter] public RenderFragment? ExtraFragment { get; set; }
+    [Parameter] public RenderFragment? ActionsFragment { get; set; }
+    [Parameter] public RenderFragment? BodyFragment { get; set; }
+
+    public string? BodyClass { get; set; }
+
+    private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
+    private string? AbsolutelUrl => $"{AppInfo.WebSite.TrimEnd('/')}/{UrlShare?.TrimStart('/')}";
+
+    private string headerImageSize => IsMobile ? "40px" : "48px";
+    private string sectionImageSize => IsMobile ? "20px" : "24px";
+    private string titleFontSize => IsMobile ? "20px" : "24px";
+    private string subtitleFontSize => IsMobile ? "13.5px" : "16px";
+
+    private bool HasActions => ActionsFragment != null;
+    private bool HasBody => BodyFragment != null;
+
+    protected override void OnInitialized()
+    {
+        if (CustomBodyClass.Empty())
+        {
+            BodyClass = Css.Build().Large("mb");
+            AppStateStatic.BreakpointChanged.Subscribe(breakpoint => BodyClass = Css.Build().Large("mb"), CancellationToken.None);
+        }
+        else
+        {
+            BodyClass = CustomBodyClass;
+        }
+    }
+
+    private string GetImageStyle(bool header)
+    {
+        return ImageStyle ?? $"max-height: {(header ? headerImageSize : sectionImageSize)}; max-width: {(header ? headerImageSize : sectionImageSize)}; width: 100%; vertical-align: top;";
+    }
+}

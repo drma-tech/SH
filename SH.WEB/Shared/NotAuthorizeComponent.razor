@@ -1,0 +1,45 @@
+﻿@inherits BaseComponentCore<NotAuthorizeComponent>
+
+<PageTitle>401 - Not Authorized</PageTitle>
+<HeadContent>
+    <meta name="robots" content="noindex" />
+</HeadContent>
+
+<style>
+    body {
+        margin: 0;
+        font-family: sans-serif;
+    }
+
+    .container {
+        height: calc(100vh - 64px - 32px - 48px - 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+</style>
+
+<div class="container">
+    <div>
+        <MudText Typo="Typo.h4" Color="Color.Primary">@SH.WEB.Modules.Auth.Resources.Translations.UnauthenticatedUser</MudText>
+        <MudText Typo="Typo.h6">@SH.WEB.Modules.Auth.Resources.Translations.YouMustLogged</MudText>
+        <div class="@Css.Build().Large("mt")">
+            <MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="Login" Class="me-3" Size="AppStateStatic.Size">
+                @Button.Login
+            </MudButton>
+            <MudButton Variant="Variant.Text" Color="Color.Default" Href=@($"/{Culture}") Size="AppStateStatic.Size">
+                Return to homepage
+            </MudButton>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string Culture => Navigation.GetCulture();
+
+    private async Task Login()
+    {
+        Navigation.NavigateTo($"/{Culture}/auth/login?returnUrl={Uri.EscapeDataString(Navigation.Uri.Split('#')[0])}");
+    }
+}
