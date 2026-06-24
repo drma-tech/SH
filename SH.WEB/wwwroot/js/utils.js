@@ -319,7 +319,7 @@ export const environment = {
 
         //other blockers block other urls
         const sentry = await environment.testUrl(
-            'https://js.sentry-cdn.com/94ae67eb3fb0bc82327607ddd9d6aebb.min.js'
+            'https://js.sentry-cdn.com/42509737a1905acfacb225afeceda501.min.js'
         );
 
         if (!sentry) {
@@ -327,7 +327,7 @@ export const environment = {
         }
 
         const clarity = await environment.testUrl(
-            'https://www.clarity.ms/tag/r2iwqdpwtv'
+            'https://www.clarity.ms/tag/xboxojdpc4'
         );
 
         if (!clarity) {

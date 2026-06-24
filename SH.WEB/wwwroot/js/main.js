@@ -52,15 +52,15 @@ export const isWebview = /webtonative/i.test(ua);
 export const isPrintScreen = location.href.includes("printscreen");
 
 export const servicesConfig = {
-    AnalyticsCode: "G-4PREF5QX1F",
-    ClarityKey: "r2iwqdpwtv",
+    AnalyticsCode: "G-YNG1YC3PNV",
+    ClarityKey: "xboxojdpc4",
     UserBackToken: "A-A2J4M5NKCbDp1QyQe7ogemmmq",
-    SentryDsn: "https://94ae67eb3fb0bc82327607ddd9d6aebb@o4510938040041472.ingest.us.sentry.io/4510938043711488",
+    SentryDsn: "https://42509737a1905acfacb225afeceda501@o4510938040041472.ingest.us.sentry.io/4511616754057216",
 };
 
 export const supabaseConfig = {
-    projectUrl: "https://mlsztbywzbbqqbwgplky.supabase.co",
-    supabaseKey: "sb_publishable_kwSh9KlLSaccPHPd7ZsqGw_VGpAs73w",
+    projectUrl: "https://llwdeaieehfqabqgsbjg.supabase.co",
+    supabaseKey: "sb_publishable_eTtEX1u9zYlSJF0Rl25W-g_M_Dl4O6a",
 };
 
 export const baseApiUrl = isLocalhost ? "http://localhost:7071" : "";

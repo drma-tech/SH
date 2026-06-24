@@ -9,10 +9,12 @@ namespace SH.API.Core
         private readonly string _apiKey = apiKey;
         private readonly string _uri = "https://api.zeptomail.com/v1.1/email";
 
-        private const string domain = "streamingdiscovery";
-        private const string appName = "Streaming Discovery";
+        private const string domain = "shared-home";
+        private const string appName = "Shared Home";
         private const string supportEmail = $"support@{domain}.com";
         private static string year => DateTime.Now.Year.ToString();
+        
+        //todo: img css must be inside img tag
 
         private static readonly string CssBase = @"
         /* BASE */

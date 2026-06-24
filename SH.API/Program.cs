@@ -5,7 +5,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Extensions.Http;
-using SH.Shared.Core.Models;
 using Stripe;
 using System.Net;
 

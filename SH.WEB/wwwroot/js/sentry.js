@@ -20,7 +20,7 @@ window.sentryOnLoad = function () {
     Sentry.init({
         dsn: servicesConfig.SentryDsn,
         SendDefaultPii: true, // enable ip
-        release: `sd-js@${window.appVersion}`,
+        release: `sh-js@${window.appVersion}`,
         environment: env,
         beforeSend(event) {
             const message = event.exception?.values?.[0]?.value || event.message || "";
