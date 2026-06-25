@@ -1,0 +1,33 @@
+﻿@page "/{culture}/room"
+
+@using SH.WEB.Modules.Auth.Core
+@inherits PageCore<Room>
+
+@inject PrincipalApi PrincipalApi
+
+<HeadComponent Title="@SeoTranslations.ProfileTitle" Url=@($"/{Culture}/profile") Index="false"></HeadComponent>
+
+<PageSectionComponent Title="Property">
+    <BodyFragment>
+        <FieldGroup For="@(() => room.UsageType)" TEnum="UsageType" TValue="UsageType" SelectedValue="room.UsageType"></FieldGroup>
+        <FieldText For="@(() => room.Title)" Value="@room.Title"></FieldText>
+        <FieldText For="@(() => room.Description)" Rows="6" Value="@room.Description"></FieldText>
+        <FieldNumber For="@(() => room.SizeSqm)" Value="@room.SizeSqm"></FieldNumber>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Preferences">
+    <BodyFragment>
+        <FieldGroup For="@(() => room.Smoking)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Smoking"></FieldGroup>
+        <FieldGroup For="@(() => room.Pets)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Pets"></FieldGroup>
+        <FieldGroup For="@(() => room.Couples)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Couples"></FieldGroup>
+        <FieldGroup For="@(() => room.Children)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Children"></FieldGroup>
+        <FieldGroup For="@(() => room.Alcohol)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Alcohol"></FieldGroup>
+        <FieldGroup For="@(() => room.Visits)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Visits"></FieldGroup>
+    </BodyFragment>
+</PageSectionComponent>
+
+@code
+{
+    private RoomModel room = new();
+}

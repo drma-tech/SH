@@ -1,0 +1,202 @@
+﻿@using System.Linq.Expressions
+@using System.Globalization
+
+@typeparam TValue
+
+<MudChip T="string" Variant="Variant.Outlined" Size="AppStateStatic.Size" Color="@(Value != null ? Color.Info : Color.Default)" Class="mx-0" Style="width: 100%; justify-content: space-between;">
+    @if (OnlyLabel)
+    {
+        @For.GetCustomAttribute(TranslateName).Name
+        <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+            <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Default" Style="margin-inline: -6px; cursor: help; vertical-align: middle;"></MudIcon>
+        </MudTooltip>
+    }
+    else if (Value is bool resultB)
+    {
+        <MudIcon Icon="@(resultB ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)" Color="@(resultB ? Color.Success : Color.Error)"
+                 Style="margin-inline: -6px;"></MudIcon>
+        @if (ShowLabel)
+        {
+            <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+                <span style="font-weight: bold; text-decoration: underline; cursor: help;">@For.GetCustomAttribute(TranslateName).Name</span>
+            </MudTooltip>
+        }
+        @if (For.GetCustomAttribute().Description.NotEmpty())
+        {
+            <MudTooltip Text="@For.GetCustomAttribute().Description">
+                <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Default" Style="margin-inline: -6px; cursor: help; vertical-align: middle;"></MudIcon>
+            </MudTooltip>
+        }
+        else
+        {
+            <span></span>
+        }
+    }
+    else if (Nullable.GetUnderlyingType(typeof(TValue))?.IsEnum == true)
+    {
+        var resultE = (Enum?)(object?)Value;
+
+        if (resultE == null)
+        {
+            <MudIcon Icon="@GetIntIcon(null)" Style="margin-inline: -6px;"></MudIcon>
+        }
+        else
+        {
+            int? intValue = resultE != null ? Convert.ToInt32(resultE) : null;
+            <MudIcon Icon="@GetIntIcon(intValue)" Style="@($"margin-inline: -6px; {GetColorStyle(intValue)}")"></MudIcon>
+        }
+        <div>
+            @if (ShowLabel)
+            {
+                <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+                    <span style="font-weight: bold; text-decoration: underline; cursor: help;" class="me-1">@For.GetCustomAttribute(TranslateName).Name: </span>
+                </MudTooltip>
+                <span>@resultE?.GetName(TranslateName)</span>
+            }
+            else
+            {
+                <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+                    <span style="font-weight: bold; text-decoration: underline; cursor: help;">@resultE?.GetName(TranslateName)</span>
+                </MudTooltip>
+            }
+        </div>
+        @if (For.GetCustomAttribute().Description.NotEmpty())
+        {
+            <MudTooltip Text="@For.GetCustomAttribute().Description">
+                <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Default" Style="margin-inline: -6px; cursor: help; vertical-align: middle;"></MudIcon>
+            </MudTooltip>
+        }
+        else
+        {
+            <span></span>
+        }
+    }
+    else if (typeof(TValue) == typeof(double?))
+    {
+        var resultD = Value as double?;
+
+        <MudIcon Icon="@GetIntIcon(ForceScore ? Score : (double?)(object?)Value)" Style="@($"margin-inline: -6px; {GetColorStyle(ForceScore ? Score : (double?)(object?)Value)}")"></MudIcon>
+        <div>
+            @if (ShowLabel)
+            {
+                <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+                    <span style="font-weight: bold; text-decoration: underline; cursor: help;" class="me-1">@For.GetCustomAttribute(TranslateName).Name: </span>
+                </MudTooltip>
+            }
+            <span>@resultD?.ToString("#.##", UsCulture)</span>
+        </div>
+        @if (For.GetCustomAttribute().Description.NotEmpty())
+        {
+            <MudTooltip Text="@For.GetCustomAttribute().Description">
+                <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Default" Style="margin-inline: -6px; cursor: help; vertical-align: middle;"></MudIcon>
+            </MudTooltip>
+        }
+        else
+        {
+            <span></span>
+        }
+    }
+    else if (typeof(TValue) == typeof(decimal?))
+    {
+        var resultD = Value as decimal?;
+
+        <MudIcon Icon="@GetIntIcon(Score)" Style="@($"margin-inline: -6px; {GetColorStyle(Score)}")"></MudIcon>
+        <div>
+            @if (ShowLabel)
+            {
+                <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+                    <span style="font-weight: bold; text-decoration: underline; cursor: help;" class="me-1">@For.GetCustomAttribute(TranslateName).Name: </span>
+                </MudTooltip>
+            }
+            <span>@resultD?.ToString("C", UsCulture)</span>
+        </div>
+        @if (For.GetCustomAttribute().Description.NotEmpty())
+        {
+            <MudTooltip Text="@For.GetCustomAttribute().Description">
+                <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Default" Style="margin-inline: -6px; cursor: help; vertical-align: middle;"></MudIcon>
+            </MudTooltip>
+        }
+        else
+        {
+            <span></span>
+        }
+    }
+    else if (typeof(TValue) == typeof(string))
+    {
+        var resultD = Value as string;
+
+        <MudIcon Icon="@GetIntIcon(Score)" Style="@($"margin-inline: -6px; {GetColorStyle(Score)}")"></MudIcon>
+        <div>
+            @if (ShowLabel)
+            {
+                <MudTooltip Text="@For.GetCustomAttribute(TranslateName).Placeholder">
+                    <span style="font-weight: bold; text-decoration: underline; cursor: help;" class="me-1">@For.GetCustomAttribute(TranslateName).Name: </span>
+                </MudTooltip>
+            }
+            <span>@resultD</span>
+        </div>
+        @if (For.GetCustomAttribute().Description.NotEmpty())
+        {
+            <MudTooltip Text="@For.GetCustomAttribute().Description">
+                <MudIcon Icon="@Icons.Material.Filled.Help" Color="Color.Default" Style="margin-inline: -6px; cursor: help; vertical-align: middle;"></MudIcon>
+            </MudTooltip>
+        }
+        else
+        {
+            <span></span>
+        }
+    }
+    else
+    {
+        <MudText Color="Color.Error">Not Implemented</MudText>
+    }
+</MudChip>
+
+@code {
+    [Parameter][EditorRequired] public Expression<Func<object>>? For { get; set; }
+    [Parameter] public TValue? Value { get; set; }
+    /// <summary>
+    /// only when the field is a decimal (money value)
+    /// </summary>
+    [Parameter] public double? Score { get; set; }
+    [Parameter] public bool ForceScore { get; set; } = false;
+    [Parameter] public bool ShowLabel { get; set; } = true;
+    [Parameter] public bool OnlyLabel { get; set; } = false;
+    [Parameter] public bool TranslateName { get; set; } = false;
+
+    private readonly CultureInfo UsCulture = CultureInfo.CreateSpecificCulture("en-US");
+
+    private string? GetIntIcon(double? value)
+    {
+        if (value == null) return IconsFA.Solid.Icon("xmark").Font;
+
+        if (value >= 8) return IconsFA.Solid.Icon("face-grin-stars").Font;
+        else if (value >= 6) return IconsFA.Solid.Icon("face-smile-beam").Font;
+        else if (value >= 4) return IconsFA.Solid.Icon("face-meh").Font;
+        else if (value >= 2) return IconsFA.Solid.Icon("face-frown").Font;
+        else return IconsFA.Solid.Icon("face-dizzy").Font;
+    }
+
+    private string GetColorStyle(double? value, double min = 0, double max = 10)
+    {
+        if (value == null) return "color: inherit;";
+
+        var v = value.Value;
+        var range = max - min;
+        var step = range / 5.0;
+
+        int bucket = (int)((v - min) / step);
+        bucket = Math.Clamp(bucket, 0, 4);
+
+        var colors = new[]
+        {
+            "rgb(255, 63, 95)", //mud-error-text
+            "rgb(255, 122, 82)",
+            "rgb(255, 181, 69)", //mud-warning-text
+            "rgb(173, 192, 88)",
+            "rgb(61, 203, 108)" //mud-success-text
+        };
+
+        return $"color: {colors[bucket]};";
+    }
+}

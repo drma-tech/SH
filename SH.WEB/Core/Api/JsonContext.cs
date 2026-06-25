@@ -20,6 +20,7 @@ namespace SH.WEB.Core.Api
     [JsonSerializable(typeof(AuthPrincipal))]
     [JsonSerializable(typeof(AuthLogin))]
     [JsonSerializable(typeof(AuthSubscription))]
+    [JsonSerializable(typeof(HereJson))]
     internal partial class ApiContext : JsonSerializerContext
     {
     }

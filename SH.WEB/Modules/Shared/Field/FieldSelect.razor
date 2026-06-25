@@ -1,0 +1,122 @@
+﻿@inherits FormBase<TValue>
+@typeparam TValue
+@typeparam TEnum where TEnum : struct, Enum, IConvertible
+
+@if (Visible)
+{
+    <div class="d-flex" style="align-items: center;">
+        @if (CssIcon.NotEmpty())
+        {
+            <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
+        }
+        @if (Multiple)
+        {
+            <MudSelect SelectedValues="@SelectedValues" AdornmentColor="Color.Primary"
+                       SelectedValuesChanged="async (IReadOnlyCollection<TEnum> values) => { SelectedValues = values.ToHashSet(); await SelectedValuesChanged.InvokeAsync(values.ToHashSet()); }"
+                       Disabled="@Disabled" Required="@Required" FullWidth="true" MultiSelection="true" Clearable="true"
+                       Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder"
+                       MultiSelectionTextFunc="@(new Func<IReadOnlyList<string>, string>(GetMultiSelectionText))">
+                @if (ShowGroup)
+                {
+                    @foreach (var group in EnumList.Where(Filter).Select(s => s.Group).Order().Distinct())
+                    {
+                        @if (group.NotEmpty())
+                        {
+                            <MudSelectItem T="@TEnum" Disabled="true" Value="@((TEnum)(object)(-1))">
+                                <MudText Typo="Typo.subtitle1" Color="Color.Secondary">@group</MudText>
+                            </MudSelectItem>
+                        }
+                        @foreach (var item in EnumList.Where(w => w.Group == group).OrderBy(Order))
+                        {
+                            <MudSelectItem Value="@item.Value" Class="mud-typography-align-justify">
+                                <MudText Inline="false">@item.Name</MudText>
+                                @if (item.Description.NotEmpty() && ShowDataSelectDescription)
+                                {
+                                    <MudText Typo="Typo.caption" Class="d-block mt-2" Style="text-wrap: auto; line-height: 1.1;">@item.Description</MudText>
+                                }
+                            </MudSelectItem>
+                        }
+                    }
+                }
+                else
+                {
+                    @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
+                    {
+                        <MudSelectItem Value="@item.Value" Class="mud-typography-align-justify">
+                            <MudText Inline="false">@item.Name</MudText>
+                            @if (item.Description.NotEmpty() && ShowDataSelectDescription)
+                            {
+                                <MudText Typo="Typo.caption" Class="d-block mt-2" Style="text-wrap: auto; line-height: 1.1;">@item.Description</MudText>
+                            }
+                        </MudSelectItem>
+                    }
+                }
+            </MudSelect>
+        }
+        else
+        {
+            <MudSelect Value="@SelectedValue" ValueChanged="SelectedValueChanged" Disabled="@Disabled" Required="@Required" FullWidth="true" AdornmentColor="Color.Primary"
+                       Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder" Clearable="true">
+                @if (ShowGroup)
+                {
+                    @foreach (var group in EnumList.Where(Filter).Select(s => s.Group).Order().Distinct())
+                    {
+                        @if (group.NotEmpty())
+                        {
+                            <MudSelectItem T="@TValue" Disabled="true" Value="@((TValue)(object)((TEnum)(object)(-1)))">
+                                <MudText Typo="Typo.subtitle1" Color="Color.Secondary">@group</MudText>
+                            </MudSelectItem>
+                        }
+                        @foreach (var item in EnumList.Where(w => w.Group == group).OrderBy(Order))
+                        {
+                            <MudSelectItem Value="@((TValue)(object)item.Value)" Class="mud-typography-align-justify">
+                                <MudText Inline="false">@item.Name</MudText>
+                                @if (item.Description.NotEmpty() && ShowDataSelectDescription)
+                                {
+                                    <MudText Typo="Typo.caption" Class="d-block mt-2" Style="text-wrap: auto; line-height: 1.1;">@item.Description</MudText>
+                                }
+                            </MudSelectItem>
+                        }
+                    }
+                }
+                else
+                {
+                    @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
+                    {
+                        <MudSelectItem Value="@((TValue)(object)item.Value)" Class="mud-typography-align-justify">
+                            <MudText Inline="false">@item.Name</MudText>
+                            @if (item.Description.NotEmpty() && ShowDataSelectDescription)
+                            {
+                                <MudText Typo="Typo.caption" Class="d-block mt-2" Style="text-wrap: auto; line-height: 1.1;">@item.Description</MudText>
+                            }
+                        </MudSelectItem>
+                    }
+                }
+            </MudSelect>
+        }
+        @if (ButtomClicked.HasDelegate) //custom button
+        {
+            <MudTooltip Text="@ButtomTitle">
+                <MudIconButton Color="Color.Primary" Icon="@ButtomCssIcon" OnClick="@ButtomClicked" Disabled="@(Disabled || ButtomDisabled)" />
+            </MudTooltip>
+        }
+    </div>
+    @if (!string.IsNullOrEmpty(HelpLink))
+    {
+        <MudText Typo="Typo.caption" Style="margin-left: calc(1.5rem + 14px)">
+            <MudLink href="@HelpLink" target="_blank" rel="nofollow" Typo="Typo.caption">@(new Uri(HelpLink).Host)</MudLink>
+        </MudText>
+    }
+    @if (!string.IsNullOrEmpty(CustomInfo))
+    {
+        <MudText Typo="Typo.caption" Color="Color.Info" Style="margin-left: calc(1.5rem + 14px)">
+            @CustomInfo
+        </MudText>
+    }
+    @if (!string.IsNullOrEmpty(CustomWarning))
+    {
+        <MudText Typo="Typo.caption" Color="Color.Warning" Style="margin-left: calc(1.5rem + 14px)">
+            @CustomWarning
+        </MudText>
+    }
+}

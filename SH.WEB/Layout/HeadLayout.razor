@@ -23,8 +23,11 @@
     <MudButton StartIcon="@Icons.Material.Filled.House" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="@menuClass" Disabled="_blockedActions">
         @Menu.Home
     </MudButton>
-    <MudButton StartIcon="@Icons.Material.Filled.Person" Color="@GetColor($"/{Culture}/profile")" Href=@($"/{Culture}/profile") Variant="@GetVariant($"/{Culture}/profile")" Class="@menuClass" Disabled="_blockedActions" Target="_self" Rel="nofollow">
-        @Menu.Profile
+    <MudButton StartIcon="@Icons.Material.Filled.Apartment" Color="@GetColor($"/{Culture}/property")" Href=@($"/{Culture}/property") Variant="@GetVariant($"/{Culture}/property")" Class="@menuClass" Disabled="_blockedActions" Target="_self" Rel="nofollow">
+        Property
+    </MudButton>
+    <MudButton StartIcon="@Icons.Material.Filled.Bed" Color="@GetColor($"/{Culture}/room")" Href=@($"/{Culture}/room") Variant="@GetVariant($"/{Culture}/room")" Class="@menuClass" Disabled="_blockedActions" Target="_self" Rel="nofollow">
+        Room
     </MudButton>
 
     <MudSpacer />

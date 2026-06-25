@@ -1,0 +1,42 @@
+﻿@inherits FormBase<string>
+
+@if (Visible)
+{
+    <div class="d-flex" style="align-items: center; @Style">
+        @if (CssIcon.NotEmpty())
+        {
+            <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
+        }
+        <MudTextField Value="@Value" ValueChanged="@ValueChanged" Disabled="@Disabled" Lines="@Rows" Required="@Required" ReadOnly="@ReadOnly" Immediate="true"
+                      Label="@For.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder" />
+        @if (ButtomClicked.HasDelegate)
+        {
+            <MudTooltip Text="@ButtomTitle">
+                @if (_processing)
+                {
+                    <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                }
+                else
+                {
+                    <MudIconButton Color="Color.Primary" Icon="@ButtomCssIcon" OnClick="@ButtomClickedHandle" />
+                }
+            </MudTooltip>
+        }
+    </div>
+}
+
+@code {
+    [Parameter] public string? Style { get; set; }
+
+    private bool _processing = false;
+
+    private async Task ButtomClickedHandle()
+    {
+        _processing = true;
+
+        await ButtomClicked.InvokeAsync(null);
+
+        await Task.Delay(10000);
+        _processing = false;
+    }
+}

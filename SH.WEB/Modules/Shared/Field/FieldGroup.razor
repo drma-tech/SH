@@ -1,0 +1,40 @@
+﻿@inherits FormBase<TValue>
+@typeparam TValue
+@typeparam TEnum where TEnum : struct, Enum, IConvertible
+
+@if (Visible)
+{
+    <div style="align-items: center;">
+        @if (CssIcon.NotEmpty())
+        {
+            <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
+        }
+        <MudText>
+            @For.GetCustomAttribute()?.Name
+        </MudText>
+        <MudToggleGroup T="TValue" Value="@SelectedValue" ValueChanged="SelectedValueChanged" Disabled="@Disabled" Style="width: 100%;">
+            @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
+            {
+                <MudToggleItem Value="@((TValue)(object)item.Value)" Text="@item.Value.GetCustomAttribute()?.Name" />
+            }
+        </MudToggleGroup>
+    </div>
+    @if (!string.IsNullOrEmpty(HelpLink))
+    {
+        <MudText Typo="Typo.caption" Style="margin-left: calc(1.5rem + 14px)">
+            <MudLink href="@HelpLink" target="_blank" rel="nofollow" Typo="Typo.caption">@(new Uri(HelpLink).Host)</MudLink>
+        </MudText>
+    }
+    @if (!string.IsNullOrEmpty(CustomInfo))
+    {
+        <MudText Typo="Typo.caption" Color="Color.Info" Style="margin-left: calc(1.5rem + 14px)">
+            @CustomInfo
+        </MudText>
+    }
+    @if (!string.IsNullOrEmpty(CustomWarning))
+    {
+        <MudText Typo="Typo.caption" Color="Color.Warning" Style="margin-left: calc(1.5rem + 14px)">
+            @CustomWarning
+        </MudText>
+    }
+}

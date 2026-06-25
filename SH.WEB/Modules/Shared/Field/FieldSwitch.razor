@@ -1,0 +1,20 @@
+﻿@inherits FormBase<bool>
+
+@if (Visible)
+{
+    <div class="d-flex" style="align-items: center;">
+        @if (CssIcon.NotEmpty())
+        {
+            <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
+        }
+        <MudSwitch Value="Value" ValueChanged="ValueChanged" ThumbIcon="@(Value ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)" ThumbIconColor="@(Value ? Color.Success : Color.Error)">
+            @For.GetCustomAttribute()?.Name
+        </MudSwitch>
+    </div>
+    @if (Description.NotEmpty())
+    {
+        <MudText Typo="Typo.caption" Style="margin-left: calc(1.5rem + 12px)">
+            @Description
+        </MudText>
+    }
+}

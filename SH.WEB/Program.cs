@@ -8,6 +8,7 @@ using Polly;
 using Polly.Extensions.Http;
 using SH.WEB.Core.Auth;
 using SH.WEB.Modules.Auth.Core;
+using SH.WEB.Modules.Profile.Core;
 using SH.WEB.Modules.Subscription.Core;
 using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
@@ -118,6 +119,7 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<PrincipalImportApi>();
     collection.AddScoped<LoginApi>();
     collection.AddScoped<PublicLoginApi>();
+    collection.AddScoped<MapApi>();
 
     collection.AddScoped<PaymentConfigurationApi>();
     collection.AddScoped<PaymentAuthApi>();

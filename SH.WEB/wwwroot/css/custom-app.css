@@ -225,6 +225,11 @@ body .pwa-updater[b-pwa-updater] {
     color: var(--mud-palette-primary);
 }
 
+.mud-chip-content {
+    width: 100%;
+    justify-content: space-between;
+}
+
 .icon-text-button {
     min-width: 48px !important;
     padding: 6px !important;
