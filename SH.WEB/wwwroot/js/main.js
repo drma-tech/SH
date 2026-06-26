@@ -63,4 +63,4 @@ export const supabaseConfig = {
     supabaseKey: "sb_publishable_eTtEX1u9zYlSJF0Rl25W-g_M_Dl4O6a",
 };
 
-export const baseApiUrl = isLocalhost ? "http://localhost:7071" : "";
+export const baseApiUrl = isLocalhost ? "http://localhost:7034" : "";
