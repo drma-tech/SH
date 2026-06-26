@@ -7,27 +7,246 @@
 
 <HeadComponent Title="@SeoTranslations.ProfileTitle" Url=@($"/{Culture}/profile") Index="false"></HeadComponent>
 
-<PageSectionComponent Title="Property">
+<PageSectionComponent Title="Basic Data">
     <BodyFragment>
-        <FieldGroup For="@(() => room.UsageType)" TEnum="UsageType" TValue="UsageType" SelectedValue="room.UsageType"></FieldGroup>
-        <FieldText For="@(() => room.Title)" Value="@room.Title"></FieldText>
-        <FieldText For="@(() => room.Description)" Rows="6" Value="@room.Description"></FieldText>
-        <FieldNumber For="@(() => room.SizeSqm)" Value="@room.SizeSqm"></FieldNumber>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.AccessType)" TEnum="AccessType" TValue="AccessType" @bind-SelectedValue="room.AccessType"></FieldGroup>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => room.Title)" @bind-Value="@room.Title"></FieldText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldNumber T="int" For="@(() => room.SizeSqm)" @bind-Value="@room.SizeSqm"></FieldNumber>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => room.Description)" Rows="6" @bind-Value="@room.Description"></FieldText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Photos">
+    <BodyFragment>
+        <RenderControl Actions="ActionsPhotos">
+            @foreach (var item in context)
+            {
+
+            }
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Facilities (Private / Shared)" Description="exclusive to or shared among the property's residents">
+    <BodyFragment>
+        @foreach (var item in EnumHelper.GetList<RoomFacility>())
+        {
+            <MudChip T=string>@item.Name</MudChip>
+        }
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Amenities">
+    <BodyFragment>
+        @foreach (var item in EnumHelper.GetList<RoomAmenity>())
+        {
+            <MudChip T=string>@item.Name</MudChip>
+        }
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Services (Included / Extra)">
+    <BodyFragment>
+        @foreach (var item in EnumHelper.GetList<RoomService>())
+        {
+            <MudChip T=string>@item.Name</MudChip>
+        }
     </BodyFragment>
 </PageSectionComponent>
 
 <PageSectionComponent Title="Preferences">
     <BodyFragment>
-        <FieldGroup For="@(() => room.Smoking)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Smoking"></FieldGroup>
-        <FieldGroup For="@(() => room.Pets)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Pets"></FieldGroup>
-        <FieldGroup For="@(() => room.Couples)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Couples"></FieldGroup>
-        <FieldGroup For="@(() => room.Children)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Children"></FieldGroup>
-        <FieldGroup For="@(() => room.Alcohol)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Alcohol"></FieldGroup>
-        <FieldGroup For="@(() => room.Visits)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Visits"></FieldGroup>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Couples)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Couples"></FieldGroup>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Children)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Children"></FieldGroup>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Pets)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Pets"></FieldGroup>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Visits)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Visits"></FieldGroup>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Smoking)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Smoking"></FieldGroup>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Alcohol)" TEnum="Allowed" TValue="Allowed" SelectedValue="room.Alcohol"></FieldGroup>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <MudText>
+                        Allowed Genders
+                    </MudText>
+                    @foreach (var item in EnumHelper.GetList<Gender>())
+                    {
+                        <MudChip T=string>@item.Name</MudChip>
+                    }
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudText>
+                        Allowed Tenants
+                    </MudText>
+                    @foreach (var item in EnumHelper.GetList<Tenant>())
+                    {
+                        <MudChip T=string>@item.Name</MudChip>
+                    }
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="3">
+                    <FieldNumber T="int?" For="@(() => room.MinimumAge)" @bind-Value="@room.MinimumAge"></FieldNumber>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldNumber T="int?" For="@(() => room.MaximumAge)" @bind-Value="@room.MaximumAge"></FieldNumber>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Rental Terms">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="3">
+                    <MudText>
+                        Currency
+                    </MudText>
+                    @foreach (var item in new string[] { "USD", "EUR", "BRL" })
+                    {
+                        <MudChip T=string>@item</MudChip>
+                    }
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <MudText>
+                        Costs (Amount)
+                    </MudText>
+                    @foreach (var item in EnumHelper.GetList<Cost>())
+                    {
+                        <MudChip T=string>@item.Name</MudChip>
+                    }
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldNumber T="int" For="@(() => room.MinimumStay)" @bind-Value="@room.MinimumStay"></FieldNumber>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldNumber T="int?" For="@(() => room.MaximumStay)" @bind-Value="@room.MaximumStay"></FieldNumber>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Management">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.AvailabilityMode)" TEnum="AvailabilityMode" TValue="AvailabilityMode" @bind-SelectedValue="room.AvailabilityMode"></FieldGroup>
+                    <MudText Typo="Typo.caption" Color="Color.Default">
+                        Whether or not room availability (status) is managed automatically by the platform (taking occupancy into account).
+                    </MudText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldGroup For="@(() => room.Status)" TEnum="RoomStatus" TValue="RoomStatus" @bind-SelectedValue="room.Status"></FieldGroup>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="3">
+                    <FieldNumber T="int?" For="@(() => room.MaxOccupancy)" @bind-Value="@room.MaxOccupancy" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
+                    <MudText Typo="Typo.caption" Color="Color.Default">
+                        Available for shared use only
+                    </MudText>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldNumber T="int?" For="@(() => room.CurrentOccupancy)" @bind-Value="@room.CurrentOccupancy" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
+                    <MudText Typo="Typo.caption" Color="Color.Default">
+                        Available for shared use only
+                    </MudText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudText>
+                        Available From
+                    </MudText>
+                    <MudDatePicker Date="@room.AvailableFrom" MinDate="DateTime.UtcNow"></MudDatePicker>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Requests (Pending / Approved / Rejected / Cancelled)">
+    <BodyFragment>
+        <MudDataGrid Items="@Requests">
+            <Columns>
+                <PropertyColumn Property="x => x.UserId" Title="User" />
+                <PropertyColumn Property="x => x.CreatedAt" Title="Created At" />
+                <PropertyColumn Property="x => x.Start" />
+                <PropertyColumn Property="x => x.End" />
+                <PropertyColumn Property="x => x.Status" Title="Status" />
+            </Columns>
+        </MudDataGrid>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Occupations (Scheduled / Active / Expired)">
+    <BodyFragment>
+        <MudDataGrid Items="@Occupations">
+            <Columns>
+                <PropertyColumn Property="x => x.UserId" Title="User" />
+                <PropertyColumn Property="x => x.Start" />
+                <PropertyColumn Property="x => x.End" />
+                <PropertyColumn Property="x => x.Status" Title="Status" />
+            </Columns>
+        </MudDataGrid>
     </BodyFragment>
 </PageSectionComponent>
 
 @code
 {
     private RoomModel room = new();
+    public HashSet<RoomRequest> Requests { get; set; } = [];
+    public HashSet<RoomOccupation> Occupations { get; set; } = [];
+
+    public ComponentActions<List<RoomPhoto>> ActionsPhotos { get; set; } = new ComponentActions<List<RoomPhoto>>(list => list == null || list.Empty());
+
+    protected override async Task ProcessPageData()
+    {
+        await ActionsPhotos.FinishLoading.Invoke([]);
+
+        Requests.Add(new RoomRequest { UserId = "John", Start = DateTime.UtcNow.AddDays(7), End = DateTime.UtcNow.AddYears(1), Status = RequestStatus.Pending });
+        Occupations.Add(new RoomOccupation { UserId = "John", Start = DateTime.UtcNow.AddDays(7), Status = OccupationStatus.Scheduled });
+    }
 }

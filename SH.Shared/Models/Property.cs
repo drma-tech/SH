@@ -9,7 +9,7 @@
         Apartment = 2
     }
 
-    public enum OccupancyModel
+    public enum LivingArrangement
     {
         [Custom(Name = "Shared With Owner")]
         SharedWithOwner = 1,
@@ -18,7 +18,19 @@
         SharedWithTenants = 2
     }
 
-    public enum PropertyFacility
+    public enum PropertyUserRole
+    {
+        [Custom(Name = "Owner")]
+        Owner = 1,
+
+        [Custom(Name = "Manager")]
+        Manager = 2,
+
+        [Custom(Name = "Real Estate")]
+        RealEstate = 3
+    }
+
+    public enum PropertyFacility //shared by all tenants in property
     {
         [Custom(Name = "Pool")]
         Pool = 1,
@@ -62,16 +74,16 @@
 
     public enum RoomStatus
     {
-        [Custom(Name = "House")]
+        [Custom(Name = "Available")]
         Available = 1,
 
-        [Custom(Name = "House")]
+        [Custom(Name = "Partially Occupied")]
         PartiallyOccupied = 2,
 
-        [Custom(Name = "House")]
+        [Custom(Name = "Occupied")]
         Occupied = 3,
 
-        [Custom(Name = "House")]
+        [Custom(Name = "Unavailable")]
         Unavailable = 4
     }
 
@@ -93,43 +105,38 @@
         {
         }
 
-        public string? CountrySlug { get; set; }
-        public string? StateSlug { get; set; }
-        public string? CitySlug { get; set; }
-
         [Custom(Name = "Structure")]
         public PropertyStructure Structure { get; set; } = PropertyStructure.House;
 
-        [Custom(Name = "Model")]
-        public OccupancyModel Model { get; set; } = OccupancyModel.SharedWithOwner;
+        [Custom(Name = "Living Arrangement")]
+        public LivingArrangement LivingArrangement { get; set; } = LivingArrangement.SharedWithOwner;
+
+        public List<PropertyMember> Members { get; set; } = [];
 
         public PropertyAddress Address { get; set; } = new();
 
-        [Custom(Name = "Title")]
+        [Custom(Name = "Title", Placeholder = "Property name, building name, or short listing title")]
         public string? Title { get; set; }
 
-        [Custom(Name = "Property Description", Placeholder = "Describe any additional observations regarding the property, rooms, rules, etc.")]
-        public string? PropertyDesc { get; set; }
+        [Custom(Name = "Description", Placeholder = "Overview of the property, rules, and what makes it unique")]
+        public string? Description { get; set; }
 
-        [Custom(Name = "Location Description", Placeholder = "Describe the property's location, nearby tourist attractions, transportation options, etc.")]
+        [Custom(Name = "Location Description", Placeholder = "What’s around the property and how easy it is to get around")]
         public string? LocationDesc { get; set; }
 
+        [Custom(Name = "CheckIn Instructions", Placeholder = "How to access the property, keys or codes, and arrival steps")]
+        public string? CheckInInstructions { get; set; }
+
+        [Custom(Name = "Languages Spoken")]
+        public List<string> LanguagesSpoken { get; set; } = [];
+
         [Custom(Name = "Size (sqm)")]
-        public int SizeSqm { get; set; }
+        public int? SizeSqm { get; set; }
 
         public List<PropertyPhoto> Photos { get; set; } = [];
         public List<PropertyFacilityModel> Facilities { get; set; } = [];
         public List<PropertyAmenityModel> Amenities { get; set; } = [];
         public List<AccessibilityFeature> Accessibilities { get; set; } = [];
-
-        [Custom(Name = "Owner Id Verified")]
-        public bool OwnerIdVerified { get; set; }
-
-        [Custom(Name = "Owner Email Verified")]
-        public bool OwnerEmailVerified { get; set; }
-
-        [Custom(Name = "Owner Phone Verified")]
-        public bool OwnerPhoneVerified { get; set; }
 
         [Custom(Name = "Address Verified")]
         public bool AddressVerified { get; set; }
@@ -187,6 +194,22 @@
         public string? UrlPath { get; set; }
         public string? Caption { get; set; }
         public int Order { get; set; }
+    }
+
+    public class PropertyMember
+    {
+        public string? UserId { get; set; }
+
+        [Custom(Name = "Id Verified")]
+        public bool IdVerified { get; set; }
+
+        [Custom(Name = "Email Verified")]
+        public bool EmailVerified { get; set; }
+
+        [Custom(Name = "Phone Verified")]
+        public bool PhoneVerified { get; set; }
+
+        public PropertyUserRole Role { get; set; } //Owner / Manager / Real Estate
     }
 
     public class PropertyFacilityModel

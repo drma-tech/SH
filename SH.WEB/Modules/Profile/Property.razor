@@ -17,7 +17,7 @@
                     <FieldGroup For="@(() => property.Structure)" TEnum="PropertyStructure" TValue="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldGroup For="@(() => property.Model)" TEnum="OccupancyModel" TValue="OccupancyModel" @bind-SelectedValue="property.Model"></FieldGroup>
+                    <FieldGroup For="@(() => property.LivingArrangement)" TEnum="LivingArrangement" TValue="LivingArrangement" @bind-SelectedValue="property.LivingArrangement"></FieldGroup>
                 </MudItem>
             </MudGrid>
             <MudGrid Spacing="@Css.SpaceSmall">
@@ -30,13 +30,39 @@
             </MudGrid>
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => property.PropertyDesc)" Rows="6" @bind-Value="@property.PropertyDesc"></FieldText>
+                    <FieldText For="@(() => property.Description)" Rows="6" @bind-Value="@property.Description"></FieldText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <FieldText For="@(() => property.LocationDesc)" Rows="6" @bind-Value="@property.LocationDesc"></FieldText>
                 </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => property.CheckInInstructions)" Rows="6" @bind-Value="@property.CheckInInstructions"></FieldText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudText>
+                        Languages Spoken
+                    </MudText>
+                    @foreach (var item in new string[] { "pt", "en" })
+                    {
+                        <MudChip T=string>@item</MudChip>
+                    }
+                </MudItem>
             </MudGrid>
         </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Members (Owner / Manager / Real Estate)">
+    <BodyFragment>
+        <MudDataGrid Items="@property.Members">
+            <Columns>
+                <PropertyColumn Property="x => x.UserId" Title="User" />
+                <PropertyColumn Property="x => x.IdVerified" Title="Id Verified" />
+                <PropertyColumn Property="x => x.EmailVerified" Title="Email Verified" />
+                <PropertyColumn Property="x => x.PhoneVerified" Title="Phone Verified" />
+                <PropertyColumn Property="x => x.Role" />
+            </Columns>
+        </MudDataGrid>
     </BodyFragment>
 </PageSectionComponent>
 
@@ -101,13 +127,13 @@
         <RenderControl Actions="ActionsPhotos">
             @foreach (var item in context)
             {
-                
+
             }
         </RenderControl>
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Facilities">
+<PageSectionComponent Title="Facilities" Description="shared by all tenants of the property or building">
     <BodyFragment>
         @foreach (var item in EnumHelper.GetList<PropertyFacility>())
         {
@@ -138,15 +164,6 @@
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
             <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <ItemData For="@(() => property.OwnerIdVerified)" Value="@property.OwnerIdVerified"></ItemData>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <ItemData For="@(() => property.OwnerEmailVerified)" Value="@property.OwnerEmailVerified"></ItemData>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <ItemData For="@(() => property.OwnerPhoneVerified)" Value="@property.OwnerPhoneVerified"></ItemData>
-                </MudItem>
                 <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
                     <ItemData For="@(() => property.AddressVerified)" Value="@property.AddressVerified"></ItemData>
                 </MudItem>
@@ -199,6 +216,8 @@
     {
         await ActionsPhotos.FinishLoading.Invoke([]);
         await ActionsRooms.FinishLoading.Invoke([]);
+
+        property.Members.Add(new PropertyMember { UserId = "John", Role = PropertyUserRole.Owner });
     }
 
     private async Task SearchClick()

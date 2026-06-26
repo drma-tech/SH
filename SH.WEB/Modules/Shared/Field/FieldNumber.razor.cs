@@ -2,10 +2,10 @@
 
 namespace SH.WEB.Modules.Shared.Field;
 
-public partial class FieldNumber : FormBase<int>
+public partial class FieldNumber<T> : FormBase<T>
 {
-    [Parameter] public int Value { get; set; }
-    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    [Parameter] public T? Value { get; set; }
+    [Parameter] public EventCallback<T> ValueChanged { get; set; }
     [Parameter] public int Rows { get; set; }
 
     [Parameter] public string? CssIcon { get; set; }

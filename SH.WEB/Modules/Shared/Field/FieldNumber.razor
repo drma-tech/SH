@@ -1,4 +1,5 @@
-﻿@inherits FormBase<int>
+﻿@inherits FormBase<T>
+@typeparam T
 
 @if (Visible)
 {
@@ -7,7 +8,7 @@
         {
             <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
         }
-        <MudNumericField T="int" Value="@Value" ValueChanged="@ValueChanged" Disabled="@Disabled" Lines="@Rows" Required="@Required" ReadOnly="@ReadOnly" Immediate="true"
+        <MudNumericField T="T" Value="@Value" ValueChanged="@ValueChanged" Disabled="@Disabled" Lines="@Rows" Required="@Required" ReadOnly="@ReadOnly" Immediate="true"
                          Label="@For.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder" />
         @if (ButtomClicked.HasDelegate)
         {
