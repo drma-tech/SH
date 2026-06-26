@@ -193,22 +193,22 @@
         //Preferences / Rules
 
         [Custom(Name = "Smoking")]
-        public Allowed Smoking { get; set; }
+        public Allowed Smoking { get; set; } = Allowed.Negotiable;
 
         [Custom(Name = "Pets")]
-        public Allowed Pets { get; set; }
+        public Allowed Pets { get; set; } = Allowed.Negotiable;
 
         [Custom(Name = "Couples")]
-        public Allowed Couples { get; set; }
+        public Allowed Couples { get; set; } = Allowed.Negotiable;
 
         [Custom(Name = "Children")]
-        public Allowed Children { get; set; }
+        public Allowed Children { get; set; } = Allowed.Negotiable;
 
         [Custom(Name = "Alcohol")]
-        public Allowed Alcohol { get; set; }
+        public Allowed Alcohol { get; set; } = Allowed.Negotiable;
 
         [Custom(Name = "Visits")]
-        public Allowed Visits { get; set; }
+        public Allowed Visits { get; set; } = Allowed.Negotiable;
 
         [Custom(Name = "Allowed Genders")]
         public HashSet<Gender> AllowedGenders { get; set; } = [];
@@ -245,15 +245,13 @@
         public int? CurrentOccupancy { get; set; }
 
         [Custom(Name = "Status")]
-        public RoomStatus Status { get; set; }
+        public RoomStatus Status { get; set; } = RoomStatus.Available;
 
         [Custom(Name = "Availability Mode")]
-        public AvailabilityMode AvailabilityMode { get; set; } //auto = calcula de acordo com Occupations, manual = definido pelo dono do apt
+        public AvailabilityMode AvailabilityMode { get; set; } = AvailabilityMode.Auto; //auto = calcula de acordo com Occupations, manual = definido pelo dono do apt
 
         [Custom(Name = "Available From")]
-        public DateTime? AvailableFrom { get; set; } //todo: calcular em toda mudanca de ocupacao
-
-        
+        public DateTime AvailableFrom { get; set; } = DateTime.UtcNow; //todo: calcular em toda mudanca de ocupacao
     }
 
     public class RoomPhoto
