@@ -129,6 +129,9 @@
   <data name="AppTheme" xml:space="preserve">
     <value>Thème de l'application</value>
   </data>
+  <data name="Beta" xml:space="preserve">
+    <value>Cette plateforme est encore en développement. Certains modules peuvent être partiellement fonctionnels ou pas encore implémentés.</value>
+  </data>
   <data name="CheckOurApps" xml:space="preserve">
     <value>Découvrez nos autres applications étonnantes :</value>
   </data>

@@ -97,6 +97,15 @@ namespace SH.WEB.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This platform is still under development. Some modules may be partially functional or not yet implemented..
+        /// </summary>
+        public static string Beta {
+            get {
+                return ResourceManager.GetString("Beta", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Explore our other amazing apps:.
         /// </summary>
         public static string CheckOurApps {
