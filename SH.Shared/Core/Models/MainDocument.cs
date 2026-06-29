@@ -4,10 +4,11 @@ public enum DocumentType
 {
     Principal = 1,
     Login = 2,
-    Property = 3,
-    Room = 4,
-    Proposal = 5,
-    Occupation = 6
+    Profile = 3,
+    Property = 4,
+    Room = 5,
+    Proposal = 6,
+    Occupation = 7
 }
 
 public abstract class MainDocument : CosmosDocument

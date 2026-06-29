@@ -105,25 +105,31 @@
     public enum Gender
     {
         [Custom(Name = "Male")]
-        Male = 2,
+        Male = 1,
 
         [Custom(Name = "Female")]
-        Female = 3,
+        Female = 2,
 
         [Custom(Name = "Non-Binary")]
-        NonBinary = 4
+        NonBinary = 3
     }
 
-    public enum Tenant
+    public enum Occupation
     {
-        [Custom(Name = "Students")]
-        Students = 1,
+        [Custom(Name = "Student")]
+        Student = 1,
 
-        [Custom(Name = "Professionals")]
-        Professionals = 2,
+        [Custom(Name = "Employed")]
+        Employed = 2,
 
-        [Custom(Name = "Remote Workers")]
-        RemoteWorkers = 3
+        [Custom(Name = "Self Employed")]
+        SelfEmployed = 3,
+
+        [Custom(Name = "Retired")]
+        Retired = 4,
+
+        [Custom(Name = "Unemployed")]
+        Unemployed = 5,
     }
 
     public enum Cost
@@ -165,7 +171,7 @@
         Expired = 3
     }
 
-    public class RoomModel : PrivateMainDocument
+    public class RoomModel : ProtectedMainDocument
     {
         public RoomModel() : base(DocumentType.Room)
         {
@@ -210,11 +216,11 @@
         [Custom(Name = "Visits")]
         public Allowed Visits { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Allowed Genders")]
-        public HashSet<Gender> AllowedGenders { get; set; } = [];
+        [Custom(Name = "Preferred Genders")]
+        public HashSet<Gender> PreferredGenders { get; set; } = [];
 
-        [Custom(Name = "Allowed Tenants")]
-        public HashSet<Tenant> AllowedTenants { get; set; } = [];
+        [Custom(Name = "Preferred Occupations")]
+        public HashSet<Occupation> PreferredOccupations { get; set; } = [];
 
         [Custom(Name = "Minimum Age")]
         public int? MinimumAge { get; set; }

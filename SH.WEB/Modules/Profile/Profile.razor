@@ -1,0 +1,133 @@
+﻿@page "/{culture}/profile"
+
+@inherits PageCore<Profile>
+
+<PageSectionComponent Title="My Ads (Host)">
+    <BodyFragment>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="My ads (Guest)">
+    <BodyFragment>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Basic Data">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="4">
+                    <FieldText For="@(() => profile.FirstName)" @bind-Value="@profile.FirstName"></FieldText>
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <FieldNumber For="@(() => profile.LastName)" @bind-Value="@profile.LastName"></FieldNumber>
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <FieldSelect For="@(() => profile.Nationality)" TEnum="Country" TValue="Country?" SelectedValue="profile.Nationality"></FieldSelect>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="4">
+                    <FieldNumber For="@(() => profile.Age)" Rows="6" @bind-Value="@profile.Age"></FieldNumber>
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <FieldSelect For="@(() => profile.Gender)" TEnum="Gender" TValue="Gender?" SelectedValue="profile.Gender"></FieldSelect>
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <FieldSelect For="@(() => profile.Occupation)" TEnum="Occupation" TValue="Occupation?" SelectedValue="profile.Occupation"></FieldSelect>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="4">
+                    <FieldSelect For="@(() => profile.HomeSchedule)" TEnum="HomeSchedule" TValue="HomeSchedule?" SelectedValue="profile.HomeSchedule"></FieldSelect>
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <FieldSelect For="@(() => profile.Languages)" TEnum="Language" TValue="HashSet<Language>"
+                                 SelectedValue="profile.Languages" Multiple="true" ShowDataSelectDescription="false"></FieldSelect>
+                </MudItem>
+                <MudItem xs="12" sm="4">
+                    <FieldText For="@(() => profile.ProfilePicture)" @bind-Value="@profile.ProfilePicture"></FieldText>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12">
+                    <FieldText For="@(() => profile.AboutMe)" @bind-Value="profile.AboutMe" Rows="8"></FieldText>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Household Profile">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="4" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => profile.Smokes)" @bind-Value="@profile.Smokes"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="6" sm="4" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => profile.DrinksAlcohol)" @bind-Value="@profile.DrinksAlcohol"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="6" sm="4" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => profile.LivesWithPets)" @bind-Value="@profile.LivesWithPets"></FieldSwitch>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="4" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => profile.LivesWithChildren)" @bind-Value="@profile.LivesWithChildren"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="6" sm="4" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => profile.LivesAsCouple)" @bind-Value="@profile.LivesAsCouple"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="6" sm="4" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => profile.HostsVisitors)" @bind-Value="@profile.HostsVisitors"></FieldSwitch>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Social Media">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => profile.Instagram)" @bind-Value="@profile.Instagram"></FieldText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => profile.LinkedIn)" @bind-Value="@profile.LinkedIn"></FieldText>
+                </MudItem>
+            </MudGrid>
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => profile.Facebook)" @bind-Value="@profile.Facebook"></FieldText>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldText For="@(() => profile.OtherSocialMedia)" @bind-Value="@profile.OtherSocialMedia"></FieldText>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Verifications">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
+                    <ItemData For="@(() => profile.IdVerified)" Value="@profile.IdVerified"></ItemData>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
+                    <ItemData For="@(() => profile.EmailVerified)" Value="@profile.EmailVerified"></ItemData>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
+                    <ItemData For="@(() => profile.PhoneVerified)" Value="@profile.PhoneVerified"></ItemData>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+@code {
+    private ProfileModel profile = new();
+}

@@ -99,9 +99,9 @@
         ElevatorAccessible = 3
     }
 
-    public class PropertyModel : PrivateMainDocument
+    public class PropertyModel : ProtectedMainDocument
     {
-        public PropertyModel() : base(DocumentType.Property)
+        public PropertyModel() : base(DocumentType.Profile)
         {
         }
 
@@ -146,6 +146,9 @@
 
         [Custom(Name = "Background Check Required")]
         public bool BackgroundCheckRequired { get; set; }
+
+        [Custom(Name = "Social Network Required")]
+        public bool SocialRequired { get; set; }
 
         public List<RoomShort> Rooms { get; set; } = [];
     }

@@ -105,7 +105,7 @@
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
                     <MudText>
-                        Allowed Genders
+                        Preferred Genders
                     </MudText>
                     @foreach (var item in EnumHelper.GetList<Gender>())
                     {
@@ -114,9 +114,9 @@
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudText>
-                        Allowed Tenants
+                        Preferred Occupations
                     </MudText>
-                    @foreach (var item in EnumHelper.GetList<Tenant>())
+                    @foreach (var item in EnumHelper.GetList<Occupation>())
                     {
                         <MudChip T=string>@item.Name</MudChip>
                     }

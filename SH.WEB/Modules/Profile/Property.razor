@@ -182,6 +182,9 @@
                 <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
                     <FieldSwitch For="@(() => property.BackgroundCheckRequired)" @bind-Value="@property.BackgroundCheckRequired"></FieldSwitch>
                 </MudItem>
+                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
+                    <FieldSwitch For="@(() => property.SocialRequired)" @bind-Value="@property.SocialRequired"></FieldSwitch>
+                </MudItem>
             </MudGrid>
         </MudStack>
     </BodyFragment>

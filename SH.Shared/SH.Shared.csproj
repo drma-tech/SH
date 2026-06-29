@@ -8,6 +8,16 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Update="Enums\Resources\Country.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Country.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Enums\Resources\Language.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Language.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Enum\AccountCycle.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -15,6 +25,14 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
+		<EmbeddedResource Update="Enums\Resources\Country.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Country.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Enums\Resources\Language.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Language.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Enum\AccountCycle.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>AccountCycle.Designer.cs</LastGenOutput>
