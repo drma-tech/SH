@@ -32,10 +32,10 @@
 
     <MudSpacer />
 
-    @if (!AppStateStatic.IsPremiumUser)
+    @* @if (!AppStateStatic.IsPremiumUser)
     {
         <MudIconButton Color="Color.Warning" Icon="@IconsFA.Solid.Icon("gem").Animation(IconAnimation.Fade).Font" Style="margin-right: -8px;" OnClick="@OpenSubscription" />
-    }
+    } *@
 
     <MudIconButton Icon="@Icons.Material.Filled.Apps" Color="Color.Inherit" Class="me-1" OnClick="@(() => { _openApps = true; })" />
 
@@ -76,7 +76,7 @@
 
         <MudDivider></MudDivider>
 
-        @if (AppStateStatic.IsPremiumUser)
+        @* @if (AppStateStatic.IsPremiumUser)
         {
             <MudNavLink Icon="@Icons.Material.Filled.Diamond" OnClick="@OpenSubscription">
                 My Subscription
@@ -87,7 +87,7 @@
             <MudNavLink Icon="@Icons.Material.Filled.Diamond" OnClick="@OpenSubscription" IconColor="Color.Warning" Style="color: var(--mud-palette-warning)">
                 Unlock Benefits
             </MudNavLink>
-        }
+        } *@
 
         <MudDivider></MudDivider>
 

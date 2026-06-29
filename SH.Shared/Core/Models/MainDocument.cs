@@ -6,7 +6,7 @@ public enum DocumentType
     Login = 2,
     Property = 3,
     Room = 4,
-    Request = 5,
+    Proposal = 5,
     Occupation = 6
 }
 

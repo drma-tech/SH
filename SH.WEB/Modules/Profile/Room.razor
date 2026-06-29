@@ -207,15 +207,16 @@
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Requests (Pending / Approved / Rejected / Cancelled)">
+<PageSectionComponent Title="Proposals (Pending / Approved / Rejected / Cancelled)">
     <BodyFragment>
-        <MudDataGrid Items="@Requests">
+        <MudDataGrid Items="@Proposals">
             <Columns>
                 <PropertyColumn Property="x => x.UserId" Title="User" />
-                <PropertyColumn Property="x => x.CreatedAt" Title="Created At" />
                 <PropertyColumn Property="x => x.Start" />
                 <PropertyColumn Property="x => x.End" />
+                <PropertyColumn Property="x => x.RentPrice" Title="Rent Price" />
                 <PropertyColumn Property="x => x.Status" Title="Status" />
+                <PropertyColumn Property="x => x.DateTimeCreated" Title="Created At" />
             </Columns>
         </MudDataGrid>
     </BodyFragment>
@@ -237,7 +238,7 @@
 @code
 {
     private RoomModel room = new();
-    public HashSet<RoomRequest> Requests { get; set; } = [];
+    public HashSet<RoomProposal> Proposals { get; set; } = [];
     public HashSet<RoomOccupation> Occupations { get; set; } = [];
 
     public ComponentActions<List<RoomPhoto>> ActionsPhotos { get; set; } = new ComponentActions<List<RoomPhoto>>(list => list == null || list.Empty());
@@ -246,7 +247,7 @@
     {
         await ActionsPhotos.FinishLoading.Invoke([]);
 
-        Requests.Add(new RoomRequest { UserId = "John", Start = DateTime.UtcNow.AddDays(7), End = DateTime.UtcNow.AddYears(1), Status = RequestStatus.Pending });
+        Proposals.Add(new RoomProposal { UserId = "John", Start = DateTime.UtcNow.AddDays(7), End = DateTime.UtcNow.AddYears(1), Status = ProposalStatus.Pending });
         Occupations.Add(new RoomOccupation { UserId = "John", Start = DateTime.UtcNow.AddDays(7), Status = OccupationStatus.Scheduled });
     }
 }

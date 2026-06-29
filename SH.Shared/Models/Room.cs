@@ -150,7 +150,7 @@
         Manual = 2
     }
 
-    public enum RequestStatus
+    public enum ProposalStatus
     {
         Pending = 1,
         Approved = 2,
@@ -288,18 +288,18 @@
         public string? CustomName { get; set; }
     }
 
-    public class RoomRequest : PrivateMainDocument
+    public class RoomProposal : PrivateMainDocument
     {
-        public RoomRequest() : base(DocumentType.Request)
+        public RoomProposal() : base(DocumentType.Proposal)
         {
         }
 
         public string? RoomId { get; set; }
         public string? UserId { get; set; } //todo: user premium = Fast-Track
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
-        public RequestStatus Status { get; set; } = RequestStatus.Pending; //Pending / Approved / Rejected / Cancelled
+        public decimal RentPrice { get; set; }
+        public ProposalStatus Status { get; set; } = ProposalStatus.Pending; //Pending / Approved / Rejected / Cancelled
         public string[] Events { get; set; } = [];
     }
 
