@@ -120,11 +120,11 @@
   <data name="Advanced" xml:space="preserve">
     <value>Fortschrittlich</value>
   </data>
-  <data name="EnterKeyword" xml:space="preserve">
-    <value>Geben Sie ein Schlüsselwort oder Thema ein</value>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Finden Sie Zimmer zur Miete und Wohngemeinschaften. Entdecken Sie bezahlbaren Wohnraum und schließen Sie sich einladenden Gemeinschaften an, um sich überall wie zu Hause zu fühlen.</value>
   </data>
-  <data name="EnterTitle" xml:space="preserve">
-    <value>Geben Sie einen Titel oder Namen ein</value>
+  <data name="AppIndexTitle" xml:space="preserve">
+    <value>Zimmervermietung, Wohngemeinschaft und Gemeinschaft</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Hilfecenter</value>
@@ -149,11 +149,5 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ</value>
-  </data>
-  <data name="AppDescription" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="AppIndexTitle" xml:space="preserve">
-    <value>Finden Sie Ihr nächstes Zuhause und werden Sie Teil einer Gemeinschaft</value>
   </data>
 </root>

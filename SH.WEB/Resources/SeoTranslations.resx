@@ -121,16 +121,10 @@
     <value>Advanced</value>
   </data>
   <data name="AppDescription" xml:space="preserve">
-    <value>...</value>
+    <value>Find rooms for rent and shared apartments. Discover affordable housing and join welcoming communities to feel at home anywhere.</value>
   </data>
   <data name="AppIndexTitle" xml:space="preserve">
-    <value>Find your next home and be part of a community</value>
-  </data>
-  <data name="EnterKeyword" xml:space="preserve">
-    <value>Enter a keyword or theme</value>
-  </data>
-  <data name="EnterTitle" xml:space="preserve">
-    <value>Enter a title or name</value>
+    <value>Room rentals, shared homes and community</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Help Center</value>

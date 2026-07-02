@@ -120,11 +120,11 @@
   <data name="Advanced" xml:space="preserve">
     <value>Avanzato</value>
   </data>
-  <data name="EnterKeyword" xml:space="preserve">
-    <value>Inserisci una parola chiave o un tema</value>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Trova stanze in affitto e appartamenti condivisi. Scopri alloggi a prezzi accessibili e unisciti a comunità accoglienti per sentirti a casa ovunque.</value>
   </data>
-  <data name="EnterTitle" xml:space="preserve">
-    <value>Inserisci un titolo o un nome</value>
+  <data name="AppIndexTitle" xml:space="preserve">
+    <value>Affittacamere, case condivise e comunità</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Centro assistenza</value>
@@ -149,11 +149,5 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>
-  </data>
-  <data name="AppDescription" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="AppIndexTitle" xml:space="preserve">
-    <value>Trova la tua prossima casa ed entra a far parte di una comunità</value>
   </data>
 </root>

@@ -70,7 +70,7 @@ namespace SH.WEB.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ....
+        ///   Looks up a localized string similar to Find rooms for rent and shared apartments. Discover affordable housing and join welcoming communities to feel at home anywhere..
         /// </summary>
         public static string AppDescription {
             get {
@@ -79,29 +79,11 @@ namespace SH.WEB.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Find your next home and be part of a community.
+        ///   Looks up a localized string similar to Room rentals, shared homes and community.
         /// </summary>
         public static string AppIndexTitle {
             get {
                 return ResourceManager.GetString("AppIndexTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter a keyword or theme.
-        /// </summary>
-        public static string EnterKeyword {
-            get {
-                return ResourceManager.GetString("EnterKeyword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter a title or name.
-        /// </summary>
-        public static string EnterTitle {
-            get {
-                return ResourceManager.GetString("EnterTitle", resourceCulture);
             }
         }
         

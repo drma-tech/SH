@@ -120,11 +120,11 @@
   <data name="Advanced" xml:space="preserve">
     <value>Avancé</value>
   </data>
-  <data name="EnterKeyword" xml:space="preserve">
-    <value>Entrez un mot-clé ou un thème</value>
+  <data name="AppDescription" xml:space="preserve">
+    <value>Trouvez des chambres à louer et des appartements en colocation. Découvrez des logements abordables et rejoignez des communautés accueillantes pour vous sentir chez vous partout.</value>
   </data>
-  <data name="EnterTitle" xml:space="preserve">
-    <value>Entrez un titre ou un nom</value>
+  <data name="AppIndexTitle" xml:space="preserve">
+    <value>Location de chambres, maisons partagées et communauté</value>
   </data>
   <data name="HelpCenter" xml:space="preserve">
     <value>Centre d'aide</value>
@@ -149,11 +149,5 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Taper</value>
-  </data>
-  <data name="AppDescription" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="AppIndexTitle" xml:space="preserve">
-    <value>Trouvez votre prochaine maison et faites partie d'une communauté</value>
   </data>
 </root>
