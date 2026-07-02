@@ -1,4 +1,4 @@
 ﻿User-agent: *
 Disallow: /_framework/
 
-Sitemap: https://www.shared-home.com/sitemap.xml
+Sitemap: https://shared-home.com/sitemap.xml
