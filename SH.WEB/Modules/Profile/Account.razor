@@ -1,0 +1,102 @@
+﻿@page "/{culture}/account"
+
+@inherits PageCore<Account>
+
+<PageSectionComponent Title="Host Ads" Subtitle="Create and manage ads for rooms you want to rent out.">
+    <ActionsFragment>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/account/ads/host"))">
+            @Button.Add
+        </MudButton>
+    </ActionsFragment>
+    <BodyFragment>
+        <RenderControl Actions="ActionsHost">
+            <Slider List="HostAds" Context="ctx">
+                <div style="@($"width: {(IsMobile ? "150" : "200")}px;")">
+                    <div style="position: relative;">
+                        <MudCard Outlined="true">
+                            <MudCardMedia Image="@(ctx?.Photos.FirstOrDefault()?.UrlPath ?? "images/no-user.png")" Height="100" />
+                            <MudCardHeader Style="text-align: initial;" Class="pa-2">
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.body1" Color="Color.Secondary">@ctx?.Title</MudText>
+                                    <MudText Typo="Typo.body2">@($"{ctx?.Rooms.Count} rooms available")</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardActions Style="align-self: center;">
+                                <MudTooltip Text="Update">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => {})" Size="Size.Small" />
+                                </MudTooltip>
+                                @* <MudTooltip Text="Delete">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(ctx))" Size="Size.Small" />
+                                </MudTooltip>
+                                <MudTooltip Text="Confirm Next Destination">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Check" OnClick="@(() => ConfirmNextDestination(ctx))" Size="Size.Small" />
+                                </MudTooltip> *@
+                            </MudCardActions>
+                        </MudCard>
+                    </div>
+                </div>
+            </Slider>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Guest Ads" Subtitle="Create and manage ads to find a room that matches your needs.">
+    <ActionsFragment>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo("/{culture}/account/ads/guest"))">
+            @Button.Add
+        </MudButton>
+    </ActionsFragment>
+    <BodyFragment>
+        <RenderControl Actions="ActionsGuest">
+            <Slider List="HostAds" Context="ctx">
+                <div style="@($"width: {(IsMobile ? "150" : "200")}px;")">
+                    <div style="position: relative;">
+                        <MudCard Outlined="true">
+                            <MudCardMedia Image="@(ctx?.Photos.FirstOrDefault()?.UrlPath ?? "images/no-user.png")" Height="100" />
+                            <MudCardHeader Style="text-align: initial;" Class="pa-2">
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.body1" Color="Color.Secondary">@ctx?.Title</MudText>
+                                    <MudText Typo="Typo.body2">@($"{ctx?.Rooms.Count} rooms available")</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardActions Style="align-self: center;">
+                                <MudTooltip Text="Update">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="@(() => { })" Size="Size.Small" />
+                                </MudTooltip>
+                                @* <MudTooltip Text="Delete">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="@(() => Delete(ctx))" Size="Size.Small" />
+                                </MudTooltip>
+                                <MudTooltip Text="Confirm Next Destination">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Check" OnClick="@(() => ConfirmNextDestination(ctx))" Size="Size.Small" />
+                                </MudTooltip> *@
+                            </MudCardActions>
+                        </MudCard>
+                    </div>
+                </div>
+            </Slider>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="My profile">
+    <BodyFragment>
+
+    </BodyFragment>
+</PageSectionComponent>
+
+@code {
+    public ComponentActions<List<PropertyModel>> ActionsHost { get; set; } = new ComponentActions<List<PropertyModel>>(list => list == null || list.Empty());
+    public ComponentActions<List<PropertyModel>> ActionsGuest { get; set; } = new ComponentActions<List<PropertyModel>>(list => list == null || list.Empty());
+
+    public List<PropertyModel> HostAds { get; set; } = [];
+    public List<PropertyModel> GuestAds { get; set; } = [];
+
+    private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
+    private ProfileModel profile = new();
+
+    protected override async Task ProcessPageData()
+    {
+        await ActionsHost.FinishLoading.Invoke([]);
+        await ActionsGuest.FinishLoading.Invoke([]);
+    }
+}

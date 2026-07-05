@@ -1,16 +1,6 @@
-﻿@page "/{culture}/profile"
+﻿@page "/{culture}/account/profile"
 
 @inherits PageCore<Profile>
-
-<PageSectionComponent Title="My Ads (Host)">
-    <BodyFragment>
-    </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="My ads (Guest)">
-    <BodyFragment>
-    </BodyFragment>
-</PageSectionComponent>
 
 <PageSectionComponent Title="Basic Data">
     <BodyFragment>
@@ -127,6 +117,8 @@
         </MudStack>
     </BodyFragment>
 </PageSectionComponent>
+
+<FloatingButton Template="Template.Back"></FloatingButton>
 
 @code {
     private ProfileModel profile = new();

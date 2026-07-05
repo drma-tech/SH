@@ -60,7 +60,7 @@
         Custom = 99
     }
 
-    public enum PropertyAmenity
+    public enum PropertyAmenity //shared by all tenants in property
     {
         [Custom(Name = "Doorman")]
         Doorman = 1,
@@ -127,8 +127,8 @@
         [Custom(Name = "CheckIn Instructions", Placeholder = "How to access the property, keys or codes, and arrival steps")]
         public string? CheckInInstructions { get; set; }
 
-        [Custom(Name = "Languages Spoken")]
-        public List<string> LanguagesSpoken { get; set; } = [];
+        [Custom(Name = "Languages spoken")]
+        public HashSet<Language> Languages { get; set; } = [];
 
         [Custom(Name = "Size (sqm)")]
         public int? SizeSqm { get; set; }
@@ -141,14 +141,17 @@
         [Custom(Name = "Address Verified")]
         public bool AddressVerified { get; set; }
 
-        [Custom(Name = "Income Verification Required")]
+        [Custom(Name = "Social Media Required", Description = "Requires the candidate to have registered at least one social media account.")]
+        public bool SocialRequired { get; set; }
+
+        [Custom(Name = "ID Verification Required", Description = "Requires the candidate to have completed identity verification.")]
+        public bool IdVerificationRequired { get; set; }
+
+        [Custom(Name = "Income Verification Required", Description = "Requires the candidate to have completed income verification.")]
         public bool IncomeVerificationRequired { get; set; }
 
-        [Custom(Name = "Background Check Required")]
+        [Custom(Name = "Background Check Required", Description = "It requires the candidate to have undergone a background check.")]
         public bool BackgroundCheckRequired { get; set; }
-
-        [Custom(Name = "Social Network Required")]
-        public bool SocialRequired { get; set; }
 
         public List<RoomShort> Rooms { get; set; } = [];
     }

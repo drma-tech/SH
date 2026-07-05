@@ -9,7 +9,7 @@
         Shared = 2
     }
 
-    public enum RoomFacility //exclusive or shared between property residents (Private / Shared)
+    public enum RoomFacility //exclusive or shared between property residents
     {
         [Custom(Name = "Bathroom")]
         Bathroom = 1,
@@ -27,7 +27,7 @@
         Custom = 99
     }
 
-    public enum RoomAmenity
+    public enum RoomAmenity //exclusive or shared between property residents
     {
         [Custom(Name = "Heating")]
         Heating = 1,

@@ -44,7 +44,7 @@
         [Custom(Name = "When are you usually at home?")]
         public HomeSchedule? HomeSchedule { get; set; }
 
-        [Custom(Name = "Languages")]
+        [Custom(Name = "Languages spoken")]
         public HashSet<Language> Languages { get; set; } = [];
 
         [Custom(Name = "About Me")]

@@ -5,6 +5,7 @@ namespace SH.WEB.Modules.Shared.Field;
 public partial class FieldSelect<TValue, TEnum> : FormBase<TValue>
     where TEnum : struct, Enum, IConvertible
 {
+    [Parameter] public string? Style { get; set; }
     [Parameter] public string? CssIcon { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public bool Multiple { get; set; }

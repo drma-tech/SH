@@ -1,4 +1,4 @@
-﻿@page "/{culture}/property"
+﻿@page "/{culture}/account/ads/host"
 
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
@@ -7,52 +7,220 @@
 @inject PrincipalApi PrincipalApi
 @inject MapApi MapApi
 
-<HeadComponent Title="Property" Url=@($"/{Culture}/profile") Index="false"></HeadComponent>
+<HeadComponent Title="Property" Url=@($"/{Culture}/account/ads/host") Index="false"></HeadComponent>
 
-<PageSectionComponent Title="Basic Data">
+<PageSectionComponent Title="Address">
     <BodyFragment>
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs" Row="true">
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
-                    <FieldGroup For="@(() => property.Structure)" TEnum="PropertyStructure" TValue="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
+                    <MudToolBar Gutters="false" WrapContent="true">
+                        <FieldText For="@(() => searchAddress)" @bind-Value="@searchAddress"></FieldText>
+                        <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Search" OnClick="SearchClick" Class="ms-2">
+                            Search
+                        </MudIconButton>
+                    </MudToolBar>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldGroup For="@(() => property.LivingArrangement)" TEnum="LivingArrangement" TValue="LivingArrangement" @bind-SelectedValue="property.LivingArrangement"></FieldGroup>
+                    <FieldText For="@(() => property.Address.Label)" @bind-Value="@property.Address.Label" Disabled="true"></FieldText>
                 </MudItem>
-            </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => property.Title)" @bind-Value="@property.Title"></FieldText>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.CountryName)" @bind-Value="@property.Address.CountryName" Disabled="true"></FieldText>
                 </MudItem>
-                <MudItem xs="12" sm="6">
-                    <FieldNumber For="@(() => property.SizeSqm)" @bind-Value="@property.SizeSqm"></FieldNumber>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.State)" @bind-Value="@property.Address.State" Disabled="true"></FieldText>
                 </MudItem>
-            </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => property.Description)" Rows="6" @bind-Value="@property.Description"></FieldText>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.City)" @bind-Value="@property.Address.City" Disabled="true"></FieldText>
                 </MudItem>
-                <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => property.LocationDesc)" Rows="6" @bind-Value="@property.LocationDesc"></FieldText>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.District)" @bind-Value="@property.Address.District" Disabled="true"></FieldText>
                 </MudItem>
-                <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => property.CheckInInstructions)" Rows="6" @bind-Value="@property.CheckInInstructions"></FieldText>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.Street)" @bind-Value="@property.Address.Street" Disabled="true"></FieldText>
                 </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudText>
-                        Languages Spoken
-                    </MudText>
-                    @foreach (var item in new string[] { "pt", "en" })
-                    {
-                        <MudChip T=string>@item</MudChip>
-                    }
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.PostalCode)" @bind-Value="@property.Address.PostalCode"></FieldText>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.HouseNumber)" @bind-Value="@property.Address.HouseNumber"></FieldText>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldText For="@(() => property.Address.Unit)" @bind-Value="@property.Address.Unit"></FieldText>
+                </MudItem>
+                <MudItem xs="6" sm="3">
+                    <FieldSwitch For="@(() => property.Address.HideExactAddress)" @bind-Value="@property.Address.HideExactAddress"></FieldSwitch>
                 </MudItem>
             </MudGrid>
         </MudStack>
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Members (Owner / Manager / Real Estate)">
+<PageSectionComponent Title="Basic Data">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                        <MudGrid Spacing="@Css.SpaceSmall">
+                            <MudItem xs="12">
+                                <FieldGroup For="@(() => property.Structure)" TEnum="PropertyStructure" TValue="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <FieldGroup For="@(() => property.LivingArrangement)" TEnum="LivingArrangement" TValue="LivingArrangement" @bind-SelectedValue="property.LivingArrangement"></FieldGroup>
+                            </MudItem>
+                            <MudItem xs="12">
+                                <FieldText For="@(() => property.Title)" @bind-Value="@property.Title"></FieldText>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <FieldNumber For="@(() => property.SizeSqm)" @bind-Value="@property.SizeSqm"></FieldNumber>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <FieldSelect For="@(() => property.Languages)" TEnum="Language" TValue="HashSet<Language>" Order="@((p) => p.Name)"
+                                             @bind-SelectedValues="@property.Languages" Multiple="true" ShowDataSelectDescription="false"></FieldSelect>
+                            </MudItem>
+                        </MudGrid>
+                    </MudStack>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                        <MudGrid Spacing="@Css.SpaceSmall">
+                            <MudItem xs="12">
+                                <MudTabs>
+                                    <MudTabPanel Text="Description">
+                                        <FieldText For="@(() => property.Description)" Rows="10" @bind-Value="@property.Description" ShowLabel="false"></FieldText>
+                                    </MudTabPanel>
+                                    <MudTabPanel Text="Location Description">
+                                        <FieldText For="@(() => property.LocationDesc)" Rows="10" @bind-Value="@property.LocationDesc" ShowLabel="false"></FieldText>
+                                    </MudTabPanel>
+                                    <MudTabPanel Text="CheckIn Instructions">
+                                        <FieldText For="@(() => property.CheckInInstructions)" Rows="10" @bind-Value="@property.CheckInInstructions" ShowLabel="false"></FieldText>
+                                    </MudTabPanel>
+                                </MudTabs>
+                            </MudItem>
+                        </MudGrid>
+                    </MudStack>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Facilities" Subtitle="Shared by all tenants of the property (house) or building (apartment)" Description="Facilities are the essential physical spaces, infrastructure, and equipment that allow a location to function">
+    <ActionsFragment>
+        <MudToolBar Gutters="false" WrapContent="true">
+            <FieldSelect For="@(() => PropertyFacility)" TEnum="PropertyFacility" TValue="PropertyFacility?" @bind-SelectedValue="@PropertyFacility" Style="width: 200px;"
+                         Filter="@((p)=>property.Facilities.All(f => f.Facility != p.Value))"></FieldSelect>
+            <FieldText For="@(() => PropertyFacilityCustomName)" @bind-Value="@PropertyFacilityCustomName" Class="ms-2" Style="width: 200px;"
+                       Disabled="@(PropertyFacility != SH.Shared.Models.PropertyFacility.Custom)"></FieldText>
+            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddFacility"
+                       Disabled="@(!PropertyFacility.HasValue)">
+                @Button.Add
+            </MudButton>
+        </MudToolBar>
+    </ActionsFragment>
+    <BodyFragment>
+        <RenderControl Actions="ActionsFacilities">
+            @foreach (var item in property.Facilities)
+            {
+                @if (item.Facility == SH.Shared.Models.PropertyFacility.Custom)
+                {
+                    <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">@item.CustomName</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">@item.Facility.GetName()</MudChip>
+                }
+            }
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Amenities" Subtitle="Shared by all tenants of the property (house) or building (apartment)" Description="Amenities are the added extras and services designed to provide comfort, convenience, or pleasure">
+    <ActionsFragment>
+        <MudToolBar Gutters="false" WrapContent="true">
+            <FieldSelect For="@(() => PropertyAmenity)" TEnum="PropertyAmenity" TValue="PropertyAmenity?" @bind-SelectedValue="@PropertyAmenity" Style="width: 200px;"
+                         Filter="@((p)=>property.Amenities.All(a => a.Amenity != p.Value))"></FieldSelect>
+            <FieldText For="@(() => PropertyAmenityCustomName)" @bind-Value="@PropertyAmenityCustomName" Class="ms-2" Style="width: 200px;"
+                       Disabled="@(PropertyAmenity != SH.Shared.Models.PropertyAmenity.Custom)"></FieldText>
+            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAmenity"
+                       Disabled="@(!PropertyAmenity.HasValue)">
+                @Button.Add
+            </MudButton>
+        </MudToolBar>
+    </ActionsFragment>
+    <BodyFragment>
+        <RenderControl Actions="ActionsAmenities">
+            @foreach (var item in property.Amenities)
+            {
+                @if (item.Amenity == SH.Shared.Models.PropertyAmenity.Custom)
+                {
+                    <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.CustomName</MudChip>
+                }
+                else
+                {
+                    <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.Amenity.GetName()</MudChip>
+                }
+            }
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Accessibilities">
+    <ActionsFragment>
+        <MudToolBar Gutters="false" WrapContent="true">
+            <FieldSelect For="@(() => PropertyAccessibility)" TEnum="AccessibilityFeature" TValue="AccessibilityFeature?" @bind-SelectedValue="@PropertyAccessibility" Style="width: 250px;"
+                         Filter="@((p)=>property.Accessibilities.All(a => a != p.Value))"></FieldSelect>
+            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAccessibility"
+                       Disabled="@(!PropertyAccessibility.HasValue)">
+                @Button.Add
+            </MudButton>
+        </MudToolBar>
+    </ActionsFragment>
+    <BodyFragment>
+        <RenderControl Actions="ActionsAccessibilities">
+            @foreach (var item in property.Accessibilities)
+            {
+                <MudChip T="string" OnClose="() => RemoveAccessibility(item)" Color="Color.Primary">@item.GetName()</MudChip>
+            }
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+@* <PageSectionComponent Title="Verifications">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
+                    <ItemData For="@(() => property.AddressVerified)" Value="@property.AddressVerified"></ItemData>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent> *@
+
+<PageSectionComponent Title="Requirements">
+    <BodyFragment>
+        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+            <MudGrid Spacing="@Css.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <FieldSwitch For="@(() => property.SocialRequired)" @bind-Value="@property.SocialRequired"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldSwitch For="@(() => property.IdVerificationRequired)" @bind-Value="@property.IdVerificationRequired"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldSwitch For="@(() => property.IncomeVerificationRequired)" @bind-Value="@property.IncomeVerificationRequired" Disabled="true"></FieldSwitch>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <FieldSwitch For="@(() => property.BackgroundCheckRequired)" @bind-Value="@property.BackgroundCheckRequired" Disabled="true"></FieldSwitch>
+                </MudItem>
+            </MudGrid>
+        </MudStack>
+    </BodyFragment>
+</PageSectionComponent>
+
+@* <PageSectionComponent Title="Members (Owner / Manager / Real Estate)">
     <BodyFragment>
         <MudDataGrid Items="@property.Members">
             <Columns>
@@ -64,63 +232,7 @@
             </Columns>
         </MudDataGrid>
     </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="Address">
-    <BodyFragment>
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="10">
-                    <FieldText For="@(() => searchAddress)" @bind-Value="@searchAddress"></FieldText>
-                </MudItem>
-                <MudItem xs="2">
-                    <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Search" Variant="Variant.Filled" OnClick="SearchClick">
-                        Search
-                    </MudIconButton>
-                </MudItem>
-                <MudItem xs="12">
-                    <FieldText For="@(() => property.Address.Label)" @bind-Value="@property.Address.Label" Disabled="true"></FieldText>
-                </MudItem>
-            </MudGrid>
-
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.CountryName)" @bind-Value="@property.Address.CountryName" Disabled="true"></FieldText>
-                </MudItem>
-                <MudItem xs="12" sm="4">
-                    <FieldText For="@(() => property.Address.State)" @bind-Value="@property.Address.State" Disabled="true"></FieldText>
-                </MudItem>
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.City)" @bind-Value="@property.Address.City" Disabled="true"></FieldText>
-                </MudItem>
-            </MudGrid>
-
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.District)" @bind-Value="@property.Address.District" Disabled="true"></FieldText>
-                </MudItem>
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.Street)" @bind-Value="@property.Address.Street" Disabled="true"></FieldText>
-                </MudItem>
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.PostalCode)" @bind-Value="@property.Address.PostalCode"></FieldText>
-                </MudItem>
-            </MudGrid>
-
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.HouseNumber)" @bind-Value="@property.Address.HouseNumber"></FieldText>
-                </MudItem>
-                <MudItem xs="6" sm="4">
-                    <FieldText For="@(() => property.Address.Unit)" @bind-Value="@property.Address.Unit"></FieldText>
-                </MudItem>
-                <MudItem xs="6" sm="4">
-                    <FieldSwitch For="@(() => property.Address.HideExactAddress)" @bind-Value="@property.Address.HideExactAddress"></FieldSwitch>
-                </MudItem>
-            </MudGrid>
-        </MudStack>
-    </BodyFragment>
-</PageSectionComponent>
+</PageSectionComponent> *@
 
 <PageSectionComponent Title="Photos">
     <BodyFragment>
@@ -130,63 +242,6 @@
 
             }
         </RenderControl>
-    </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="Facilities" Description="shared by all tenants of the property or building">
-    <BodyFragment>
-        @foreach (var item in EnumHelper.GetList<PropertyFacility>())
-        {
-            <MudChip T=string>@item.Name</MudChip>
-        }
-    </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="Amenities">
-    <BodyFragment>
-        @foreach (var item in EnumHelper.GetList<PropertyAmenity>())
-        {
-            <MudChip T=string>@item.Name</MudChip>
-        }
-    </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="Accessibilities">
-    <BodyFragment>
-        @foreach (var item in EnumHelper.GetList<AccessibilityFeature>())
-        {
-            <MudChip T=string>@item.Name</MudChip>
-        }
-    </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="Verifications">
-    <BodyFragment>
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <ItemData For="@(() => property.AddressVerified)" Value="@property.AddressVerified"></ItemData>
-                </MudItem>
-            </MudGrid>
-        </MudStack>
-    </BodyFragment>
-</PageSectionComponent>
-
-<PageSectionComponent Title="Requirements">
-    <BodyFragment>
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <FieldSwitch For="@(() => property.IncomeVerificationRequired)" @bind-Value="@property.IncomeVerificationRequired"></FieldSwitch>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <FieldSwitch For="@(() => property.BackgroundCheckRequired)" @bind-Value="@property.BackgroundCheckRequired"></FieldSwitch>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
-                    <FieldSwitch For="@(() => property.SocialRequired)" @bind-Value="@property.SocialRequired"></FieldSwitch>
-                </MudItem>
-            </MudGrid>
-        </MudStack>
     </BodyFragment>
 </PageSectionComponent>
 
@@ -208,10 +263,29 @@
     public ComponentActions<List<PropertyPhoto>> ActionsPhotos { get; set; } = new ComponentActions<List<PropertyPhoto>>(list => list == null || list.Empty());
     public ComponentActions<List<RoomShort>> ActionsRooms { get; set; } = new ComponentActions<List<RoomShort>>(list => list == null || list.Empty());
 
+    public ComponentActions<List<PropertyFacilityModel>> ActionsFacilities { get; set; } = new ComponentActions<List<PropertyFacilityModel>>(list => list == null || list.Empty());
+    public ComponentActions<List<PropertyAmenityModel>> ActionsAmenities { get; set; } = new ComponentActions<List<PropertyAmenityModel>>(list => list == null || list.Empty());
+    public ComponentActions<List<AccessibilityFeature>> ActionsAccessibilities { get; set; } = new ComponentActions<List<AccessibilityFeature>>(list => list == null || list.Empty());
+
     [Custom(Name = "Search Address",
     Placeholder = "Type something to search for, such as an address, building name, etc.",
     Description = "For legal reasons, some regions may limit or deny detailed address searches. Please contact us for support.")]
     private string? searchAddress;
+
+    [Custom(Name = "Facility")]
+    public PropertyFacility? PropertyFacility { get; set; }
+
+    [Custom(Name = "Name")]
+    public string? PropertyFacilityCustomName { get; set; }
+
+    [Custom(Name = "Amenity")]
+    public PropertyAmenity? PropertyAmenity { get; set; }
+
+    [Custom(Name = "Name")]
+    public string? PropertyAmenityCustomName { get; set; }
+
+    [Custom(Name = "Accessibility")]
+    public AccessibilityFeature? PropertyAccessibility { get; set; }
 
     private HereJson? here;
 
@@ -219,6 +293,9 @@
     {
         await ActionsPhotos.FinishLoading.Invoke([]);
         await ActionsRooms.FinishLoading.Invoke([]);
+        await ActionsFacilities.FinishLoading.Invoke([]);
+        await ActionsAmenities.FinishLoading.Invoke([]);
+        await ActionsAccessibilities.FinishLoading.Invoke([]);
 
         property.Members.Add(new PropertyMember { UserId = "John", Role = PropertyUserRole.Owner });
     }
@@ -240,5 +317,58 @@
             PostalCode = first?.postalCode,
             HouseNumber = first?.houseNumber
         };
+
+        property.Languages = DataHelper.GetLanguages(Country.Brazil).ToHashSet();
+    }
+
+    private async Task AddFacility()
+    {
+        if (PropertyFacility.HasValue)
+        {
+            property.Facilities.Add(new PropertyFacilityModel { Facility = PropertyFacility.Value, CustomName = PropertyFacilityCustomName });
+            PropertyFacility = null;
+            PropertyFacilityCustomName = null;
+        }
+
+        await ActionsFacilities.FinishLoading.Invoke(property.Facilities);
+    }
+
+    private async Task RemoveFacility(PropertyFacilityModel item)
+    {
+        property.Facilities.Remove(item);
+        await ActionsFacilities.FinishLoading.Invoke(property.Facilities);
+    }
+
+    private async Task AddAmenity()
+    {
+        if (PropertyAmenity.HasValue)
+        {
+            property.Amenities.Add(new PropertyAmenityModel { Amenity = PropertyAmenity.Value, CustomName = PropertyAmenityCustomName });
+            PropertyAmenity = null;
+            PropertyAmenityCustomName = null;
+        }
+        await ActionsAmenities.FinishLoading.Invoke(property.Amenities);
+    }
+
+    private async Task RemoveAmenity(PropertyAmenityModel item)
+    {
+        property.Amenities.Remove(item);
+        await ActionsAmenities.FinishLoading.Invoke(property.Amenities);
+    }
+
+    private async Task AddAccessibility()
+    {
+        if (PropertyAccessibility.HasValue)
+        {
+            property.Accessibilities.Add(PropertyAccessibility.Value);
+            PropertyAccessibility = null;
+        }
+        await ActionsAccessibilities.FinishLoading.Invoke(property.Accessibilities);
+    }
+
+    private async Task RemoveAccessibility(AccessibilityFeature item)
+    {
+        property.Accessibilities.Remove(item);
+        await ActionsAccessibilities.FinishLoading.Invoke(property.Accessibilities);
     }
 }
