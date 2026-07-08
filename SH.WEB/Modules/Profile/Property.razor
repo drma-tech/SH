@@ -115,7 +115,7 @@
                        Disabled="@(PropertyFacility != SH.Shared.Models.PropertyFacility.Custom)"></FieldText>
             <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddFacility"
                        Disabled="@(!PropertyFacility.HasValue)">
-                @Button.Add
+                @Translations.Button.Add
             </MudButton>
         </MudToolBar>
     </ActionsFragment>
@@ -145,7 +145,7 @@
                        Disabled="@(PropertyAmenity != SH.Shared.Models.PropertyAmenity.Custom)"></FieldText>
             <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAmenity"
                        Disabled="@(!PropertyAmenity.HasValue)">
-                @Button.Add
+                @Translations.Button.Add
             </MudButton>
         </MudToolBar>
     </ActionsFragment>
@@ -173,7 +173,7 @@
                          Filter="@((p)=>property.Accessibilities.All(a => a != p.Value))"></FieldSelect>
             <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAccessibility"
                        Disabled="@(!PropertyAccessibility.HasValue)">
-                @Button.Add
+                @Translations.Button.Add
             </MudButton>
         </MudToolBar>
     </ActionsFragment>

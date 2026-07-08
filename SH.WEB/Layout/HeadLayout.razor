@@ -21,7 +21,7 @@
 <MudAppBar Fixed="true" Elevation="1" Color="Color.Dark">
 
     <MudButton StartIcon="@Icons.Material.Filled.House" Color="@GetColor($"/{Culture}")" Href=@($"/{Culture}") Variant="@GetVariant($"/{Culture}")" Class="@menuClass" Disabled="_blockedActions">
-        @Menu.Home
+        @Translations.Title.Main
     </MudButton>
     <MudButton StartIcon="@Icons.Material.Filled.Person" Color="@GetColor($"/{Culture}/account")" Href=@($"/{Culture}/account") Variant="@GetVariant($"/{Culture}/account")" Class="@menuClass" Disabled="_blockedActions" Target="_self" Rel="nofollow">
         Account
@@ -91,14 +91,14 @@
         <AuthorizeView>
             <Authorized>
                 <MudNavLink Icon="@Icons.Material.Filled.VerifiedUser" OnClick="@MyAccount">
-                    @Modules.Auth.Resources.Translations.MyAccount
+                    @Translations.Module.Auth.MyAccount
                 </MudNavLink>
             </Authorized>
         </AuthorizeView>
         <MudNavLink Icon="@Icons.Material.Filled.Settings" OnClick="@OpenConfigurations">
             Settings
         </MudNavLink>
-        <MudNavLink Icon="@Icons.Material.Filled.HelpCenter" Href=@($"/{Culture}/help")>
+        <MudNavLink Icon="@Icons.Material.Filled.HelpCenter" Href=@($"/{Culture}/help") rel="nofollow">
             Help Center
         </MudNavLink>
 
@@ -107,12 +107,12 @@
         <AuthorizeView>
             <Authorized>
                 <MudNavLink Icon="@Icons.Material.Filled.Logout" OnClick="@Logout" Disabled="_blockedActions">
-                    @Button.Logout
+                    @Translations.Button.Logout
                 </MudNavLink>
             </Authorized>
             <NotAuthorized>
                 <MudNavLink Icon="@Icons.Material.Filled.Login" OnClick="Login" Disabled="_blockedActions" IconColor="Color.Secondary" Style="color: var(--mud-palette-secondary)">
-                    @Button.Login
+                    @Translations.Button.Login
                 </MudNavLink>
             </NotAuthorized>
         </AuthorizeView>
@@ -125,7 +125,7 @@
 
 <MudDrawer @bind-Open="@_openApps" Anchor="Anchor.Right" Elevation="1" Variant="@DrawerVariant.Temporary" OverlayAutoClose="true" Width="275px">
     <MudDrawerHeader>
-        <MudText Typo="Typo.h6" Color="Color.Primary"> @GlobalTranslations.MorefromDRMATech</MudText>
+        <MudText Typo="Typo.h6" Color="Color.Primary"> @Translations.Module.Help.MorefromDRMATech</MudText>
     </MudDrawerHeader>
     @foreach (var product in AppInfo.Products)
     {

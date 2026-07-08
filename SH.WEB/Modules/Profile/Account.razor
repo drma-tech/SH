@@ -5,7 +5,7 @@
 <PageSectionComponent Title="Host Ads" Subtitle="Create and manage ads for rooms you want to rent out.">
     <ActionsFragment>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/account/ads/host"))">
-            @Button.Add
+            @Translations.Button.Add
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
@@ -43,7 +43,7 @@
 <PageSectionComponent Title="Guest Ads" Subtitle="Create and manage ads to find a room that matches your needs.">
     <ActionsFragment>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo("/{culture}/account/ads/guest"))">
-            @Button.Add
+            @Translations.Button.Add
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
