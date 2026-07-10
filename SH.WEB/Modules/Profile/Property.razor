@@ -240,9 +240,10 @@
     <BodyFragment>
         <RenderControl Actions="ActionsPhotos">
             <Slider List="context" Context="item">
-                <div style="@($"height: {(IsMobile ? "150" : "200")}px; width: 100%;")">
-                    <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto" Style="height: 90%;"></MudImage>
-                    <div>
+                <div style="@($"height: {(IsMobile ? "150" : "200")}px;")">
+                    <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                              ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                    <div class="carousel-caption">
                         <MudText Typo="Typo.caption" Inline="false">
                             @item.Caption.Truncate(40)
                         </MudText>

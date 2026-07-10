@@ -77,14 +77,11 @@
         [Custom(Name = "Available")]
         Available = 1,
 
-        [Custom(Name = "Partially Occupied")]
-        PartiallyOccupied = 2,
-
         [Custom(Name = "Occupied")]
-        Occupied = 3,
+        Occupied = 2,
 
         [Custom(Name = "Unavailable")]
-        Unavailable = 4
+        Unavailable = 3
     }
 
     public enum AccessibilityFeature

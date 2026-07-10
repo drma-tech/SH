@@ -276,33 +276,32 @@
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
-                    <FieldGroup For="@(() => room.AvailabilityMode)" TEnum="AvailabilityMode" @bind-SelectedValue="room.AvailabilityMode"></FieldGroup>
-                    <MudText Typo="Typo.caption" Color="Color.Default">
-                        Whether or not room availability (status) is managed automatically by the platform (taking occupancy into account).
-                    </MudText>
+                    <FieldGroup For="@(() => room.AvailabilityMode)" TEnum="AvailabilityMode" @bind-SelectedValue="room.AvailabilityMode"
+                                CustomInfo="Whether or not room availability (status) is managed automatically by the platform (taking occupancy into account)."></FieldGroup>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldGroup For="@(() => room.Status)" TEnum="RoomStatus" @bind-SelectedValue="room.Status"></FieldGroup>
+                    <FieldGroup For="@(() => room.Status)" TEnum="RoomStatus" @bind-SelectedValue="room.Status"
+                                CustomInfo="Determines whether the room will be listed and available, blocked, or unavailable."></FieldGroup>
                 </MudItem>
             </MudGrid>
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="6" sm="3">
                     <FieldNumber T="int" For="@(() => room.Capacity)" @bind-Value="@room.Capacity" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
                     <MudText Typo="Typo.caption" Color="Color.Default">
-                        Available for shared use only
+                        Available only for shared rooms
                     </MudText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
                     <FieldNumber T="int?" For="@(() => room.CurrentOccupancy)" @bind-Value="@room.CurrentOccupancy" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
                     <MudText Typo="Typo.caption" Color="Color.Default">
-                        Available for shared use only
+                        Available only for shared rooms
                     </MudText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <MudText>
-                        Available From
+                    <MudDatePicker Label="Available From" Date="@room.AvailableFrom" MinDate="DateTime.UtcNow"></MudDatePicker>
+                    <MudText Typo="Typo.caption" Color="Color.Default">
+                        Indicates when the room will become available. The status will change to "available" on that date.
                     </MudText>
-                    <MudDatePicker Date="@room.AvailableFrom" MinDate="DateTime.UtcNow"></MudDatePicker>
                 </MudItem>
             </MudGrid>
         </MudStack>

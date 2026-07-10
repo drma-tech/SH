@@ -320,7 +320,7 @@
         [Custom(Name = "Current Occupancy")]
         public int? CurrentOccupancy { get; set; }
 
-        [Custom(Name = "Status")]
+        [Custom(Name = "Availability Status")]
         public RoomStatus Status { get; set; } = RoomStatus.Available;
 
         [Custom(Name = "Availability Mode")]

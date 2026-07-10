@@ -41,7 +41,7 @@
     }
     @if (!string.IsNullOrEmpty(CustomInfo))
     {
-        <MudText Typo="Typo.caption" Color="Color.Info" Style="@(CssIcon.NotEmpty() ? "margin-left: calc(1.5rem + 14px)" : "")">
+        <MudText Typo="Typo.caption" Color="Color.Default" Style="@(CssIcon.NotEmpty() ? "margin-left: calc(1.5rem + 14px)" : "")">
             @CustomInfo
         </MudText>
     }
