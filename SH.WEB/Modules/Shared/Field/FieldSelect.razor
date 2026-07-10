@@ -4,16 +4,16 @@
 
 @if (Visible)
 {
-    <div class="d-flex" style="align-items: center; @Style">
+    <div class="d-flex @Class" style="align-items: center; @Style">
         @if (CssIcon.NotEmpty())
         {
             <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
         }
         @if (Multiple)
-        {
+        {           
             <MudSelect SelectedValues="@SelectedValues" AdornmentColor="Color.Primary"
                        SelectedValuesChanged="async (IReadOnlyCollection<TEnum> values) => { SelectedValues = values.ToHashSet(); await SelectedValuesChanged.InvokeAsync(values.ToHashSet()); }"
-                       Disabled="@Disabled" Required="@Required" FullWidth="true" MultiSelection="true" Clearable="true"
+                       Disabled="@Disabled" Required="@Required" FullWidth="true" MultiSelection="true" Clearable="@IsClearable"
                        Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder"
                        MultiSelectionTextFunc="@(new Func<IReadOnlyList<string>, string>(GetMultiSelectionText))">
                 @if (ShowGroup)
@@ -56,7 +56,7 @@
         else
         {
             <MudSelect Value="@SelectedValue" ValueChanged="SelectedValueChanged" Disabled="@Disabled" Required="@Required" FullWidth="true" AdornmentColor="Color.Primary"
-                       Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder" Clearable="true">
+                       Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder" Clearable="@IsClearable">
                 @if (ShowGroup)
                 {
                     @foreach (var group in EnumList.Where(Filter).Select(s => s.Group).Order().Distinct())

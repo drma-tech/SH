@@ -2,7 +2,7 @@
 
 namespace SH.WEB.Modules.Shared.Field;
 
-public partial class FieldGroup<TValue, TEnum> : FormBase<TValue>
+public partial class FieldGroup<TEnum> : FormBase<TEnum>
     where TEnum : struct, Enum, IConvertible
 {
     [Parameter] public string? CssIcon { get; set; }
@@ -12,16 +12,19 @@ public partial class FieldGroup<TValue, TEnum> : FormBase<TValue>
     [Parameter] public string? CustomWarning { get; set; }
     [Parameter] public bool Visible { get; set; } = true;
 
-    [Parameter] public TValue SelectedValue { get; set; } = default!;
-    [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
+    [Parameter] public TEnum SelectedValue { get; set; } = default!;
+    [Parameter] public EventCallback<TEnum> SelectedValueChanged { get; set; }
 
-    [Parameter] public Func<EnumObject<TEnum>, object> Order { get; set; } = o => o.Value;
-    [Parameter] public Func<EnumObject<TEnum>, bool> Filter { get; set; } = o => true;
+    [Parameter] public IEnumerable<TEnum>? SelectedValues { get; set; } = default!;
+    [Parameter] public EventCallback<IEnumerable<TEnum>?> SelectedValuesChanged { get; set; }
 
-    public List<EnumObject<TEnum>> EnumList { get; set; } = [];
+    [Parameter] public Func<TEnum, object> Order { get; set; } = o => o;
+    [Parameter] public Func<TEnum, bool> Filter { get; set; } = o => true;
+
+    public List<TEnum> EnumList { get; set; } = [];
 
     protected override void OnInitialized()
     {
-        EnumList = EnumHelper.GetList<TEnum>();
+        EnumList = [.. EnumHelper.GetArray<TEnum>()];
     }
 }

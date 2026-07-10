@@ -232,6 +232,15 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select your photo.
+        /// </summary>
+        internal static string SelectPhoto {
+            get {
+                return ResourceManager.GetString("SelectPhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Share.
         /// </summary>
         internal static string Share {

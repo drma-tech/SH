@@ -1,25 +1,22 @@
-﻿@page "/{culture}/account/ads/host"
+﻿@page "/{culture}/property/new/{propertyId}"
+@page "/{culture}/property/edit/{propertyId}"
 
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
+@using SH.Shared.Requests
 @inherits PageCore<Property>
 
 @inject PrincipalApi PrincipalApi
 @inject MapApi MapApi
 
-<HeadComponent Title="Property" Url=@($"/{Culture}/account/ads/host") Index="false"></HeadComponent>
+<HeadComponent Title="Property" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
 
 <PageSectionComponent Title="Address">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs" Row="true">
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
-                    <MudToolBar Gutters="false" WrapContent="true">
-                        <FieldText For="@(() => searchAddress)" @bind-Value="@searchAddress"></FieldText>
-                        <MudIconButton Color="Color.Primary" Icon="@Icons.Material.Filled.Search" OnClick="SearchClick" Class="ms-2">
-                            Search
-                        </MudIconButton>
-                    </MudToolBar>
+                    <FieldText For="@(() => searchAddress)" @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search"></FieldText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <FieldText For="@(() => property.Address.Label)" @bind-Value="@property.Address.Label" Disabled="true"></FieldText>
@@ -64,10 +61,10 @@
                     <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
                         <MudGrid Spacing="@Css.SpaceSmall">
                             <MudItem xs="12">
-                                <FieldGroup For="@(() => property.Structure)" TEnum="PropertyStructure" TValue="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
+                                <FieldGroup For="@(() => property.Structure)" TEnum="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
                             </MudItem>
                             <MudItem xs="12">
-                                <FieldGroup For="@(() => property.LivingArrangement)" TEnum="LivingArrangement" TValue="LivingArrangement" @bind-SelectedValue="property.LivingArrangement"></FieldGroup>
+                                <FieldGroup For="@(() => property.LivingArrangement)" TEnum="LivingArrangement" @bind-SelectedValue="property.LivingArrangement"></FieldGroup>
                             </MudItem>
                             <MudItem xs="12">
                                 <FieldText For="@(() => property.Title)" @bind-Value="@property.Title"></FieldText>
@@ -199,7 +196,7 @@
     </BodyFragment>
 </PageSectionComponent> *@
 
-<PageSectionComponent Title="Requirements">
+<PageSectionComponent Title="Requirements" Description="Select according to your needs, bearing in mind that numerous requirements may reduce the pool of potential candidates.">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
             <MudGrid Spacing="@Css.SpaceSmall">
@@ -235,17 +232,33 @@
 </PageSectionComponent> *@
 
 <PageSectionComponent Title="Photos">
+    <ActionsFragment>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
+            @Translations.Button.Add
+        </MudButton>
+    </ActionsFragment>
     <BodyFragment>
         <RenderControl Actions="ActionsPhotos">
-            @foreach (var item in context)
-            {
-
-            }
+            <Slider List="context" Context="item">
+                <div style="@($"height: {(IsMobile ? "150" : "200")}px; width: 100%;")">
+                    <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto" Style="height: 90%;"></MudImage>
+                    <div>
+                        <MudText Typo="Typo.caption" Inline="false">
+                            @item.Caption.Truncate(40)
+                        </MudText>
+                    </div>
+                </div>
+            </Slider>
         </RenderControl>
     </BodyFragment>
 </PageSectionComponent>
 
 <PageSectionComponent Title="Rooms">
+    <ActionsFragment>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/room/new/{propertyId}/{Guid.NewGuid()}"))">
+            @Translations.Button.Add
+        </MudButton>
+    </ActionsFragment>
     <BodyFragment>
         <RenderControl Actions="ActionsRooms">
             @foreach (var item in context)
@@ -258,7 +271,10 @@
 
 @code
 {
+    [Parameter] public string? propertyId { get; set; }
+
     private PropertyModel property = new();
+    private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
 
     public ComponentActions<List<PropertyPhoto>> ActionsPhotos { get; set; } = new ComponentActions<List<PropertyPhoto>>(list => list == null || list.Empty());
     public ComponentActions<List<RoomShort>> ActionsRooms { get; set; } = new ComponentActions<List<RoomShort>>(list => list == null || list.Empty());
@@ -370,5 +386,27 @@
     {
         property.Accessibilities.Remove(item);
         await ActionsAccessibilities.FinishLoading.Invoke(property.Accessibilities);
+    }
+
+    private async Task SelectPicture()
+    {
+        await DialogService.SelectPicturePopup(new EventCallbackFactory().Create(this, async ((byte[], string?) result) => await PictureChanged(result.Item1, result.Item2)));
+    }
+
+    private async Task PictureChanged(byte[] buffer, string? caption)
+    {
+        try
+        {
+            var request = new PhotoRequest { Buffer = buffer };
+
+            // _profile = await StorageApi.UploadPhoto(request, cts.Token);
+            property.Photos.Add(new PropertyPhoto { UrlPath = $"data:image/webp;base64,{buffer.ConvertFromBytesToBase64()}", Caption = caption });
+
+            await ActionsPhotos.FinishLoading.Invoke(property.Photos);
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
     }
 }

@@ -270,7 +270,7 @@ export const environment = {
 
             document.head.appendChild(script);
 
-            setTimeout(() => finish(false), 10000);
+            setTimeout(() => finish(false), 15000);
         });
     },
     async isAdBlocked() {
@@ -388,6 +388,57 @@ export const interop = {
         }
 
         return false;
+    },
+    async resizeImage(streamRef, maxDimension) {
+        const blob = await streamRef.arrayBuffer();
+        const fileBlob = new Blob([blob]);
+
+        return new Promise((resolve, reject) => {
+           
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const img = new Image();
+
+                img.onload = function () {
+                    const minWidth = 500;
+                    const minHeight = 500;
+
+                    if (img.width < minWidth || img.height < minHeight) {
+                        notification.showError(`The image is too small (${img.width}x${img.height} pixels). Minimum size required is ${minWidth}x${minHeight} pixels.`);
+                        return;
+                    }
+
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > maxDimension || height > maxDimension) {
+                        const scale = maxDimension / Math.max(width, height);
+
+                        width = Math.round(width * scale);
+                        height = Math.round(height * scale);
+                    }
+
+                    const canvas = document.createElement("canvas");
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob(async blob => {
+                        const buffer = await blob.arrayBuffer();
+                        resolve(new Uint8Array(buffer));
+                    }, "image/webp", 0.85);
+                };
+
+                img.onerror = reject;
+                img.src = event.target.result;
+            };
+
+            reader.onerror = reject;
+            reader.readAsDataURL(fileBlob);
+        });
     }
 };
 

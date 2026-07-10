@@ -4,7 +4,7 @@
 
 <PageSectionComponent Title="Host Ads" Subtitle="Create and manage ads for rooms you want to rent out.">
     <ActionsFragment>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/account/ads/host"))">
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/property/new/{Guid.NewGuid()}"))">
             @Translations.Button.Add
         </MudButton>
     </ActionsFragment>

@@ -2,6 +2,7 @@
 using MudBlazor;
 using SH.WEB.Modules.Auth;
 using SH.WEB.Modules.Help;
+using SH.WEB.Modules.Profile.Components;
 using SH.WEB.Modules.Subscription.Components;
 using SH.WEB.Shared;
 
@@ -10,6 +11,16 @@ namespace SH.WEB.Core.Helper;
 public static class PopupHelper
 {
     public static readonly EventCallbackFactory Factory = new();
+
+    public static async Task SelectPicturePopup(this IDialogService service, EventCallback<(byte[], string?)> pictureChanged)
+    {
+        var parameters = new DialogParameters<SelectPicturePopup>
+        {
+            { x => x.PictureChanged, pictureChanged }
+        };
+
+        await service.ShowAsync<SelectPicturePopup>("Picture", parameters, Options(MaxWidth.Medium));
+    }
 
     public static async Task AccountPopup(this IDialogService service)
     {

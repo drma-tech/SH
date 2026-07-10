@@ -5,7 +5,6 @@ namespace SH.WEB.Modules.Shared.Field;
 public partial class FieldSelect<TValue, TEnum> : FormBase<TValue>
     where TEnum : struct, Enum, IConvertible
 {
-    [Parameter] public string? Style { get; set; }
     [Parameter] public string? CssIcon { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public bool Multiple { get; set; }
@@ -35,6 +34,8 @@ public partial class FieldSelect<TValue, TEnum> : FormBase<TValue>
     [Parameter] public Func<EnumObject<TEnum>, bool> Filter { get; set; } = o => true;
 
     public List<EnumObject<TEnum>> EnumList { get; set; } = [];
+
+    protected static bool IsClearable => Nullable.GetUnderlyingType(typeof(TValue)) != null;
 
     protected override void OnInitialized()
     {

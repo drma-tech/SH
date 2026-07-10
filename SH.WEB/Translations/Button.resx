@@ -174,6 +174,9 @@
   <data name="RemoveWishlist" xml:space="preserve">
     <value>Remove from wishlist</value>
   </data>
+  <data name="SelectPhoto" xml:space="preserve">
+    <value>Select your photo</value>
+  </data>
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
