@@ -94,7 +94,7 @@
     private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
     private ProfileModel profile = new();
 
-    protected override async Task ProcessPageData()
+    protected override async Task LoadStaticDataAsync()
     {
         await ActionsHost.FinishLoading.Invoke([]);
         await ActionsGuest.FinishLoading.Invoke([]);

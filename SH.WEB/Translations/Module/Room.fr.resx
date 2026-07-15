@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccessType" xml:space="preserve">
+    <value>Type d'accès</value>
+  </data>
+  <data name="Alcohol" xml:space="preserve">
+    <value>Alcool</value>
+  </data>
+  <data name="Amenities" xml:space="preserve">
+    <value>Équipements</value>
+  </data>
+  <data name="AmenitiesDescription" xml:space="preserve">
+    <value>Fonctionnalités et services supplémentaires pour le confort et la commodité.</value>
+  </data>
+  <data name="Amenity" xml:space="preserve">
+    <value>Aménité</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Montant</value>
+  </data>
+  <data name="AvailabilityMode" xml:space="preserve">
+    <value>Mode Disponibilité</value>
+  </data>
+  <data name="AvailabilityStatus" xml:space="preserve">
+    <value>Statut de disponibilité</value>
+  </data>
+  <data name="AvailableFrom" xml:space="preserve">
+    <value>Disponible à partir de</value>
+  </data>
+  <data name="BasicData" xml:space="preserve">
+    <value>Données de base</value>
+  </data>
+  <data name="Capacity" xml:space="preserve">
+    <value>Capacité</value>
+  </data>
+  <data name="Children" xml:space="preserve">
+    <value>Enfants</value>
+  </data>
+  <data name="Costs" xml:space="preserve">
+    <value>Frais</value>
+  </data>
+  <data name="Couples" xml:space="preserve">
+    <value>Couples</value>
+  </data>
+  <data name="Currency" xml:space="preserve">
+    <value>Devise</value>
+  </data>
+  <data name="CurrentOccupancy" xml:space="preserve">
+    <value>Occupation actuelle</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Détails sur la pièce, le mobilier et les conditions de vie</value>
+  </data>
+  <data name="Facilities" xml:space="preserve">
+    <value>Installations</value>
+  </data>
+  <data name="FacilitiesDescription" xml:space="preserve">
+    <value>Espaces et zones physiques (privés ou partagés entre les résidents)</value>
+  </data>
+  <data name="Facility" xml:space="preserve">
+    <value>Facilité</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Fréquence</value>
+  </data>
+  <data name="Interval" xml:space="preserve">
+    <value>Intervalle</value>
+  </data>
+  <data name="LeaveBlank" xml:space="preserve">
+    <value>Laissez vide si vous n'avez pas de préférences</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Gestion</value>
+  </data>
+  <data name="MaximumAge" xml:space="preserve">
+    <value>Âge maximum</value>
+  </data>
+  <data name="MinimumAge" xml:space="preserve">
+    <value>Âge minimum</value>
+  </data>
+  <data name="MinimumStay" xml:space="preserve">
+    <value>Séjour minimum</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Period" xml:space="preserve">
+    <value>Période</value>
+  </data>
+  <data name="Pets" xml:space="preserve">
+    <value>Animaux de compagnie</value>
+  </data>
+  <data name="Photos" xml:space="preserve">
+    <value>Photos</value>
+  </data>
+  <data name="Preferences" xml:space="preserve">
+    <value>Préférences</value>
+  </data>
+  <data name="PreferredGenders" xml:space="preserve">
+    <value>Sexes préférés</value>
+  </data>
+  <data name="PreferredOccupations" xml:space="preserve">
+    <value>Professions préférées</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Prix</value>
+  </data>
+  <data name="RentalTerms" xml:space="preserve">
+    <value>Conditions de location</value>
+  </data>
+  <data name="Service" xml:space="preserve">
+    <value>Service</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="ServicesDescription" xml:space="preserve">
+    <value>Services disponibles (inclus dans le loyer ou payés séparément)</value>
+  </data>
+  <data name="SizeSqm" xml:space="preserve">
+    <value>Taille (m²)</value>
+  </data>
+  <data name="Smoking" xml:space="preserve">
+    <value>Fumeur</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titre</value>
+  </data>
+  <data name="TitlePlaceholder" xml:space="preserve">
+    <value>Nom ou type de pièce (par exemple, chambre principale, chambre simple, chambre avec salle de bains attenante)</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Taper</value>
+  </data>
+  <data name="Visits" xml:space="preserve">
+    <value>Visites</value>
+  </data>
+</root>

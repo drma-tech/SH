@@ -2,16 +2,16 @@
 {
     public enum HomeSchedule
     {
-        [Custom(Name = "Day")]
+        [FieldSettings("Day")]
         Day = 1,
 
-        [Custom(Name = "Night")]
+        [FieldSettings("Night")]
         Night = 2,
 
-        [Custom(Name = "Mostly Home")]
+        [FieldSettings("Mostly Home")]
         MostlyHome = 3,
 
-        [Custom(Name = "Variable")]
+        [FieldSettings("Variable")]
         Variable = 4
     }
 
@@ -23,79 +23,79 @@
 
         //Basic Data
 
-        [Custom(Name = "First Name")]
+        [FieldSettings("First Name")]
         public string? FirstName { get; set; }
 
-        [Custom(Name = "Last Name")]
+        [FieldSettings("Last Name")]
         public string? LastName { get; set; }
 
-        [Custom(Name = "Nationality")]
+        [FieldSettings("Nationality")]
         public Country? Nationality { get; set; }
 
-        [Custom(Name = "Age")]
+        [FieldSettings("Age")]
         public int? Age { get; set; }
 
-        [Custom(Name = "Gender")]
+        [FieldSettings("Gender")]
         public Gender? Gender { get; set; }
 
-        [Custom(Name = "Occupation")]
+        [FieldSettings("Occupation")]
         public Occupation? Occupation { get; set; }
 
-        [Custom(Name = "When are you usually at home?")]
+        [FieldSettings("When are you usually at home?")]
         public HomeSchedule? HomeSchedule { get; set; }
 
-        [Custom(Name = "Languages spoken")]
+        [FieldSettings("Languages spoken")]
         public HashSet<Language> Languages { get; set; } = [];
 
-        [Custom(Name = "About Me")]
+        [FieldSettings("About Me")]
         public string? AboutMe { get; set; }
 
-        [Custom(Name = "Profile Picture")]
+        [FieldSettings("Profile Picture")]
         public string? ProfilePicture { get; set; }
 
         //Household Profile
 
-        [Custom(Name = "Smokes")]
+        [FieldSettings("Smokes")]
         public bool Smokes { get; set; }
 
-        [Custom(Name = "Drinks Alcohol")]
+        [FieldSettings("Drinks Alcohol")]
         public bool DrinksAlcohol { get; set; }
 
-        [Custom(Name = "Lives with pets")]
+        [FieldSettings("Lives with pets")]
         public bool LivesWithPets { get; set; }
 
-        [Custom(Name = "Lives with children")]
+        [FieldSettings("Lives with children")]
         public bool LivesWithChildren { get; set; }
 
-        [Custom(Name = "Lives As Couple")]
+        [FieldSettings("Lives As Couple")]
         public bool LivesAsCouple { get; set; }
 
-        [Custom(Name = "Hosts Visitors")]
+        [FieldSettings("Hosts Visitors")]
         public bool HostsVisitors { get; set; }
 
         //Social Media
 
-        [Custom(Name = "Instagram")]
+        [FieldSettings("Instagram")]
         public string? Instagram { get; set; }
 
-        [Custom(Name = "LinkedIn")]
+        [FieldSettings("LinkedIn")]
         public string? LinkedIn { get; set; }
 
-        [Custom(Name = "Facebook")]
+        [FieldSettings("Facebook")]
         public string? Facebook { get; set; }
 
-        [Custom(Name = "Other Social Media")]
+        [FieldSettings("Other Social Media")]
         public string? OtherSocialMedia { get; set; }
 
         //Verifications
 
-        [Custom(Name = "Id Verified")]
+        [FieldSettings("Id Verified")]
         public bool IdVerified { get; set; }
 
-        [Custom(Name = "Email Verified")]
+        [FieldSettings("Email Verified")]
         public bool EmailVerified { get; set; }
 
-        [Custom(Name = "Phone Verified")]
+        [FieldSettings("Phone Verified")]
         public bool PhoneVerified { get; set; }
     }
 }

@@ -5,753 +5,753 @@
 /// </summary>
 public enum Country
 {
-    [Custom(Group = "Asia", Name = "Afghanistan", Tips = "AF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Afghanistan", Group = "Asia", Tips = "AF", ResourceType = typeof(Translations.Enum.Country))]
     Afghanistan = 4,
 
-    [Custom(Group = "Europe", Name = "AlandIslands", Tips = "AX", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("AlandIslands", Group = "Europe", Tips = "AX", ResourceType = typeof(Translations.Enum.Country))]
     AlandIslands = 248,
 
-    [Custom(Group = "Europe", Name = "Albania", Tips = "AL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Albania", Group = "Europe", Tips = "AL", ResourceType = typeof(Translations.Enum.Country))]
     Albania = 8,
 
-    [Custom(Group = "Africa", Name = "Algeria", Tips = "DZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Algeria", Group = "Africa", Tips = "DZ", ResourceType = typeof(Translations.Enum.Country))]
     Algeria = 12,
 
-    [Custom(Group = "Oceania", Name = "AmericanSamoa", Tips = "AS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("AmericanSamoa", Group = "Oceania", Tips = "AS", ResourceType = typeof(Translations.Enum.Country))]
     AmericanSamoa = 16,
 
-    [Custom(Group = "Europe", Name = "Andorra", Tips = "AD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Andorra", Group = "Europe", Tips = "AD", ResourceType = typeof(Translations.Enum.Country))]
     Andorra = 20,
 
-    [Custom(Group = "Africa", Name = "Angola", Tips = "AO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Angola", Group = "Africa", Tips = "AO", ResourceType = typeof(Translations.Enum.Country))]
     Angola = 24,
 
-    [Custom(Group = "Americas", Name = "Anguilla", Tips = "AI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Anguilla", Group = "Americas", Tips = "AI", ResourceType = typeof(Translations.Enum.Country))]
     Anguilla = 660,
 
-    [Custom(Group = "Americas", Name = "AntiguaAndBarbuda", Tips = "AG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("AntiguaAndBarbuda", Group = "Americas", Tips = "AG", ResourceType = typeof(Translations.Enum.Country))]
     AntiguaAndBarbuda = 28,
 
-    [Custom(Group = "Americas", Name = "Argentina", Tips = "AR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Argentina", Group = "Americas", Tips = "AR", ResourceType = typeof(Translations.Enum.Country))]
     Argentina = 32,
 
-    [Custom(Group = "Asia", Name = "Armenia", Tips = "AM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Armenia", Group = "Asia", Tips = "AM", ResourceType = typeof(Translations.Enum.Country))]
     Armenia = 51,
 
-    [Custom(Group = "Americas", Name = "Aruba", Tips = "AW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Aruba", Group = "Americas", Tips = "AW", ResourceType = typeof(Translations.Enum.Country))]
     Aruba = 533,
 
-    [Custom(Group = "Oceania", Name = "Australia", Tips = "AU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Australia", Group = "Oceania", Tips = "AU", ResourceType = typeof(Translations.Enum.Country))]
     Australia = 36,
 
-    [Custom(Group = "Europe", Name = "Austria", Tips = "AT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Austria", Group = "Europe", Tips = "AT", ResourceType = typeof(Translations.Enum.Country))]
     Austria = 40,
 
-    [Custom(Group = "Asia", Name = "Azerbaijan", Tips = "AZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Azerbaijan", Group = "Asia", Tips = "AZ", ResourceType = typeof(Translations.Enum.Country))]
     Azerbaijan = 31,
 
-    [Custom(Group = "Americas", Name = "Bahamas", Tips = "BS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bahamas", Group = "Americas", Tips = "BS", ResourceType = typeof(Translations.Enum.Country))]
     Bahamas = 44,
 
-    [Custom(Group = "Asia", Name = "Bahrain", Tips = "BH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bahrain", Group = "Asia", Tips = "BH", ResourceType = typeof(Translations.Enum.Country))]
     Bahrain = 48,
 
-    [Custom(Group = "Asia", Name = "Bangladesh", Tips = "BD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bangladesh", Group = "Asia", Tips = "BD", ResourceType = typeof(Translations.Enum.Country))]
     Bangladesh = 50,
 
-    [Custom(Group = "Americas", Name = "Barbados", Tips = "BB", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Barbados", Group = "Americas", Tips = "BB", ResourceType = typeof(Translations.Enum.Country))]
     Barbados = 52,
 
-    [Custom(Group = "Europe", Name = "Belarus", Tips = "BY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Belarus", Group = "Europe", Tips = "BY", ResourceType = typeof(Translations.Enum.Country))]
     Belarus = 112,
 
-    [Custom(Group = "Europe", Name = "Belgium", Tips = "BE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Belgium", Group = "Europe", Tips = "BE", ResourceType = typeof(Translations.Enum.Country))]
     Belgium = 56,
 
-    [Custom(Group = "Americas", Name = "Belize", Tips = "BZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Belize", Group = "Americas", Tips = "BZ", ResourceType = typeof(Translations.Enum.Country))]
     Belize = 84,
 
-    [Custom(Group = "Africa", Name = "Benin", Tips = "BJ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Benin", Group = "Africa", Tips = "BJ", ResourceType = typeof(Translations.Enum.Country))]
     Benin = 204,
 
-    [Custom(Group = "Americas", Name = "Bermuda", Tips = "BM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bermuda", Group = "Americas", Tips = "BM", ResourceType = typeof(Translations.Enum.Country))]
     Bermuda = 60,
 
-    [Custom(Group = "Asia", Name = "Bhutan", Tips = "BT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bhutan", Group = "Asia", Tips = "BT", ResourceType = typeof(Translations.Enum.Country))]
     Bhutan = 64,
 
-    [Custom(Group = "Americas", Name = "Bolivia", Tips = "BO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bolivia", Group = "Americas", Tips = "BO", ResourceType = typeof(Translations.Enum.Country))]
     Bolivia = 68,
 
-    [Custom(Group = "Americas", Name = "CaribbeanNetherlands", Tips = "BQ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CaribbeanNetherlands", Group = "Americas", Tips = "BQ", ResourceType = typeof(Translations.Enum.Country))]
     CaribbeanNetherlands = 535,
 
-    [Custom(Group = "Europe", Name = "BosniaAndHerzegovina", Tips = "BA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("BosniaAndHerzegovina", Group = "Europe", Tips = "BA", ResourceType = typeof(Translations.Enum.Country))]
     BosniaAndHerzegovina = 70,
 
-    [Custom(Group = "Africa", Name = "Botswana", Tips = "BW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Botswana", Group = "Africa", Tips = "BW", ResourceType = typeof(Translations.Enum.Country))]
     Botswana = 72,
 
-    [Custom(Group = "Americas", Name = "BouvetIsland", Tips = "BV", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("BouvetIsland", Group = "Americas", Tips = "BV", ResourceType = typeof(Translations.Enum.Country))]
     BouvetIsland = 74,
 
-    [Custom(Group = "Americas", Name = "Brazil", Tips = "BR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Brazil", Group = "Americas", Tips = "BR", ResourceType = typeof(Translations.Enum.Country))]
     Brazil = 76,
 
-    [Custom(Group = "Africa", Name = "BritishIndianOceanTerritory", Tips = "IO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("BritishIndianOceanTerritory", Group = "Africa", Tips = "IO", ResourceType = typeof(Translations.Enum.Country))]
     BritishIndianOceanTerritory = 86,
 
-    [Custom(Group = "Americas", Name = "BritishVirginIslands", Tips = "VG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("BritishVirginIslands", Group = "Americas", Tips = "VG", ResourceType = typeof(Translations.Enum.Country))]
     BritishVirginIslands = 92,
 
-    [Custom(Group = "Asia", Name = "Brunei", Tips = "BN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Brunei", Group = "Asia", Tips = "BN", ResourceType = typeof(Translations.Enum.Country))]
     Brunei = 96,
 
-    [Custom(Group = "Europe", Name = "Bulgaria", Tips = "BG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Bulgaria", Group = "Europe", Tips = "BG", ResourceType = typeof(Translations.Enum.Country))]
     Bulgaria = 100,
 
-    [Custom(Group = "Africa", Name = "BurkinaFaso", Tips = "BF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("BurkinaFaso", Group = "Africa", Tips = "BF", ResourceType = typeof(Translations.Enum.Country))]
     BurkinaFaso = 854,
 
-    [Custom(Group = "Africa", Name = "Burundi", Tips = "BI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Burundi", Group = "Africa", Tips = "BI", ResourceType = typeof(Translations.Enum.Country))]
     Burundi = 108,
 
-    [Custom(Group = "Asia", Name = "Cambodia", Tips = "KH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Cambodia", Group = "Asia", Tips = "KH", ResourceType = typeof(Translations.Enum.Country))]
     Cambodia = 116,
 
-    [Custom(Group = "Africa", Name = "Cameroon", Tips = "CM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Cameroon", Group = "Africa", Tips = "CM", ResourceType = typeof(Translations.Enum.Country))]
     Cameroon = 120,
 
-    [Custom(Group = "Americas", Name = "Canada", Tips = "CA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Canada", Group = "Americas", Tips = "CA", ResourceType = typeof(Translations.Enum.Country))]
     Canada = 124,
 
-    [Custom(Group = "Africa", Name = "CapeVerde", Tips = "CV", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CapeVerde", Group = "Africa", Tips = "CV", ResourceType = typeof(Translations.Enum.Country))]
     CapeVerde = 132,
 
-    [Custom(Group = "Americas", Name = "CaymanIslands", Tips = "KY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CaymanIslands", Group = "Americas", Tips = "KY", ResourceType = typeof(Translations.Enum.Country))]
     CaymanIslands = 136,
 
-    [Custom(Group = "Africa", Name = "CentralAfricanRepublic", Tips = "CF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CentralAfricanRepublic", Group = "Africa", Tips = "CF", ResourceType = typeof(Translations.Enum.Country))]
     CentralAfricanRepublic = 140,
 
-    [Custom(Group = "Africa", Name = "Chad", Tips = "TD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Chad", Group = "Africa", Tips = "TD", ResourceType = typeof(Translations.Enum.Country))]
     Chad = 148,
 
-    [Custom(Group = "Americas", Name = "Chile", Tips = "CL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Chile", Group = "Americas", Tips = "CL", ResourceType = typeof(Translations.Enum.Country))]
     Chile = 152,
 
-    [Custom(Group = "Asia", Name = "China", Tips = "CN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("China", Group = "Asia", Tips = "CN", ResourceType = typeof(Translations.Enum.Country))]
     China = 156,
 
-    [Custom(Group = "Asia", Name = "HongKong", Tips = "HK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("HongKong", Group = "Asia", Tips = "HK", ResourceType = typeof(Translations.Enum.Country))]
     HongKong = 344,
 
-    [Custom(Group = "Asia", Name = "Macao", Tips = "MO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Macao", Group = "Asia", Tips = "MO", ResourceType = typeof(Translations.Enum.Country))]
     Macao = 446,
 
-    [Custom(Group = "Oceania", Name = "ChristmasIsland", Tips = "CX", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("ChristmasIsland", Group = "Oceania", Tips = "CX", ResourceType = typeof(Translations.Enum.Country))]
     ChristmasIsland = 162,
 
-    [Custom(Group = "Oceania", Name = "CocosKeelingIslands", Tips = "CC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CocosKeelingIslands", Group = "Oceania", Tips = "CC", ResourceType = typeof(Translations.Enum.Country))]
     CocosKeelingIslands = 166,
 
-    [Custom(Group = "Americas", Name = "Colombia", Tips = "CO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Colombia", Group = "Americas", Tips = "CO", ResourceType = typeof(Translations.Enum.Country))]
     Colombia = 170,
 
-    [Custom(Group = "Africa", Name = "Comoros", Tips = "KM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Comoros", Group = "Africa", Tips = "KM", ResourceType = typeof(Translations.Enum.Country))]
     Comoros = 174,
 
-    [Custom(Group = "Africa", Name = "RepublicOfTheCongo", Tips = "CG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("RepublicOfTheCongo", Group = "Africa", Tips = "CG", ResourceType = typeof(Translations.Enum.Country))]
     RepublicOfTheCongo = 178,
 
-    [Custom(Group = "Oceania", Name = "CookIslands", Tips = "CK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CookIslands", Group = "Oceania", Tips = "CK", ResourceType = typeof(Translations.Enum.Country))]
     CookIslands = 184,
 
-    [Custom(Group = "Americas", Name = "CostaRica", Tips = "CR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("CostaRica", Group = "Americas", Tips = "CR", ResourceType = typeof(Translations.Enum.Country))]
     CostaRica = 188,
 
-    [Custom(Group = "Africa", Name = "IvoryCoast", Tips = "CI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("IvoryCoast", Group = "Africa", Tips = "CI", ResourceType = typeof(Translations.Enum.Country))]
     IvoryCoast = 384,
 
-    [Custom(Group = "Europe", Name = "Croatia", Tips = "HR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Croatia", Group = "Europe", Tips = "HR", ResourceType = typeof(Translations.Enum.Country))]
     Croatia = 191,
 
-    [Custom(Group = "Americas", Name = "Cuba", Tips = "CU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Cuba", Group = "Americas", Tips = "CU", ResourceType = typeof(Translations.Enum.Country))]
     Cuba = 192,
 
-    [Custom(Group = "Americas", Name = "Curacao", Tips = "CW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Curacao", Group = "Americas", Tips = "CW", ResourceType = typeof(Translations.Enum.Country))]
     Curacao = 531,
 
-    [Custom(Group = "Asia", Name = "Cyprus", Tips = "CY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Cyprus", Group = "Asia", Tips = "CY", ResourceType = typeof(Translations.Enum.Country))]
     Cyprus = 196,
 
-    [Custom(Group = "Europe", Name = "Czechia", Tips = "CZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Czechia", Group = "Europe", Tips = "CZ", ResourceType = typeof(Translations.Enum.Country))]
     Czechia = 203,
 
-    [Custom(Group = "Africa", Name = "DemocraticRepublicOfTheCongo", Tips = "CD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("DemocraticRepublicOfTheCongo", Group = "Africa", Tips = "CD", ResourceType = typeof(Translations.Enum.Country))]
     DemocraticRepublicOfTheCongo = 180,
 
-    [Custom(Group = "Europe", Name = "Denmark", Tips = "DK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Denmark", Group = "Europe", Tips = "DK", ResourceType = typeof(Translations.Enum.Country))]
     Denmark = 208,
 
-    [Custom(Group = "Africa", Name = "Djibouti", Tips = "DJ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Djibouti", Group = "Africa", Tips = "DJ", ResourceType = typeof(Translations.Enum.Country))]
     Djibouti = 262,
 
-    [Custom(Group = "Americas", Name = "Dominica", Tips = "DM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Dominica", Group = "Americas", Tips = "DM", ResourceType = typeof(Translations.Enum.Country))]
     Dominica = 212,
 
-    [Custom(Group = "Americas", Name = "DominicanRepublic", Tips = "DO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("DominicanRepublic", Group = "Americas", Tips = "DO", ResourceType = typeof(Translations.Enum.Country))]
     DominicanRepublic = 214,
 
-    [Custom(Group = "Americas", Name = "Ecuador", Tips = "EC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Ecuador", Group = "Americas", Tips = "EC", ResourceType = typeof(Translations.Enum.Country))]
     Ecuador = 218,
 
-    [Custom(Group = "Africa", Name = "Egypt", Tips = "EG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Egypt", Group = "Africa", Tips = "EG", ResourceType = typeof(Translations.Enum.Country))]
     Egypt = 818,
 
-    [Custom(Group = "Americas", Name = "ElSalvador", Tips = "SV", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("ElSalvador", Group = "Americas", Tips = "SV", ResourceType = typeof(Translations.Enum.Country))]
     ElSalvador = 222,
 
-    [Custom(Group = "Africa", Name = "EquatorialGuinea", Tips = "GQ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("EquatorialGuinea", Group = "Africa", Tips = "GQ", ResourceType = typeof(Translations.Enum.Country))]
     EquatorialGuinea = 226,
 
-    [Custom(Group = "Africa", Name = "Eritrea", Tips = "ER", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Eritrea", Group = "Africa", Tips = "ER", ResourceType = typeof(Translations.Enum.Country))]
     Eritrea = 232,
 
-    [Custom(Group = "Europe", Name = "Estonia", Tips = "EE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Estonia", Group = "Europe", Tips = "EE", ResourceType = typeof(Translations.Enum.Country))]
     Estonia = 233,
 
-    [Custom(Group = "Africa", Name = "Eswatini", Tips = "SZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Eswatini", Group = "Africa", Tips = "SZ", ResourceType = typeof(Translations.Enum.Country))]
     Eswatini = 748,
 
-    [Custom(Group = "Africa", Name = "Ethiopia", Tips = "ET", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Ethiopia", Group = "Africa", Tips = "ET", ResourceType = typeof(Translations.Enum.Country))]
     Ethiopia = 231,
 
-    [Custom(Group = "Americas", Name = "FalklandIslands", Tips = "FK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("FalklandIslands", Group = "Americas", Tips = "FK", ResourceType = typeof(Translations.Enum.Country))]
     FalklandIslands = 238,
 
-    [Custom(Group = "Europe", Name = "FaroeIslands", Tips = "FO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("FaroeIslands", Group = "Europe", Tips = "FO", ResourceType = typeof(Translations.Enum.Country))]
     FaroeIslands = 234,
 
-    [Custom(Group = "Oceania", Name = "Fiji", Tips = "FJ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Fiji", Group = "Oceania", Tips = "FJ", ResourceType = typeof(Translations.Enum.Country))]
     Fiji = 242,
 
-    [Custom(Group = "Europe", Name = "Finland", Tips = "FI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Finland", Group = "Europe", Tips = "FI", ResourceType = typeof(Translations.Enum.Country))]
     Finland = 246,
 
-    [Custom(Group = "Europe", Name = "France", Tips = "FR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("France", Group = "Europe", Tips = "FR", ResourceType = typeof(Translations.Enum.Country))]
     France = 250,
 
-    [Custom(Group = "Americas", Name = "FrenchGuiana", Tips = "GF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("FrenchGuiana", Group = "Americas", Tips = "GF", ResourceType = typeof(Translations.Enum.Country))]
     FrenchGuiana = 254,
 
-    [Custom(Group = "Oceania", Name = "FrenchPolynesia", Tips = "PF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("FrenchPolynesia", Group = "Oceania", Tips = "PF", ResourceType = typeof(Translations.Enum.Country))]
     FrenchPolynesia = 258,
 
-    [Custom(Group = "Africa", Name = "FrenchSouthernAndAntarcticLands", Tips = "TF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("FrenchSouthernAndAntarcticLands", Group = "Africa", Tips = "TF", ResourceType = typeof(Translations.Enum.Country))]
     FrenchSouthernAndAntarcticLands = 260,
 
-    [Custom(Group = "Africa", Name = "Gabon", Tips = "GA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Gabon", Group = "Africa", Tips = "GA", ResourceType = typeof(Translations.Enum.Country))]
     Gabon = 266,
 
-    [Custom(Group = "Africa", Name = "Gambia", Tips = "GM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Gambia", Group = "Africa", Tips = "GM", ResourceType = typeof(Translations.Enum.Country))]
     Gambia = 270,
 
-    [Custom(Group = "Asia", Name = "Georgia", Tips = "GE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Georgia", Group = "Asia", Tips = "GE", ResourceType = typeof(Translations.Enum.Country))]
     Georgia = 268,
 
-    [Custom(Group = "Europe", Name = "Germany", Tips = "DE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Germany", Group = "Europe", Tips = "DE", ResourceType = typeof(Translations.Enum.Country))]
     Germany = 276,
 
-    [Custom(Group = "Africa", Name = "Ghana", Tips = "GH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Ghana", Group = "Africa", Tips = "GH", ResourceType = typeof(Translations.Enum.Country))]
     Ghana = 288,
 
-    [Custom(Group = "Europe", Name = "Gibraltar", Tips = "GI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Gibraltar", Group = "Europe", Tips = "GI", ResourceType = typeof(Translations.Enum.Country))]
     Gibraltar = 292,
 
-    [Custom(Group = "Europe", Name = "Greece", Tips = "GR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Greece", Group = "Europe", Tips = "GR", ResourceType = typeof(Translations.Enum.Country))]
     Greece = 300,
 
-    [Custom(Group = "Americas", Name = "Greenland", Tips = "GL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Greenland", Group = "Americas", Tips = "GL", ResourceType = typeof(Translations.Enum.Country))]
     Greenland = 304,
 
-    [Custom(Group = "Americas", Name = "Grenada", Tips = "GD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Grenada", Group = "Americas", Tips = "GD", ResourceType = typeof(Translations.Enum.Country))]
     Grenada = 308,
 
-    [Custom(Group = "Americas", Name = "Guadeloupe", Tips = "GP", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Guadeloupe", Group = "Americas", Tips = "GP", ResourceType = typeof(Translations.Enum.Country))]
     Guadeloupe = 312,
 
-    [Custom(Group = "Oceania", Name = "Guam", Tips = "GU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Guam", Group = "Oceania", Tips = "GU", ResourceType = typeof(Translations.Enum.Country))]
     Guam = 316,
 
-    [Custom(Group = "Americas", Name = "Guatemala", Tips = "GT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Guatemala", Group = "Americas", Tips = "GT", ResourceType = typeof(Translations.Enum.Country))]
     Guatemala = 320,
 
-    [Custom(Group = "Europe", Name = "Guernsey", Tips = "GG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Guernsey", Group = "Europe", Tips = "GG", ResourceType = typeof(Translations.Enum.Country))]
     Guernsey = 831,
 
-    [Custom(Group = "Africa", Name = "Guinea", Tips = "GN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Guinea", Group = "Africa", Tips = "GN", ResourceType = typeof(Translations.Enum.Country))]
     Guinea = 324,
 
-    [Custom(Group = "Africa", Name = "GuineaBissau", Tips = "GW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("GuineaBissau", Group = "Africa", Tips = "GW", ResourceType = typeof(Translations.Enum.Country))]
     GuineaBissau = 624,
 
-    [Custom(Group = "Americas", Name = "Guyana", Tips = "GY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Guyana", Group = "Americas", Tips = "GY", ResourceType = typeof(Translations.Enum.Country))]
     Guyana = 328,
 
-    [Custom(Group = "Americas", Name = "Haiti", Tips = "HT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Haiti", Group = "Americas", Tips = "HT", ResourceType = typeof(Translations.Enum.Country))]
     Haiti = 332,
 
-    [Custom(Group = "Oceania", Name = "HeardIslandAndMcDonaldIslands", Tips = "HM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("HeardIslandAndMcDonaldIslands", Group = "Oceania", Tips = "HM", ResourceType = typeof(Translations.Enum.Country))]
     HeardIslandAndMcDonaldIslands = 334,
 
-    [Custom(Group = "Europe", Name = "VaticanCity", Tips = "VA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("VaticanCity", Group = "Europe", Tips = "VA", ResourceType = typeof(Translations.Enum.Country))]
     VaticanCity = 336,
 
-    [Custom(Group = "Americas", Name = "Honduras", Tips = "HN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Honduras", Group = "Americas", Tips = "HN", ResourceType = typeof(Translations.Enum.Country))]
     Honduras = 340,
 
-    [Custom(Group = "Europe", Name = "Hungary", Tips = "HU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Hungary", Group = "Europe", Tips = "HU", ResourceType = typeof(Translations.Enum.Country))]
     Hungary = 348,
 
-    [Custom(Group = "Europe", Name = "Iceland", Tips = "IS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Iceland", Group = "Europe", Tips = "IS", ResourceType = typeof(Translations.Enum.Country))]
     Iceland = 352,
 
-    [Custom(Group = "Asia", Name = "India", Tips = "IN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("India", Group = "Asia", Tips = "IN", ResourceType = typeof(Translations.Enum.Country))]
     India = 356,
 
-    [Custom(Group = "Asia", Name = "Indonesia", Tips = "ID", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Indonesia", Group = "Asia", Tips = "ID", ResourceType = typeof(Translations.Enum.Country))]
     Indonesia = 360,
 
-    [Custom(Group = "Asia", Name = "Iran", Tips = "IR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Iran", Group = "Asia", Tips = "IR", ResourceType = typeof(Translations.Enum.Country))]
     Iran = 364,
 
-    [Custom(Group = "Asia", Name = "Iraq", Tips = "IQ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Iraq", Group = "Asia", Tips = "IQ", ResourceType = typeof(Translations.Enum.Country))]
     Iraq = 368,
 
-    [Custom(Group = "Europe", Name = "Ireland", Tips = "IE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Ireland", Group = "Europe", Tips = "IE", ResourceType = typeof(Translations.Enum.Country))]
     Ireland = 372,
 
-    [Custom(Group = "Europe", Name = "IsleOfMan", Tips = "IM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("IsleOfMan", Group = "Europe", Tips = "IM", ResourceType = typeof(Translations.Enum.Country))]
     IsleOfMan = 833,
 
-    [Custom(Group = "Asia", Name = "Israel", Tips = "IL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Israel", Group = "Asia", Tips = "IL", ResourceType = typeof(Translations.Enum.Country))]
     Israel = 376,
 
-    [Custom(Group = "Europe", Name = "Italy", Tips = "IT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Italy", Group = "Europe", Tips = "IT", ResourceType = typeof(Translations.Enum.Country))]
     Italy = 380,
 
-    [Custom(Group = "Americas", Name = "Jamaica", Tips = "JM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Jamaica", Group = "Americas", Tips = "JM", ResourceType = typeof(Translations.Enum.Country))]
     Jamaica = 388,
 
-    [Custom(Group = "Asia", Name = "Japan", Tips = "JP", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Japan", Group = "Asia", Tips = "JP", ResourceType = typeof(Translations.Enum.Country))]
     Japan = 392,
 
-    [Custom(Group = "Europe", Name = "Jersey", Tips = "JE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Jersey", Group = "Europe", Tips = "JE", ResourceType = typeof(Translations.Enum.Country))]
     Jersey = 832,
 
-    [Custom(Group = "Asia", Name = "Jordan", Tips = "JO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Jordan", Group = "Asia", Tips = "JO", ResourceType = typeof(Translations.Enum.Country))]
     Jordan = 400,
 
-    [Custom(Group = "Asia", Name = "Kazakhstan", Tips = "KZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Kazakhstan", Group = "Asia", Tips = "KZ", ResourceType = typeof(Translations.Enum.Country))]
     Kazakhstan = 398,
 
-    [Custom(Group = "Africa", Name = "Kenya", Tips = "KE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Kenya", Group = "Africa", Tips = "KE", ResourceType = typeof(Translations.Enum.Country))]
     Kenya = 404,
 
-    [Custom(Group = "Oceania", Name = "Kiribati", Tips = "KI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Kiribati", Group = "Oceania", Tips = "KI", ResourceType = typeof(Translations.Enum.Country))]
     Kiribati = 296,
 
-    [Custom(Group = "Europe", Name = "Kosovo", Tips = "XK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Kosovo", Group = "Europe", Tips = "XK", ResourceType = typeof(Translations.Enum.Country))]
     Kosovo = 99991,
 
-    [Custom(Group = "Asia", Name = "Kuwait", Tips = "KW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Kuwait", Group = "Asia", Tips = "KW", ResourceType = typeof(Translations.Enum.Country))]
     Kuwait = 414,
 
-    [Custom(Group = "Asia", Name = "Kyrgyzstan", Tips = "KG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Kyrgyzstan", Group = "Asia", Tips = "KG", ResourceType = typeof(Translations.Enum.Country))]
     Kyrgyzstan = 417,
 
-    [Custom(Group = "Asia", Name = "Laos", Tips = "LA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Laos", Group = "Asia", Tips = "LA", ResourceType = typeof(Translations.Enum.Country))]
     Laos = 418,
 
-    [Custom(Group = "Europe", Name = "Latvia", Tips = "LV", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Latvia", Group = "Europe", Tips = "LV", ResourceType = typeof(Translations.Enum.Country))]
     Latvia = 428,
 
-    [Custom(Group = "Asia", Name = "Lebanon", Tips = "LB", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Lebanon", Group = "Asia", Tips = "LB", ResourceType = typeof(Translations.Enum.Country))]
     Lebanon = 422,
 
-    [Custom(Group = "Africa", Name = "Lesotho", Tips = "LS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Lesotho", Group = "Africa", Tips = "LS", ResourceType = typeof(Translations.Enum.Country))]
     Lesotho = 426,
 
-    [Custom(Group = "Africa", Name = "Liberia", Tips = "LR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Liberia", Group = "Africa", Tips = "LR", ResourceType = typeof(Translations.Enum.Country))]
     Liberia = 430,
 
-    [Custom(Group = "Africa", Name = "Libya", Tips = "LY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Libya", Group = "Africa", Tips = "LY", ResourceType = typeof(Translations.Enum.Country))]
     Libya = 434,
 
-    [Custom(Group = "Europe", Name = "Liechtenstein", Tips = "LI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Liechtenstein", Group = "Europe", Tips = "LI", ResourceType = typeof(Translations.Enum.Country))]
     Liechtenstein = 438,
 
-    [Custom(Group = "Europe", Name = "Lithuania", Tips = "LT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Lithuania", Group = "Europe", Tips = "LT", ResourceType = typeof(Translations.Enum.Country))]
     Lithuania = 440,
 
-    [Custom(Group = "Europe", Name = "Luxembourg", Tips = "LU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Luxembourg", Group = "Europe", Tips = "LU", ResourceType = typeof(Translations.Enum.Country))]
     Luxembourg = 442,
 
-    [Custom(Group = "Africa", Name = "Madagascar", Tips = "MG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Madagascar", Group = "Africa", Tips = "MG", ResourceType = typeof(Translations.Enum.Country))]
     Madagascar = 450,
 
-    [Custom(Group = "Africa", Name = "Malawi", Tips = "MW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Malawi", Group = "Africa", Tips = "MW", ResourceType = typeof(Translations.Enum.Country))]
     Malawi = 454,
 
-    [Custom(Group = "Asia", Name = "Malaysia", Tips = "MY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Malaysia", Group = "Asia", Tips = "MY", ResourceType = typeof(Translations.Enum.Country))]
     Malaysia = 458,
 
-    [Custom(Group = "Asia", Name = "Maldives", Tips = "MV", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Maldives", Group = "Asia", Tips = "MV", ResourceType = typeof(Translations.Enum.Country))]
     Maldives = 462,
 
-    [Custom(Group = "Africa", Name = "Mali", Tips = "ML", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mali", Group = "Africa", Tips = "ML", ResourceType = typeof(Translations.Enum.Country))]
     Mali = 466,
 
-    [Custom(Group = "Europe", Name = "Malta", Tips = "MT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Malta", Group = "Europe", Tips = "MT", ResourceType = typeof(Translations.Enum.Country))]
     Malta = 470,
 
-    [Custom(Group = "Oceania", Name = "MarshallIslands", Tips = "MH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("MarshallIslands", Group = "Oceania", Tips = "MH", ResourceType = typeof(Translations.Enum.Country))]
     MarshallIslands = 584,
 
-    [Custom(Group = "Americas", Name = "Martinique", Tips = "MQ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Martinique", Group = "Americas", Tips = "MQ", ResourceType = typeof(Translations.Enum.Country))]
     Martinique = 474,
 
-    [Custom(Group = "Africa", Name = "Mauritania", Tips = "MR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mauritania", Group = "Africa", Tips = "MR", ResourceType = typeof(Translations.Enum.Country))]
     Mauritania = 478,
 
-    [Custom(Group = "Africa", Name = "Mauritius", Tips = "MU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mauritius", Group = "Africa", Tips = "MU", ResourceType = typeof(Translations.Enum.Country))]
     Mauritius = 480,
 
-    [Custom(Group = "Africa", Name = "Mayotte", Tips = "YT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mayotte", Group = "Africa", Tips = "YT", ResourceType = typeof(Translations.Enum.Country))]
     Mayotte = 175,
 
-    [Custom(Group = "Americas", Name = "Mexico", Tips = "MX", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mexico", Group = "Americas", Tips = "MX", ResourceType = typeof(Translations.Enum.Country))]
     Mexico = 484,
 
-    [Custom(Group = "Oceania", Name = "FederatedStatesOfMicronesia", Tips = "FM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("FederatedStatesOfMicronesia", Group = "Oceania", Tips = "FM", ResourceType = typeof(Translations.Enum.Country))]
     FederatedStatesOfMicronesia = 583,
 
-    [Custom(Group = "Europe", Name = "PrincipalityOfMonaco", Tips = "MC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("PrincipalityOfMonaco", Group = "Europe", Tips = "MC", ResourceType = typeof(Translations.Enum.Country))]
     PrincipalityOfMonaco = 492,
 
-    [Custom(Group = "Asia", Name = "Mongolia", Tips = "MN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mongolia", Group = "Asia", Tips = "MN", ResourceType = typeof(Translations.Enum.Country))]
     Mongolia = 496,
 
-    [Custom(Group = "Europe", Name = "Montenegro", Tips = "ME", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Montenegro", Group = "Europe", Tips = "ME", ResourceType = typeof(Translations.Enum.Country))]
     Montenegro = 499,
 
-    [Custom(Group = "Americas", Name = "Montserrat", Tips = "MS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Montserrat", Group = "Americas", Tips = "MS", ResourceType = typeof(Translations.Enum.Country))]
     Montserrat = 500,
 
-    [Custom(Group = "Africa", Name = "Morocco", Tips = "MA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Morocco", Group = "Africa", Tips = "MA", ResourceType = typeof(Translations.Enum.Country))]
     Morocco = 504,
 
-    [Custom(Group = "Africa", Name = "Mozambique", Tips = "MZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Mozambique", Group = "Africa", Tips = "MZ", ResourceType = typeof(Translations.Enum.Country))]
     Mozambique = 508,
 
-    [Custom(Group = "Asia", Name = "Myanmar", Tips = "MM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Myanmar", Group = "Asia", Tips = "MM", ResourceType = typeof(Translations.Enum.Country))]
     Myanmar = 104,
 
-    [Custom(Group = "Africa", Name = "Namibia", Tips = "NA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Namibia", Group = "Africa", Tips = "NA", ResourceType = typeof(Translations.Enum.Country))]
     Namibia = 516,
 
-    [Custom(Group = "Oceania", Name = "Nauru", Tips = "NR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Nauru", Group = "Oceania", Tips = "NR", ResourceType = typeof(Translations.Enum.Country))]
     Nauru = 520,
 
-    [Custom(Group = "Asia", Name = "Nepal", Tips = "NP", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Nepal", Group = "Asia", Tips = "NP", ResourceType = typeof(Translations.Enum.Country))]
     Nepal = 524,
 
-    [Custom(Group = "Europe", Name = "Netherlands", Tips = "NL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Netherlands", Group = "Europe", Tips = "NL", ResourceType = typeof(Translations.Enum.Country))]
     Netherlands = 528,
 
-    [Custom(Group = "Oceania", Name = "NewCaledonia", Tips = "NC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("NewCaledonia", Group = "Oceania", Tips = "NC", ResourceType = typeof(Translations.Enum.Country))]
     NewCaledonia = 540,
 
-    [Custom(Group = "Oceania", Name = "NewZealand", Tips = "NZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("NewZealand", Group = "Oceania", Tips = "NZ", ResourceType = typeof(Translations.Enum.Country))]
     NewZealand = 554,
 
-    [Custom(Group = "Americas", Name = "Nicaragua", Tips = "NI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Nicaragua", Group = "Americas", Tips = "NI", ResourceType = typeof(Translations.Enum.Country))]
     Nicaragua = 558,
 
-    [Custom(Group = "Africa", Name = "Niger", Tips = "NE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Niger", Group = "Africa", Tips = "NE", ResourceType = typeof(Translations.Enum.Country))]
     Niger = 562,
 
-    [Custom(Group = "Africa", Name = "Nigeria", Tips = "NG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Nigeria", Group = "Africa", Tips = "NG", ResourceType = typeof(Translations.Enum.Country))]
     Nigeria = 566,
 
-    [Custom(Group = "Oceania", Name = "Niue", Tips = "NU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Niue", Group = "Oceania", Tips = "NU", ResourceType = typeof(Translations.Enum.Country))]
     Niue = 570,
 
-    [Custom(Group = "Oceania", Name = "NorfolkIsland", Tips = "NF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("NorfolkIsland", Group = "Oceania", Tips = "NF", ResourceType = typeof(Translations.Enum.Country))]
     NorfolkIsland = 574,
 
-    [Custom(Group = "Asia", Name = "NorthKorea", Tips = "KP", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("NorthKorea", Group = "Asia", Tips = "KP", ResourceType = typeof(Translations.Enum.Country))]
     NorthKorea = 408,
 
-    [Custom(Group = "Europe", Name = "NorthMacedonia", Tips = "MK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("NorthMacedonia", Group = "Europe", Tips = "MK", ResourceType = typeof(Translations.Enum.Country))]
     NorthMacedonia = 807,
 
-    [Custom(Group = "Oceania", Name = "NorthernMarianaIslands", Tips = "MP", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("NorthernMarianaIslands", Group = "Oceania", Tips = "MP", ResourceType = typeof(Translations.Enum.Country))]
     NorthernMarianaIslands = 580,
 
-    [Custom(Group = "Europe", Name = "Norway", Tips = "NO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Norway", Group = "Europe", Tips = "NO", ResourceType = typeof(Translations.Enum.Country))]
     Norway = 578,
 
-    [Custom(Group = "Asia", Name = "Oman", Tips = "OM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Oman", Group = "Asia", Tips = "OM", ResourceType = typeof(Translations.Enum.Country))]
     Oman = 512,
 
-    [Custom(Group = "Asia", Name = "Pakistan", Tips = "PK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Pakistan", Group = "Asia", Tips = "PK", ResourceType = typeof(Translations.Enum.Country))]
     Pakistan = 586,
 
-    [Custom(Group = "Oceania", Name = "Palau", Tips = "PW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Palau", Group = "Oceania", Tips = "PW", ResourceType = typeof(Translations.Enum.Country))]
     Palau = 585,
 
-    [Custom(Group = "Americas", Name = "Panama", Tips = "PA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Panama", Group = "Americas", Tips = "PA", ResourceType = typeof(Translations.Enum.Country))]
     Panama = 591,
 
-    [Custom(Group = "Oceania", Name = "PapuaNewGuinea", Tips = "PG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("PapuaNewGuinea", Group = "Oceania", Tips = "PG", ResourceType = typeof(Translations.Enum.Country))]
     PapuaNewGuinea = 598,
 
-    [Custom(Group = "Americas", Name = "Paraguay", Tips = "PY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Paraguay", Group = "Americas", Tips = "PY", ResourceType = typeof(Translations.Enum.Country))]
     Paraguay = 600,
 
-    [Custom(Group = "Americas", Name = "Peru", Tips = "PE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Peru", Group = "Americas", Tips = "PE", ResourceType = typeof(Translations.Enum.Country))]
     Peru = 604,
 
-    [Custom(Group = "Asia", Name = "Philippines", Tips = "PH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Philippines", Group = "Asia", Tips = "PH", ResourceType = typeof(Translations.Enum.Country))]
     Philippines = 608,
 
-    [Custom(Group = "Oceania", Name = "PitcairnIslands", Tips = "PN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("PitcairnIslands", Group = "Oceania", Tips = "PN", ResourceType = typeof(Translations.Enum.Country))]
     PitcairnIslands = 612,
 
-    [Custom(Group = "Europe", Name = "Poland", Tips = "PL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Poland", Group = "Europe", Tips = "PL", ResourceType = typeof(Translations.Enum.Country))]
     Poland = 616,
 
-    [Custom(Group = "Europe", Name = "Portugal", Tips = "PT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Portugal", Group = "Europe", Tips = "PT", ResourceType = typeof(Translations.Enum.Country))]
     Portugal = 620,
 
-    [Custom(Group = "Americas", Name = "PuertoRico", Tips = "PR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("PuertoRico", Group = "Americas", Tips = "PR", ResourceType = typeof(Translations.Enum.Country))]
     PuertoRico = 630,
 
-    [Custom(Group = "Asia", Name = "Qatar", Tips = "QA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Qatar", Group = "Asia", Tips = "QA", ResourceType = typeof(Translations.Enum.Country))]
     Qatar = 634,
 
-    [Custom(Group = "Asia", Name = "SouthKorea", Tips = "KR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SouthKorea", Group = "Asia", Tips = "KR", ResourceType = typeof(Translations.Enum.Country))]
     SouthKorea = 410,
 
-    [Custom(Group = "Europe", Name = "Moldova", Tips = "MD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Moldova", Group = "Europe", Tips = "MD", ResourceType = typeof(Translations.Enum.Country))]
     Moldova = 498,
 
-    [Custom(Group = "Africa", Name = "Reunion", Tips = "RE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Reunion", Group = "Africa", Tips = "RE", ResourceType = typeof(Translations.Enum.Country))]
     Reunion = 638,
 
-    [Custom(Group = "Europe", Name = "Romania", Tips = "RO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Romania", Group = "Europe", Tips = "RO", ResourceType = typeof(Translations.Enum.Country))]
     Romania = 642,
 
-    [Custom(Group = "Europe", Name = "Russia", Tips = "RU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Russia", Group = "Europe", Tips = "RU", ResourceType = typeof(Translations.Enum.Country))]
     Russia = 643,
 
-    [Custom(Group = "Africa", Name = "Rwanda", Tips = "RW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Rwanda", Group = "Africa", Tips = "RW", ResourceType = typeof(Translations.Enum.Country))]
     Rwanda = 646,
 
-    [Custom(Group = "Americas", Name = "SaintBarthelemy", Tips = "BL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintBarthelemy", Group = "Americas", Tips = "BL", ResourceType = typeof(Translations.Enum.Country))]
     SaintBarthelemy = 652,
 
-    [Custom(Group = "Africa", Name = "SaintHelenaAscensionAndTristanDaCunha", Tips = "SH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintHelenaAscensionAndTristanDaCunha", Group = "Africa", Tips = "SH", ResourceType = typeof(Translations.Enum.Country))]
     SaintHelenaAscensionAndTristanDaCunha = 654,
 
-    [Custom(Group = "Americas", Name = "SaintKittsAndNevis", Tips = "KN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintKittsAndNevis", Group = "Americas", Tips = "KN", ResourceType = typeof(Translations.Enum.Country))]
     SaintKittsAndNevis = 659,
 
-    [Custom(Group = "Americas", Name = "SaintLucia", Tips = "LC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintLucia", Group = "Americas", Tips = "LC", ResourceType = typeof(Translations.Enum.Country))]
     SaintLucia = 662,
 
-    [Custom(Group = "Americas", Name = "SaintMartin", Tips = "MF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintMartin", Group = "Americas", Tips = "MF", ResourceType = typeof(Translations.Enum.Country))]
     SaintMartin = 663,
 
-    [Custom(Group = "Americas", Name = "SaintPierreAndMiquelon", Tips = "PM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintPierreAndMiquelon", Group = "Americas", Tips = "PM", ResourceType = typeof(Translations.Enum.Country))]
     SaintPierreAndMiquelon = 666,
 
-    [Custom(Group = "Americas", Name = "SaintVincentAndTheGrenadines", Tips = "VC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaintVincentAndTheGrenadines", Group = "Americas", Tips = "VC", ResourceType = typeof(Translations.Enum.Country))]
     SaintVincentAndTheGrenadines = 670,
 
-    [Custom(Group = "Oceania", Name = "Samoa", Tips = "WS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Samoa", Group = "Oceania", Tips = "WS", ResourceType = typeof(Translations.Enum.Country))]
     Samoa = 882,
 
-    [Custom(Group = "Europe", Name = "SanMarino", Tips = "SM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SanMarino", Group = "Europe", Tips = "SM", ResourceType = typeof(Translations.Enum.Country))]
     SanMarino = 674,
 
-    [Custom(Group = "Africa", Name = "SaoTomeAndPrincipe", Tips = "ST", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaoTomeAndPrincipe", Group = "Africa", Tips = "ST", ResourceType = typeof(Translations.Enum.Country))]
     SaoTomeAndPrincipe = 678,
 
-    [Custom(Group = "Europe", Name = "Sark", Tips = "CQ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Sark", Group = "Europe", Tips = "CQ", ResourceType = typeof(Translations.Enum.Country))]
     Sark = 680,
 
-    [Custom(Group = "Asia", Name = "SaudiArabia", Tips = "SA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SaudiArabia", Group = "Asia", Tips = "SA", ResourceType = typeof(Translations.Enum.Country))]
     SaudiArabia = 682,
 
-    [Custom(Group = "Africa", Name = "Senegal", Tips = "SN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Senegal", Group = "Africa", Tips = "SN", ResourceType = typeof(Translations.Enum.Country))]
     Senegal = 686,
 
-    [Custom(Group = "Europe", Name = "Serbia", Tips = "RS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Serbia", Group = "Europe", Tips = "RS", ResourceType = typeof(Translations.Enum.Country))]
     Serbia = 688,
 
-    [Custom(Group = "Africa", Name = "Seychelles", Tips = "SC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Seychelles", Group = "Africa", Tips = "SC", ResourceType = typeof(Translations.Enum.Country))]
     Seychelles = 690,
 
-    [Custom(Group = "Africa", Name = "SierraLeone", Tips = "SL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SierraLeone", Group = "Africa", Tips = "SL", ResourceType = typeof(Translations.Enum.Country))]
     SierraLeone = 694,
 
-    [Custom(Group = "Asia", Name = "Singapore", Tips = "SG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Singapore", Group = "Asia", Tips = "SG", ResourceType = typeof(Translations.Enum.Country))]
     Singapore = 702,
 
-    [Custom(Group = "Americas", Name = "SintMaarten", Tips = "SX", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SintMaarten", Group = "Americas", Tips = "SX", ResourceType = typeof(Translations.Enum.Country))]
     SintMaarten = 534,
 
-    [Custom(Group = "Europe", Name = "Slovakia", Tips = "SK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Slovakia", Group = "Europe", Tips = "SK", ResourceType = typeof(Translations.Enum.Country))]
     Slovakia = 703,
 
-    [Custom(Group = "Europe", Name = "Slovenia", Tips = "SI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Slovenia", Group = "Europe", Tips = "SI", ResourceType = typeof(Translations.Enum.Country))]
     Slovenia = 705,
 
-    [Custom(Group = "Oceania", Name = "SolomonIslands", Tips = "SB", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SolomonIslands", Group = "Oceania", Tips = "SB", ResourceType = typeof(Translations.Enum.Country))]
     SolomonIslands = 90,
 
-    [Custom(Group = "Africa", Name = "Somalia", Tips = "SO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Somalia", Group = "Africa", Tips = "SO", ResourceType = typeof(Translations.Enum.Country))]
     Somalia = 706,
 
-    [Custom(Group = "Africa", Name = "SouthAfrica", Tips = "ZA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SouthAfrica", Group = "Africa", Tips = "ZA", ResourceType = typeof(Translations.Enum.Country))]
     SouthAfrica = 710,
 
-    [Custom(Group = "Americas", Name = "SouthGeorgiaAndSouthSandwichIslands", Tips = "GS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SouthGeorgiaAndSouthSandwichIslands", Group = "Americas", Tips = "GS", ResourceType = typeof(Translations.Enum.Country))]
     SouthGeorgiaAndSouthSandwichIslands = 239,
 
-    [Custom(Group = "Africa", Name = "SouthSudan", Tips = "SS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SouthSudan", Group = "Africa", Tips = "SS", ResourceType = typeof(Translations.Enum.Country))]
     SouthSudan = 728,
 
-    [Custom(Group = "Europe", Name = "Spain", Tips = "ES", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Spain", Group = "Europe", Tips = "ES", ResourceType = typeof(Translations.Enum.Country))]
     Spain = 724,
 
-    [Custom(Group = "Asia", Name = "SriLanka", Tips = "LK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("SriLanka", Group = "Asia", Tips = "LK", ResourceType = typeof(Translations.Enum.Country))]
     SriLanka = 144,
 
-    [Custom(Group = "Asia", Name = "Palestine", Tips = "PS", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Palestine", Group = "Asia", Tips = "PS", ResourceType = typeof(Translations.Enum.Country))]
     Palestine = 275,
 
-    [Custom(Group = "Africa", Name = "Sudan", Tips = "SD", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Sudan", Group = "Africa", Tips = "SD", ResourceType = typeof(Translations.Enum.Country))]
     Sudan = 729,
 
-    [Custom(Group = "Americas", Name = "Suriname", Tips = "SR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Suriname", Group = "Americas", Tips = "SR", ResourceType = typeof(Translations.Enum.Country))]
     Suriname = 740,
 
-    [Custom(Group = "Europe", Name = "Svalbard", Tips = "SJ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Svalbard", Group = "Europe", Tips = "SJ", ResourceType = typeof(Translations.Enum.Country))]
     Svalbard = 744,
 
-    [Custom(Group = "Europe", Name = "Sweden", Tips = "SE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Sweden", Group = "Europe", Tips = "SE", ResourceType = typeof(Translations.Enum.Country))]
     Sweden = 752,
 
-    [Custom(Group = "Europe", Name = "Switzerland", Tips = "CH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Switzerland", Group = "Europe", Tips = "CH", ResourceType = typeof(Translations.Enum.Country))]
     Switzerland = 756,
 
-    [Custom(Group = "Asia", Name = "Syria", Tips = "SY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Syria", Group = "Asia", Tips = "SY", ResourceType = typeof(Translations.Enum.Country))]
     Syria = 760,
 
-    [Custom(Group = "Asia", Name = "Taiwan", Tips = "TW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Taiwan", Group = "Asia", Tips = "TW", ResourceType = typeof(Translations.Enum.Country))]
     Taiwan = 99992,
 
-    [Custom(Group = "Asia", Name = "Tajikistan", Tips = "TJ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Tajikistan", Group = "Asia", Tips = "TJ", ResourceType = typeof(Translations.Enum.Country))]
     Tajikistan = 762,
 
-    [Custom(Group = "Asia", Name = "Thailand", Tips = "TH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Thailand", Group = "Asia", Tips = "TH", ResourceType = typeof(Translations.Enum.Country))]
     Thailand = 764,
 
-    [Custom(Group = "Asia", Name = "EastTimor", Tips = "TL", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("EastTimor", Group = "Asia", Tips = "TL", ResourceType = typeof(Translations.Enum.Country))]
     EastTimor = 626,
 
-    [Custom(Group = "Africa", Name = "Togo", Tips = "TG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Togo", Group = "Africa", Tips = "TG", ResourceType = typeof(Translations.Enum.Country))]
     Togo = 768,
 
-    [Custom(Group = "Oceania", Name = "Tokelau", Tips = "TK", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Tokelau", Group = "Oceania", Tips = "TK", ResourceType = typeof(Translations.Enum.Country))]
     Tokelau = 772,
 
-    [Custom(Group = "Oceania", Name = "Tonga", Tips = "TO", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Tonga", Group = "Oceania", Tips = "TO", ResourceType = typeof(Translations.Enum.Country))]
     Tonga = 776,
 
-    [Custom(Group = "Americas", Name = "TrinidadAndTobago", Tips = "TT", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("TrinidadAndTobago", Group = "Americas", Tips = "TT", ResourceType = typeof(Translations.Enum.Country))]
     TrinidadAndTobago = 780,
 
-    [Custom(Group = "Africa", Name = "Tunisia", Tips = "TN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Tunisia", Group = "Africa", Tips = "TN", ResourceType = typeof(Translations.Enum.Country))]
     Tunisia = 788,
 
-    [Custom(Group = "Asia", Name = "Turkey", Tips = "TR", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Turkey", Group = "Asia", Tips = "TR", ResourceType = typeof(Translations.Enum.Country))]
     Turkey = 792,
 
-    [Custom(Group = "Asia", Name = "Turkmenistan", Tips = "TM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Turkmenistan", Group = "Asia", Tips = "TM", ResourceType = typeof(Translations.Enum.Country))]
     Turkmenistan = 795,
 
-    [Custom(Group = "Americas", Name = "TurksAndCaicosIslands", Tips = "TC", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("TurksAndCaicosIslands", Group = "Americas", Tips = "TC", ResourceType = typeof(Translations.Enum.Country))]
     TurksAndCaicosIslands = 796,
 
-    [Custom(Group = "Oceania", Name = "Tuvalu", Tips = "TV", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Tuvalu", Group = "Oceania", Tips = "TV", ResourceType = typeof(Translations.Enum.Country))]
     Tuvalu = 798,
 
-    [Custom(Group = "Africa", Name = "Uganda", Tips = "UG", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Uganda", Group = "Africa", Tips = "UG", ResourceType = typeof(Translations.Enum.Country))]
     Uganda = 800,
 
-    [Custom(Group = "Europe", Name = "Ukraine", Tips = "UA", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Ukraine", Group = "Europe", Tips = "UA", ResourceType = typeof(Translations.Enum.Country))]
     Ukraine = 804,
 
-    [Custom(Group = "Asia", Name = "UnitedArabEmirates", Tips = "AE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("UnitedArabEmirates", Group = "Asia", Tips = "AE", ResourceType = typeof(Translations.Enum.Country))]
     UnitedArabEmirates = 784,
 
-    [Custom(Group = "Europe", Name = "UnitedKingdom", Tips = "GB", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("UnitedKingdom", Group = "Europe", Tips = "GB", ResourceType = typeof(Translations.Enum.Country))]
     UnitedKingdom = 826,
 
-    [Custom(Group = "Africa", Name = "Tanzania", Tips = "TZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Tanzania", Group = "Africa", Tips = "TZ", ResourceType = typeof(Translations.Enum.Country))]
     Tanzania = 834,
 
-    [Custom(Group = "Oceania", Name = "UnitedStatesMinorOutlyingIslands", Tips = "UM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("UnitedStatesMinorOutlyingIslands", Group = "Oceania", Tips = "UM", ResourceType = typeof(Translations.Enum.Country))]
     UnitedStatesMinorOutlyingIslands = 581,
 
-    [Custom(Group = "Americas", Name = "UnitedStatesOfAmerica", Tips = "US", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("UnitedStatesOfAmerica", Group = "Americas", Tips = "US", ResourceType = typeof(Translations.Enum.Country))]
     UnitedStatesOfAmerica = 840,
 
-    [Custom(Group = "Americas", Name = "VirginIslands", Tips = "VI", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("VirginIslands", Group = "Americas", Tips = "VI", ResourceType = typeof(Translations.Enum.Country))]
     VirginIslands = 850,
 
-    [Custom(Group = "Americas", Name = "Uruguay", Tips = "UY", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Uruguay", Group = "Americas", Tips = "UY", ResourceType = typeof(Translations.Enum.Country))]
     Uruguay = 858,
 
-    [Custom(Group = "Asia", Name = "Uzbekistan", Tips = "UZ", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Uzbekistan", Group = "Asia", Tips = "UZ", ResourceType = typeof(Translations.Enum.Country))]
     Uzbekistan = 860,
 
-    [Custom(Group = "Oceania", Name = "Vanuatu", Tips = "VU", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Vanuatu", Group = "Oceania", Tips = "VU", ResourceType = typeof(Translations.Enum.Country))]
     Vanuatu = 548,
 
-    [Custom(Group = "Americas", Name = "Venezuela", Tips = "VE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Venezuela", Group = "Americas", Tips = "VE", ResourceType = typeof(Translations.Enum.Country))]
     Venezuela = 862,
 
-    [Custom(Group = "Asia", Name = "Vietnam", Tips = "VN", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Vietnam", Group = "Asia", Tips = "VN", ResourceType = typeof(Translations.Enum.Country))]
     Vietnam = 704,
 
-    [Custom(Group = "Oceania", Name = "WallisAndFutuna", Tips = "WF", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("WallisAndFutuna", Group = "Oceania", Tips = "WF", ResourceType = typeof(Translations.Enum.Country))]
     WallisAndFutuna = 876,
 
-    [Custom(Group = "Africa", Name = "WesternSahara", Tips = "EH", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("WesternSahara", Group = "Africa", Tips = "EH", ResourceType = typeof(Translations.Enum.Country))]
     WesternSahara = 732,
 
-    [Custom(Group = "Asia", Name = "Yemen", Tips = "YE", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Yemen", Group = "Asia", Tips = "YE", ResourceType = typeof(Translations.Enum.Country))]
     Yemen = 887,
 
-    [Custom(Group = "Africa", Name = "Zambia", Tips = "ZM", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Zambia", Group = "Africa", Tips = "ZM", ResourceType = typeof(Translations.Enum.Country))]
     Zambia = 894,
 
-    [Custom(Group = "Africa", Name = "Zimbabwe", Tips = "ZW", ResourceType = typeof(Resources.Country))]
+    [FieldSettings("Zimbabwe", Group = "Africa", Tips = "ZW", ResourceType = typeof(Translations.Enum.Country))]
     Zimbabwe = 716
 }

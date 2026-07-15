@@ -9,51 +9,53 @@
 @inject PrincipalApi PrincipalApi
 @inject MapApi MapApi
 
-<HeadComponent Title="Property" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
+<HeadComponent Title="@Translations.Title.Property" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
 
-<PageSectionComponent Title="Address">
+<PageSectionComponent Title="@Translations.Module.Property.Address">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs" Row="true">
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => searchAddress)" @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search"></FieldText>
+                    <FieldText @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search"
+                               Name="@Translations.Module.Property.SearchAddress" Placeholder="@Translations.Module.Property.SearchAddressPlaceholder"
+                               Description="@Translations.Module.Property.SearchAddressDescription"></FieldText>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldText For="@(() => property.Address.Label)" @bind-Value="@property.Address.Label" Disabled="true"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.Label" Description="@Translations.Module.Property.LabelDescription" @bind-Value="@property.Address.Label" Disabled="true"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.CountryName)" @bind-Value="@property.Address.CountryName" Disabled="true"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.CountryName" @bind-Value="@property.Address.CountryName" Disabled="true"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.State)" @bind-Value="@property.Address.State" Disabled="true"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.State" @bind-Value="@property.Address.State" Disabled="true"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.City)" @bind-Value="@property.Address.City" Disabled="true"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.City" @bind-Value="@property.Address.City" Disabled="true"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.District)" @bind-Value="@property.Address.District" Disabled="true"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.District" @bind-Value="@property.Address.District" Disabled="true"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.Street)" @bind-Value="@property.Address.Street" Disabled="true"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.Street" @bind-Value="@property.Address.Street" Disabled="true"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.PostalCode)" @bind-Value="@property.Address.PostalCode"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.PostalCode" @bind-Value="@property.Address.PostalCode"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.HouseNumber)" @bind-Value="@property.Address.HouseNumber"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.HouseNumber" @bind-Value="@property.Address.HouseNumber"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldText For="@(() => property.Address.Unit)" @bind-Value="@property.Address.Unit"></FieldText>
+                    <FieldText Name="@Translations.Module.Property.Unit" @bind-Value="@property.Address.Unit"></FieldText>
                 </MudItem>
                 <MudItem xs="6" sm="3">
-                    <FieldSwitch For="@(() => property.Address.HideExactAddress)" @bind-Value="@property.Address.HideExactAddress"></FieldSwitch>
+                    <FieldSwitch Name="@Translations.Module.Property.HideExactAddress" @bind-Value="@property.Address.HideExactAddress"></FieldSwitch>
                 </MudItem>
             </MudGrid>
         </MudStack>
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Basic Data">
+<PageSectionComponent Title="@Translations.Module.Property.BasicData">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
             <MudGrid Spacing="@Css.SpaceSmall">
@@ -61,19 +63,19 @@
                     <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
                         <MudGrid Spacing="@Css.SpaceSmall">
                             <MudItem xs="12">
-                                <FieldGroup For="@(() => property.Structure)" TEnum="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
+                                <FieldGroup Name="@Translations.Module.Property.Structure" TEnum="PropertyStructure" @bind-SelectedValue="property.Structure"></FieldGroup>
                             </MudItem>
                             <MudItem xs="12">
-                                <FieldGroup For="@(() => property.LivingArrangement)" TEnum="LivingArrangement" @bind-SelectedValue="property.LivingArrangement"></FieldGroup>
+                                <FieldGroup Name="@Translations.Module.Property.SharedWith" TEnum="SharedWith" @bind-SelectedValue="property.SharedWith"></FieldGroup>
                             </MudItem>
                             <MudItem xs="12">
-                                <FieldText For="@(() => property.Title)" @bind-Value="@property.Title"></FieldText>
+                                <FieldText Name="@Translations.Module.Property.Title" Placeholder="@Translations.Module.Property.TitlePlaceholder" @bind-Value="@property.Title"></FieldText>
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <FieldNumber For="@(() => property.SizeSqm)" @bind-Value="@property.SizeSqm"></FieldNumber>
+                                <FieldNumber Name="@Translations.Module.Property.SizeSqm" @bind-Value="@property.SizeSqm"></FieldNumber>
                             </MudItem>
                             <MudItem xs="12" sm="6">
-                                <FieldSelect For="@(() => property.Languages)" TEnum="Language" TValue="HashSet<Language>" Order="@((p) => p.Name)"
+                                <FieldSelect Name="@Translations.Module.Property.Languages" TEnum="Language" TValue="HashSet<Language>" Order="@((p) => p.Name)"
                                              @bind-SelectedValues="@property.Languages" Multiple="true" ShowDataSelectDescription="false"></FieldSelect>
                             </MudItem>
                         </MudGrid>
@@ -84,14 +86,14 @@
                         <MudGrid Spacing="@Css.SpaceSmall">
                             <MudItem xs="12">
                                 <MudTabs>
-                                    <MudTabPanel Text="Description">
-                                        <FieldText For="@(() => property.Description)" Rows="10" @bind-Value="@property.Description" ShowLabel="false"></FieldText>
+                                    <MudTabPanel Text="@Translations.Module.Property.Description">
+                                        <FieldText Placeholder="@Translations.Module.Property.DescriptionPlaceholder" Rows="10" @bind-Value="@property.Description"></FieldText>
                                     </MudTabPanel>
-                                    <MudTabPanel Text="Location Description">
-                                        <FieldText For="@(() => property.LocationDesc)" Rows="10" @bind-Value="@property.LocationDesc" ShowLabel="false"></FieldText>
+                                    <MudTabPanel Text="@Translations.Module.Property.LocationDesc">
+                                        <FieldText Placeholder="@Translations.Module.Property.LocationDescPlaceholder" Rows="10" @bind-Value="@property.LocationDesc"></FieldText>
                                     </MudTabPanel>
-                                    <MudTabPanel Text="CheckIn Instructions">
-                                        <FieldText For="@(() => property.CheckInInstructions)" Rows="10" @bind-Value="@property.CheckInInstructions" ShowLabel="false"></FieldText>
+                                    <MudTabPanel Text="@Translations.Module.Property.CheckInInstructions">
+                                        <FieldText Placeholder="@Translations.Module.Property.CheckInInstructionsPlaceholder" Rows="10" @bind-Value="@property.CheckInInstructions"></FieldText>
                                     </MudTabPanel>
                                 </MudTabs>
                             </MudItem>
@@ -103,13 +105,13 @@
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Facilities" Subtitle="Shared by all tenants of the property (house) or building (apartment)" Description="Facilities are the essential physical spaces, infrastructure, and equipment that allow a location to function">
+<PageSectionComponent Title="@Translations.Module.Property.Facilities" Subtitle="@Translations.Module.Property.FacilitiesSubtitle" Description="@Translations.Module.Property.FeatureDescription">
     <ActionsFragment>
         <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect For="@(() => PropertyFacility)" TEnum="PropertyFacility" TValue="PropertyFacility?" @bind-SelectedValue="@PropertyFacility" Style="width: 200px;"
+            <FieldSelect Name="@Translations.Module.Property.Facility" TEnum="PropertyFacility" TValue="PropertyFacility?" @bind-SelectedValue="@PropertyFacility" Style="width: 200px;"
                          Filter="@((p)=>property.Facilities.All(f => f.Facility != p.Value))"></FieldSelect>
-            <FieldText For="@(() => PropertyFacilityCustomName)" @bind-Value="@PropertyFacilityCustomName" Class="ms-2" Style="width: 200px;"
-                       Disabled="@(PropertyFacility != SH.Shared.Models.PropertyFacility.Custom)"></FieldText>
+            <FieldText Name="@Translations.Module.Property.Name" @bind-Value="@PropertyFacilityCustomName" CssClass="ms-2" Style="width: 200px;"
+                       Visible="@(PropertyFacility == SH.Shared.Enums.PropertyFacility.Custom)"></FieldText>
             <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddFacility"
                        Disabled="@(!PropertyFacility.HasValue)">
                 @Translations.Button.Add
@@ -120,26 +122,26 @@
         <RenderControl Actions="ActionsFacilities">
             @foreach (var item in property.Facilities)
             {
-                @if (item.Facility == SH.Shared.Models.PropertyFacility.Custom)
+                @if (item.Facility == SH.Shared.Enums.PropertyFacility.Custom)
                 {
                     <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">@item.CustomName</MudChip>
                 }
                 else
                 {
-                    <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">@item.Facility.GetName()</MudChip>
+                    <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">@item.Facility.GetFieldSettings().Name</MudChip>
                 }
             }
         </RenderControl>
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Amenities" Subtitle="Shared by all tenants of the property (house) or building (apartment)" Description="Amenities are the added extras and services designed to provide comfort, convenience, or pleasure">
+<PageSectionComponent Title="@Translations.Module.Property.Amenities" Subtitle="@Translations.Module.Property.AmenitiesSubtitle" Description="@Translations.Module.Property.FeatureDescription">
     <ActionsFragment>
         <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect For="@(() => PropertyAmenity)" TEnum="PropertyAmenity" TValue="PropertyAmenity?" @bind-SelectedValue="@PropertyAmenity" Style="width: 200px;"
+            <FieldSelect Name="@Translations.Module.Property.Amenity" TEnum="PropertyAmenity" TValue="PropertyAmenity?" @bind-SelectedValue="@PropertyAmenity" Style="width: 200px;"
                          Filter="@((p)=>property.Amenities.All(a => a.Amenity != p.Value))"></FieldSelect>
-            <FieldText For="@(() => PropertyAmenityCustomName)" @bind-Value="@PropertyAmenityCustomName" Class="ms-2" Style="width: 200px;"
-                       Disabled="@(PropertyAmenity != SH.Shared.Models.PropertyAmenity.Custom)"></FieldText>
+            <FieldText Name="@Translations.Module.Property.Name" @bind-Value="@PropertyAmenityCustomName" CssClass="ms-2" Style="width: 200px;"
+                       Visible="@(PropertyAmenity == SH.Shared.Enums.PropertyAmenity.Custom)"></FieldText>
             <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAmenity"
                        Disabled="@(!PropertyAmenity.HasValue)">
                 @Translations.Button.Add
@@ -150,23 +152,23 @@
         <RenderControl Actions="ActionsAmenities">
             @foreach (var item in property.Amenities)
             {
-                @if (item.Amenity == SH.Shared.Models.PropertyAmenity.Custom)
+                @if (item.Amenity == SH.Shared.Enums.PropertyAmenity.Custom)
                 {
                     <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.CustomName</MudChip>
                 }
                 else
                 {
-                    <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.Amenity.GetName()</MudChip>
+                    <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.Amenity.GetFieldSettings().Name</MudChip>
                 }
             }
         </RenderControl>
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Accessibilities">
+<PageSectionComponent Title="@Translations.Module.Property.Accessibilities">
     <ActionsFragment>
         <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect For="@(() => PropertyAccessibility)" TEnum="AccessibilityFeature" TValue="AccessibilityFeature?" @bind-SelectedValue="@PropertyAccessibility" Style="width: 250px;"
+            <FieldSelect Name="@Translations.Module.Property.Accessibility" TEnum="AccessibilityFeature" TValue="AccessibilityFeature?" @bind-SelectedValue="@PropertyAccessibility" Style="width: 250px;"
                          Filter="@((p)=>property.Accessibilities.All(a => a != p.Value))"></FieldSelect>
             <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAccessibility"
                        Disabled="@(!PropertyAccessibility.HasValue)">
@@ -178,7 +180,7 @@
         <RenderControl Actions="ActionsAccessibilities">
             @foreach (var item in property.Accessibilities)
             {
-                <MudChip T="string" OnClose="() => RemoveAccessibility(item)" Color="Color.Primary">@item.GetName()</MudChip>
+                <MudChip T="string" OnClose="() => RemoveAccessibility(item)" Color="Color.Primary">@item.GetFieldSettings().Name</MudChip>
             }
         </RenderControl>
     </BodyFragment>
@@ -196,21 +198,21 @@
     </BodyFragment>
 </PageSectionComponent> *@
 
-<PageSectionComponent Title="Requirements" Description="Select according to your needs, bearing in mind that numerous requirements may reduce the pool of potential candidates.">
+<PageSectionComponent Title="@Translations.Module.Property.Requirements" Description="@Translations.Module.Property.RequirementsDescription">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
             <MudGrid Spacing="@Css.SpaceSmall">
                 <MudItem xs="12" sm="6">
-                    <FieldSwitch For="@(() => property.SocialRequired)" @bind-Value="@property.SocialRequired"></FieldSwitch>
+                    <FieldSwitch Name="@Translations.Module.Property.SocialRequired" Description="@Translations.Module.Property.SocialRequiredDescription" @bind-Value="@property.SocialRequired"></FieldSwitch>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldSwitch For="@(() => property.IdVerificationRequired)" @bind-Value="@property.IdVerificationRequired"></FieldSwitch>
+                    <FieldSwitch Name="@Translations.Module.Property.IdVerificationRequired" Description="@Translations.Module.Property.IdVerificationRequiredDescription" @bind-Value="@property.IdVerificationRequired"></FieldSwitch>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldSwitch For="@(() => property.IncomeVerificationRequired)" @bind-Value="@property.IncomeVerificationRequired" Disabled="true"></FieldSwitch>
+                    <FieldSwitch Name="@Translations.Module.Property.IncomeVerificationRequired" Description="@Translations.Module.Property.IncomeVerificationRequiredDescription" @bind-Value="@property.IncomeVerificationRequired" Disabled="true"></FieldSwitch>
                 </MudItem>
                 <MudItem xs="12" sm="6">
-                    <FieldSwitch For="@(() => property.BackgroundCheckRequired)" @bind-Value="@property.BackgroundCheckRequired" Disabled="true"></FieldSwitch>
+                    <FieldSwitch Name="@Translations.Module.Property.BackgroundCheckRequired" Description="@Translations.Module.Property.BackgroundCheckRequiredDescription" @bind-Value="@property.BackgroundCheckRequired" Disabled="true"></FieldSwitch>
                 </MudItem>
             </MudGrid>
         </MudStack>
@@ -231,7 +233,7 @@
     </BodyFragment>
 </PageSectionComponent> *@
 
-<PageSectionComponent Title="Photos">
+<PageSectionComponent Title="@Translations.Module.Property.Photos">
     <ActionsFragment>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
             @Translations.Button.Add
@@ -254,7 +256,7 @@
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Rooms">
+<PageSectionComponent Title="@Translations.Module.Property.Rooms">
     <ActionsFragment>
         <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/room/new/{propertyId}/{Guid.NewGuid()}"))">
             @Translations.Button.Add
@@ -284,29 +286,17 @@
     public ComponentActions<List<PropertyAmenityModel>> ActionsAmenities { get; set; } = new ComponentActions<List<PropertyAmenityModel>>(list => list == null || list.Empty());
     public ComponentActions<List<AccessibilityFeature>> ActionsAccessibilities { get; set; } = new ComponentActions<List<AccessibilityFeature>>(list => list == null || list.Empty());
 
-    [Custom(Name = "Search Address",
-    Placeholder = "Type something to search for, such as an address, building name, etc.",
-    Description = "For legal reasons, some regions may limit or deny detailed address searches. Please contact us for support.")]
-    private string? searchAddress;
+    private string? searchAddress { get; set; }
 
-    [Custom(Name = "Facility")]
     public PropertyFacility? PropertyFacility { get; set; }
-
-    [Custom(Name = "Name")]
     public string? PropertyFacilityCustomName { get; set; }
-
-    [Custom(Name = "Amenity")]
     public PropertyAmenity? PropertyAmenity { get; set; }
-
-    [Custom(Name = "Name")]
     public string? PropertyAmenityCustomName { get; set; }
-
-    [Custom(Name = "Accessibility")]
     public AccessibilityFeature? PropertyAccessibility { get; set; }
 
     private HereJson? here;
 
-    protected override async Task ProcessPageData()
+    protected override async Task LoadStaticDataAsync()
     {
         await ActionsPhotos.FinishLoading.Invoke([]);
         await ActionsRooms.FinishLoading.Invoke([]);

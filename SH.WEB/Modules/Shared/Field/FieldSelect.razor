@@ -1,32 +1,33 @@
-﻿@inherits FormBase<TValue>
+﻿@inherits FormBase
 @typeparam TValue
 @typeparam TEnum where TEnum : struct, Enum, IConvertible
 
 @if (Visible)
 {
-    <div class="d-flex @Class" style="align-items: center; @Style">
+    <div class="d-flex @CssClass" style="align-items: center; @Style">
         @if (CssIcon.NotEmpty())
         {
             <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
         }
         @if (Multiple)
-        {           
+        {
             <MudSelect SelectedValues="@SelectedValues" AdornmentColor="Color.Primary"
                        SelectedValuesChanged="async (IReadOnlyCollection<TEnum> values) => { SelectedValues = values.ToHashSet(); await SelectedValuesChanged.InvokeAsync(values.ToHashSet()); }"
-                       Disabled="@Disabled" Required="@Required" FullWidth="true" MultiSelection="true" Clearable="@IsClearable"
-                       Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder"
+                       Disabled="@Disabled" Required="@Required" FullWidth="true" MultiSelection="true" Clearable="true"
+                       Label="@Name" HelperText="@Description" Placeholder="@Placeholder"
                        MultiSelectionTextFunc="@(new Func<IReadOnlyList<string>, string>(GetMultiSelectionText))">
                 @if (ShowGroup)
                 {
-                    @foreach (var group in EnumList.Where(Filter).Select(s => s.Group).Order().Distinct())
+                    @foreach (var group in EnumListGroup)
                     {
+                        var listGroup = EnumList.Where(x => x.Group == group).ToList();
                         @if (group.NotEmpty())
                         {
                             <MudSelectItem T="@TEnum" Disabled="true" Value="@((TEnum)(object)(-1))">
                                 <MudText Typo="Typo.subtitle1" Color="Color.Secondary">@group</MudText>
                             </MudSelectItem>
                         }
-                        @foreach (var item in EnumList.Where(w => w.Group == group).OrderBy(Order))
+                        @foreach (var item in listGroup)
                         {
                             <MudSelectItem Value="@item.Value" Class="mud-typography-align-justify">
                                 <MudText Inline="false">@item.Name</MudText>
@@ -40,7 +41,7 @@
                 }
                 else
                 {
-                    @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
+                    @foreach (var item in EnumListRaw)
                     {
                         <MudSelectItem Value="@item.Value" Class="mud-typography-align-justify">
                             <MudText Inline="false">@item.Name</MudText>
@@ -56,18 +57,19 @@
         else
         {
             <MudSelect Value="@SelectedValue" ValueChanged="SelectedValueChanged" Disabled="@Disabled" Required="@Required" FullWidth="true" AdornmentColor="Color.Primary"
-                       Label="@For?.GetCustomAttribute()?.Name" HelperText="@Description" Placeholder="@For?.GetCustomAttribute()?.Placeholder" Clearable="@IsClearable">
+                       Label="@Name" HelperText="@Description" Placeholder="@Placeholder" Clearable="true">
                 @if (ShowGroup)
                 {
-                    @foreach (var group in EnumList.Where(Filter).Select(s => s.Group).Order().Distinct())
+                    @foreach (var group in EnumListGroup)
                     {
+                        var listGroup = EnumList.Where(x => x.Group == group).ToList();
                         @if (group.NotEmpty())
                         {
                             <MudSelectItem T="@TValue" Disabled="true" Value="@((TValue)(object)((TEnum)(object)(-1)))">
                                 <MudText Typo="Typo.subtitle1" Color="Color.Secondary">@group</MudText>
                             </MudSelectItem>
                         }
-                        @foreach (var item in EnumList.Where(w => w.Group == group).OrderBy(Order))
+                        @foreach (var item in listGroup)
                         {
                             <MudSelectItem Value="@((TValue)(object)item.Value)" Class="mud-typography-align-justify">
                                 <MudText Inline="false">@item.Name</MudText>
@@ -81,7 +83,7 @@
                 }
                 else
                 {
-                    @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
+                    @foreach (var item in EnumListRaw)
                     {
                         <MudSelectItem Value="@((TValue)(object)item.Value)" Class="mud-typography-align-justify">
                             <MudText Inline="false">@item.Name</MudText>

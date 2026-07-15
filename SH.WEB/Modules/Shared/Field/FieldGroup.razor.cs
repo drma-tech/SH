@@ -2,15 +2,12 @@
 
 namespace SH.WEB.Modules.Shared.Field;
 
-public partial class FieldGroup<TEnum> : FormBase<TEnum>
+public partial class FieldGroup<TEnum> : FormBase
     where TEnum : struct, Enum, IConvertible
 {
-    [Parameter] public string? CssIcon { get; set; }
-
     [Parameter] public string? HelpLink { get; set; }
     [Parameter] public string? CustomInfo { get; set; }
     [Parameter] public string? CustomWarning { get; set; }
-    [Parameter] public bool Visible { get; set; } = true;
 
     [Parameter] public TEnum SelectedValue { get; set; } = default!;
     [Parameter] public EventCallback<TEnum> SelectedValueChanged { get; set; }
@@ -25,6 +22,6 @@ public partial class FieldGroup<TEnum> : FormBase<TEnum>
 
     protected override void OnInitialized()
     {
-        EnumList = [.. EnumHelper.GetArray<TEnum>()];
+        EnumList = [.. EnumHelper.GetValues<TEnum>()];
     }
 }

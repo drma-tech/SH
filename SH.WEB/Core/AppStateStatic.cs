@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
 using MudBlazor;
 using SH.Shared.Models.Auth;
@@ -21,6 +22,7 @@ public static class AppStateStatic
     public static Size Size { get; set; } = Size.Small;
     public static Breakpoint Breakpoint { get; set; } = Breakpoint.Xs;
     public static ActionDispatcher<Breakpoint> BreakpointChanged { get; } = new();
+    public static bool IsMobile => Breakpoint == Breakpoint.Xs;
 
     public static string? Version { get; set; }
     public static string? BrowserName { get; set; }
@@ -269,6 +271,37 @@ public static class AppStateStatic
     }
 
     #endregion Region Country
+
+    #region Navigation Lock
+
+    public static NavigationLock? NavigationLock { get; set; }
+    public static bool ConfirmNavigationAnswer { get; set; }
+    public static ActionDispatcher ConfirmNavigationAnswerChanged { get; } = new();
+
+    public static async Task<bool> ConfirmNavigation(IDialogService dialog, string? customMessage)
+    {
+        if (ConfirmNavigationAnswer) return true;
+
+        //There are pending actions
+        ConfirmNavigationAnswer = await dialog.ShowMessageBoxAsync(AppInfo.Title, customMessage ?? "You may lose unsaved changes. Do you want to continue?", Translations.Button.Ok, Translations.Button.Cancel) ?? false;
+
+        //keeps the user's answer to avoid asking multiple times
+        if (ConfirmNavigationAnswer)
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(3000);
+
+                ConfirmNavigationAnswer = false;
+
+                ConfirmNavigationAnswerChanged.Publish();
+            });
+
+        ConfirmNavigationAnswerChanged.Publish();
+
+        return ConfirmNavigationAnswer;
+    }
+
+    #endregion Navigation Lock
 
     public static TaskDispatcher UserStateChanged { get; } = new();
     public static TaskDispatcher ProcessingStarted { get; } = new();

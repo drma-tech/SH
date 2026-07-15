@@ -55,14 +55,14 @@
     private bool _terms1 { get; set; } = false;
     private bool _terms2 { get; set; } = false;
 
-    protected override async Task ProcessInitialData()
+    protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+
         try
         {
             if (AppStateStatic.IsAuthenticated)
             {
-                StateHasChanged();
-
                 if (AppStateStatic.Principal == null) //first access
                 {
                     //wait the user answer the terms of use (call CreateAccount)

@@ -1,15 +1,16 @@
-﻿@inherits FormBase<TEnum>
+﻿@inherits FormBase
 @typeparam TEnum where TEnum : struct, Enum, IConvertible
 
 @if (Visible)
 {
-    <div class="@Class" style="align-items: center; @Style">
+    <div class="@CssClass" style="align-items: center; @Style">
         @if (CssIcon.NotEmpty())
         {
             <MudIcon Icon="@CssIcon" Class="me-3"></MudIcon>
         }
-        <MudText>
-            @(For?.GetCustomAttribute()?.Name ?? ForM?.GetCustomAttribute()?.Name)
+        @* <p class="mud-input-label" style="transform: scale(0.75);margin-bottom: -7px;">Tipo de acesso</p> *@
+        <MudText Typo="Typo.caption">
+            @Name
         </MudText>
         @if (Multiple)
         {
@@ -17,7 +18,7 @@
                             Disabled="@Disabled" Style="width: 100%;" SelectionMode="@(Multiple ? SelectionMode.MultiSelection : SelectionMode.SingleSelection)" CheckMark="true">
                 @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
                 {
-                    <MudToggleItem Value="@item" Text="@item.GetCustomAttribute()?.Name"
+                    <MudToggleItem Value="@item" Text="@item.GetFieldSettings()?.Name"
                                    UnselectedIcon="@Icons.Material.Filled.CheckBoxOutlineBlank" SelectedIcon="@Icons.Material.Filled.CheckBox" />
                 }
             </MudToggleGroup>
@@ -28,7 +29,7 @@
                             Disabled="@Disabled" Style="width: 100%;" SelectionMode="@(Multiple ? SelectionMode.MultiSelection : SelectionMode.SingleSelection)" CheckMark="true">
                 @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
                 {
-                    <MudToggleItem Value="@item" Text="@item.GetCustomAttribute()?.Name" />
+                    <MudToggleItem Value="@item" Text="@item.GetFieldSettings()?.Name" />
                 }
             </MudToggleGroup>
         }

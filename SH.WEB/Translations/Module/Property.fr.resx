@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accessibilities" xml:space="preserve">
+    <value>Accessibilités</value>
+  </data>
+  <data name="Accessibility" xml:space="preserve">
+    <value>Accessibilité</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adresse</value>
+  </data>
+  <data name="AddressVerified" xml:space="preserve">
+    <value>Adresse vérifiée</value>
+  </data>
+  <data name="Amenities" xml:space="preserve">
+    <value>Équipements</value>
+  </data>
+  <data name="AmenitiesSubtitle" xml:space="preserve">
+    <value>Fonctionnalités et services supplémentaires pour le confort et la commodité.</value>
+  </data>
+  <data name="Amenity" xml:space="preserve">
+    <value>Aménité</value>
+  </data>
+  <data name="BackgroundCheckRequired" xml:space="preserve">
+    <value>Vérification des antécédents requise</value>
+  </data>
+  <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
+    <value>Il exige que le candidat ait subi une vérification de ses antécédents.</value>
+  </data>
+  <data name="BasicData" xml:space="preserve">
+    <value>Données de base</value>
+  </data>
+  <data name="CheckInInstructions" xml:space="preserve">
+    <value>Instructions d'enregistrement</value>
+  </data>
+  <data name="CheckInInstructionsPlaceholder" xml:space="preserve">
+    <value>Expliquez comment entrer dans la propriété, récupérer les clés ou les codes d'accès et terminer le processus d'arrivée.</value>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>Ville</value>
+  </data>
+  <data name="CountryCode" xml:space="preserve">
+    <value>Code du pays</value>
+  </data>
+  <data name="CountryName" xml:space="preserve">
+    <value>Nom du pays</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>Décrivez la propriété, ses règles et ce qui fait de cet endroit un bon choix pour les résidents.</value>
+  </data>
+  <data name="District" xml:space="preserve">
+    <value>District</value>
+  </data>
+  <data name="Facilities" xml:space="preserve">
+    <value>Installations</value>
+  </data>
+  <data name="FacilitiesSubtitle" xml:space="preserve">
+    <value>Espaces, zones et caractéristiques partagés de la propriété.</value>
+  </data>
+  <data name="Facility" xml:space="preserve">
+    <value>Facilité</value>
+  </data>
+  <data name="FeatureDescription" xml:space="preserve">
+    <value>Ils sont accessibles à tous les résidents de la propriété. Ils peuvent être situés dans la maison, l'appartement ou les parties communes de l'immeuble.</value>
+  </data>
+  <data name="HideExactAddress" xml:space="preserve">
+    <value>Masquer l'adresse exacte</value>
+  </data>
+  <data name="HouseNumber" xml:space="preserve">
+    <value>Numéro de maison</value>
+  </data>
+  <data name="IdVerificationRequired" xml:space="preserve">
+    <value>Vérification d'identité requise</value>
+  </data>
+  <data name="IdVerificationRequiredDescription" xml:space="preserve">
+    <value>Nécessite que le candidat ait effectué une vérification d’identité.</value>
+  </data>
+  <data name="IncomeVerificationRequired" xml:space="preserve">
+    <value>Vérification du revenu requise</value>
+  </data>
+  <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
+    <value>Nécessite que le candidat ait complété la vérification des revenus.</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Étiquette</value>
+  </data>
+  <data name="LabelDescription" xml:space="preserve">
+    <value>Ce qui sera montré au locataire potentiel</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Langues parlées</value>
+  </data>
+  <data name="LocationDesc" xml:space="preserve">
+    <value>Description de l'emplacement</value>
+  </data>
+  <data name="LocationDescPlaceholder" xml:space="preserve">
+    <value>Décrivez les lieux à proximité, les options de transport et la facilité avec laquelle il est possible d'atteindre les objets essentiels du quotidien.</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Photos" xml:space="preserve">
+    <value>Photos</value>
+  </data>
+  <data name="PostalCode" xml:space="preserve">
+    <value>Code Postal</value>
+  </data>
+  <data name="Requirements" xml:space="preserve">
+    <value>Exigences</value>
+  </data>
+  <data name="RequirementsDescription" xml:space="preserve">
+    <value>Sélectionnez selon vos besoins, en gardant à l'esprit que de nombreuses exigences peuvent réduire le bassin de candidats potentiels</value>
+  </data>
+  <data name="Rooms" xml:space="preserve">
+    <value>Chambres</value>
+  </data>
+  <data name="SearchAddress" xml:space="preserve">
+    <value>Rechercher une adresse</value>
+  </data>
+  <data name="SearchAddressDescription" xml:space="preserve">
+    <value>Pour des raisons juridiques, certaines régions peuvent limiter ou refuser les recherches d'adresses détaillées. Veuillez nous contacter pour obtenir de l'aide.</value>
+  </data>
+  <data name="SearchAddressPlaceholder" xml:space="preserve">
+    <value>Tapez quelque chose à rechercher, comme une adresse, le nom du bâtiment, etc.</value>
+  </data>
+  <data name="SharedWith" xml:space="preserve">
+    <value>Partagé avec</value>
+  </data>
+  <data name="SizeSqm" xml:space="preserve">
+    <value>Taille (m²)</value>
+  </data>
+  <data name="SocialRequired" xml:space="preserve">
+    <value>Médias sociaux requis</value>
+  </data>
+  <data name="SocialRequiredDescription" xml:space="preserve">
+    <value>Nécessite que le candidat ait enregistré au moins un compte de réseau social.</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>État/Comté</value>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>Rue</value>
+  </data>
+  <data name="Structure" xml:space="preserve">
+    <value>Structure</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Titre</value>
+  </data>
+  <data name="TitlePlaceholder" xml:space="preserve">
+    <value>Nom de la propriété, nom du bâtiment ou titre de la courte liste</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>Unité</value>
+  </data>
+</root>

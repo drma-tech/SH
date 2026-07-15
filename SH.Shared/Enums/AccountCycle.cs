@@ -2,12 +2,12 @@
 
 public enum AccountCycle
 {
-    [Custom(Name = "Weekly", Description = "Week", ResourceType = typeof(Shared.Resources.Enum.AccountCycle))]
+    [FieldSettings("Weekly", Description = "Week", ResourceType = typeof(Translations.Enum.AccountCycle))]
     Weekly = 1,
 
-    [Custom(Name = "Monthly", Description = "Month", ResourceType = typeof(Shared.Resources.Enum.AccountCycle))]
+    [FieldSettings("Monthly", Description = "Month", ResourceType = typeof(Translations.Enum.AccountCycle))]
     Monthly = 2,
 
-    [Custom(Name = "Yearly", Description = "Year", ResourceType = typeof(Shared.Resources.Enum.AccountCycle))]
+    [FieldSettings("Yearly", Description = "Year", ResourceType = typeof(Translations.Enum.AccountCycle))]
     Yearly = 3
 }

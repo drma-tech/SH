@@ -22,7 +22,7 @@ namespace SH.WEB.Translations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Title {
+    public class Title {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SH.WEB.Translations {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SH.WEB.Translations.Title", typeof(Title).Assembly);
@@ -51,7 +51,7 @@ namespace SH.WEB.Translations {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,34 @@ namespace SH.WEB.Translations {
         /// <summary>
         ///   Looks up a localized string similar to Room rentals, shared homes and community.
         /// </summary>
-        internal static string AppSubtitle {
+        public static string AppSubtitle {
             get {
                 return ResourceManager.GetString("AppSubtitle", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bedroom.
+        /// </summary>
+        public static string Bedroom {
+            get {
+                return ResourceManager.GetString("Bedroom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compare.
+        /// </summary>
+        public static string Compare {
+            get {
+                return ResourceManager.GetString("Compare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to FAQ.
         /// </summary>
-        internal static string FAQ {
+        public static string FAQ {
             get {
                 return ResourceManager.GetString("FAQ", resourceCulture);
             }
@@ -81,7 +99,7 @@ namespace SH.WEB.Translations {
         /// <summary>
         ///   Looks up a localized string similar to Help Center.
         /// </summary>
-        internal static string HelpCenter {
+        public static string HelpCenter {
             get {
                 return ResourceManager.GetString("HelpCenter", resourceCulture);
             }
@@ -90,7 +108,7 @@ namespace SH.WEB.Translations {
         /// <summary>
         ///   Looks up a localized string similar to Main.
         /// </summary>
-        internal static string Main {
+        public static string Main {
             get {
                 return ResourceManager.GetString("Main", resourceCulture);
             }
@@ -99,9 +117,18 @@ namespace SH.WEB.Translations {
         /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
-        internal static string Profile {
+        public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property.
+        /// </summary>
+        public static string Property {
+            get {
+                return ResourceManager.GetString("Property", resourceCulture);
             }
         }
     }

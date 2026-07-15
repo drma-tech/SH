@@ -120,6 +120,9 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Room rentals, shared homes and community</value>
   </data>
+  <data name="Compare" xml:space="preserve">
+    <value>Compare</value>
+  </data>
   <data name="FAQ" xml:space="preserve">
     <value>FAQ</value>
   </data>
@@ -131,5 +134,11 @@
   </data>
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="Bedroom" xml:space="preserve">
+    <value>Bedroom</value>
   </data>
 </root>

@@ -8,34 +8,187 @@
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="Enums\Resources\Country.Designer.cs">
+		<Compile Update="Translations\Enum\AccessibilityFeature.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>AccessibilityFeature.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\AccessType.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>AccessType.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\Allowed.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Allowed.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\AvailabilityMode.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>AvailabilityMode.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\Country.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>Country.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Enums\Resources\Language.Designer.cs">
+		<Compile Update="Translations\Enum\Gender.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Gender.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\Language.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>Language.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Resources\Enum\AccountCycle.Designer.cs">
+		<Compile Update="Translations\Enum\AccountCycle.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>AccountCycle.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Translations\Enum\Occupation.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Occupation.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\PaymentInterval.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PaymentInterval.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\PaymentType.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PaymentType.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\PropertyAmenity.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PropertyAmenity.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\PropertyFacility.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PropertyFacility.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\PropertyStructure.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PropertyStructure.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\RoomAmenity.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RoomAmenity.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\RoomFacility.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RoomFacility.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\RoomService.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RoomService.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\RoomServicePrice.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RoomServicePrice.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\SharedWith.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>SharedWith.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Translations\Enum\StayInterval.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>StayInterval.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Update="Enums\Resources\Country.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
+		<EmbeddedResource Update="Translations\Enum\AccessibilityFeature.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>AccessibilityFeature.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\AccessType.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>AccessType.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\Allowed.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Allowed.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\AvailabilityMode.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>AvailabilityMode.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\Country.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Country.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Enums\Resources\Language.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
+		<EmbeddedResource Update="Translations\Enum\Gender.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Gender.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\Language.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Language.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\Enum\AccountCycle.resx">
-			<Generator>ResXFileCodeGenerator</Generator>
+		<EmbeddedResource Update="Translations\Enum\AccountCycle.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>AccountCycle.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\Occupation.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Occupation.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\PaymentInterval.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PaymentInterval.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\PaymentType.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PaymentType.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\PropertyAmenity.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PropertyAmenity.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\PropertyFacility.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PropertyFacility.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\PropertyStructure.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PropertyStructure.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\RoomAmenity.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>RoomAmenity.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\RoomFacility.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>RoomFacility.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\RoomService.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>RoomService.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\RoomServicePrice.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>RoomServicePrice.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\SharedWith.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>SharedWith.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\StayInterval.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>StayInterval.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

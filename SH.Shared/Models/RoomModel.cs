@@ -1,213 +1,21 @@
 ﻿namespace SH.Shared.Models
 {
-    public enum AccessType
-    {
-        [Custom(Name = "Private")]
-        Private = 1,
-
-        [Custom(Name = "Shared")]
-        Shared = 2
-    }
-
-    public enum RoomFacility
-    {
-        [Custom(Name = "Bathroom")]
-        Bathroom = 1,
-
-        [Custom(Name = "Kitchen")]
-        Kitchen = 2,
-
-        [Custom(Name = "Parking")]
-        Parking = 3,
-
-        [Custom(Name = "Balcony")]
-        Balcony = 4,
-
-        [Custom(Name = "Storage")]
-        Storage = 5,
-
-        [Custom(Name = "Custom")]
-        Custom = 99
-    }
-
-    public enum RoomAmenity
-    {
-        [Custom(Name = "WiFi")]
-        WiFi = 1,
-
-        [Custom(Name = "Furnished")]
-        Furnished = 2,
-
-        [Custom(Name = "Closet")]
-        Closet = 3,
-
-        [Custom(Name = "Lockable Room")]
-        LockableRoom = 4,
-
-        [Custom(Name = "Workspace")]
-        Workspace = 5,
-
-        [Custom(Name = "Heating")]
-        Heating = 6,
-
-        [Custom(Name = "Air Conditioning")]
-        AirConditioning = 7,
-
-        [Custom(Name = "Washing Machine")]
-        WashingMachine = 8,
-
-        [Custom(Name = "Dryer")]
-        Dryer = 9,
-
-        [Custom(Name = "Private Refrigerator")]
-        PrivateRefrigerator = 10,
-
-        [Custom(Name = "TV")]
-        TV = 11,
-
-        [Custom(Name = "Dishwasher")]
-        Dishwasher = 12,
-
-        [Custom(Name = "Custom")]
-        Custom = 99
-    }
-
-    public enum RoomService
-    {
-        [Custom(Name = "Room Cleaning")]
-        RoomCleaning = 1,
-
-        [Custom(Name = "Laundry")]
-        Laundry = 2,
-
-        [Custom(Name = "Meals")]
-        Meals = 3,
-
-        [Custom(Name = "Breakfast")]
-        Breakfast = 4,
-
-        [Custom(Name = "Pickup / Transportation")]
-        Transportation = 5,
-
-        [Custom(Name = "Custom")]
-        Custom = 99
-    }
-
-    public enum RoomServicePrice
-    {
-        [Custom(Name = "Included")]
-        Included = 1,
-
-        [Custom(Name = "Extra")]
-        Extra = 2,
-    }
-
-    public enum Allowed
-    {
-        [Custom(Name = "Yes")]
-        Yes = 1,
-
-        [Custom(Name = "No")]
-        No = 2,
-
-        [Custom(Name = "Negotiable")]
-        Negotiable = 3
-    }
-
-    public enum Gender
-    {
-        [Custom(Name = "Male")]
-        Male = 1,
-
-        [Custom(Name = "Female")]
-        Female = 2,
-
-        [Custom(Name = "Non-Binary")]
-        NonBinary = 3
-    }
-
-    public enum Occupation
-    {
-        [Custom(Name = "Student")]
-        Student = 1,
-
-        [Custom(Name = "Employed")]
-        Employed = 2,
-
-        [Custom(Name = "Self Employed")]
-        SelfEmployed = 3,
-
-        [Custom(Name = "Retired")]
-        Retired = 4,
-
-        [Custom(Name = "Unemployed")]
-        Unemployed = 5,
-    }
-
     public enum StayDuration
     {
-        [Custom(Name = "Less Than 1 Month")]
+        [FieldSettings("Less Than 1 Month")]
         _LessThan1Month = 1,
 
-        [Custom(Name = "1-3 Months")]
+        [FieldSettings("1-3 Months")]
         _1To3Months = 2,
 
-        [Custom(Name = "3-6 Months")]
+        [FieldSettings("3-6 Months")]
         _3To6Months = 3,
 
-        [Custom(Name = "6-12 Months")]
+        [FieldSettings("6-12 Months")]
         _6To12Months = 4,
 
-        [Custom(Name = "1 year+")]
+        [FieldSettings("1 year+")]
         _MoreThan1Year = 5,
-    }
-
-    public enum StayInterval
-    {
-        [Custom(Name = "Week")]
-        Week = 1,
-
-        [Custom(Name = "Month")]
-        Month = 3,
-    }
-
-    public enum PaymentInterval
-    {
-        [Custom(Name = "Once")]
-        Once = 1,
-
-        [Custom(Name = "Weekly")]
-        Weekly = 2,
-
-        [Custom(Name = "Every Two Weeks")]
-        EveryTwoWeeks = 3,
-
-        [Custom(Name = "Monthly")]
-        Monthly = 4
-    }
-
-    public enum PaymentType
-    {
-        [Custom(Name = "Rent")]
-        Rent = 1,
-
-        [Custom(Name = "Deposit")]
-        Deposit = 2,
-
-        [Custom(Name = "Utilities")]
-        Utilities = 3,
-
-        [Custom(Name = "Custom")]
-        Custom = 99
-    }
-
-    public enum AvailabilityMode
-    {
-        [Custom(Name = "Auto")]
-        Auto = 1,
-
-        [Custom(Name = "Manual")]
-        Manual = 2
     }
 
     public enum ProposalStatus
@@ -233,16 +41,9 @@
 
         //Basic Data
 
-        [Custom(Name = "Title", Placeholder = "Room name or type (e.g. Master bedroom, Single room, Ensuite room)")]
         public string? Title { get; set; }
-
-        [Custom(Name = "Description", Placeholder = "Details about the room, furniture, and living conditions")]
         public string? Description { get; set; }
-
-        [Custom(Name = "Size (sqm)")]
         public int? SizeSqm { get; set; }
-
-        [Custom(Name = "Access Type")]
         public AccessType AccessType { get; set; } = AccessType.Private;
 
         public List<RoomPhoto> Photos { get; set; } = [];
@@ -265,68 +66,68 @@
 
         //Preferences / Rules
 
-        [Custom(Name = "Smoking")]
+        [FieldSettings("Smoking")]
         public Allowed Smoking { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Pets")]
+        [FieldSettings("Pets")]
         public Allowed Pets { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Couples")]
+        [FieldSettings("Couples")]
         public Allowed Couples { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Children")]
+        [FieldSettings("Children")]
         public Allowed Children { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Alcohol")]
+        [FieldSettings("Alcohol")]
         public Allowed Alcohol { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Visits")]
+        [FieldSettings("Visits")]
         public Allowed Visits { get; set; } = Allowed.Negotiable;
 
-        [Custom(Name = "Preferred Genders")]
+        [FieldSettings("Preferred Genders")]
         public HashSet<Gender> PreferredGenders { get; set; } = [];
 
-        [Custom(Name = "Preferred Occupations")]
+        [FieldSettings("Preferred Occupations")]
         public HashSet<Occupation> PreferredOccupations { get; set; } = [];
 
-        [Custom(Name = "Minimum Age")]
+        [FieldSettings("Minimum Age")]
         public int? MinimumAge { get; set; }
 
-        [Custom(Name = "Maximum Age")]
+        [FieldSettings("Maximum Age")]
         public int? MaximumAge { get; set; }
 
         //Rental Terms / Costs
 
-        [Custom(Name = "Currency")]
+        [FieldSettings("Currency")]
         public Currency Currency { get; set; } = Currency.USD;
 
-        [Custom(Name = "Period")]
+        [FieldSettings("Period")]
         public int? PeriodStay { get; set; } = 1;
 
-        [Custom(Name = "Interval")]
+        [FieldSettings("Interval")]
         public StayInterval IntervalStay { get; set; } = StayInterval.Month;
 
-        [Custom(Name = "Minimum Stay")]
-        public string MinimumStay => $"{PeriodStay} {IntervalStay.GetName()}";
+        [FieldSettings("Minimum Stay")]
+        public string MinimumStay => $"{PeriodStay} {IntervalStay.GetFieldSettings().Name}";
 
-        [Custom(Name = "Costs")]
-        public List<ChargeModel> Charges { get; set; } = [];
+        [FieldSettings("Costs")]
+        public List<ChargeModel> Costs { get; set; } = [];
 
         //Management
 
-        [Custom(Name = "Capacity")]
+        [FieldSettings("Capacity")]
         public int Capacity { get; set; } = 1;
 
-        [Custom(Name = "Current Occupancy")]
+        [FieldSettings("Current Occupancy")]
         public int? CurrentOccupancy { get; set; }
 
-        [Custom(Name = "Availability Status")]
+        [FieldSettings("Availability Status")]
         public RoomStatus Status { get; set; } = RoomStatus.Available;
 
-        [Custom(Name = "Availability Mode")]
+        [FieldSettings("Availability Mode")]
         public AvailabilityMode AvailabilityMode { get; set; } = AvailabilityMode.Auto; //auto = calcula de acordo com Occupations, manual = definido pelo dono do apt
 
-        [Custom(Name = "Available From")]
+        [FieldSettings("Available From")]
         public DateTime AvailableFrom { get; set; } = DateTime.UtcNow; //todo: calcular em toda mudanca de ocupacao
     }
 
