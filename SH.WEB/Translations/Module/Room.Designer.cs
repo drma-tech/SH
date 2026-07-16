@@ -205,15 +205,6 @@ namespace SH.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Costs.
-        /// </summary>
-        public static string Costs {
-            get {
-                return ResourceManager.GetString("Costs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Couples.
         /// </summary>
         public static string Couples {
@@ -282,15 +273,6 @@ namespace SH.WEB.Translations.Module {
         public static string Facility {
             get {
                 return ResourceManager.GetString("Facility", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Frequency.
-        /// </summary>
-        public static string Frequency {
-            get {
-                return ResourceManager.GetString("Frequency", resourceCulture);
             }
         }
         

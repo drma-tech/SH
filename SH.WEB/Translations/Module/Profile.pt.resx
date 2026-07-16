@@ -198,7 +198,4 @@
   <data name="Smokes" xml:space="preserve">
     <value>Fuma</value>
   </data>
-  <data name="Wishlist" xml:space="preserve">
-    <value>Lista de desejos</value>
-  </data>
 </root>

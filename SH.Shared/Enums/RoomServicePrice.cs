@@ -2,10 +2,10 @@
 {
     public enum RoomServicePrice
     {
-        [FieldSettings("Included", ResourceType = typeof(Translations.Enum.RoomServicePrice))]
+        [FieldSettings(nameof(Translations.Enum.RoomServicePrice.Included), ResourceType = typeof(Translations.Enum.RoomServicePrice))]
         Included = 1,
 
-        [FieldSettings("Extra", ResourceType = typeof(Translations.Enum.RoomServicePrice))]
+        [FieldSettings(nameof(Translations.Enum.RoomServicePrice.Extra), ResourceType = typeof(Translations.Enum.RoomServicePrice))]
         Extra = 2,
     }
 }

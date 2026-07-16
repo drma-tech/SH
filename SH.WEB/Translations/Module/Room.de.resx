@@ -165,9 +165,6 @@
   <data name="Children" xml:space="preserve">
     <value>Kinder</value>
   </data>
-  <data name="Costs" xml:space="preserve">
-    <value>Kosten</value>
-  </data>
   <data name="Couples" xml:space="preserve">
     <value>Paare</value>
   </data>
@@ -191,9 +188,6 @@
   </data>
   <data name="Facility" xml:space="preserve">
     <value>Einrichtung</value>
-  </data>
-  <data name="Frequency" xml:space="preserve">
-    <value>Frequenz</value>
   </data>
   <data name="Interval" xml:space="preserve">
     <value>Intervall</value>

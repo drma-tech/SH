@@ -120,9 +120,6 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Affittacamere, case condivise e comunità</value>
   </data>
-  <data name="Bedroom" xml:space="preserve">
-    <value>Camera da letto</value>
-  </data>
   <data name="Compare" xml:space="preserve">
     <value>Confrontare</value>
   </data>
@@ -135,10 +132,10 @@
   <data name="Main" xml:space="preserve">
     <value>Principale</value>
   </data>
-  <data name="Profile" xml:space="preserve">
-    <value>Profilo</value>
-  </data>
   <data name="Property" xml:space="preserve">
     <value>Proprietà</value>
+  </data>
+  <data name="Bedroom" xml:space="preserve">
+    <value>Camera da letto</value>
   </data>
 </root>

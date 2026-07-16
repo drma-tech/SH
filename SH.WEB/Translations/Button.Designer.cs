@@ -70,15 +70,6 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add to wishlist.
-        /// </summary>
-        internal static string AddWishlist {
-            get {
-                return ResourceManager.GetString("AddWishlist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         internal static string Back {
@@ -133,24 +124,6 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Follow.
-        /// </summary>
-        internal static string Follow {
-            get {
-                return ResourceManager.GetString("Follow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Load More.
-        /// </summary>
-        internal static string LoadMore {
-            get {
-                return ResourceManager.GetString("LoadMore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string Login {
@@ -187,47 +160,11 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read More.
-        /// </summary>
-        internal static string ReadMore {
-            get {
-                return ResourceManager.GetString("ReadMore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Recent.
         /// </summary>
         internal static string Recent {
             get {
                 return ResourceManager.GetString("Recent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove.
-        /// </summary>
-        internal static string Remove {
-            get {
-                return ResourceManager.GetString("Remove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove Collection.
-        /// </summary>
-        internal static string RemoveCollection {
-            get {
-                return ResourceManager.GetString("RemoveCollection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove from wishlist.
-        /// </summary>
-        internal static string RemoveWishlist {
-            get {
-                return ResourceManager.GetString("RemoveWishlist", resourceCulture);
             }
         }
         
@@ -255,33 +192,6 @@ namespace SH.WEB.Translations {
         internal static string ShowCache {
             get {
                 return ResourceManager.GetString("ShowCache", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Simulate.
-        /// </summary>
-        internal static string Simulate {
-            get {
-                return ResourceManager.GetString("Simulate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unfollow.
-        /// </summary>
-        internal static string Unfollow {
-            get {
-                return ResourceManager.GetString("Unfollow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Update.
-        /// </summary>
-        internal static string Update {
-            get {
-                return ResourceManager.GetString("Update", resourceCulture);
             }
         }
     }

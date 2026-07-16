@@ -2,22 +2,22 @@
 {
     public enum RoomService
     {
-        [FieldSettings("RoomCleaning", ResourceType = typeof(Translations.Enum.RoomService))]
+        [FieldSettings(nameof(Translations.Enum.RoomService.RoomCleaning), ResourceType = typeof(Translations.Enum.RoomService))]
         RoomCleaning = 1,
 
-        [FieldSettings("Laundry", ResourceType = typeof(Translations.Enum.RoomService))]
+        [FieldSettings(nameof(Translations.Enum.RoomService.Laundry), ResourceType = typeof(Translations.Enum.RoomService))]
         Laundry = 2,
 
-        [FieldSettings("Meals", ResourceType = typeof(Translations.Enum.RoomService))]
+        [FieldSettings(nameof(Translations.Enum.RoomService.Meals), ResourceType = typeof(Translations.Enum.RoomService))]
         Meals = 3,
 
-        [FieldSettings("Breakfast", ResourceType = typeof(Translations.Enum.RoomService))]
+        [FieldSettings(nameof(Translations.Enum.RoomService.Breakfast), ResourceType = typeof(Translations.Enum.RoomService))]
         Breakfast = 4,
 
-        [FieldSettings("AirportPickup", ResourceType = typeof(Translations.Enum.RoomService))]
+        [FieldSettings(nameof(Translations.Enum.RoomService.AirportPickup), ResourceType = typeof(Translations.Enum.RoomService))]
         AirportPickup = 5,
 
-        [FieldSettings("Custom", ResourceType = typeof(Translations.Enum.RoomService))]
+        [FieldSettings(nameof(Translations.Enum.RoomService.Custom), ResourceType = typeof(Translations.Enum.RoomService))]
         Custom = 99
     }
 }

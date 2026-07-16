@@ -2,10 +2,10 @@
 {
     public enum AvailabilityMode
     {
-        [FieldSettings("Auto", ResourceType = typeof(Translations.Enum.AvailabilityMode))]
+        [FieldSettings(nameof(Translations.Enum.AvailabilityMode.Auto), ResourceType = typeof(Translations.Enum.AvailabilityMode))]
         Auto = 1,
 
-        [FieldSettings("Manual", ResourceType = typeof(Translations.Enum.AvailabilityMode))]
+        [FieldSettings(nameof(Translations.Enum.AvailabilityMode.Manual), ResourceType = typeof(Translations.Enum.AvailabilityMode))]
         Manual = 2
     }
 }

@@ -178,15 +178,6 @@ namespace SH.WEB.Translations.Module {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Country Code.
-        /// </summary>
-        public static string CountryCode {
-            get {
-                return ResourceManager.GetString("CountryCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Country Name.
         /// </summary>
         public static string CountryName {

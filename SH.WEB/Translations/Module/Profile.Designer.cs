@@ -302,14 +302,5 @@ namespace SH.WEB.Translations.Module {
                 return ResourceManager.GetString("Smokes", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Wishlist.
-        /// </summary>
-        public static string Wishlist {
-            get {
-                return ResourceManager.GetString("Wishlist", resourceCulture);
-            }
-        }
     }
 }

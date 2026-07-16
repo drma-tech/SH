@@ -77,14 +77,5 @@ namespace SH.WEB.Translations {
                 return ResourceManager.GetString("HelpCenter", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string Profile {
-            get {
-                return ResourceManager.GetString("Profile", resourceCulture);
-            }
-        }
     }
 }

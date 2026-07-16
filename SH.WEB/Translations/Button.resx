@@ -120,9 +120,6 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
-  <data name="AddWishlist" xml:space="preserve">
-    <value>Add to wishlist</value>
-  </data>
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -141,12 +138,6 @@
   <data name="ContinueWebsite" xml:space="preserve">
     <value>Continue to Website</value>
   </data>
-  <data name="Follow" xml:space="preserve">
-    <value>Follow</value>
-  </data>
-  <data name="LoadMore" xml:space="preserve">
-    <value>Load More</value>
-  </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -159,20 +150,8 @@
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="ReadMore" xml:space="preserve">
-    <value>Read More</value>
-  </data>
   <data name="Recent" xml:space="preserve">
     <value>Recent</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="RemoveCollection" xml:space="preserve">
-    <value>Remove Collection</value>
-  </data>
-  <data name="RemoveWishlist" xml:space="preserve">
-    <value>Remove from wishlist</value>
   </data>
   <data name="SelectPhoto" xml:space="preserve">
     <value>Select your photo</value>
@@ -182,14 +161,5 @@
   </data>
   <data name="ShowCache" xml:space="preserve">
     <value>Show Cache</value>
-  </data>
-  <data name="Simulate" xml:space="preserve">
-    <value>Simulate</value>
-  </data>
-  <data name="Unfollow" xml:space="preserve">
-    <value>Unfollow</value>
-  </data>
-  <data name="Update" xml:space="preserve">
-    <value>Update</value>
   </data>
 </root>

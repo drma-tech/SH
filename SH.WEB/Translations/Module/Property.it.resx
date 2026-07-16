@@ -132,6 +132,9 @@
   <data name="Amenities" xml:space="preserve">
     <value>Servizi</value>
   </data>
+  <data name="FeatureDescription" xml:space="preserve">
+    <value>Sono a disposizione di tutti i residenti della struttura. Possono trovarsi nella casa, nell'appartamento o nelle aree comuni dell'edificio.</value>
+  </data>
   <data name="AmenitiesSubtitle" xml:space="preserve">
     <value>Funzionalità e servizi extra per il comfort e la comodità.</value>
   </data>
@@ -156,9 +159,6 @@
   <data name="City" xml:space="preserve">
     <value>Città</value>
   </data>
-  <data name="CountryCode" xml:space="preserve">
-    <value>Codice Paese</value>
-  </data>
   <data name="CountryName" xml:space="preserve">
     <value>Nome del paese</value>
   </data>
@@ -179,9 +179,6 @@
   </data>
   <data name="Facility" xml:space="preserve">
     <value>Facilità</value>
-  </data>
-  <data name="FeatureDescription" xml:space="preserve">
-    <value>Sono a disposizione di tutti i residenti della struttura. Possono trovarsi nella casa, nell'appartamento o nelle aree comuni dell'edificio.</value>
   </data>
   <data name="HideExactAddress" xml:space="preserve">
     <value>Nascondi indirizzo esatto</value>

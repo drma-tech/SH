@@ -2,13 +2,13 @@
 {
     public enum Allowed
     {
-        [FieldSettings("Yes", ResourceType = typeof(Translations.Enum.Allowed))]
+        [FieldSettings(nameof(Translations.Enum.Allowed.Yes), ResourceType = typeof(Translations.Enum.Allowed))]
         Yes = 1,
 
-        [FieldSettings("No", ResourceType = typeof(Translations.Enum.Allowed))]
+        [FieldSettings(nameof(Translations.Enum.Allowed.No), ResourceType = typeof(Translations.Enum.Allowed))]
         No = 2,
 
-        [FieldSettings("Negotiable", ResourceType = typeof(Translations.Enum.Allowed))]
+        [FieldSettings(nameof(Translations.Enum.Allowed.Negotiable), ResourceType = typeof(Translations.Enum.Allowed))]
         Negotiable = 3
     }
 }

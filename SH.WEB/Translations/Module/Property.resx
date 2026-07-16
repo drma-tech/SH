@@ -132,9 +132,6 @@
   <data name="Amenities" xml:space="preserve">
     <value>Amenities</value>
   </data>
-  <data name="FeatureDescription" xml:space="preserve">
-    <value>They are available to all residents of the property. They may be located in the house, the apartment, or the building's common areas.</value>
-  </data>
   <data name="AmenitiesSubtitle" xml:space="preserve">
     <value>Extra features and services for comfort and convenience.</value>
   </data>
@@ -182,6 +179,9 @@
   </data>
   <data name="Facility" xml:space="preserve">
     <value>Facility</value>
+  </data>
+  <data name="FeatureDescription" xml:space="preserve">
+    <value>They are available to all residents of the property. They may be located in the house, the apartment, or the building's common areas.</value>
   </data>
   <data name="HideExactAddress" xml:space="preserve">
     <value>Hide Exact Address</value>
