@@ -117,17 +117,86 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutMe" xml:space="preserve">
+    <value>Acerca de mí</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Edad</value>
+  </data>
   <data name="AuthProviders" xml:space="preserve">
     <value>Proveedores de autenticación</value>
   </data>
   <data name="DeleteAccount" xml:space="preserve">
     <value>Borrar cuenta</value>
   </data>
+  <data name="DrinksAlcohol" xml:space="preserve">
+    <value>bebidas alcohólicas</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>Correo electrónico</value>
   </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>Correo electrónico verificado</value>
+  </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Nombre de pila</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Género</value>
+  </data>
+  <data name="HomeSchedule" xml:space="preserve">
+    <value>¿Cuándo sueles estar en casa?</value>
+  </data>
+  <data name="HostsVisitors" xml:space="preserve">
+    <value>Anfitriones visitantes</value>
+  </data>
   <data name="Identification" xml:space="preserve">
     <value>Identificación</value>
+  </data>
+  <data name="IdVerified" xml:space="preserve">
+    <value>Identificación verificada</value>
+  </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Idiomas hablados</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Apellido</value>
+  </data>
+  <data name="LinkedIn" xml:space="preserve">
+    <value>LinkedIn</value>
+  </data>
+  <data name="LivesAsCouple" xml:space="preserve">
+    <value>Vive en pareja</value>
+  </data>
+  <data name="LivesWithChildren" xml:space="preserve">
+    <value>Vive con niños</value>
+  </data>
+  <data name="LivesWithPets" xml:space="preserve">
+    <value>Vive con mascotas</value>
+  </data>
+  <data name="Nationality" xml:space="preserve">
+    <value>Nacionalidad</value>
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value>Ocupación</value>
+  </data>
+  <data name="OtherSocialMedia" xml:space="preserve">
+    <value>Otras redes sociales</value>
+  </data>
+  <data name="PhoneVerified" xml:space="preserve">
+    <value>Teléfono verificado</value>
+  </data>
+  <data name="ProfilePicture" xml:space="preserve">
+    <value>Foto de perfil</value>
+  </data>
+  <data name="Smokes" xml:space="preserve">
+    <value>fuma</value>
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Lista de deseos</value>

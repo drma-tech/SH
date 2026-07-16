@@ -66,68 +66,49 @@
 
         //Preferences / Rules
 
-        [FieldSettings("Smoking")]
         public Allowed Smoking { get; set; } = Allowed.Negotiable;
 
-        [FieldSettings("Pets")]
         public Allowed Pets { get; set; } = Allowed.Negotiable;
 
-        [FieldSettings("Couples")]
         public Allowed Couples { get; set; } = Allowed.Negotiable;
 
-        [FieldSettings("Children")]
         public Allowed Children { get; set; } = Allowed.Negotiable;
 
-        [FieldSettings("Alcohol")]
         public Allowed Alcohol { get; set; } = Allowed.Negotiable;
 
-        [FieldSettings("Visits")]
         public Allowed Visits { get; set; } = Allowed.Negotiable;
 
-        [FieldSettings("Preferred Genders")]
         public HashSet<Gender> PreferredGenders { get; set; } = [];
 
-        [FieldSettings("Preferred Occupations")]
         public HashSet<Occupation> PreferredOccupations { get; set; } = [];
 
-        [FieldSettings("Minimum Age")]
         public int? MinimumAge { get; set; }
 
-        [FieldSettings("Maximum Age")]
         public int? MaximumAge { get; set; }
 
         //Rental Terms / Costs
 
-        [FieldSettings("Currency")]
         public Currency Currency { get; set; } = Currency.USD;
 
-        [FieldSettings("Period")]
         public int? PeriodStay { get; set; } = 1;
 
-        [FieldSettings("Interval")]
         public StayInterval IntervalStay { get; set; } = StayInterval.Month;
 
-        [FieldSettings("Minimum Stay")]
         public string MinimumStay => $"{PeriodStay} {IntervalStay.GetFieldSettings().Name}";
 
-        [FieldSettings("Costs")]
         public List<ChargeModel> Costs { get; set; } = [];
 
         //Management
 
-        [FieldSettings("Capacity")]
         public int Capacity { get; set; } = 1;
 
-        [FieldSettings("Current Occupancy")]
         public int? CurrentOccupancy { get; set; }
 
-        [FieldSettings("Availability Status")]
+        //[FieldSettings("Availability Status")]
         public RoomStatus Status { get; set; } = RoomStatus.Available;
 
-        [FieldSettings("Availability Mode")]
         public AvailabilityMode AvailabilityMode { get; set; } = AvailabilityMode.Auto; //auto = calcula de acordo com Occupations, manual = definido pelo dono do apt
 
-        [FieldSettings("Available From")]
         public DateTime AvailableFrom { get; set; } = DateTime.UtcNow; //todo: calcular em toda mudanca de ocupacao
     }
 

@@ -2,13 +2,13 @@
 {
     public enum RoomStatus
     {
-        [FieldSettings("Available")]
+        [FieldSettings("Available", ResourceType = typeof(Translations.Enum.RoomStatus))]
         Available = 1,
 
-        [FieldSettings("Occupied")]
+        [FieldSettings("Occupied", ResourceType = typeof(Translations.Enum.RoomStatus))]
         Occupied = 2,
 
-        [FieldSettings("Unavailable")]
+        [FieldSettings("Unavailable", ResourceType = typeof(Translations.Enum.RoomStatus))]
         Unavailable = 3
     }
 }

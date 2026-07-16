@@ -22,7 +22,7 @@ namespace SH.WEB.Translations.Module {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Profile {
+    public class Profile {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SH.WEB.Translations.Module {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SH.WEB.Translations.Module.Profile", typeof(Profile).Assembly);
@@ -51,7 +51,7 @@ namespace SH.WEB.Translations.Module {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,9 +61,27 @@ namespace SH.WEB.Translations.Module {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About Me.
+        /// </summary>
+        public static string AboutMe {
+            get {
+                return ResourceManager.GetString("AboutMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Age.
+        /// </summary>
+        public static string Age {
+            get {
+                return ResourceManager.GetString("Age", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auth Providers.
         /// </summary>
-        internal static string AuthProviders {
+        public static string AuthProviders {
             get {
                 return ResourceManager.GetString("AuthProviders", resourceCulture);
             }
@@ -72,34 +90,223 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Delete Account.
         /// </summary>
-        internal static string DeleteAccount {
+        public static string DeleteAccount {
             get {
                 return ResourceManager.GetString("DeleteAccount", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drinks Alcohol.
+        /// </summary>
+        public static string DrinksAlcohol {
+            get {
+                return ResourceManager.GetString("DrinksAlcohol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        internal static string Email {
+        public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email Verified.
+        /// </summary>
+        public static string EmailVerified {
+            get {
+                return ResourceManager.GetString("EmailVerified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Facebook.
+        /// </summary>
+        public static string Facebook {
+            get {
+                return ResourceManager.GetString("Facebook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First Name.
+        /// </summary>
+        public static string FirstName {
+            get {
+                return ResourceManager.GetString("FirstName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gender.
+        /// </summary>
+        public static string Gender {
+            get {
+                return ResourceManager.GetString("Gender", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When are you usually at home?.
+        /// </summary>
+        public static string HomeSchedule {
+            get {
+                return ResourceManager.GetString("HomeSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hosts Visitors.
+        /// </summary>
+        public static string HostsVisitors {
+            get {
+                return ResourceManager.GetString("HostsVisitors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Identification.
         /// </summary>
-        internal static string Identification {
+        public static string Identification {
             get {
                 return ResourceManager.GetString("Identification", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Id Verified.
+        /// </summary>
+        public static string IdVerified {
+            get {
+                return ResourceManager.GetString("IdVerified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instagram.
+        /// </summary>
+        public static string Instagram {
+            get {
+                return ResourceManager.GetString("Instagram", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Languages spoken.
+        /// </summary>
+        public static string Languages {
+            get {
+                return ResourceManager.GetString("Languages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last Name.
+        /// </summary>
+        public static string LastName {
+            get {
+                return ResourceManager.GetString("LastName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LinkedIn.
+        /// </summary>
+        public static string LinkedIn {
+            get {
+                return ResourceManager.GetString("LinkedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lives As Couple.
+        /// </summary>
+        public static string LivesAsCouple {
+            get {
+                return ResourceManager.GetString("LivesAsCouple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lives With Children.
+        /// </summary>
+        public static string LivesWithChildren {
+            get {
+                return ResourceManager.GetString("LivesWithChildren", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lives With Pets.
+        /// </summary>
+        public static string LivesWithPets {
+            get {
+                return ResourceManager.GetString("LivesWithPets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nationality.
+        /// </summary>
+        public static string Nationality {
+            get {
+                return ResourceManager.GetString("Nationality", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Occupation.
+        /// </summary>
+        public static string Occupation {
+            get {
+                return ResourceManager.GetString("Occupation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Other Social Media.
+        /// </summary>
+        public static string OtherSocialMedia {
+            get {
+                return ResourceManager.GetString("OtherSocialMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Verified.
+        /// </summary>
+        public static string PhoneVerified {
+            get {
+                return ResourceManager.GetString("PhoneVerified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Picture.
+        /// </summary>
+        public static string ProfilePicture {
+            get {
+                return ResourceManager.GetString("ProfilePicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Smokes.
+        /// </summary>
+        public static string Smokes {
+            get {
+                return ResourceManager.GetString("Smokes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wishlist.
         /// </summary>
-        internal static string Wishlist {
+        public static string Wishlist {
             get {
                 return ResourceManager.GetString("Wishlist", resourceCulture);
             }

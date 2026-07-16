@@ -124,6 +124,15 @@ namespace SH.WEB.Translations.Module {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Whether or not room availability status is automatically managed by the platform (taking occupancy into account)..
+        /// </summary>
+        public static string AvailabilityModeDescription {
+            get {
+                return ResourceManager.GetString("AvailabilityModeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Availability Status.
         /// </summary>
         public static string AvailabilityStatus {
@@ -133,11 +142,38 @@ namespace SH.WEB.Translations.Module {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Determines whether the bedroom will be listed and available, blocked, or unavailable..
+        /// </summary>
+        public static string AvailabilityStatusDescription {
+            get {
+                return ResourceManager.GetString("AvailabilityStatusDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Available From.
         /// </summary>
         public static string AvailableFrom {
             get {
                 return ResourceManager.GetString("AvailableFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Indicates when the bedroom will become available. The status will change to &quot;available&quot; on that date..
+        /// </summary>
+        public static string AvailableFromDescription {
+            get {
+                return ResourceManager.GetString("AvailableFromDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available only for shared rooms.
+        /// </summary>
+        public static string AvailableSharedRooms {
+            get {
+                return ResourceManager.GetString("AvailableSharedRooms", resourceCulture);
             }
         }
         

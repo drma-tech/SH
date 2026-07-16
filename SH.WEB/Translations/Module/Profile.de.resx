@@ -117,17 +117,86 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AboutMe" xml:space="preserve">
+    <value>Über mich</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Alter</value>
+  </data>
   <data name="AuthProviders" xml:space="preserve">
     <value>Authentifizierungsanbieter</value>
   </data>
   <data name="DeleteAccount" xml:space="preserve">
     <value>Konto löschen</value>
   </data>
+  <data name="DrinksAlcohol" xml:space="preserve">
+    <value>Trinkt Alkohol</value>
+  </data>
   <data name="Email" xml:space="preserve">
     <value>E-Mail</value>
   </data>
+  <data name="EmailVerified" xml:space="preserve">
+    <value>E-Mail bestätigt</value>
+  </data>
+  <data name="Facebook" xml:space="preserve">
+    <value>Facebook</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Vorname</value>
+  </data>
+  <data name="Gender" xml:space="preserve">
+    <value>Geschlecht</value>
+  </data>
+  <data name="HomeSchedule" xml:space="preserve">
+    <value>Wann sind Sie normalerweise zu Hause?</value>
+  </data>
+  <data name="HostsVisitors" xml:space="preserve">
+    <value>Bewirtet Besucher</value>
+  </data>
   <data name="Identification" xml:space="preserve">
     <value>Identifikation</value>
+  </data>
+  <data name="IdVerified" xml:space="preserve">
+    <value>ID bestätigt</value>
+  </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>Instagram</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Gesprochene Sprachen</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Nachname</value>
+  </data>
+  <data name="LinkedIn" xml:space="preserve">
+    <value>LinkedIn</value>
+  </data>
+  <data name="LivesAsCouple" xml:space="preserve">
+    <value>Lebt als Paar</value>
+  </data>
+  <data name="LivesWithChildren" xml:space="preserve">
+    <value>Lebt mit Kindern</value>
+  </data>
+  <data name="LivesWithPets" xml:space="preserve">
+    <value>Lebt mit Haustieren</value>
+  </data>
+  <data name="Nationality" xml:space="preserve">
+    <value>Nationalität</value>
+  </data>
+  <data name="Occupation" xml:space="preserve">
+    <value>Beruf</value>
+  </data>
+  <data name="OtherSocialMedia" xml:space="preserve">
+    <value>Andere soziale Medien</value>
+  </data>
+  <data name="PhoneVerified" xml:space="preserve">
+    <value>Telefon verifiziert</value>
+  </data>
+  <data name="ProfilePicture" xml:space="preserve">
+    <value>Profilbild</value>
+  </data>
+  <data name="Smokes" xml:space="preserve">
+    <value>Raucht</value>
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Wunschliste</value>

@@ -138,11 +138,23 @@
   <data name="AvailabilityMode" xml:space="preserve">
     <value>Availability Mode</value>
   </data>
+  <data name="AvailabilityModeDescription" xml:space="preserve">
+    <value>Whether or not room availability status is automatically managed by the platform (taking occupancy into account).</value>
+  </data>
   <data name="AvailabilityStatus" xml:space="preserve">
     <value>Availability Status</value>
   </data>
+  <data name="AvailabilityStatusDescription" xml:space="preserve">
+    <value>Determines whether the bedroom will be listed and available, blocked, or unavailable.</value>
+  </data>
   <data name="AvailableFrom" xml:space="preserve">
     <value>Available From</value>
+  </data>
+  <data name="AvailableFromDescription" xml:space="preserve">
+    <value>Indicates when the bedroom will become available. The status will change to "available" on that date.</value>
+  </data>
+  <data name="AvailableSharedRooms" xml:space="preserve">
+    <value>Available only for shared rooms</value>
   </data>
   <data name="BasicData" xml:space="preserve">
     <value>Basic Data</value>

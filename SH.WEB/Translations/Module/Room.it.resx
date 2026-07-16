@@ -138,11 +138,23 @@
   <data name="AvailabilityMode" xml:space="preserve">
     <value>Modalità disponibilità</value>
   </data>
+  <data name="AvailabilityModeDescription" xml:space="preserve">
+    <value>Se lo stato di disponibilità delle camere viene gestito automaticamente dalla piattaforma (tenendo conto dell'occupazione).</value>
+  </data>
   <data name="AvailabilityStatus" xml:space="preserve">
     <value>Stato di disponibilità</value>
   </data>
+  <data name="AvailabilityStatusDescription" xml:space="preserve">
+    <value>Determina se la camera da letto sarà elencata e disponibile, bloccata o non disponibile.</value>
+  </data>
   <data name="AvailableFrom" xml:space="preserve">
     <value>Disponibile da</value>
+  </data>
+  <data name="AvailableFromDescription" xml:space="preserve">
+    <value>Indica quando la camera sarà disponibile. Lo stato cambierà in "disponibile" in quella data.</value>
+  </data>
+  <data name="AvailableSharedRooms" xml:space="preserve">
+    <value>Disponibile solo per camere condivise</value>
   </data>
   <data name="BasicData" xml:space="preserve">
     <value>Dati di base</value>

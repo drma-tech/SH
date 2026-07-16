@@ -98,6 +98,11 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>RoomServicePrice.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Translations\Enum\RoomStatus.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>RoomStatus.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Translations\Enum\SharedWith.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -181,6 +186,10 @@
 		<EmbeddedResource Update="Translations\Enum\RoomServicePrice.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>RoomServicePrice.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Enum\RoomStatus.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>RoomStatus.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Translations\Enum\SharedWith.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
