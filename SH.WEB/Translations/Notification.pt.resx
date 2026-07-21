@@ -126,14 +126,8 @@
   <data name="CheckOurApps" xml:space="preserve">
     <value>Explore nossos outros aplicativos incríveis:</value>
   </data>
-  <data name="CustomVisibilityInvalid" xml:space="preserve">
+  <data name="RenderControlInvalid" xml:space="preserve">
     <value>Operação inválida. Por favor, tente novamente.</value>
-  </data>
-  <data name="CustomVisibilityLoading" xml:space="preserve">
-    <value>Carregando...</value>
-  </data>
-  <data name="CustomVisibilityNoData" xml:space="preserve">
-    <value>Dados não disponíveis</value>
   </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>Aviso de site externo</value>
@@ -167,5 +161,11 @@
   </data>
   <data name="YouMustLogged" xml:space="preserve">
     <value>Você deve estar logado</value>
+  </data>
+  <data name="RenderControlLoading" xml:space="preserve">
+    <value>Carregando...</value>
+  </data>
+  <data name="RenderControlNoData" xml:space="preserve">
+    <value>Dados não disponíveis</value>
   </data>
 </root>

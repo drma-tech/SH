@@ -153,6 +153,9 @@
   <data name="Recent" xml:space="preserve">
     <value>Récent</value>
   </data>
+  <data name="RemoveAdvertising" xml:space="preserve">
+    <value>Supprimer la publicité</value>
+  </data>
   <data name="SelectPhoto" xml:space="preserve">
     <value>Sélectionnez votre photo</value>
   </data>

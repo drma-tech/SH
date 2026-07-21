@@ -169,6 +169,15 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove Advertising.
+        /// </summary>
+        internal static string RemoveAdvertising {
+            get {
+                return ResourceManager.GetString("RemoveAdvertising", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select your photo.
         /// </summary>
         internal static string SelectPhoto {

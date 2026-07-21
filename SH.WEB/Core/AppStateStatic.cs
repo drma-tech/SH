@@ -244,18 +244,18 @@ public static class AppStateStatic
                 return _country;
             }
 
-            var cache = await js.Utils().GetStorage("country", JavascriptContext.Default.String, cancellationToken);
+            var cache = await js.Utils().GetStorage("country", JavascriptContext.Default.String, cancellationToken, UtilsJs.BrowserStorageType.Session);
 
             if (cache.NotEmpty())
             {
-                _country = cache.Trim();
+                _country = cache;
             }
             else
             {
-                _country = (await api.GetCountry(cancellationToken))?.Trim();
+                _country = await api.GetCountry(cancellationToken);
 
                 if (_country.NotEmpty())
-                    await js.Utils().SetStorage("country", _country, JavascriptContext.Default.String, cancellationToken);
+                    await js.Utils().SetStorage("country", _country, JavascriptContext.Default.String, cancellationToken, UtilsJs.BrowserStorageType.Session);
             }
 
             return _country;
@@ -306,4 +306,5 @@ public static class AppStateStatic
     public static TaskDispatcher UserStateChanged { get; } = new();
     public static TaskDispatcher ProcessingStarted { get; } = new();
     public static TaskDispatcher ProcessingFinished { get; } = new();
+    public static ActionDispatcher<bool> HideAdvertising { get; } = new();
 }

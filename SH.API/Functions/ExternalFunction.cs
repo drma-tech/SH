@@ -32,18 +32,17 @@ public class ExternalFunction(IHttpClientFactory factory, IConfiguration config)
         if (ip.NotEmpty() && ip != "127.0.0.1")
         {
             var result = await client.GetStringAsync($"https://ipinfo.io/{ip}/country", cancellationToken);
-            return await req.CreateResponse(result.RemoveUnsafeControlChars(), TtlCache.OneMinute, cancellationToken);
+            return await req.CreateResponse(result.Trim().ToLower(), TtlCache.OneMinute, cancellationToken);
         }
 
-        return await req.CreateResponse(null, TtlCache.OneMinute, cancellationToken);
+        return await req.CreateResponse((string?)null, TtlCache.OneMinute, cancellationToken);
     }
 
     public string? HereApiKey { get; set; } = config.GetValue<string>("Here:ApiKey");
 
     [Function("HereBrowser")]
     public async Task<HereJson?> HereBrowser(
-        [HttpTrigger(AuthorizationLevel.Function, Method.Get, Route = "location/here/browser/{latitude}/{longitude}")]
-        HttpRequestData req, string latitude, string longitude, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Function, Method.Get, Route = "location/here/browser/{latitude}/{longitude}")] HttpRequestData req, string latitude, string longitude, CancellationToken cancellationToken)
     {
         using var http = new HttpClient();
 
@@ -52,8 +51,7 @@ public class ExternalFunction(IHttpClientFactory factory, IConfiguration config)
 
     [Function("HereGeocode")]
     public async Task<HereJson?> HereGeocode(
-      [HttpTrigger(AuthorizationLevel.Function, Method.Get, Route = "location/here/geocode")]
-        HttpRequestData req, string search, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Function, Method.Get, Route = "location/here/geocode")] HttpRequestData req, string search, CancellationToken cancellationToken)
     {
         using var http = new HttpClient();
 

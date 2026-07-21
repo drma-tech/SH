@@ -4,6 +4,9 @@
 ///     https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
 ///     https://en.wikipedia.org/wiki/List_of_official_languages
 ///     https://en.wikipedia.org/wiki/List_of_official_languages_by_country_and_territory
+///     
+///     todo: review and add missing languages
+///     https://www.loc.gov/standards/iso639-2/php/code_list.php
 /// </summary>
 public enum Language
 {

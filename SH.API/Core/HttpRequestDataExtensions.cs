@@ -63,6 +63,26 @@ public static class HttpRequestDataExtensions
         return response;
     }
 
+    public static async Task<HttpResponseData> CreateResponse(this HttpRequestData req, string? text, TtlCache maxAge, CancellationToken cancellationToken)
+    {
+        var response = req.CreateResponse();
+
+        if (text.NotEmpty())
+        {
+            response.StatusCode = HttpStatusCode.OK;
+            response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+            await response.WriteStringAsync(text, cancellationToken);
+        }
+        else
+        {
+            response.StatusCode = HttpStatusCode.NoContent;
+        }
+
+        response.Headers.Add("Cache-Control", $"public, max-age={(int)maxAge}");
+
+        return response;
+    }
+
     public static async Task<HttpResponseData> CreateResponse(this HttpRequestData req, Stream? stream, TtlCache maxAge, CancellationToken cancellationToken)
     {
         var response = req.CreateResponse();
@@ -149,7 +169,7 @@ public static class HttpRequestDataExtensions
     /// <summary>
     /// Ideally, wait two weeks before forcing a version (this gives most users time to update naturally).
     /// </summary>
-    private static readonly DateOnly MinimumSupportedVersion = new(2026, 06, 13);
+    private static readonly DateOnly MinimumSupportedVersion = new(2026, 07, 19);
 
     public static bool IsOutdated(string? version)
     {

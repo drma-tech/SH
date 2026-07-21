@@ -325,7 +325,8 @@
             HouseNumber = first?.houseNumber
         };
 
-        property.Languages = DataHelper.GetLanguages(Country.Brazil).ToHashSet();
+        var country = first?.countryCode.ParseToEnum<CountryExtended>();
+        property.Languages = DataHelper.GetLanguages((Country?)country).ToHashSet();
     }
 
     private async Task AddFacility()

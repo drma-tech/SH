@@ -39,7 +39,7 @@ public class LoginFunction(CosmosRepository repo, IDistributedCache cache)
             var newLogin = new AuthLogin
             {
                 UserId = userId,
-                Accesses = [new Access { Date = now, Platform = platform, Ip = ip, Country = country }]
+                Accesses = [new Access { Date = now, Platform = platform, Ip = ip, Country = country.ToLower() }]
             };
             newLogin.Initialize(userId);
 
@@ -59,7 +59,7 @@ public class LoginFunction(CosmosRepository repo, IDistributedCache cache)
 
             login.Accesses = login.Accesses
                 .Where(a => a.Date >= cutoff)
-                .Union([new Access { Date = now, Platform = platform, Ip = ip, Country = country }])
+                .Union([new Access { Date = now, Platform = platform, Ip = ip, Country = country.ToLower() }])
                 .Take(100)
                 .ToArray();
 

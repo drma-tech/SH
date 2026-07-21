@@ -7,12 +7,11 @@ namespace SH.Shared.Core.Helper
 {
     public sealed class EnumFieldObject<T>(string name, T value) where T : Enum
     {
+        public T Value { get; set; } = value;
         public string Name { get; set; } = name;
         public string? Group { get; set; }
         public string? Placeholder { get; set; }
         public string? Description { get; set; }
-        public string? Tips { get; set; }
-        public T Value { get; set; } = value;
     }
 
     public static class AttributeHelper
@@ -38,7 +37,6 @@ namespace SH.Shared.Core.Helper
                 Group = attr.Group,
                 Placeholder = attr.Placeholder,
                 Description = attr.Description,
-                Tips = attr.Tips
             };
 
             ApplyTranslations(obj, attr, translate);
@@ -56,7 +54,6 @@ namespace SH.Shared.Core.Helper
                 if (attr.Group.NotEmpty()) obj.Group = rm.GetResourceString(attr.Group);
                 if (attr.Placeholder.NotEmpty()) obj.Placeholder = rm.GetResourceString(attr.Placeholder)?.Replace(@"\n", Environment.NewLine);
                 if (attr.Description.NotEmpty()) obj.Description = rm.GetResourceString(attr.Description);
-                if (attr.Tips.NotEmpty()) obj.Tips = rm.GetResourceString(attr.Tips);
             }
         }
 
