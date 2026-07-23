@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SH.WEB.Translations.Module {
+namespace SH.Shared.Translations.Model {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SH.WEB.Translations.Module {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SH.WEB.Translations.Module.Room", typeof(Room).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SH.Shared.Translations.Model.Room", typeof(Room).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

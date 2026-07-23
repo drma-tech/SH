@@ -128,6 +128,24 @@ public class CosmosRepository
         }
     }
 
+    public async Task<T> ReplaceItemAsync<T>(T item, CancellationToken cancellationToken)
+       where T : CosmosDocument, new()
+    {
+        try
+        {
+            var response = await Container.ReplaceItemAsync(item, item.Id, new PartitionKey(item.Id), null, cancellationToken);
+
+            if (response.RequestCharge > 20)
+                _logger.LogWarning("UpsertItemAsync - ID {Id}, RequestCharge {Charges}", item.Id, response.RequestCharge);
+
+            return response.Resource;
+        }
+        catch (CosmosOperationCanceledException)
+        {
+            return new T();
+        }
+    }
+
     public async Task<T> UpsertItemAsync<T>(T item, CancellationToken cancellationToken)
         where T : CosmosDocument, new()
     {

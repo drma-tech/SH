@@ -15,12 +15,8 @@
         Variable = 4
     }
 
-    public class ProfileModel : ProtectedMainDocument
+    public class ProfileModel() : PrivateMainDocument(DocumentType.Profile)
     {
-        public ProfileModel() : base(DocumentType.Profile)
-        {
-        }
-
         //Basic Data
 
         public string? FirstName { get; set; }
@@ -76,5 +72,16 @@
         public bool EmailVerified { get; set; }
 
         public bool PhoneVerified { get; set; }
+
+        public HashSet<ProfileProperty> Properties { get; set; } = [];
+    }
+
+    public class ProfileProperty
+    {
+        public string? PropertyId { get; set; }
+        public string? Title { get; set; }
+        public string? UrlPath { get; set; }
+        public bool IsPublic { get; set; }
+        public PropertyUserRole Role { get; set; }
     }
 }

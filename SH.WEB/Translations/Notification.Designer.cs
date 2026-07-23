@@ -196,6 +196,15 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Description contains suspicious or spam-like content..
+        /// </summary>
+        public static string SpamLike {
+            get {
+                return ResourceManager.GetString("SpamLike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version.
         /// </summary>
         public static string Version {

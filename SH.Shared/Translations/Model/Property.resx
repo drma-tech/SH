@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -118,156 +118,156 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Accessibilities" xml:space="preserve">
-    <value>Acessibilidades</value>
+    <value>Accessibilities</value>
   </data>
   <data name="Accessibility" xml:space="preserve">
-    <value>Acessibilidade</value>
+    <value>Accessibility</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Endereço</value>
+    <value>Address</value>
   </data>
   <data name="AddressVerified" xml:space="preserve">
-    <value>Endereço verificado</value>
+    <value>Address Verified</value>
   </data>
   <data name="Amenities" xml:space="preserve">
-    <value>Comodidades</value>
-  </data>
-  <data name="FeatureDescription" xml:space="preserve">
-    <value>Eles estão disponíveis para todos os moradores do imóvel. Podem estar localizados na casa, no apartamento ou nas áreas comuns do edifício.</value>
+    <value>Amenities</value>
   </data>
   <data name="AmenitiesSubtitle" xml:space="preserve">
-    <value>Recursos e serviços extras para conforto e conveniência.</value>
+    <value>Extra features and services for comfort and convenience.</value>
   </data>
   <data name="Amenity" xml:space="preserve">
-    <value>Amenidade</value>
+    <value>Amenity</value>
   </data>
   <data name="BackgroundCheckRequired" xml:space="preserve">
-    <value>Verificação de antecedentes necessária</value>
+    <value>Background Check Required</value>
   </data>
   <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
-    <value>Exige que o candidato tenha passado por uma verificação de antecedentes.</value>
+    <value>It requires the candidate to have undergone a background check.</value>
   </data>
   <data name="BasicData" xml:space="preserve">
-    <value>Dados Básicos</value>
+    <value>Basic Data</value>
   </data>
   <data name="CheckInInstructions" xml:space="preserve">
-    <value>Instruções de check-in</value>
+    <value>CheckIn Instructions</value>
   </data>
   <data name="CheckInInstructionsPlaceholder" xml:space="preserve">
-    <value>Explique como entrar na propriedade, coletar as chaves ou códigos de acesso e concluir o processo de chegada.</value>
+    <value>Explain how to enter the property, collect keys or access codes, and complete the arrival process.</value>
   </data>
   <data name="City" xml:space="preserve">
-    <value>Cidade</value>
+    <value>City</value>
   </data>
   <data name="CountryName" xml:space="preserve">
-    <value>Nome do país</value>
+    <value>Country Name</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Descrição</value>
+    <value>Description</value>
   </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
-    <value>Descreva a propriedade, suas regras e o que torna este local uma boa opção para os moradores.</value>
+    <value>Describe the property, its rules, and what makes this place a good fit for residents.</value>
   </data>
   <data name="District" xml:space="preserve">
-    <value>Distrito</value>
+    <value>District</value>
   </data>
   <data name="Facilities" xml:space="preserve">
-    <value>Instalações</value>
+    <value>Facilities</value>
   </data>
   <data name="FacilitiesSubtitle" xml:space="preserve">
-    <value>Espaços compartilhados, áreas e características da propriedade.</value>
+    <value>Shared spaces, areas, and features of the property.</value>
   </data>
   <data name="Facility" xml:space="preserve">
-    <value>Instalação</value>
+    <value>Facility</value>
+  </data>
+  <data name="FeatureDescription" xml:space="preserve">
+    <value>They are available to all residents of the property. They may be located in the house, the apartment, or the building's common areas.</value>
   </data>
   <data name="HideExactAddress" xml:space="preserve">
-    <value>Ocultar endereço exato</value>
+    <value>Hide Exact Address</value>
   </data>
   <data name="HouseNumber" xml:space="preserve">
-    <value>Número da casa</value>
+    <value>House Number</value>
   </data>
   <data name="IdVerificationRequired" xml:space="preserve">
-    <value>Verificação de identidade necessária</value>
+    <value>ID Verification Required</value>
   </data>
   <data name="IdVerificationRequiredDescription" xml:space="preserve">
-    <value>Requer que o candidato tenha concluído a verificação de identidade.</value>
+    <value>Requires the candidate to have completed identity verification.</value>
   </data>
   <data name="IncomeVerificationRequired" xml:space="preserve">
-    <value>Verificação de renda necessária</value>
+    <value>Income Verification Required</value>
   </data>
   <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
-    <value>Requer que o candidato tenha concluído a verificação de renda.</value>
+    <value>Requires the candidate to have completed income verification.</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Rótulo</value>
+    <value>Label</value>
   </data>
   <data name="LabelDescription" xml:space="preserve">
-    <value>O que será mostrado ao potencial inquilino</value>
+    <value>What will be shown to the potential tenant</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value>Idiomas falados</value>
+    <value>Languages Spoken</value>
   </data>
   <data name="LocationDesc" xml:space="preserve">
-    <value>Descrição do local</value>
+    <value>Location Description</value>
   </data>
   <data name="LocationDescPlaceholder" xml:space="preserve">
-    <value>Descreva lugares próximos, opções de transporte e como é fácil chegar aos itens essenciais do dia a dia.</value>
+    <value>Describe nearby places, transportation options, and how easy it is to reach daily essentials.</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Nome</value>
+    <value>Name</value>
   </data>
   <data name="Photos" xml:space="preserve">
-    <value>Fotos</value>
+    <value>Photos</value>
   </data>
   <data name="PostalCode" xml:space="preserve">
-    <value>Código postal</value>
+    <value>Postal Code</value>
   </data>
   <data name="Requirements" xml:space="preserve">
-    <value>Requisitos</value>
+    <value>Requirements</value>
   </data>
   <data name="RequirementsDescription" xml:space="preserve">
-    <value>Selecione de acordo com suas necessidades, tendo em mente que inúmeros requisitos podem reduzir o número de potenciais candidatos</value>
+    <value>Select according to your needs, bearing in mind that numerous requirements may reduce the pool of potential candidates</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>Quartos</value>
+    <value>Rooms</value>
   </data>
   <data name="SearchAddress" xml:space="preserve">
-    <value>Endereço de pesquisa</value>
+    <value>Search Address</value>
   </data>
   <data name="SearchAddressDescription" xml:space="preserve">
-    <value>Por motivos legais, algumas regiões podem limitar ou negar pesquisas detalhadas de endereços. Entre em contato conosco para obter suporte.</value>
+    <value>For legal reasons, some regions may limit or deny detailed address searches. Please contact us for support.</value>
   </data>
   <data name="SearchAddressPlaceholder" xml:space="preserve">
-    <value>Digite algo para pesquisar, como endereço, nome do prédio, etc.</value>
+    <value>Type something to search for, such as an address, building name, etc.</value>
   </data>
   <data name="SharedWith" xml:space="preserve">
-    <value>Compartilhado com</value>
+    <value>Shared With</value>
   </data>
   <data name="SizeSqm" xml:space="preserve">
-    <value>Tamanho (m²)</value>
+    <value>Size (sqm)</value>
   </data>
   <data name="SocialRequired" xml:space="preserve">
-    <value>Redes sociais obrigatórias</value>
+    <value>Social Media Required</value>
   </data>
   <data name="SocialRequiredDescription" xml:space="preserve">
-    <value>Exige que o candidato tenha registrado pelo menos uma conta em rede social.</value>
+    <value>Requires the candidate to have registered at least one social media account.</value>
   </data>
   <data name="State" xml:space="preserve">
-    <value>Estado/Condado</value>
+    <value>State / County</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>Rua</value>
+    <value>Street</value>
   </data>
   <data name="Structure" xml:space="preserve">
-    <value>Estrutura</value>
+    <value>Structure</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Título</value>
+    <value>Title</value>
   </data>
   <data name="TitlePlaceholder" xml:space="preserve">
-    <value>Nome da propriedade, nome do edifício ou título da lista curta</value>
+    <value>Property name, building name, or short listing title</value>
   </data>
   <data name="Unit" xml:space="preserve">
-    <value>Unidade</value>
+    <value>Unit</value>
   </data>
 </root>

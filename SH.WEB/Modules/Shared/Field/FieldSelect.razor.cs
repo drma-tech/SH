@@ -36,11 +36,25 @@ public partial class FieldSelect<TValue, TEnum> : FormBase
     {
         EnumList = EnumHelper.GetList<TEnum>();
 
+        UpdateLists();
+    }
+
+    protected override void OnParametersSet()
+    {
+        UpdateLists();
+    }
+
+    private void UpdateLists()
+    {
         EnumListRaw = [.. EnumList.Where(Filter).OrderBy(Order)];
 
         if (ShowGroup)
         {
             EnumListGroup = [.. EnumListRaw.Select(s => s.Group ?? "").Order().Distinct()];
+        }
+        else
+        {
+            EnumListGroup = [];
         }
     }
 

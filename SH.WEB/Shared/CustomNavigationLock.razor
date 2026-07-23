@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+
+@inject IDialogService Dialogs
+
+<NavigationLock @ref="AppStateStatic.NavigationLock" ConfirmExternalNavigation="@(PendingAction && !AppStateStatic.ConfirmNavigationAnswer)" OnBeforeInternalNavigation="OnLocationChanging" />
+
+@code {
+    [Parameter] public bool PendingAction { get; set; }
+    [Parameter] public string? CustomMessage { get; set; }
+
+    protected override void OnInitialized()
+    {
+        AppStateStatic.ConfirmNavigationAnswerChanged.Subscribe(StateHasChanged, CancellationToken.None);
+    }
+
+    private async Task OnLocationChanging(LocationChangingContext context)
+    {
+        //https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing?view=aspnetcore-8.0#handleprevent-location-changes
+
+        if (PendingAction)
+        {
+            if (!await AppStateStatic.ConfirmNavigation(Dialogs, CustomMessage)) context.PreventNavigation();
+        }
+    }
+
+}

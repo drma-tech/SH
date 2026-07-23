@@ -125,6 +125,8 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<PaymentAuthApi>();
     collection.AddScoped<PaymentPublicApi>();
     collection.AddScoped<IpInfoApi>();
+    collection.AddScoped<PropertyApi>();
+    collection.AddScoped<ProfileApi>();
 }
 
 static async Task ConfigureCulture(NavigationManager? nav, IJSRuntime js)

@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="12.1.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 	<ItemGroup>
@@ -113,6 +114,16 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>StayInterval.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Translations\Model\Property.Designer.cs">
+		  <DependentUpon>Property.resx</DependentUpon>
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		</Compile>
+		<Compile Update="Translations\Model\Room.Designer.cs">
+		  <DependentUpon>Room.resx</DependentUpon>
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Translations\Enum\AccessibilityFeature.resx">
@@ -198,6 +209,14 @@
 		<EmbeddedResource Update="Translations\Enum\StayInterval.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>
 		  <LastGenOutput>StayInterval.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Model\Property.resx">
+		  <LastGenOutput>Property.Designer.cs</LastGenOutput>
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Translations\Model\Room.resx">
+		  <LastGenOutput>Room.Designer.cs</LastGenOutput>
+		  <Generator>PublicResXFileCodeGenerator</Generator>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

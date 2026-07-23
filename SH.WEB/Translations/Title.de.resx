@@ -120,6 +120,9 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Zimmervermietung, Wohngemeinschaft und Gemeinschaft</value>
   </data>
+  <data name="Bedroom" xml:space="preserve">
+    <value>Schlafzimmer</value>
+  </data>
   <data name="Compare" xml:space="preserve">
     <value>Vergleichen</value>
   </data>
@@ -134,8 +137,5 @@
   </data>
   <data name="Property" xml:space="preserve">
     <value>Eigentum</value>
-  </data>
-  <data name="Bedroom" xml:space="preserve">
-    <value>Schlafzimmer</value>
   </data>
 </root>

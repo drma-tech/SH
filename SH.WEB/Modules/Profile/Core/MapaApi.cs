@@ -2,7 +2,7 @@
 
 namespace SH.WEB.Modules.Profile.Core;
 
-public class MapApi(IHttpClientFactory http) : ApiCosmos<HereJson>(http, ApiType.Anonymous, null, ApiContext.Default.HereJson)
+public class MapApi(IHttpClientFactory http) : ApiCosmos<HereJson>(http, ApiType.Anonymous, null, [], ApiContext.Default.HereJson)
 {
     public async Task<HereJson?> HereBrowser(double Latitude, double Longitude, CancellationToken cancellationToken)
     {

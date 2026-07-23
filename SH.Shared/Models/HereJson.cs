@@ -2,11 +2,10 @@
 
 namespace SH.Shared.Models;
 
-public class GeoLocation
+public class Position
 {
-    public double Latitude { get; set; }
-    public double Longitude { get; set; }
-    public double Accuracy { get; set; }
+    public double? lat { get; set; }
+    public double? lng { get; set; }
 }
 
 /// <summary>
@@ -49,6 +48,7 @@ public class HereAddress
 public class HereRoot
 {
     public HereAddress? address { get; set; }
+    public Position? position { get; set; }
 }
 
 public class HereJson

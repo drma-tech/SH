@@ -120,6 +120,9 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Aluguel de quartos, casas compartilhadas e comunidade</value>
   </data>
+  <data name="Bedroom" xml:space="preserve">
+    <value>Quarto</value>
+  </data>
   <data name="Compare" xml:space="preserve">
     <value>Comparar</value>
   </data>
@@ -134,8 +137,5 @@
   </data>
   <data name="Property" xml:space="preserve">
     <value>Propriedade</value>
-  </data>
-  <data name="Bedroom" xml:space="preserve">
-    <value>Quarto</value>
   </data>
 </root>

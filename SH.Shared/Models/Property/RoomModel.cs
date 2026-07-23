@@ -1,4 +1,6 @@
-﻿namespace SH.Shared.Models
+﻿using SH.Shared.Core;
+
+namespace SH.Shared.Models.Property
 {
     public enum StayDuration
     {
@@ -33,9 +35,9 @@
         Expired = 3
     }
 
-    public class RoomModel : ProtectedMainDocument
+    public class RoomModel : CosmosDocument
     {
-        public RoomModel() : base(DocumentType.Room)
+        public RoomModel()
         {
         }
 

@@ -156,6 +156,9 @@
   <data name="RemoveAdvertising" xml:space="preserve">
     <value>Werbung entfernen</value>
   </data>
+  <data name="Save" xml:space="preserve">
+    <value>Speichern</value>
+  </data>
   <data name="SelectPhoto" xml:space="preserve">
     <value>Wählen Sie Ihr Foto aus</value>
   </data>

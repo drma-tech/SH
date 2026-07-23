@@ -120,6 +120,9 @@
   <data name="AppSubtitle" xml:space="preserve">
     <value>Location de chambres, maisons partagées et communauté</value>
   </data>
+  <data name="Bedroom" xml:space="preserve">
+    <value>Chambre à coucher</value>
+  </data>
   <data name="Compare" xml:space="preserve">
     <value>Comparer</value>
   </data>
@@ -134,8 +137,5 @@
   </data>
   <data name="Property" xml:space="preserve">
     <value>Propriété</value>
-  </data>
-  <data name="Bedroom" xml:space="preserve">
-    <value>Chambre à coucher</value>
   </data>
 </root>

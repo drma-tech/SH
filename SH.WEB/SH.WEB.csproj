@@ -11,6 +11,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="BlazorWasmPreRendering.Build" Version="8.0.1" />
+		<PackageReference Include="FluentValidation" Version="12.1.1" />
 		<PackageReference Include="Humanizer.Core" Version="3.0.10" />
 		<PackageReference Include="Humanizer.Core.es" Version="3.0.10" />
 		<PackageReference Include="Humanizer.Core.pt" Version="3.0.10" />
@@ -86,16 +87,6 @@
 		  <AutoGen>True</AutoGen>
 		  <DependentUpon>Profile.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Translations\Module\Property.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Property.resx</DependentUpon>
-		</Compile>
-		<Compile Update="Translations\Module\Room.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Room.resx</DependentUpon>
-		</Compile>
 		<Compile Update="Translations\Module\Subscription.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
@@ -152,14 +143,6 @@
 		<EmbeddedResource Update="Translations\Module\Profile.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Profile.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Translations\Module\Property.resx">
-		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>Property.Designer.cs</LastGenOutput>
-		</EmbeddedResource>
-		<EmbeddedResource Update="Translations\Module\Room.resx">
-		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>Room.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Translations\Module\Subscription.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>

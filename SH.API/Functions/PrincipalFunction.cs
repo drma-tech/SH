@@ -1,13 +1,13 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using SH.API.Core.Auth;
 using SH.Shared.Models.Auth;
 using SH.Shared.Models.Blocked;
-using SH.API.Core.Auth;
 
 namespace SH.API.Functions;
 
-public class PrincipalFunction(CosmosRepository repo, CosmosCacheRepository repoCache)
+public class PrincipalFunction(CosmosRepository repo, CosmosCacheRepository repoCache, IHttpClientFactory factory)
 {
     [Function("PrincipalGet")]
     public async Task<HttpResponseData?> PrincipalGet(
@@ -92,7 +92,29 @@ public class PrincipalFunction(CosmosRepository repo, CosmosCacheRepository repo
         };
         principal.Initialize(userId);
 
-        return await repo.CreateItemAsync(principal, cancellationToken);
+        principal = await repo.CreateItemAsync(principal, cancellationToken);
+
+        var client = factory.CreateClient("ipinfo");
+        var country = "";
+        try
+        {
+            country = await client.GetStringAsync($"https://ipinfo.io/{ip}/country", cancellationToken);
+        }
+        catch
+        {
+            //ignore
+        }
+
+        var profile = new ProfileModel()
+        {
+            FirstName = body.DisplayName,
+            Nationality = country.NotEmpty() ? country.ParseToEnum<Country>() : null
+        };
+        profile.Initialize(userId);
+
+        await repo.CreateItemAsync(profile, cancellationToken);
+
+        return principal;
     }
 
     [Function("PrincipalUpdate")]
@@ -113,7 +135,7 @@ public class PrincipalFunction(CosmosRepository repo, CosmosCacheRepository repo
 
     [Function("PrincipalEvent")]
     public async Task<AuthPrincipal> PrincipalEvent(
-       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Put, Route = "principal/event")] HttpRequestData req, CancellationToken cancellationToken)
+       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "principal/event")] HttpRequestData req, CancellationToken cancellationToken)
     {
         var userId = await req.GetUserIdAsync(cancellationToken);
         var ip = req.GetUserIP(true);

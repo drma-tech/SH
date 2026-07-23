@@ -1,8 +1,10 @@
-﻿namespace SH.Shared.Models
+﻿using SH.Shared.Core;
+
+namespace SH.Shared.Models.Property
 {
-    public class PropertyModel : ProtectedMainDocument
+    public class PropertyModel : CosmosDocument
     {
-        public PropertyModel() : base(DocumentType.Profile)
+        public PropertyModel()
         {
         }
 
@@ -10,7 +12,7 @@
 
         public SharedWith SharedWith { get; set; } = SharedWith.Owner;
 
-        public List<PropertyMember> Members { get; set; } = [];
+        public HashSet<PropertyMember> Members { get; set; } = [];
 
         public PropertyAddress Address { get; set; } = new();
 
@@ -26,10 +28,9 @@
 
         public int? SizeSqm { get; set; }
 
-        public List<PropertyPhoto> Photos { get; set; } = [];
-        public List<PropertyFacilityModel> Facilities { get; set; } = [];
-        public List<PropertyAmenityModel> Amenities { get; set; } = [];
-        public List<AccessibilityFeature> Accessibilities { get; set; } = [];
+        public HashSet<PropertyFacilityModel> Facilities { get; set; } = [];
+        public HashSet<PropertyAmenityModel> Amenities { get; set; } = [];
+        public HashSet<AccessibilityFeature> Accessibilities { get; set; } = [];
 
         public bool AddressVerified { get; set; }
 
@@ -38,7 +39,16 @@
         public bool IncomeVerificationRequired { get; set; }
         public bool BackgroundCheckRequired { get; set; }
 
-        public List<RoomShort> Rooms { get; set; } = [];
+        public HashSet<PropertyPhoto> Photos { get; set; } = [];
+        public HashSet<RoomShort> Rooms { get; set; } = [];
+
+        public void SanitizeOpenTextFields()
+        {
+            Title = Title?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+            Description = Description?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+            LocationDesc = LocationDesc?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+            CheckInInstructions = CheckInInstructions?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+        }
     }
 
     public class PropertyAddress
@@ -58,40 +68,50 @@
         public bool HideExactAddress { get; set; }
     }
 
-    public class PropertyPhoto
+    public class PropertyPhoto : EqualityBase<PropertyPhoto>
     {
         public string? UrlPath { get; set; }
         public string? Caption { get; set; }
         public int Order { get; set; }
+
+        protected override object?[] EqualityValues => [UrlPath];
     }
 
-    public class PropertyMember
+    public class PropertyMember : EqualityBase<PropertyMember>
     {
         public string? UserId { get; set; }
         public bool IdVerified { get; set; }
         public bool EmailVerified { get; set; }
         public bool PhoneVerified { get; set; }
         public PropertyUserRole Role { get; set; }
+
+        protected override object?[] EqualityValues => [UserId];
     }
 
-    public class PropertyFacilityModel
+    public class PropertyFacilityModel : EqualityBase<PropertyFacilityModel>
     {
         public PropertyFacility Facility { get; set; }
         public string? CustomName { get; set; }
+
+        protected override object?[] EqualityValues => [Facility, CustomName];
     }
 
-    public class PropertyAmenityModel
+    public class PropertyAmenityModel : EqualityBase<PropertyAmenityModel>
     {
         public PropertyAmenity Amenity { get; set; }
         public string? CustomName { get; set; }
+
+        protected override object?[] EqualityValues => [Amenity, CustomName];
     }
 
-    public class RoomShort
+    public class RoomShort : EqualityBase<RoomShort>
     {
         public string RoomId { get; set; } = Guid.NewGuid().ToString();
         public string? Title { get; set; }
         public RoomStatus Status { get; set; }
         public decimal? MonthlyPrice { get; set; } //rent + utilities + others
         public double? Rating { get; set; }
+
+        protected override object?[] EqualityValues => [RoomId];
     }
 }

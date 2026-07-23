@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Woman" xml:space="preserve">
-    <value>Woman</value>
-  </data>
   <data name="Man" xml:space="preserve">
     <value>Man</value>
   </data>
   <data name="NonBinary" xml:space="preserve">
     <value>Non-Binary</value>
+  </data>
+  <data name="Woman" xml:space="preserve">
+    <value>Woman</value>
   </data>
 </root>

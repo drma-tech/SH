@@ -118,156 +118,156 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Accessibilities" xml:space="preserve">
-    <value>Accesibilidades</value>
+    <value>Accessibilità</value>
   </data>
   <data name="Accessibility" xml:space="preserve">
-    <value>Accesibilidad</value>
+    <value>Accessibilità</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>DIRECCIÓN</value>
+    <value>Indirizzo</value>
   </data>
   <data name="AddressVerified" xml:space="preserve">
-    <value>Dirección verificada</value>
+    <value>Indirizzo verificato</value>
   </data>
   <data name="Amenities" xml:space="preserve">
-    <value>Comodidades</value>
-  </data>
-  <data name="FeatureDescription" xml:space="preserve">
-    <value>Están disponibles para todos los residentes de la propiedad. Pueden estar ubicados en la casa, el apartamento o las zonas comunes del edificio.</value>
+    <value>Servizi</value>
   </data>
   <data name="AmenitiesSubtitle" xml:space="preserve">
-    <value>Funciones y servicios adicionales para mayor comodidad y conveniencia.</value>
+    <value>Funzionalità e servizi extra per il comfort e la comodità.</value>
   </data>
   <data name="Amenity" xml:space="preserve">
-    <value>Amenidad</value>
+    <value>Comodità</value>
   </data>
   <data name="BackgroundCheckRequired" xml:space="preserve">
-    <value>Se requiere verificación de antecedentes</value>
+    <value>Controllo dei precedenti obbligatorio</value>
   </data>
   <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
-    <value>Requiere que el candidato se haya sometido a una verificación de antecedentes.</value>
+    <value>Richiede che il candidato sia stato sottoposto a un controllo dei precedenti.</value>
   </data>
   <data name="BasicData" xml:space="preserve">
-    <value>Datos Básicos</value>
+    <value>Dati di base</value>
   </data>
   <data name="CheckInInstructions" xml:space="preserve">
-    <value>Instrucciones de check-in</value>
+    <value>Istruzioni per il check-in</value>
   </data>
   <data name="CheckInInstructionsPlaceholder" xml:space="preserve">
-    <value>Explique cómo ingresar a la propiedad, recoger llaves o códigos de acceso y completar el proceso de llegada.</value>
+    <value>Spiega come entrare nella proprietà, ritirare le chiavi o i codici di accesso e completare il processo di arrivo.</value>
   </data>
   <data name="City" xml:space="preserve">
-    <value>Ciudad</value>
+    <value>Città</value>
   </data>
   <data name="CountryName" xml:space="preserve">
-    <value>Nombre del país</value>
+    <value>Nome del paese</value>
   </data>
   <data name="Description" xml:space="preserve">
-    <value>Descripción</value>
+    <value>Descrizione</value>
   </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
-    <value>Describe la propiedad, sus reglas y qué hace que este lugar sea una buena opción para los residentes.</value>
+    <value>Descrivi la proprietà, le sue regole e ciò che rende questo luogo adatto ai residenti.</value>
   </data>
   <data name="District" xml:space="preserve">
-    <value>Distrito</value>
+    <value>Quartiere</value>
   </data>
   <data name="Facilities" xml:space="preserve">
-    <value>Instalaciones</value>
+    <value>Strutture</value>
   </data>
   <data name="FacilitiesSubtitle" xml:space="preserve">
-    <value>Espacios, áreas y características compartidas de la propiedad.</value>
+    <value>Spazi, aree e caratteristiche condivise della proprietà.</value>
   </data>
   <data name="Facility" xml:space="preserve">
-    <value>Instalación</value>
+    <value>Facilità</value>
+  </data>
+  <data name="FeatureDescription" xml:space="preserve">
+    <value>Sono a disposizione di tutti i residenti della struttura. Possono trovarsi nella casa, nell'appartamento o nelle aree comuni dell'edificio.</value>
   </data>
   <data name="HideExactAddress" xml:space="preserve">
-    <value>Ocultar dirección exacta</value>
+    <value>Nascondi indirizzo esatto</value>
   </data>
   <data name="HouseNumber" xml:space="preserve">
-    <value>Número de casa</value>
+    <value>Numero civico</value>
   </data>
   <data name="IdVerificationRequired" xml:space="preserve">
-    <value>Se requiere verificación de identificación</value>
+    <value>Verifica dell'identità obbligatoria</value>
   </data>
   <data name="IdVerificationRequiredDescription" xml:space="preserve">
-    <value>Requiere que el candidato haya completado la verificación de identidad.</value>
+    <value>Richiede che il candidato abbia completato la verifica dell'identità.</value>
   </data>
   <data name="IncomeVerificationRequired" xml:space="preserve">
-    <value>Se requiere verificación de ingresos</value>
+    <value>Verifica del reddito richiesta</value>
   </data>
   <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
-    <value>Requiere que el candidato haya completado la verificación de ingresos.</value>
+    <value>Richiede che il candidato abbia completato la verifica del reddito.</value>
   </data>
   <data name="Label" xml:space="preserve">
-    <value>Etiqueta</value>
+    <value>Etichetta</value>
   </data>
   <data name="LabelDescription" xml:space="preserve">
-    <value>Qué se mostrará al posible inquilino</value>
+    <value>Cosa verrà mostrato al potenziale inquilino</value>
   </data>
   <data name="Languages" xml:space="preserve">
-    <value>Idiomas hablados</value>
+    <value>Lingue parlate</value>
   </data>
   <data name="LocationDesc" xml:space="preserve">
-    <value>Descripción de la ubicación</value>
+    <value>Descrizione della posizione</value>
   </data>
   <data name="LocationDescPlaceholder" xml:space="preserve">
-    <value>Describa los lugares cercanos, las opciones de transporte y lo fácil que es llegar a las necesidades diarias.</value>
+    <value>Descrivi i luoghi nelle vicinanze, le opzioni di trasporto e quanto sia facile raggiungere le cose essenziali quotidiane.</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Nombre</value>
+    <value>Nome</value>
   </data>
   <data name="Photos" xml:space="preserve">
-    <value>Fotos</value>
+    <value>Foto</value>
   </data>
   <data name="PostalCode" xml:space="preserve">
-    <value>Código Postal</value>
+    <value>Codice Postale</value>
   </data>
   <data name="Requirements" xml:space="preserve">
-    <value>Requisitos</value>
+    <value>Requisiti</value>
   </data>
   <data name="RequirementsDescription" xml:space="preserve">
-    <value>Seleccione según sus necesidades, teniendo en cuenta que numerosos requisitos pueden reducir el grupo de candidatos potenciales</value>
+    <value>Seleziona in base alle tue esigenze, tenendo presente che numerosi requisiti possono ridurre il bacino di potenziali candidati</value>
   </data>
   <data name="Rooms" xml:space="preserve">
-    <value>Alojamiento</value>
+    <value>Camere</value>
   </data>
   <data name="SearchAddress" xml:space="preserve">
-    <value>Buscar dirección</value>
+    <value>Cerca indirizzo</value>
   </data>
   <data name="SearchAddressDescription" xml:space="preserve">
-    <value>Por motivos legales, algunas regiones pueden limitar o negar búsquedas detalladas de direcciones. Por favor contáctenos para obtener ayuda.</value>
+    <value>Per motivi legali, alcune regioni potrebbero limitare o negare ricerche dettagliate di indirizzi. Vi preghiamo di contattarci per ricevere supporto.</value>
   </data>
   <data name="SearchAddressPlaceholder" xml:space="preserve">
-    <value>Escriba algo para buscar, como una dirección, el nombre del edificio, etc.</value>
+    <value>Digita qualcosa da cercare, ad esempio un indirizzo, il nome dell'edificio, ecc.</value>
   </data>
   <data name="SharedWith" xml:space="preserve">
-    <value>Compartido con</value>
+    <value>Condiviso con</value>
   </data>
   <data name="SizeSqm" xml:space="preserve">
-    <value>Tamaño (m²)</value>
+    <value>Superficie (mq)</value>
   </data>
   <data name="SocialRequired" xml:space="preserve">
-    <value>Se requieren redes sociales</value>
+    <value>Social media richiesti</value>
   </data>
   <data name="SocialRequiredDescription" xml:space="preserve">
-    <value>Requiere que el candidato haya registrado al menos una cuenta de red social.</value>
+    <value>Richiede che il candidato abbia registrato almeno un account di social media.</value>
   </data>
   <data name="State" xml:space="preserve">
-    <value>Estado/Condado</value>
+    <value>Stato/Contea</value>
   </data>
   <data name="Street" xml:space="preserve">
-    <value>Calle</value>
+    <value>Strada</value>
   </data>
   <data name="Structure" xml:space="preserve">
-    <value>Estructura</value>
+    <value>Struttura</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Título</value>
+    <value>Titolo</value>
   </data>
   <data name="TitlePlaceholder" xml:space="preserve">
-    <value>Nombre de la propiedad, nombre del edificio o título de la lista corta</value>
+    <value>Nome della proprietà, nome dell'edificio o titolo dell'elenco breve</value>
   </data>
   <data name="Unit" xml:space="preserve">
-    <value>Unidad</value>
+    <value>Unità</value>
   </data>
 </root>
