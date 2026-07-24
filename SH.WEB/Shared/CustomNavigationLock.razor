@@ -2,25 +2,24 @@
 
 @inject IDialogService Dialogs
 
-<NavigationLock @ref="AppStateStatic.NavigationLock" ConfirmExternalNavigation="@(PendingAction && !AppStateStatic.ConfirmNavigationAnswer)" OnBeforeInternalNavigation="OnLocationChanging" />
+<NavigationLock ConfirmExternalNavigation="@IsDirty" OnBeforeInternalNavigation="OnLocationChanging" />
 
 @code {
-    [Parameter] public bool PendingAction { get; set; }
+    [Parameter] public bool IsDirty { get; set; }
     [Parameter] public string? CustomMessage { get; set; }
-
-    protected override void OnInitialized()
-    {
-        AppStateStatic.ConfirmNavigationAnswerChanged.Subscribe(StateHasChanged, CancellationToken.None);
-    }
 
     private async Task OnLocationChanging(LocationChangingContext context)
     {
-        //https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/routing?view=aspnetcore-8.0#handleprevent-location-changes
+        //https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/navigation?view=aspnetcore-10.0#handleprevent-location-changes
 
-        if (PendingAction)
+        if (IsDirty)
         {
-            if (!await AppStateStatic.ConfirmNavigation(Dialogs, CustomMessage)) context.PreventNavigation();
+            var confirmed = await Dialogs.ShowMessageBoxAsync(AppInfo.Title, CustomMessage ?? "You may lose unsaved changes. Do you want to continue?", Translations.Button.Ok, Translations.Button.Cancel) ?? false;
+
+            if (!confirmed)
+            {
+                context.PreventNavigation();
+            }
         }
     }
-
 }

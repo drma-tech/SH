@@ -129,7 +129,7 @@ public class CosmosRepository
     }
 
     public async Task<T> ReplaceItemAsync<T>(T item, CancellationToken cancellationToken)
-       where T : CosmosDocument, new()
+        where T : CosmosDocument, new()
     {
         try
         {

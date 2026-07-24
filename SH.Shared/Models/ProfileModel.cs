@@ -74,6 +74,7 @@
         public bool PhoneVerified { get; set; }
 
         public HashSet<ProfileProperty> Properties { get; set; } = [];
+        public HashSet<ProfileGuest> Guests { get; set; } = [];
     }
 
     public class ProfileProperty
@@ -83,5 +84,10 @@
         public string? UrlPath { get; set; }
         public bool IsPublic { get; set; }
         public PropertyUserRole Role { get; set; }
+    }
+
+    public class ProfileGuest
+    {
+        public string? PropertyId { get; set; }
     }
 }

@@ -4,11 +4,11 @@ namespace SH.WEB.Modules.Profile.Core;
 
 public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(http, ApiType.Authenticated, "property", ["profile"], ApiContext.Default.PropertyModel)
 {
-    public async Task<PropertyModel?> Get(string? id, bool isPublic, ComponentActions<PropertyModel>? actions, CancellationToken cancellationToken)
+    public async Task<PropertyModel?> Get(bool live, string? rawId, ComponentActions<PropertyModel>? actions, CancellationToken cancellationToken)
     {
-        if (id.Empty()) return null;
+        if (rawId.Empty()) return null;
 
-        return await GetAsync(Endpoint.Get(id, isPublic), false, actions, cancellationToken);
+        return await GetAsync(Endpoint.Get(live, rawId), false, actions, cancellationToken);
     }
 
     public async Task<PropertyModel> Add(PropertyModel? model, CancellationToken cancellationToken)
@@ -25,9 +25,18 @@ public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(htt
         return await PutAsync(Endpoint.Update, model, ApiContext.Default.PropertyModel, cancellationToken);
     }
 
+    public async Task<ProfileModel> Delete(bool live, string? rawId, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(rawId);
+
+        return await PostAsync(Endpoint.Delete(live, rawId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, cancellationToken);
+    }
+
     public struct Endpoint
     {
-        public static string Get(string id, bool isPublic) => $"property/get/{id}/{isPublic.ToString().ToSlug()}";
+        public static string Get(bool live, string rawId) => $"property/get/{live.ToString().ToSlug()}/{rawId}";
+
+        public static string Delete(bool live, string rawId) => $"property/delete/{live.ToString().ToSlug()}/{rawId}";
 
         public const string Add = "property/add";
         public const string Update = "property/update";

@@ -14,7 +14,7 @@
         </MudText>
         @if (Multiple)
         {
-            <MudToggleGroup T="TEnum" Values="@SelectedValues" ValuesChanged="@SelectedValuesChanged" Vertical="@Vertical" FixedContent="Vertical"
+            <MudToggleGroup T="TEnum" Values="@SelectedValues" ValuesChanged="@SelectedValuesChangedHandle" Vertical="@Vertical" FixedContent="Vertical"
                             Disabled="@Disabled" Style="width: 100%;" SelectionMode="@(Multiple ? SelectionMode.MultiSelection : SelectionMode.SingleSelection)" CheckMark="true">
                 @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
                 {
@@ -25,7 +25,7 @@
         }
         else
         {
-            <MudToggleGroup T="TEnum" Value="@SelectedValue" ValueChanged="@SelectedValueChanged" Vertical="@Vertical" FixedContent="Vertical"
+            <MudToggleGroup T="TEnum" Value="@SelectedValue" ValueChanged="@SelectedValueChangedHandle" Vertical="@Vertical" FixedContent="Vertical"
                             Disabled="@Disabled" Style="width: 100%;" SelectionMode="@(Multiple ? SelectionMode.MultiSelection : SelectionMode.SingleSelection)" CheckMark="true">
                 @foreach (var item in EnumList.Where(Filter).OrderBy(Order))
                 {

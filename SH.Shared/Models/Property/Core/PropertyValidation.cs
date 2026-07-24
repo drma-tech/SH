@@ -48,31 +48,8 @@ public class PropertyValidation : AbstractValidator<PropertyModel>
 
         RuleSet("ON", () =>
         {
+            RuleFor(x => x.Photos).NotEmpty()
+               .WithName(Translations.Model.Property.Photos);
         });
-
-        //RuleFor(x => x.NickName)
-        //    .NotEmpty()
-        //    .MaximumLength(18).WithMessage("Nickname must be 18 characters or fewer.")
-        //    .Must(n => !StringHelper.IsLikelySpam(n)).WithMessage("Nickname contains suspicious or spam-like content.")
-        //    .WithName(ProfileBasicModel.NickName_Name);
-
-        //RuleFor(x => x.Description)
-        //    .MaximumLength(512).WithMessage("Description must be 512 characters or fewer.")
-        //    .Must(d => !StringHelper.IsLikelySpam(d)).WithMessage("Description contains suspicious or spam-like content.")
-        //    .WithName(ProfileBasicModel.Description_Name);
-
-        //RuleFor(x => x.Nationality)
-        //    .NotEmpty()
-        //    .WithName("Nationality");
-
-        //RuleFor(x => x.Location)
-        //    .NotEmpty()
-        //    .WithName(ProfileBasicModel.Location_Name);
-
-        //RuleFor(x => x.Languages)
-        //    .NotEmpty()
-        //    .Must(value => value.Count <= 3)
-        //    .WithMessage(string.Format(Validations.ChooseMaximumOptions, 3, ProfileBasicModel.Languages_Name))
-        //    .WithName(ProfileBasicModel.Languages_Name);
     }
 }

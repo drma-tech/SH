@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MudBlazor;
 
 namespace SH.WEB.Modules.Shared.Field;
 
@@ -20,8 +21,22 @@ public partial class FieldGroup<TEnum> : FormBase
 
     public List<TEnum> EnumList { get; set; } = [];
 
+    [Parameter] public MudForm? MudForm { get; set; }
+
     protected override void OnInitialized()
     {
         EnumList = [.. EnumHelper.GetValues<TEnum>()];
+    }
+
+    private async Task SelectedValueChangedHandle(TEnum value)
+    {
+        await SelectedValueChanged.InvokeAsync(value);
+        if (MudForm != null) await MudForm.FieldChanged.InvokeAsync();
+    }
+
+    private async Task SelectedValuesChangedHandle(IEnumerable<TEnum>? values)
+    {
+        await SelectedValuesChanged.InvokeAsync(values);
+        if (MudForm != null) await MudForm.FieldChanged.InvokeAsync();
     }
 }

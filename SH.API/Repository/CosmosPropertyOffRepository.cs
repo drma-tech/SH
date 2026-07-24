@@ -2,7 +2,6 @@
 using Microsoft.Azure.Cosmos.Linq;
 using Microsoft.Extensions.Logging;
 using SH.API.Repository.Core;
-using SH.Shared.Models.Property;
 using System.Linq.Expressions;
 using System.Net;
 
@@ -23,13 +22,14 @@ public class CosmosPropertyOffRepository
 
     public Container Container { get; }
 
-    public async Task<PropertyModel?> Get(string? id, CancellationToken cancellationToken)
+    public async Task<T?> Get<T>(DocumentType type, string? id, CancellationToken cancellationToken)
+        where T : CosmosDocument
     {
         if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id));
 
         try
         {
-            var response = await Container.ReadItemAsync<PropertyModel>(id, new PartitionKey(id), null, cancellationToken);
+            var response = await Container.ReadItemAsync<T>($"{type}:{id}", new PartitionKey($"{type}:{id}"), null, cancellationToken);
 
             if (response.RequestCharge > 3)
                 _logger.LogWarning("Get - ID {Id}, RequestCharge {Charges}", id, response.RequestCharge);
@@ -46,22 +46,16 @@ public class CosmosPropertyOffRepository
         }
     }
 
-    public async Task<List<T>> Query<T>(Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
+    public async Task<List<T>> Query<T>(DocumentType type, Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
         where T : MainDocument
     {
         try
         {
-            IQueryable<T> query = Container.GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions());
+            var query = Container
+                .GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions())
+                .Where(predicate?.Compose(item => item.Type == type, Expression.AndAlso) ?? (item => item.Type == type));
 
-            if (predicate != null)
-            {
-                query = query.Where(predicate);
-            }
-
-            if (transform != null)
-            {
-                query = transform(query);
-            }
+            if (transform != null) query = transform(query);
 
             using var iterator = query.ToFeedIterator();
             var results = new List<T>();
@@ -75,7 +69,7 @@ public class CosmosPropertyOffRepository
             }
 
             if (charges > 30)
-                _logger.LogWarning("Query, RequestCharge {Charges}", charges);
+                _logger.LogWarning("Query - Type {Type}, RequestCharge {Charges}", type.ToString(), charges);
 
             return results;
         }
@@ -121,15 +115,15 @@ public class CosmosPropertyOffRepository
         }
     }
 
-    public async Task<bool> Delete<T>(T item, CancellationToken cancellationToken)
+    public async Task<bool> Delete<T>(string id, CancellationToken cancellationToken)
         where T : CosmosDocument
     {
         try
         {
-            var response = await Container.DeleteItemAsync<T>(item.Id, new PartitionKey(item.Id), null, cancellationToken);
+            var response = await Container.DeleteItemAsync<T>(id, new PartitionKey(id), null, cancellationToken);
 
             if (response.RequestCharge > 20)
-                _logger.LogWarning("Delete - ID {Id}, RequestCharge {Charges}", item.Id, response.RequestCharge);
+                _logger.LogWarning("Delete - ID {Id}, RequestCharge {Charges}", id, response.RequestCharge);
 
             return response.StatusCode == HttpStatusCode.OK;
         }

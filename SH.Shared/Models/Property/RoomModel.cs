@@ -35,12 +35,8 @@ namespace SH.Shared.Models.Property
         Expired = 3
     }
 
-    public class RoomModel : CosmosDocument
+    public class RoomModel() : ProtectedMainDocument(DocumentType.Room)
     {
-        public RoomModel()
-        {
-        }
-
         //Basic Data
 
         public string? Title { get; set; }
@@ -48,15 +44,13 @@ namespace SH.Shared.Models.Property
         public int? SizeSqm { get; set; }
         public AccessType AccessType { get; set; } = AccessType.Private;
 
-        public List<RoomPhoto> Photos { get; set; } = [];
-
-        public List<RoomFacilityModel> Facilities { get; set; } =
+        public HashSet<RoomFacilityModel> Facilities { get; set; } =
         [
             new() { Facility = RoomFacility.Bathroom, AccessType = AccessType.Shared },
             new() { Facility = RoomFacility.Kitchen, AccessType = AccessType.Shared }
         ];
 
-        public List<RoomAmenityModel> Amenities { get; set; } =
+        public HashSet<RoomAmenityModel> Amenities { get; set; } =
         [
             new() { Amenity = RoomAmenity.WiFi },
             new() { Amenity = RoomAmenity.Furnished },
@@ -64,89 +58,105 @@ namespace SH.Shared.Models.Property
             new() { Amenity = RoomAmenity.LockableRoom }
         ];
 
-        public List<ServiceModel> Services { get; set; } = [];
+        public HashSet<ServiceModel> Services { get; set; } = [];
 
         //Preferences / Rules
 
         public Allowed Smoking { get; set; } = Allowed.Negotiable;
-
         public Allowed Pets { get; set; } = Allowed.Negotiable;
-
         public Allowed Couples { get; set; } = Allowed.Negotiable;
-
         public Allowed Children { get; set; } = Allowed.Negotiable;
-
         public Allowed Alcohol { get; set; } = Allowed.Negotiable;
-
         public Allowed Visits { get; set; } = Allowed.Negotiable;
-
         public HashSet<Gender> PreferredGenders { get; set; } = [];
-
         public HashSet<Occupation> PreferredOccupations { get; set; } = [];
-
         public int? MinimumAge { get; set; }
-
         public int? MaximumAge { get; set; }
 
         //Rental Terms / Costs
 
         public Currency Currency { get; set; } = Currency.USD;
-
         public int? PeriodStay { get; set; } = 1;
-
         public StayInterval IntervalStay { get; set; } = StayInterval.Month;
-
         public string MinimumStay => $"{PeriodStay} {IntervalStay.GetFieldSettings().Name}";
-
-        public List<ChargeModel> Costs { get; set; } = [];
+        public HashSet<ChargeModel> Costs { get; set; } = [];
 
         //Management
 
         public int Capacity { get; set; } = 1;
-
         public int? CurrentOccupancy { get; set; }
-
-        //[FieldSettings("Availability Status")]
         public RoomStatus Status { get; set; } = RoomStatus.Available;
-
         public AvailabilityMode AvailabilityMode { get; set; } = AvailabilityMode.Auto; //auto = calcula de acordo com Occupations, manual = definido pelo dono do apt
-
         public DateTime AvailableFrom { get; set; } = DateTime.UtcNow; //todo: calcular em toda mudanca de ocupacao
+
+        public HashSet<RoomPhoto> Photos { get; set; } = [];
+
+        public void SanitizeOpenTextFields()
+        {
+            Title = Title?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+            Description = Description?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+        }
+
+        public decimal GetMonthlyCosts()
+        {
+            decimal total = 0;
+
+            foreach (var item in Costs) {
+                if (item.Frequency == PaymentInterval.Weekly)
+                    total += item.Amount * 4;
+                else if (item.Frequency == PaymentInterval.EveryTwoWeeks)
+                    total += item.Amount * 2;
+                else if (item.Frequency == PaymentInterval.Monthly)
+                    total += item.Amount;
+            }
+
+            return total;
+        }
     }
 
-    public class RoomPhoto
+    public class RoomPhoto : EqualityBase<PropertyPhoto>
     {
         public string? UrlPath { get; set; }
         public string? Caption { get; set; }
         public int Order { get; set; }
+
+        protected override object?[] EqualityValues => [UrlPath];
     }
 
-    public class RoomFacilityModel
+    public class RoomFacilityModel : EqualityBase<PropertyPhoto>
     {
         public RoomFacility Facility { get; set; }
         public AccessType AccessType { get; set; }
         public string? CustomName { get; set; }
+
+        protected override object?[] EqualityValues => [Facility, CustomName];
     }
 
-    public class RoomAmenityModel
+    public class RoomAmenityModel : EqualityBase<PropertyPhoto>
     {
         public RoomAmenity Amenity { get; set; }
         public string? CustomName { get; set; }
+
+        protected override object?[] EqualityValues => [Amenity, CustomName];
     }
 
-    public class ServiceModel
+    public class ServiceModel : EqualityBase<PropertyPhoto>
     {
         public RoomService Service { get; set; }
         public RoomServicePrice Price { get; set; }
         public string? CustomName { get; set; }
+
+        protected override object?[] EqualityValues => [Service, CustomName];
     }
 
-    public class ChargeModel
+    public class ChargeModel : EqualityBase<PropertyPhoto>
     {
         public PaymentType Type { get; set; }
         public PaymentInterval Frequency { get; set; }
         public decimal Amount { get; set; }
         public string? CustomName { get; set; }
+
+        protected override object?[] EqualityValues => [Type, CustomName];
     }
 
     public class RoomProposal : PrivateMainDocument

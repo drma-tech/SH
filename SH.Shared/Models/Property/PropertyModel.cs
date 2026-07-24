@@ -2,12 +2,8 @@
 
 namespace SH.Shared.Models.Property
 {
-    public class PropertyModel : CosmosDocument
+    public class PropertyModel() : ProtectedMainDocument(DocumentType.Property)
     {
-        public PropertyModel()
-        {
-        }
-
         public PropertyStructure Structure { get; set; } = PropertyStructure.House;
 
         public SharedWith SharedWith { get; set; } = SharedWith.Owner;
@@ -80,9 +76,6 @@ namespace SH.Shared.Models.Property
     public class PropertyMember : EqualityBase<PropertyMember>
     {
         public string? UserId { get; set; }
-        public bool IdVerified { get; set; }
-        public bool EmailVerified { get; set; }
-        public bool PhoneVerified { get; set; }
         public PropertyUserRole Role { get; set; }
 
         protected override object?[] EqualityValues => [UserId];
@@ -106,9 +99,10 @@ namespace SH.Shared.Models.Property
 
     public class RoomShort : EqualityBase<RoomShort>
     {
-        public string RoomId { get; set; } = Guid.NewGuid().ToString();
+        public string? RoomId { get; set; }
         public string? Title { get; set; }
-        public RoomStatus Status { get; set; }
+        public string? UrlPath { get; set; }
+        public RoomStatus Status { get; set; } = RoomStatus.Available;
         public decimal? MonthlyPrice { get; set; } //rent + utilities + others
         public double? Rating { get; set; }
 

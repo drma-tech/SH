@@ -5,8 +5,10 @@ public enum DocumentType
     Principal = 1,
     Login = 2,
     Profile = 3,
-    Proposal = 4,
-    Occupation = 5
+    Property = 4,
+    Room = 5,
+    Proposal = 6,
+    Occupation = 7
 }
 
 public abstract class MainDocument : CosmosDocument
@@ -27,23 +29,18 @@ public abstract class MainDocument : CosmosDocument
 /// <summary>
 ///     Public read and private write
 /// </summary>
-public abstract class ProtectedMainDocument : MainDocument
+public abstract class ProtectedMainDocument(DocumentType type) : MainDocument(type)
 {
-    private readonly DocumentType _type;
-
-    protected ProtectedMainDocument(DocumentType type) : base(type)
-    {
-        this._type = type;
-    }
-
-    protected ProtectedMainDocument(string id, DocumentType type) : base($"{type}:{id}", type)
-    {
-        this._type = type;
-    }
+    private readonly DocumentType _type = type;
 
     public virtual void Initialize(string id)
     {
         SetIds($"{_type}:{id}");
+    }
+
+    public string GetRawId()
+    {
+        return Id.Split(":")[1];
     }
 }
 
@@ -57,5 +54,10 @@ public abstract class PrivateMainDocument(DocumentType type) : MainDocument(type
     public virtual void Initialize(string userId)
     {
         SetIds($"{_type}:{userId}");
+    }
+
+    public string GetRawId()
+    {
+        return Id.Split(":")[1];
     }
 }

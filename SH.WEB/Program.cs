@@ -126,6 +126,7 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<PaymentPublicApi>();
     collection.AddScoped<IpInfoApi>();
     collection.AddScoped<PropertyApi>();
+    collection.AddScoped<RoomApi>();
     collection.AddScoped<ProfileApi>();
 }
 

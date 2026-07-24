@@ -1,347 +1,338 @@
 ﻿@page "/{culture}/room/add/{propertyId}/{roomId}"
 @page "/{culture}/room/update/{propertyId}/{roomId}"
 
+@using Microsoft.JSInterop
+@using MudBlazor.Utilities
 @using SH.Shared.Models.Property
+@using SH.Shared.Models.Property.Core
 @using SH.Shared.Requests
 @using SH.WEB.Modules.Auth.Core
+@using SH.WEB.Modules.Profile.Core
 @using TranslationRoom = SH.Shared.Translations.Model.Room;
-@inherits PageCore<Room>
+@inherits PageParameterCore<Room>
 
 @inject PrincipalApi PrincipalApi
+@inject RoomApi RoomApi
 
 <HeadComponent Title="@Translations.Title.Bedroom" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
 
-<PageSectionComponent Title="@TranslationRoom.BasicData">
-    <BodyFragment>
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="12" sm="6">
-                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                        <MudGrid Spacing="@Css.SpaceSmall">
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="room.AccessType"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldText Name="@TranslationRoom.Title" Placeholder="@TranslationRoom.TitlePlaceholder" @bind-Value="@room.Title"></FieldText>
-                            </MudItem>
-                            <MudItem xs="12" sm="6">
-                                <FieldNumber Name="@TranslationRoom.SizeSqm" @bind-Value="@room.SizeSqm"></FieldNumber>
-                            </MudItem>
-                        </MudGrid>
-                    </MudStack>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                        <MudGrid Spacing="@Css.SpaceSmall">
-                            <MudItem xs="12">
-                                <MudTabs>
-                                    <MudTabPanel Text="@TranslationRoom.Description">
-                                        <FieldText Placeholder="@TranslationRoom.DescriptionPlaceholder" Rows="10" @bind-Value="@room.Description"></FieldText>
-                                    </MudTabPanel>
-                                </MudTabs>
-                            </MudItem>
-                        </MudGrid>
-                    </MudStack>
-                </MudItem>
-            </MudGrid>
-        </MudStack>
-    </BodyFragment>
-</PageSectionComponent>
+<CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<PageSectionComponent Title="@TranslationRoom.Facilities" Description="@TranslationRoom.FacilitiesDescription">
-    <ActionsFragment>
-        <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect Name="@TranslationRoom.Facility" TEnum="RoomFacility" TValue="RoomFacility?" @bind-SelectedValue="@RoomFacility" Style="width: 200px;"
-                         Filter="@((p)=>room.Facilities.All(f => f.Facility != p.Value))"></FieldSelect>
-            <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="RoomFacilityAccess" CssClass="ms-2" Style="width: 300px;"></FieldGroup>
-            <FieldText Name="@TranslationRoom.Name" @bind-Value="@RoomFacilityCustomName" CssClass="ms-2" Style="width: 200px;"
-                       Visible="@(RoomFacility == SH.Shared.Enums.RoomFacility.Custom)"></FieldText>
-            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddFacility"
-                       Disabled="@(!RoomFacility.HasValue)">
-                @Translations.Button.Add
-            </MudButton>
-        </MudToolBar>
-    </ActionsFragment>
-    <BodyFragment>
-        <RenderControl Actions="ActionsFacilities">
-            @foreach (var item in room.Facilities)
-            {
-                @if (item.Facility == SH.Shared.Enums.RoomFacility.Custom)
-                {
-                    <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
-                        @($"{item.CustomName} ({item.AccessType.GetFieldSettings().Name})")
-                    </MudChip>
-                }
-                else
-                {
-                    <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
-                        @($"{item.Facility.GetFieldSettings().Name} ({item.AccessType.GetFieldSettings().Name})")
-                    </MudChip>
-                }
-            }
-        </RenderControl>
-    </BodyFragment>
-</PageSectionComponent>
+<RenderControl Actions="ActionsRoom" Class="mb-3" Context="room">
+    <MudForm @ref="_form" FieldChanged="OnFieldChanged">
+        <PageSectionComponent Title="@TranslationRoom.BasicData">
+            <BodyFragment>
+                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                    <MudGrid Spacing="@Css.SpaceSmall">
+                        <MudItem xs="12" sm="6">
+                            <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                <MudGrid Spacing="@Css.SpaceSmall">
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="room.AccessType" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldText Name="@TranslationRoom.Title" Placeholder="@TranslationRoom.TitlePlaceholder" @bind-Value="@room.Title"></FieldText>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldNumber Name="@TranslationRoom.SizeSqm" @bind-Value="@room.SizeSqm"></FieldNumber>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudStack>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                <MudGrid Spacing="@Css.SpaceSmall">
+                                    <MudItem xs="12">
+                                        <MudTabs>
+                                            <MudTabPanel Text="@TranslationRoom.Description">
+                                                <FieldText Placeholder="@TranslationRoom.DescriptionPlaceholder" Rows="10" @bind-Value="@room.Description"></FieldText>
+                                            </MudTabPanel>
+                                        </MudTabs>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+                </MudStack>
+            </BodyFragment>
+        </PageSectionComponent>
 
-<PageSectionComponent Title="@TranslationRoom.Amenities" Description="@TranslationRoom.AmenitiesDescription">
-    <ActionsFragment>
-        <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect Name="@TranslationRoom.Amenity" TEnum="RoomAmenity" TValue="RoomAmenity?" @bind-SelectedValue="@RoomAmenity" Style="width: 200px;"
-                         Filter="@((p)=>room.Amenities.All(a => a.Amenity != p.Value))"></FieldSelect>
-            <FieldText Name="@TranslationRoom.Name" @bind-Value="@RoomAmenityCustomName" CssClass="ms-2" Style="width: 200px;"
-                       Visible="@(RoomAmenity == SH.Shared.Enums.RoomAmenity.Custom)"></FieldText>
-            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAmenity"
-                       Disabled="@(!RoomAmenity.HasValue)">
-                @Translations.Button.Add
-            </MudButton>
-        </MudToolBar>
-    </ActionsFragment>
-    <BodyFragment>
-        <RenderControl Actions="ActionsAmenities">
-            @foreach (var item in room.Amenities)
-            {
-                @if (item.Amenity == SH.Shared.Enums.RoomAmenity.Custom)
-                {
-                    <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">
-                        @item.CustomName
-                    </MudChip>
-                }
-                else
-                {
-                    <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">
-                        @item.Amenity.GetFieldSettings().Name
-                    </MudChip>
-                }
-            }
-        </RenderControl>
-    </BodyFragment>
-</PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.Facilities" Description="@TranslationRoom.FacilitiesDescription">
+            <ActionsFragment>
+                <MudToolBar Gutters="false" WrapContent="true">
+                    <FieldSelect Name="@TranslationRoom.Facility" TEnum="RoomFacility" TValue="RoomFacility?" @bind-SelectedValue="@RoomFacility" Style="width: 250px;"
+                                 Filter="@((p)=>room.Facilities.All(f => f.Facility != p.Value))"></FieldSelect>
+                    <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="RoomFacilityAccess" CssClass="ms-2" Style="width: 300px;"></FieldGroup>
+                    <FieldText Name="@TranslationRoom.Name" @bind-Value="@RoomFacilityCustomName" CssClass="ms-2" Style="width: 200px;"
+                               Visible="@(RoomFacility == SH.Shared.Enums.RoomFacility.Custom)"></FieldText>
+                    <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddFacility"
+                               Disabled="@(!RoomFacility.HasValue)">
+                        @Translations.Button.Add
+                    </MudButton>
+                </MudToolBar>
+            </ActionsFragment>
+            <BodyFragment>
+                <RenderControl Actions="ActionsFacilities">
+                    @foreach (var item in room.Facilities)
+                    {
+                        @if (item.Facility == SH.Shared.Enums.RoomFacility.Custom)
+                        {
+                            <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
+                                @($"{item.CustomName} ({item.AccessType.GetFieldSettings().Name})")
+                            </MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
+                                @($"{item.Facility.GetFieldSettings().Name} ({item.AccessType.GetFieldSettings().Name})")
+                            </MudChip>
+                        }
+                    }
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
 
-<PageSectionComponent Title="@TranslationRoom.Services" Description="@TranslationRoom.ServicesDescription">
-    <ActionsFragment>
-        <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect Name="@TranslationRoom.Service" TEnum="RoomService" TValue="RoomService?" @bind-SelectedValue="@RoomService" Style="width: 200px;"
-                         Filter="@((p)=>room.Services.All(s => s.Service != p.Value))"></FieldSelect>
-            <FieldGroup Name="@TranslationRoom.Price" TEnum="RoomServicePrice" @bind-SelectedValue="RoomServicePrice" CssClass="ms-2" Style="width: 250px;"></FieldGroup>
-            <FieldText Name="@TranslationRoom.Name" @bind-Value="@RoomServiceCustomName" CssClass="ms-2" Style="width: 200px;"
-                       Visible="@(RoomService == SH.Shared.Enums.RoomService.Custom)"></FieldText>
-            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddService"
-                       Disabled="@(!RoomService.HasValue)">
-                @Translations.Button.Add
-            </MudButton>
-        </MudToolBar>
-    </ActionsFragment>
-    <BodyFragment>
-        <RenderControl Actions="ActionsServices">
-            @foreach (var item in room.Services)
-            {
-                @if (item.Service == SH.Shared.Enums.RoomService.Custom)
-                {
-                    <MudChip T="string" OnClose="() => RemoveService(item)" Color="Color.Primary">
-                        @($"{item.CustomName} ({item.Price.GetFieldSettings().Name})")
-                    </MudChip>
-                }
-                else
-                {
-                    <MudChip T="string" OnClose="() => RemoveService(item)" Color="Color.Primary">
-                        @($"{item.Service.GetFieldSettings().Name} ({item.Price.GetFieldSettings().Name})")
-                    </MudChip>
-                }
-            }
-        </RenderControl>
-    </BodyFragment>
-</PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.Amenities" Description="@TranslationRoom.AmenitiesDescription">
+            <ActionsFragment>
+                <MudToolBar Gutters="false" WrapContent="true">
+                    <FieldSelect Name="@TranslationRoom.Amenity" TEnum="RoomAmenity" TValue="RoomAmenity?" @bind-SelectedValue="@RoomAmenity" Style="width: 250px;"
+                                 Filter="@((p)=>room.Amenities.All(a => a.Amenity != p.Value))"></FieldSelect>
+                    <FieldText Name="@TranslationRoom.Name" @bind-Value="@RoomAmenityCustomName" CssClass="ms-2" Style="width: 200px;"
+                               Visible="@(RoomAmenity == SH.Shared.Enums.RoomAmenity.Custom)"></FieldText>
+                    <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddAmenity"
+                               Disabled="@(!RoomAmenity.HasValue)">
+                        @Translations.Button.Add
+                    </MudButton>
+                </MudToolBar>
+            </ActionsFragment>
+            <BodyFragment>
+                <RenderControl Actions="ActionsAmenities">
+                    @foreach (var item in room.Amenities)
+                    {
+                        @if (item.Amenity == SH.Shared.Enums.RoomAmenity.Custom)
+                        {
+                            <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">
+                                @item.CustomName
+                            </MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">
+                                @item.Amenity.GetFieldSettings().Name
+                            </MudChip>
+                        }
+                    }
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
 
-<PageSectionComponent Title="@TranslationRoom.Preferences">
-    <BodyFragment>
+        <PageSectionComponent Title="@TranslationRoom.Services" Description="@TranslationRoom.ServicesDescription">
+            <ActionsFragment>
+                <MudToolBar Gutters="false" WrapContent="true">
+                    <FieldSelect Name="@TranslationRoom.Service" TEnum="RoomService" TValue="RoomService?" @bind-SelectedValue="@RoomService" Style="width: 250px;"
+                                 Filter="@((p)=>room.Services.All(s => s.Service != p.Value))"></FieldSelect>
+                    <FieldGroup Name="@TranslationRoom.Price" TEnum="RoomServicePrice" @bind-SelectedValue="RoomServicePrice" CssClass="ms-2" Style="width: 300px;"></FieldGroup>
+                    <FieldText Name="@TranslationRoom.Name" @bind-Value="@RoomServiceCustomName" CssClass="ms-2" Style="width: 200px;"
+                               Visible="@(RoomService == SH.Shared.Enums.RoomService.Custom)"></FieldText>
+                    <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Class="ms-2" OnClick="AddService"
+                               Disabled="@(!RoomService.HasValue)">
+                        @Translations.Button.Add
+                    </MudButton>
+                </MudToolBar>
+            </ActionsFragment>
+            <BodyFragment>
+                <RenderControl Actions="ActionsServices">
+                    @foreach (var item in room.Services)
+                    {
+                        @if (item.Service == SH.Shared.Enums.RoomService.Custom)
+                        {
+                            <MudChip T="string" OnClose="() => RemoveService(item)" Color="Color.Primary">
+                                @($"{item.CustomName} ({item.Price.GetFieldSettings().Name})")
+                            </MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" OnClose="() => RemoveService(item)" Color="Color.Primary">
+                                @($"{item.Service.GetFieldSettings().Name} ({item.Price.GetFieldSettings().Name})")
+                            </MudChip>
+                        }
+                    }
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
 
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="12" sm="6">
-                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                        <MudGrid Spacing="@Css.SpaceSmall">
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.Couples" TEnum="Allowed" @bind-SelectedValue="room.Couples"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.Children" TEnum="Allowed" @bind-SelectedValue="room.Children"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.Pets" TEnum="Allowed" @bind-SelectedValue="room.Pets"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.Visits" TEnum="Allowed" @bind-SelectedValue="room.Visits"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.Smoking" TEnum="Allowed" @bind-SelectedValue="room.Smoking"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.Alcohol" TEnum="Allowed" @bind-SelectedValue="room.Alcohol"></FieldGroup>
-                            </MudItem>
-                        </MudGrid>
-                    </MudStack>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                        <MudGrid Spacing="@Css.SpaceSmall">
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.PreferredGenders" TEnum="Gender" SelectedValues="room.PreferredGenders" Multiple="true"
-                                            CustomInfo="@TranslationRoom.LeaveBlank" Vertical="IsMobile"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldGroup Name="@TranslationRoom.PreferredOccupations" TEnum="Occupation" SelectedValues="room.PreferredOccupations" Multiple="true"
-                                            CustomInfo="@TranslationRoom.LeaveBlank" Vertical="IsMobile"></FieldGroup>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldNumber T="int?" Name="@TranslationRoom.MinimumAge" @bind-Value="@room.MinimumAge"></FieldNumber>
-                            </MudItem>
-                            <MudItem xs="12">
-                                <FieldNumber T="int?" Name="@TranslationRoom.MaximumAge" @bind-Value="@room.MaximumAge"></FieldNumber>
-                            </MudItem>
-                        </MudGrid>
-                    </MudStack>
-                </MudItem>
-            </MudGrid>
-        </MudStack>
-    </BodyFragment>
-</PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.Preferences">
+            <BodyFragment>
 
-<PageSectionComponent Title="@TranslationRoom.RentalTerms">
-    <ExtraFragment>
-        <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect Name="@TranslationRoom.Currency" TEnum="Currency" TValue="Currency" @bind-SelectedValue="@room.Currency" CssClass="me-2" Style="width: 250px;"></FieldSelect>
-            <FieldNumber T="int?" Name="@TranslationRoom.Period" @bind-Value="@room.PeriodStay" CssClass="me-2" Style="width: 100px;"></FieldNumber>
-            <FieldSelect Name="@TranslationRoom.Interval" TEnum="StayInterval" TValue="StayInterval" @bind-SelectedValue="@room.IntervalStay" CssClass="me-2" Style="width: 120px;"></FieldSelect>
-            <FieldText Name="@TranslationRoom.MinimumStay" Value="@room.MinimumStay" CssClass="me-2" Style="width: 130px;" Disabled="true"></FieldText>
-        </MudToolBar>
-    </ExtraFragment>
-    <ActionsFragment>
-        <MudToolBar Gutters="false" WrapContent="true">
-            <FieldSelect Name="@TranslationRoom.Type" TEnum="PaymentType" TValue="PaymentType" @bind-SelectedValue="@PaymentType" CssClass="me-2" Style="width: 150px;"
-                         Filter="@((p)=>room.Costs.All(s => s.Type != p.Value))"></FieldSelect>
-            <FieldSelect Name="@TranslationRoom.Interval" TEnum="PaymentInterval" TValue="PaymentInterval" @bind-SelectedValue="@Frequency" CssClass="me-2" Style="width: 220px;"></FieldSelect>
-            <FieldText Name="@TranslationRoom.Name" @bind-Value="@ChargeCustomName" CssClass="me-2" Style="width: 130px;"
-                       Visible="@(PaymentType == SH.Shared.Enums.PaymentType.Custom)"></FieldText>
-            <FieldNumber T="decimal?" Name="@TranslationRoom.Amount" @bind-Value="@ChargeAmount" CssClass="me-2" Style="width: 100px;"></FieldNumber>
-            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddCharge"
-                       Disabled="@(!ChargeAmount.HasValue)">
-                @Translations.Button.Add
-            </MudButton>
-        </MudToolBar>
-    </ActionsFragment>
-    <BodyFragment>
-        <RenderControl Actions="ActionsCharges">
-            @foreach (var item in room.Costs)
-            {
-                @if (item.Type == SH.Shared.Enums.PaymentType.Custom)
-                {
-                    <MudChip T="string" OnClose="() => RemoveCharge(item)" Color="Color.Primary">
-                        @($"{item.CustomName} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
-                    </MudChip>
-                }
-                else
-                {
-                    <MudChip T="string" OnClose="() => RemoveCharge(item)" Color="Color.Primary">
-                        @($"{item.Type.GetFieldSettings().Name} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
-                    </MudChip>
-                }
-            }
-        </RenderControl>
-    </BodyFragment>
-</PageSectionComponent>
+                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                    <MudGrid Spacing="@Css.SpaceSmall">
+                        <MudItem xs="12" sm="6">
+                            <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                <MudGrid Spacing="@Css.SpaceSmall">
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.Couples" TEnum="Allowed" @bind-SelectedValue="room.Couples" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.Children" TEnum="Allowed" @bind-SelectedValue="room.Children" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.Pets" TEnum="Allowed" @bind-SelectedValue="room.Pets" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.Visits" TEnum="Allowed" @bind-SelectedValue="room.Visits" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.Smoking" TEnum="Allowed" @bind-SelectedValue="room.Smoking" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.Alcohol" TEnum="Allowed" @bind-SelectedValue="room.Alcohol" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudStack>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                <MudGrid Spacing="@Css.SpaceSmall">
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.PreferredGenders" TEnum="Gender" SelectedValues="room.PreferredGenders" Multiple="true"
+                                                    CustomInfo="@TranslationRoom.LeaveBlank" Vertical="@AppStateStatic.IsMobile" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.PreferredOccupations" TEnum="Occupation" SelectedValues="room.PreferredOccupations" Multiple="true"
+                                                    CustomInfo="@TranslationRoom.LeaveBlank" Vertical="@AppStateStatic.IsMobile" MudForm="_form"></FieldGroup>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldNumber T="int?" Name="@TranslationRoom.MinimumAge" @bind-Value="@room.MinimumAge"></FieldNumber>
+                                    </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldNumber T="int?" Name="@TranslationRoom.MaximumAge" @bind-Value="@room.MaximumAge"></FieldNumber>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+                </MudStack>
+            </BodyFragment>
+        </PageSectionComponent>
 
-<PageSectionComponent Title="@TranslationRoom.Photos">
-    <ActionsFragment>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
-            @Translations.Button.Add
-        </MudButton>
-    </ActionsFragment>
-    <BodyFragment>
-        <RenderControl Actions="ActionsPhotos">
-            <Slider List="context" Context="item">
-                <div style="@($"height: {(IsMobile ? "150" : "200")}px;")">
-                    <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
-                              ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
-                    <div class="carousel-caption">
-                        <MudText Typo="Typo.caption" Inline="false">
-                            @item.Caption.Truncate(40)
-                        </MudText>
+        <PageSectionComponent Title="@TranslationRoom.RentalTerms">
+            <ExtraFragment>
+                <MudToolBar Gutters="false" WrapContent="true">
+                    <FieldSelect Name="@TranslationRoom.Currency" TEnum="Currency" TValue="Currency" @bind-SelectedValue="@room.Currency" CssClass="me-2" Style="width: 250px;"></FieldSelect>
+                    <FieldNumber T="int?" Name="@TranslationRoom.Period" @bind-Value="@room.PeriodStay" CssClass="me-2" Style="width: 100px;"></FieldNumber>
+                    <FieldSelect Name="@TranslationRoom.Interval" TEnum="StayInterval" TValue="StayInterval" @bind-SelectedValue="@room.IntervalStay" CssClass="me-2" Style="width: 120px;"></FieldSelect>
+                    <FieldText Name="@TranslationRoom.MinimumStay" Value="@room.MinimumStay" CssClass="me-2" Style="width: 130px;" Disabled="true"></FieldText>
+                </MudToolBar>
+            </ExtraFragment>
+            <ActionsFragment>
+                <MudToolBar Gutters="false" WrapContent="true">
+                    <FieldSelect Name="@TranslationRoom.Type" TEnum="PaymentType" TValue="PaymentType" @bind-SelectedValue="@PaymentType" CssClass="me-2" Style="width: 150px;"
+                                 Filter="@((p)=>room.Costs.All(s => s.Type != p.Value))"></FieldSelect>
+                    <FieldSelect Name="@TranslationRoom.Interval" TEnum="PaymentInterval" TValue="PaymentInterval" @bind-SelectedValue="@Frequency" CssClass="me-2" Style="width: 220px;"></FieldSelect>
+                    <FieldText Name="@TranslationRoom.Name" @bind-Value="@ChargeCustomName" CssClass="me-2" Style="width: 130px;"
+                               Visible="@(PaymentType == SH.Shared.Enums.PaymentType.Custom)"></FieldText>
+                    <FieldNumber T="decimal?" Name="@TranslationRoom.Amount" @bind-Value="@ChargeAmount" CssClass="me-2" Style="width: 100px;"></FieldNumber>
+                    <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddCharge"
+                               Disabled="@(!ChargeAmount.HasValue)">
+                        @Translations.Button.Add
+                    </MudButton>
+                </MudToolBar>
+            </ActionsFragment>
+            <BodyFragment>
+                <RenderControl Actions="ActionsCharges">
+                    @foreach (var item in room.Costs)
+                    {
+                        @if (item.Type == SH.Shared.Enums.PaymentType.Custom)
+                        {
+                            <MudChip T="string" OnClose="() => RemoveCharge(item)" Color="Color.Primary">
+                                @($"{item.CustomName} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
+                            </MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" OnClose="() => RemoveCharge(item)" Color="Color.Primary">
+                                @($"{item.Type.GetFieldSettings().Name} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
+                            </MudChip>
+                        }
+                    }
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
+
+        <PageSectionComponent Title="@TranslationRoom.Photos">
+            <ActionsFragment>
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
+                    @Translations.Button.Add
+                </MudButton>
+            </ActionsFragment>
+            <BodyFragment>
+                <Slider List="room.Photos" Context="item">
+                    <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                        <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                                  ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                        <div class="carousel-caption">
+                            <MudText Typo="Typo.caption" Inline="false">
+                                @item.Caption.Truncate(40)
+                            </MudText>
+                        </div>
                     </div>
-                </div>
-            </Slider>
-        </RenderControl>
-    </BodyFragment>
-</PageSectionComponent>
+                </Slider>
+            </BodyFragment>
+        </PageSectionComponent>
 
-<PageSectionComponent Title="@TranslationRoom.Management">
-    <BodyFragment>
-        <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="12" sm="6">
-                    <FieldGroup Name="@TranslationRoom.AvailabilityMode" TEnum="AvailabilityMode" @bind-SelectedValue="room.AvailabilityMode"
-                                CustomInfo="@TranslationRoom.AvailabilityModeDescription"></FieldGroup>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <FieldGroup Name="@TranslationRoom.AvailabilityStatus" TEnum="RoomStatus" @bind-SelectedValue="room.Status"
-                                CustomInfo="@TranslationRoom.AvailabilityStatusDescription"></FieldGroup>
-                </MudItem>
-            </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
-                <MudItem xs="6" sm="3">
-                    <FieldNumber T="int" Name="@TranslationRoom.Capacity" @bind-Value="@room.Capacity" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
-                    <MudText Typo="Typo.caption" Color="Color.Default">
-                        @TranslationRoom.AvailableSharedRooms
-                    </MudText>
-                </MudItem>
-                <MudItem xs="6" sm="3">
-                    <FieldNumber T="int?" Name="@TranslationRoom.CurrentOccupancy" @bind-Value="@room.CurrentOccupancy" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
-                    <MudText Typo="Typo.caption" Color="Color.Default">
-                        @TranslationRoom.AvailableSharedRooms
-                    </MudText>
-                </MudItem>
-                <MudItem xs="12" sm="6">
-                    <MudDatePicker Label="@TranslationRoom.AvailableFrom" Date="@room.AvailableFrom" MinDate="DateTime.UtcNow"></MudDatePicker>
-                    <MudText Typo="Typo.caption" Color="Color.Default">
-                        @TranslationRoom.AvailableFromDescription
-                    </MudText>
-                </MudItem>
-            </MudGrid>
-        </MudStack>
-    </BodyFragment>
-</PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.Management">
+            <BodyFragment>
+                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                    <MudGrid Spacing="@Css.SpaceSmall">
+                        <MudItem xs="12" sm="6">
+                            <FieldGroup Name="@TranslationRoom.AvailabilityMode" TEnum="AvailabilityMode" @bind-SelectedValue="room.AvailabilityMode"
+                                        CustomInfo="@TranslationRoom.AvailabilityModeDescription" MudForm="_form"></FieldGroup>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <FieldGroup Name="@TranslationRoom.AvailabilityStatus" TEnum="RoomStatus" @bind-SelectedValue="room.Status"
+                                        CustomInfo="@TranslationRoom.AvailabilityStatusDescription" MudForm="_form"></FieldGroup>
+                        </MudItem>
+                    </MudGrid>
+                    <MudGrid Spacing="@Css.SpaceSmall">
+                        <MudItem xs="6" sm="3">
+                            <FieldNumber T="int" Name="@TranslationRoom.Capacity" @bind-Value="@room.Capacity" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
+                            <MudText Typo="Typo.caption" Color="Color.Default">
+                                @TranslationRoom.AvailableSharedRooms
+                            </MudText>
+                        </MudItem>
+                        <MudItem xs="6" sm="3">
+                            <FieldNumber T="int?" Name="@TranslationRoom.CurrentOccupancy" @bind-Value="@room.CurrentOccupancy" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
+                            <MudText Typo="Typo.caption" Color="Color.Default">
+                                @TranslationRoom.AvailableSharedRooms
+                            </MudText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudDatePicker Label="@TranslationRoom.AvailableFrom" Date="@room.AvailableFrom" MinDate="DateTime.UtcNow"></MudDatePicker>
+                            <MudText Typo="Typo.caption" Color="Color.Default">
+                                @TranslationRoom.AvailableFromDescription
+                            </MudText>
+                        </MudItem>
+                    </MudGrid>
+                </MudStack>
+            </BodyFragment>
+        </PageSectionComponent>
+    </MudForm>
+</RenderControl>
 
-@* <PageSectionComponent Title="Proposals (Pending / Approved / Rejected / Cancelled)">
-    <BodyFragment>
-        <MudDataGrid Items="@Proposals">
-            <Columns>
-                <PropertyColumn Property="x => x.UserId" Title="User" />
-                <PropertyColumn Property="x => x.Start" />
-                <PropertyColumn Property="x => x.End" />
-                <PropertyColumn Property="x => x.RentPrice" Title="Rent Price" />
-                <PropertyColumn Property="x => x.Status" Title="Status" />
-                <PropertyColumn Property="x => x.DateTimeCreated" Title="Created At" />
-            </Columns>
-        </MudDataGrid>
-    </BodyFragment>
-</PageSectionComponent> *@
+<FloatingButton StartIcon="@Icons.Material.Filled.Save" OnClick="SaveHandle" Position="2" Disabled="!IsDirty"></FloatingButton>
 
-@* <PageSectionComponent Title="Occupations (Scheduled / Active / Expired)">
-    <BodyFragment>
-        <MudDataGrid Items="@Occupations">
-            <Columns>
-                <PropertyColumn Property="x => x.UserId" Title="User" />
-                <PropertyColumn Property="x => x.Start" />
-                <PropertyColumn Property="x => x.End" />
-                <PropertyColumn Property="x => x.Status" Title="Status" />
-            </Columns>
-        </MudDataGrid>
-    </BodyFragment>
-</PageSectionComponent> *@
+<FloatingButton Template="Template.Back"></FloatingButton>
 
 @code
 {
     [Parameter] public string? propertyId { get; set; }
     [Parameter] public string? roomId { get; set; }
+
+    private ComponentActions<RoomModel> ActionsRoom { get; set; } = new ComponentActions<RoomModel>(obj => obj == null);
+    private RoomModel? model;
+
+    private MudForm? _form;
+    public bool IsDirty { get; set; } = false;
 
     public RoomFacility? RoomFacility { get; set; }
     public AccessType RoomFacilityAccess { get; set; } = AccessType.Private;
@@ -358,101 +349,110 @@
     public decimal? ChargeAmount { get; set; }
     public string? ChargeCustomName { get; set; }
 
-    private bool IsMobile => AppStateStatic.Breakpoint == Breakpoint.Xs;
-    private RoomModel room = new();
-    public HashSet<RoomProposal> Proposals { get; set; } = [];
-    public HashSet<RoomOccupation> Occupations { get; set; } = [];
+    public ComponentActions<HashSet<RoomFacilityModel>> ActionsFacilities { get; set; } = new ComponentActions<HashSet<RoomFacilityModel>>(list => list == null || list.Empty());
+    public ComponentActions<HashSet<RoomAmenityModel>> ActionsAmenities { get; set; } = new ComponentActions<HashSet<RoomAmenityModel>>(list => list == null || list.Empty());
+    public ComponentActions<HashSet<ServiceModel>> ActionsServices { get; set; } = new ComponentActions<HashSet<ServiceModel>>(list => list == null || list.Empty());
+    public ComponentActions<HashSet<ChargeModel>> ActionsCharges { get; set; } = new ComponentActions<HashSet<ChargeModel>>(list => list == null || list.Empty());
 
-    public ComponentActions<List<RoomFacilityModel>> ActionsFacilities { get; set; } = new ComponentActions<List<RoomFacilityModel>>(list => list == null || list.Empty());
-    public ComponentActions<List<RoomAmenityModel>> ActionsAmenities { get; set; } = new ComponentActions<List<RoomAmenityModel>>(list => list == null || list.Empty());
-    public ComponentActions<List<ServiceModel>> ActionsServices { get; set; } = new ComponentActions<List<ServiceModel>>(list => list == null || list.Empty());
-    public ComponentActions<List<ChargeModel>> ActionsCharges { get; set; } = new ComponentActions<List<ChargeModel>>(list => list == null || list.Empty());
-
-    public ComponentActions<List<RoomPhoto>> ActionsPhotos { get; set; } = new ComponentActions<List<RoomPhoto>>(list => list == null || list.Empty());
-
-    protected override async Task LoadStaticDataAsync()
+    private void OnFieldChanged(FormFieldChangedEventArgs args)
     {
-        await ActionsPhotos.FinishLoading.Invoke([]);
-        await ActionsFacilities.FinishLoading.Invoke(room.Facilities);
-        await ActionsAmenities.FinishLoading.Invoke(room.Amenities);
-        await ActionsServices.FinishLoading.Invoke(room.Services);
-        await ActionsCharges.FinishLoading.Invoke(room.Costs);
+        IsDirty = true;
+    }
 
-        Proposals.Add(new RoomProposal { UserId = "John", Start = DateTime.UtcNow.AddDays(7), End = DateTime.UtcNow.AddYears(1), Status = ProposalStatus.Pending });
-        Occupations.Add(new RoomOccupation { UserId = "John", Start = DateTime.UtcNow.AddDays(7), Status = OccupationStatus.Scheduled });
+    protected override object GetParameterKey()
+    {
+        return new { propertyId, roomId };
+    }
+
+    protected override async Task LoadParameterDataAsync()
+    {
+        if (Navigation.Uri.Contains("/add/"))
+        {
+            model ??= new();
+            model.Initialize(roomId ?? throw new NotificationException("Room ID is required"));
+            await ActionsRoom.FinishLoading.Invoke(model);
+        }
+        else
+        {
+            model = await RoomApi.Get(false, roomId, ActionsRoom, cts.Token) ?? throw new NotificationException("room not found");
+        }
+
+        await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
+        await ActionsAmenities.FinishLoading.Invoke(model.Amenities);
+        await ActionsServices.FinishLoading.Invoke(model.Services);
+        await ActionsCharges.FinishLoading.Invoke(model.Costs);
     }
 
     private async Task AddFacility()
     {
         if (RoomFacility.HasValue)
         {
-            room.Facilities.Add(new RoomFacilityModel { Facility = RoomFacility.Value, AccessType = RoomFacilityAccess, CustomName = RoomFacilityCustomName });
+            model!.Facilities.Add(new RoomFacilityModel { Facility = RoomFacility.Value, AccessType = RoomFacilityAccess, CustomName = RoomFacilityCustomName });
             RoomFacility = null;
             RoomFacilityAccess = AccessType.Private;
             RoomFacilityCustomName = null;
+            await _form!.FieldChanged.InvokeAsync();
         }
-
-        await ActionsFacilities.FinishLoading.Invoke(room.Facilities);
     }
 
     private async Task RemoveFacility(RoomFacilityModel item)
     {
-        room.Facilities.Remove(item);
-        await ActionsFacilities.FinishLoading.Invoke(room.Facilities);
+        model!.Facilities.Remove(item);
+        await _form!.FieldChanged.InvokeAsync();
     }
 
     private async Task AddAmenity()
     {
         if (RoomAmenity.HasValue)
         {
-            room.Amenities.Add(new RoomAmenityModel { Amenity = RoomAmenity.Value, CustomName = RoomAmenityCustomName });
+            model!.Amenities.Add(new RoomAmenityModel { Amenity = RoomAmenity.Value, CustomName = RoomAmenityCustomName });
             RoomAmenity = null;
             RoomAmenityCustomName = null;
+            await _form!.FieldChanged.InvokeAsync();
         }
-        await ActionsAmenities.FinishLoading.Invoke(room.Amenities);
     }
 
     private async Task RemoveAmenity(RoomAmenityModel item)
     {
-        room.Amenities.Remove(item);
-        await ActionsAmenities.FinishLoading.Invoke(room.Amenities);
+        model!.Amenities.Remove(item);
+        await _form!.FieldChanged.InvokeAsync();
     }
 
     private async Task AddService()
     {
         if (RoomService.HasValue)
         {
-            room.Services.Add(new ServiceModel { Service = RoomService.Value, Price = RoomServicePrice, CustomName = RoomServiceCustomName });
+            model!.Services.Add(new ServiceModel { Service = RoomService.Value, Price = RoomServicePrice, CustomName = RoomServiceCustomName });
             RoomService = null;
             RoomServicePrice = RoomServicePrice.Included;
             RoomServiceCustomName = null;
+            await _form!.FieldChanged.InvokeAsync();
         }
-        await ActionsServices.FinishLoading.Invoke(room.Services);
     }
 
     private async Task RemoveService(ServiceModel item)
     {
-        room.Services.Remove(item);
-        await ActionsServices.FinishLoading.Invoke(room.Services);
+        model!.Services.Remove(item);
+        await _form!.FieldChanged.InvokeAsync();
     }
 
     private async Task AddCharge()
     {
         if (ChargeAmount.HasValue)
         {
-            room.Costs.Add(new ChargeModel { Type = PaymentType, Frequency = Frequency, Amount = ChargeAmount.Value, CustomName = ChargeCustomName });
+            model!.Costs.Add(new ChargeModel { Type = PaymentType, Frequency = Frequency, Amount = ChargeAmount.Value, CustomName = ChargeCustomName });
             PaymentType = PaymentType.Rent;
             Frequency = PaymentInterval.Monthly;
             ChargeAmount = null;
             ChargeCustomName = null;
+            await _form!.FieldChanged.InvokeAsync();
         }
-        await ActionsCharges.FinishLoading.Invoke(room.Costs);
     }
 
     private async Task RemoveCharge(ChargeModel item)
     {
-        room.Costs.Remove(item);
-        await ActionsCharges.FinishLoading.Invoke(room.Costs);
+        model!.Costs.Remove(item);
+        await _form!.FieldChanged.InvokeAsync();
     }
 
     private async Task SelectPicture()
@@ -467,9 +467,55 @@
             var request = new PhotoRequest { Buffer = buffer };
 
             // _profile = await StorageApi.UploadPhoto(request, cts.Token);
-            room.Photos.Add(new RoomPhoto { UrlPath = $"data:image/webp;base64,{buffer.ConvertFromBytesToBase64()}", Caption = caption });
+            model!.Photos.Add(new RoomPhoto { UrlPath = $"data:image/webp;base64,{buffer.ConvertFromBytesToBase64()}", Caption = caption });
 
-            await ActionsPhotos.FinishLoading.Invoke(room.Photos);
+            await _form!.FieldChanged.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
+    }
+
+    private async Task SaveHandle()
+    {
+        if (model == null) throw new InvalidOperationException("property is null");
+
+        try
+        {
+            model.SanitizeOpenTextFields();
+
+            var validator = new RoomValidation();
+
+            var result = await validator.ValidateAsync(model);
+
+            if (result.IsValid)
+            {
+                await ActionsRoom.StartProcessing.Invoke(null);
+
+                if (Navigation.Uri.Contains("/add/"))
+                {
+                    model = await RoomApi.Add(false, propertyId!, model, cts.Token);
+                }
+                else
+                {
+                    model = await RoomApi.Update(false, propertyId!, model, cts.Token);
+                }
+
+                IsDirty = false; StateHasChanged();
+
+                await ActionsRoom.FinishProcessing.Invoke(model);
+
+                await ShowSuccess(Translations.Notification.OperationCompleted);
+
+                await JsRuntime.InvokeVoidAsync("history.back");
+            }
+            else
+            {
+                var message = result.Errors[0].ErrorMessage;
+
+                await ShowWarning(message);
+            }
         }
         catch (Exception ex)
         {
