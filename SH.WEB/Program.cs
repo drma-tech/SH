@@ -93,8 +93,15 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress,
     }
     else
     {
-        webUri = new Uri("/", UriKind.Relative);
-        apiUri = new Uri("api/", UriKind.Relative);
+        var builder = new UriBuilder(baseAddress);
+
+        if (builder.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+        {
+            builder.Host = builder.Host[4..];
+        }
+
+        webUri = builder.Uri;
+        apiUri = new Uri(webUri, "api/");
     }
 
     //Local (json files and other assets, not the API)
