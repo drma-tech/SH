@@ -82,18 +82,33 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress,
     collection.AddPWAUpdater();
     collection.AddScoped<AppVersionHandler>();
 
-    collection.AddHttpClient("Local", c => { c.BaseAddress = new Uri(baseAddress); }); //json files and other assets, not the API.
+    var isLocal = baseAddress.Contains("localhost") || baseAddress.Contains("127.0.0.1");
+    Uri? webUri = null;
+    Uri? apiUri = null;
 
-    var apiOrigin = configuration["DownstreamApi:BaseUrl"] ??
-        (baseAddress.Contains("localhost") || baseAddress.Contains("127.0.0.1") ? throw new UnhandledException($"DownstreamApi:BaseUrl is null.") : $"{baseAddress}api/");
+    if (isLocal)
+    {
+        webUri = new Uri(baseAddress);
+        apiUri = new Uri(configuration["DownstreamApi:BaseUrl"] ?? throw new UnhandledException("BaseUrl not defined"));
+    }
+    else
+    {
+        webUri = new Uri("/", UriKind.Relative);
+        apiUri = new Uri("api/", UriKind.Relative);
+    }
 
-    collection.AddHttpClient("Anonymous", (service, options) => { options.BaseAddress = new Uri(apiOrigin); options.Timeout = TimeSpan.FromSeconds(30); })
+    //Local (json files and other assets, not the API)
+    collection.AddHttpClient("Local", c => { c.BaseAddress = webUri; });
+
+    //Anonymous
+    collection.AddHttpClient("Anonymous", (service, options) => { options.BaseAddress = apiUri; options.Timeout = TimeSpan.FromSeconds(30); })
         .AddHttpMessageHandler<AppVersionHandler>()
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
 
+    //Authenticated
     collection.AddScoped<AuthenticationStateProvider, SupabaseAuthStateProvider>();
     collection.AddScoped<CustomAuthorizationHandler>();
-    collection.AddHttpClient("Authenticated", (service, options) => { options.BaseAddress = new Uri(apiOrigin); options.Timeout = TimeSpan.FromSeconds(30); })
+    collection.AddHttpClient("Authenticated", (service, options) => { options.BaseAddress = apiUri; options.Timeout = TimeSpan.FromSeconds(30); })
         .AddHttpMessageHandler<CustomAuthorizationHandler>()
         .AddHttpMessageHandler<AppVersionHandler>()
         .AddPolicyHandler(request => request.Method == HttpMethod.Get ? GetRetryPolicy() : Policy.NoOpAsync().AsAsyncPolicy<HttpResponseMessage>());
