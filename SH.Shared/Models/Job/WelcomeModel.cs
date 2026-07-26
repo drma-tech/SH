@@ -1,7 +1,9 @@
-﻿namespace SH.Shared.Models.Job
+﻿using SH.Shared.Core.Types;
+
+namespace SH.Shared.Models.Job
 {
-    //public class WelcomeModel() : JobDocument(JobType.Welcome)
-    //{
-    //    public string? Email { get; set; }
-    //}
+    public class WelcomeModel(string id, DateTimeOffset runAt) : JobDocument(new JobIdentity(JobType.GoPublic, id), runAt)
+    {
+        public string? Email { get; set; }
+    }
 }

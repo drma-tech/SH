@@ -1,18 +1,18 @@
-using Grpc.Core;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using SH.API.Core.Auth;
+using SH.Shared.Core.Types;
 using SH.Shared.Models.Property;
 
 namespace SH.API.Functions;
 
-public class RoomFunction(CosmosRepository repo, CosmosPropertyOffRepository repoOff)
+public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository repoOff)
 {
     [Function("RoomGet")]
     public async Task<HttpResponseData?> RoomGet(
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "room/get/{live}/{id}")] HttpRequestData req, bool live, string id, CancellationToken cancellationToken)
     {
-        var model = live ? null : await repoOff.Get<RoomModel>(DocumentType.Room, id, cancellationToken);
+        var model = live ? null : await repoOff.ReadItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, id), cancellationToken);
 
         return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
     }
@@ -26,16 +26,16 @@ public class RoomFunction(CosmosRepository repo, CosmosPropertyOffRepository rep
 
         var model = await req.GetPublicBody<RoomModel>(cancellationToken);
 
-        var profile = await repo.Get<ProfileModel>(DocumentType.Profile, userId, cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
         var temp = profile.Properties.SingleOrDefault(p => p.PropertyId == propertyId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
-        var property = live ? throw new NotImplementedException() : await repoOff.Get<PropertyModel>(DocumentType.Property, temp.PropertyId, cancellationToken) ?? throw new NotificationException("Property not found");
+        var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
         var room = new RoomShort()
         {
-            RoomId = model.GetRawId(),
+            RoomId = model.Identity.RawId,
             Title = model.Title,
             Status = model.Status,
             MonthlyPrice = model.GetMonthlyCosts()
@@ -43,9 +43,9 @@ public class RoomFunction(CosmosRepository repo, CosmosPropertyOffRepository rep
 
         property.Rooms.Add(room);
 
-        await repoOff.ReplaceItemAsync(property, cancellationToken);
+        await repoOff.ReplaceItemAsync(property);
 
-        return await repoOff.CreateItemAsync(model, cancellationToken);
+        return await repoOff.CreateItemAsync(model);
     }
 
     [Function("RoomUpdate")]
@@ -57,22 +57,22 @@ public class RoomFunction(CosmosRepository repo, CosmosPropertyOffRepository rep
 
         var model = await req.GetPublicBody<RoomModel>(cancellationToken);
 
-        var profile = await repo.Get<ProfileModel>(DocumentType.Profile, userId, cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
         var temp = profile.Properties.SingleOrDefault(p => p.PropertyId == propertyId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
-        var property = live ? throw new NotImplementedException() : await repoOff.Get<PropertyModel>(DocumentType.Property, temp.PropertyId, cancellationToken) ?? throw new NotificationException("Property not found");
+        var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
-        var shortRoom = property.Rooms.Single(p => p.RoomId == model.GetRawId());
+        var shortRoom = property.Rooms.Single(p => p.RoomId == model.Identity.RawId);
 
         shortRoom.Title = model.Title;
         shortRoom.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
         shortRoom.Status = model.Status;
         shortRoom.MonthlyPrice = model.GetMonthlyCosts();
 
-        await repoOff.ReplaceItemAsync(property, cancellationToken);
-        return await repoOff.ReplaceItemAsync(model, cancellationToken);
+        await repoOff.ReplaceItemAsync(property);
+        return await repoOff.ReplaceItemAsync(model);
     }
 
     [Function("RoomDelete")]
@@ -82,12 +82,12 @@ public class RoomFunction(CosmosRepository repo, CosmosPropertyOffRepository rep
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
-        var profile = await repo.Get<ProfileModel>(DocumentType.Profile, userId, cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
         var temp = profile.Properties.SingleOrDefault(p => p.PropertyId == propertyId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
-        var property = live ? throw new NotImplementedException() : await repoOff.Get<PropertyModel>(DocumentType.Property, temp.PropertyId, cancellationToken) ?? throw new NotificationException("Property not found");
+        var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
         //todo: change properties of all members
         if (property.Rooms.RemoveWhere(p => p.RoomId == id) != 1)
@@ -101,9 +101,9 @@ public class RoomFunction(CosmosRepository repo, CosmosPropertyOffRepository rep
         }
         else
         {
-            await repoOff.Delete<RoomModel>($"{DocumentType.Room}:{id}", cancellationToken);
+            await repoOff.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, id));
         }
 
-        return await repoOff.ReplaceItemAsync(property, cancellationToken);
+        return await repoOff.ReplaceItemAsync(property);
     }
 }

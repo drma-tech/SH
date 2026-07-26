@@ -1,27 +1,23 @@
-﻿namespace SH.Shared.Core.Models;
+﻿using SH.Shared.Core.Types;
 
-public enum JobType
+namespace SH.Shared.Core.Models;
+
+using Json = System.Text.Json.Serialization;
+using Nsoft = Newtonsoft.Json;
+
+public readonly record struct JobIdentity(JobType Type, string? RawId) : ICosmosIdentity
 {
-    GoPublic = 1,
+    public string Id => $"{Type}:{RawId.RemovePrefix()}";
+    public object Key => (int)Type;
 }
 
-public abstract class JobDocument : CosmosDocument
+public abstract class JobDocument(JobIdentity identity, DateTimeOffset runAt) : CosmosDocument(identity)
 {
-    protected JobDocument(JobType type)
-    {
-        Type = type;
-    }
+    public JobType Type { get; set; } = identity.Type;
 
-    protected JobDocument(string id, JobType type) : base($"{type}:{id}")
-    {
-        Type = type;
-    }
+    public DateTimeOffset RunAt { get; set; } = runAt;
 
-    public JobType Type { get; set; }
-    public DateTimeOffset RunAt { get; set; }
-
-    public virtual void Initialize(string id)
-    {
-        SetIds($"{Type}:{id}");
-    }
+    [Json.JsonIgnore]
+    [Nsoft.JsonIgnore]
+    public new JobIdentity Identity => new(Type, Id.RemovePrefix());
 }

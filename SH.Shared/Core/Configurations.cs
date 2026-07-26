@@ -1,4 +1,4 @@
-﻿namespace SH.Shared.Core.Models;
+﻿namespace SH.Shared.Core;
 
 public class Configurations
 {

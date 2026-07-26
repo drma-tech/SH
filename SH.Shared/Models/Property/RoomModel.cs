@@ -1,4 +1,5 @@
 ﻿using SH.Shared.Core;
+using SH.Shared.Core.Types;
 
 namespace SH.Shared.Models.Property
 {
@@ -35,7 +36,7 @@ namespace SH.Shared.Models.Property
         Expired = 3
     }
 
-    public class RoomModel() : ProtectedMainDocument(DocumentType.Room)
+    public class RoomModel(string? id) : PropertyDocument(new PropertyIdentity(PropertyType.Room, id))
     {
         //Basic Data
 
@@ -101,7 +102,8 @@ namespace SH.Shared.Models.Property
         {
             decimal total = 0;
 
-            foreach (var item in Costs) {
+            foreach (var item in Costs)
+            {
                 if (item.Frequency == PaymentInterval.Weekly)
                     total += item.Amount * 4;
                 else if (item.Frequency == PaymentInterval.EveryTwoWeeks)
@@ -159,13 +161,9 @@ namespace SH.Shared.Models.Property
         protected override object?[] EqualityValues => [Type, CustomName];
     }
 
-    public class RoomProposal : PrivateMainDocument
+    public class RoomProposal(string id) : MainDocument(new MainIdentity(MainType.Proposal, id))
     {
-        public RoomProposal() : base(DocumentType.Proposal)
-        {
-        }
-
-        public string? RoomId { get; set; }
+        public string? RoomId { get; set; } = id;
         public string? UserId { get; set; } //todo: user premium = Fast-Track
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
@@ -174,12 +172,8 @@ namespace SH.Shared.Models.Property
         public string[] Events { get; set; } = [];
     }
 
-    public class RoomOccupation : PrivateMainDocument
+    public class RoomOccupation(string id) : MainDocument(new MainIdentity(MainType.Occupation, id))
     {
-        public RoomOccupation() : base(DocumentType.Occupation)
-        {
-        }
-
         public string? RoomId { get; set; }
         public string? UserId { get; set; }
         public DateTime Start { get; set; }

@@ -1,16 +1,17 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Caching.Distributed;
+using SH.API.Core.Auth;
+using SH.Shared.Core.Types;
 using SH.Shared.Models.Auth;
 using SH.Shared.Models.ZeptoMail;
-using SH.API.Core.Auth;
 using Supabase.Gotrue;
 using System.Net;
 using System.Text.Json;
 
 namespace SH.API.Functions;
 
-public class LoginFunction(CosmosRepository repo, IDistributedCache cache)
+public class LoginFunction(CosmosMainRepository repo, IDistributedCache cache)
 {
     [Function("LoginGet")]
     public async Task<AuthLogin?> LoginGet(
@@ -19,7 +20,7 @@ public class LoginFunction(CosmosRepository repo, IDistributedCache cache)
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (string.IsNullOrEmpty(userId)) throw new InvalidOperationException("unauthenticated user");
 
-        return await repo.Get<AuthLogin>(DocumentType.Login, userId, cancellationToken);
+        return await repo.ReadItemAsync<AuthLogin>(new MainIdentity(MainType.Login, userId), cancellationToken);
     }
 
     [Function("LoginAdd")]
@@ -31,19 +32,18 @@ public class LoginFunction(CosmosRepository repo, IDistributedCache cache)
         var ip = req.GetUserIP(true);
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (string.IsNullOrEmpty(userId)) throw new InvalidOperationException("unauthenticated user");
-        var login = await repo.Get<AuthLogin>(DocumentType.Login, userId, cancellationToken);
+        var login = await repo.ReadItemAsync<AuthLogin>(new MainIdentity(MainType.Login, userId), cancellationToken);
         var now = DateTimeOffset.UtcNow;
 
         if (login == null)
         {
-            var newLogin = new AuthLogin
+            var newLogin = new AuthLogin(userId)
             {
                 UserId = userId,
                 Accesses = [new Access { Date = now, Platform = platform, Ip = ip, Country = country.ToLower() }]
             };
-            newLogin.Initialize(userId);
 
-            await repo.UpsertItemAsync(newLogin, cancellationToken);
+            await repo.UpsertItemAsync(newLogin);
         }
         else
         {
@@ -61,9 +61,9 @@ public class LoginFunction(CosmosRepository repo, IDistributedCache cache)
                 .Where(a => a.Date >= cutoff)
                 .Union([new Access { Date = now, Platform = platform, Ip = ip, Country = country.ToLower() }])
                 .Take(100)
-                .ToArray();
+                .ToHashSet();
 
-            await repo.UpsertItemAsync(login, cancellationToken);
+            await repo.UpsertItemAsync(login);
         }
     }
 

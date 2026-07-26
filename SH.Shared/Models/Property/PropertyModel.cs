@@ -1,8 +1,9 @@
 ﻿using SH.Shared.Core;
+using SH.Shared.Core.Types;
 
 namespace SH.Shared.Models.Property
 {
-    public class PropertyModel() : ProtectedMainDocument(DocumentType.Property)
+    public class PropertyModel(string? id) : PropertyDocument(new PropertyIdentity(PropertyType.Property, id))
     {
         public PropertyStructure Structure { get; set; } = PropertyStructure.House;
 

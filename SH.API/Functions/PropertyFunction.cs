@@ -1,17 +1,18 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using SH.API.Core.Auth;
+using SH.Shared.Core.Types;
 using SH.Shared.Models.Property;
 
 namespace SH.API.Functions;
 
-public class PropertyFunction(CosmosRepository repo, CosmosPropertyOffRepository repoOff)
+public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffRepository repoOff)
 {
     [Function("PropertyGet")]
     public async Task<HttpResponseData?> PropertyGet(
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "property/get/{live}/{id}")] HttpRequestData req, bool live, string id, CancellationToken cancellationToken)
     {
-        var model = live ? null : await repoOff.Get<PropertyModel>(DocumentType.Property, id, cancellationToken);
+        var model = live ? null : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id), cancellationToken);
 
         return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
     }
@@ -25,10 +26,10 @@ public class PropertyFunction(CosmosRepository repo, CosmosPropertyOffRepository
 
         var model = await req.GetPublicBody<PropertyModel>(cancellationToken);
 
-        var profile = await repo.Get<ProfileModel>(DocumentType.Profile, userId, cancellationToken) ?? throw new NotificationException("profie not found");
+        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("profie not found");
         var property = new ProfileProperty()
         {
-            PropertyId = model.GetRawId(),
+            PropertyId = model.Identity.RawId,
             Title = model.Title,
             UrlPath = model.Photos.FirstOrDefault()?.UrlPath,
             Role = PropertyUserRole.Owner
@@ -36,8 +37,8 @@ public class PropertyFunction(CosmosRepository repo, CosmosPropertyOffRepository
 
         profile.Properties.Add(property);
 
-        await repo.ReplaceItemAsync(profile, cancellationToken);
-        return await repoOff.CreateItemAsync(model, cancellationToken);
+        await repo.ReplaceItemAsync(profile);
+        return await repoOff.CreateItemAsync(model);
     }
 
     [Function("PropertyUpdate")]
@@ -49,16 +50,16 @@ public class PropertyFunction(CosmosRepository repo, CosmosPropertyOffRepository
 
         var model = await req.GetPublicBody<PropertyModel>(cancellationToken);
 
-        var profile = await repo.Get<ProfileModel>(DocumentType.Profile, userId, cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
-        var property = profile.Properties.SingleOrDefault(p => p.PropertyId == model.GetRawId()) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var property = profile.Properties.SingleOrDefault(p => p.PropertyId == model.Identity.RawId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
         property.Title = model.Title;
         property.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
 
-        await repo.ReplaceItemAsync(profile, cancellationToken);
-        return await repoOff.ReplaceItemAsync(model, cancellationToken);
+        await repo.ReplaceItemAsync(profile);
+        return await repoOff.ReplaceItemAsync(model);
     }
 
     [Function("PropertyDelete")]
@@ -68,7 +69,7 @@ public class PropertyFunction(CosmosRepository repo, CosmosPropertyOffRepository
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
-        var profile = await repo.Get<ProfileModel>(DocumentType.Profile, userId, cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
         if (profile.Properties.RemoveWhere(p => p.PropertyId == id) != 1)
@@ -82,9 +83,9 @@ public class PropertyFunction(CosmosRepository repo, CosmosPropertyOffRepository
         }
         else
         {
-            await repoOff.Delete<PropertyModel>($"{DocumentType.Property}:{id}", cancellationToken);
+            await repoOff.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id));
         }
 
-        return await repo.ReplaceItemAsync(profile, cancellationToken);
+        return await repo.ReplaceItemAsync(profile);
     }
 }

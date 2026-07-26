@@ -321,8 +321,7 @@
     {
         if (Navigation.Uri.Contains("/add/"))
         {
-            model ??= new();
-            model.Initialize(propertyId ?? throw new NotificationException("Property ID is required"));
+            model ??= new(propertyId);
             model.Members.Add(new PropertyMember { UserId = AppStateStatic.UserId, Role = PropertyUserRole.Owner });
 
             await ActionsProperty.FinishLoading.Invoke(model);
@@ -480,7 +479,7 @@
 
     private async Task Delete(RoomShort room)
     {
-        model = await RoomApi.Delete(false, model!.GetRawId(), room.RoomId, cts.Token);
+        model = await RoomApi.Delete(false, model!.Identity.RawId, room.RoomId, cts.Token);
         await ActionsProperty.FinishLoading.Invoke(model);
     }
 }

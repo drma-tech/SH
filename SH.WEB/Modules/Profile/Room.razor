@@ -368,8 +368,7 @@
     {
         if (Navigation.Uri.Contains("/add/"))
         {
-            model ??= new();
-            model.Initialize(roomId ?? throw new NotificationException("Room ID is required"));
+            model ??= new(roomId);
             await ActionsRoom.FinishLoading.Invoke(model);
         }
         else

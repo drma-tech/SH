@@ -1,63 +1,21 @@
-﻿namespace SH.Shared.Core.Models;
+﻿using SH.Shared.Core.Types;
 
-public enum DocumentType
+namespace SH.Shared.Core.Models;
+
+using Json = System.Text.Json.Serialization;
+using Nsoft = Newtonsoft.Json;
+
+public readonly record struct MainIdentity(MainType Type, string? RawId) : ICosmosIdentity
 {
-    Principal = 1,
-    Login = 2,
-    Profile = 3,
-    Property = 4,
-    Room = 5,
-    Proposal = 6,
-    Occupation = 7
+    public string Id => $"{Type}:{RawId.RemovePrefix()}";
+    public object Key => Id;
 }
 
-public abstract class MainDocument : CosmosDocument
+public abstract class MainDocument(MainIdentity identity) : CosmosDocument(identity)
 {
-    protected MainDocument(DocumentType type)
-    {
-        Type = type;
-    }
+    public MainType Type { get; set; } = identity.Type;
 
-    protected MainDocument(string id, DocumentType type) : base($"{type}:{id}")
-    {
-        Type = type;
-    }
-
-    public DocumentType Type { get; set; }
-}
-
-/// <summary>
-///     Public read and private write
-/// </summary>
-public abstract class ProtectedMainDocument(DocumentType type) : MainDocument(type)
-{
-    private readonly DocumentType _type = type;
-
-    public virtual void Initialize(string id)
-    {
-        SetIds($"{_type}:{id}");
-    }
-
-    public string GetRawId()
-    {
-        return Id.Split(":")[1];
-    }
-}
-
-/// <summary>
-///     Private read and write
-/// </summary>
-public abstract class PrivateMainDocument(DocumentType type) : MainDocument(type)
-{
-    private readonly DocumentType _type = type;
-
-    public virtual void Initialize(string userId)
-    {
-        SetIds($"{_type}:{userId}");
-    }
-
-    public string GetRawId()
-    {
-        return Id.Split(":")[1];
-    }
+    [Json.JsonIgnore]
+    [Nsoft.JsonIgnore]
+    public new MainIdentity Identity => new(Type, Id.RemovePrefix());
 }

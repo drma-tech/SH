@@ -1,4 +1,8 @@
-﻿namespace SH.Shared.Models
+﻿using SH.Shared.Core;
+using SH.Shared.Core.Types;
+using SH.Shared.Models.Auth;
+
+namespace SH.Shared.Models
 {
     public enum HomeSchedule
     {
@@ -15,20 +19,15 @@
         Variable = 4
     }
 
-    public class ProfileModel() : PrivateMainDocument(DocumentType.Profile)
+    public class ProfileModel(string? id) : MainDocument(new MainIdentity(MainType.Profile, id))
     {
         //Basic Data
 
         public string? FirstName { get; set; }
-
         public string? LastName { get; set; }
-
         public Country? Nationality { get; set; }
-
         public int? Age { get; set; }
-
         public Gender? Gender { get; set; }
-
         public Occupation? Occupation { get; set; }
 
         //[FieldSettings("When are you usually at home?")]
@@ -38,56 +37,49 @@
         public HashSet<Language> Languages { get; set; } = [];
 
         public string? AboutMe { get; set; }
-
         public string? ProfilePicture { get; set; }
 
         //Household Profile
 
         public bool Smokes { get; set; }
-
         public bool DrinksAlcohol { get; set; }
-
         public bool LivesWithPets { get; set; }
-
         public bool LivesWithChildren { get; set; }
-
         public bool LivesAsCouple { get; set; }
-
         public bool HostsVisitors { get; set; }
 
         //Social Media
 
         public string? Instagram { get; set; }
-
         public string? LinkedIn { get; set; }
-
         public string? Facebook { get; set; }
-
         public string? OtherSocialMedia { get; set; }
 
         //Verifications
 
         public bool IdVerified { get; set; }
-
         public bool EmailVerified { get; set; }
-
         public bool PhoneVerified { get; set; }
 
         public HashSet<ProfileProperty> Properties { get; set; } = [];
         public HashSet<ProfileGuest> Guests { get; set; } = [];
     }
 
-    public class ProfileProperty
+    public class ProfileProperty : EqualityBase<AuthSubscription>
     {
         public string? PropertyId { get; set; }
         public string? Title { get; set; }
         public string? UrlPath { get; set; }
         public bool IsPublic { get; set; }
         public PropertyUserRole Role { get; set; }
+
+        protected override object?[] EqualityValues => [PropertyId];
     }
 
-    public class ProfileGuest
+    public class ProfileGuest : EqualityBase<AuthSubscription>
     {
         public string? PropertyId { get; set; }
+
+        protected override object?[] EqualityValues => [PropertyId];
     }
 }
