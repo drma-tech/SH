@@ -93,7 +93,7 @@ namespace SH.API.Repository.Core
             }
         }
 
-        public virtual async Task<T> PatchItemAsyn<T>(TId id, T item, List<PatchOperation> operations) where T : TData
+        public virtual async Task<T> PatchItemAsync<T>(TId id, T item, IReadOnlyList<PatchOperation> operations) where T : TData
         {
             //https://learn.microsoft.com/en-us/azure/cosmos-db/partial-document-update-getting-started?tabs=dotnet
 
@@ -121,7 +121,11 @@ namespace SH.API.Repository.Core
                 if (response.RequestCharge > 10d)
                     _logger.LogWarning("Delete - ID {Id}, RequestCharge {Charges}", id.Id, response.RequestCharge);
 
-                return response.StatusCode == HttpStatusCode.OK;
+                return true;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+            {
+                return true;
             }
             catch (CosmosOperationCanceledException)
             {

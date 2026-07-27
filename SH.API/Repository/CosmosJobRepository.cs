@@ -15,13 +15,13 @@ public class CosmosJobRepository(CosmosClient CosmosClient, ILogger<CosmosJobRep
     {
         try
         {
-            var query = Container
+            var queryable = Container
                 .GetItemLinqQueryable<T>(requestOptions: CosmosRepositoryExtensions.GetQueryRequestOptions())
                 .Where(predicate?.Compose(item => item.Type == type, Expression.AndAlso) ?? (item => item.Type == type));
 
-            if (transform != null) query = transform(query);
+            if (transform != null) queryable = transform(queryable);
 
-            using var iterator = query.ToFeedIterator();
+            using var iterator = queryable.ToFeedIterator();
             var results = new List<T>();
 
             double charges = 0;
