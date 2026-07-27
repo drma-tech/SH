@@ -73,7 +73,7 @@ public class PrincipalFunction(CosmosMainRepository repo, CosmosCacheRepository 
         }
         else
         {
-            _ = repoCache.CreateItemAsync(new DataBlockedCache($"block-{ip}", new DataBlocked(), TtlCache.OneWeek));
+            _ = repoCache.CreateItemAsync(new DataBlockedCache($"block-{ip}", new DataBlocked()));
         }
 
         foreach (var item in body.Events.Where(w => w.Ip.Empty()))

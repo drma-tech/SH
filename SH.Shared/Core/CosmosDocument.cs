@@ -18,6 +18,7 @@ public static class CosmosDocumentHelper
 public interface ICosmosIdentity
 {
     string Id { get; }
+    string? RawId { get; }
     object Key { get; }
 }
 

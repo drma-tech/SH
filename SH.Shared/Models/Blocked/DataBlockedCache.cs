@@ -1,6 +1,6 @@
 ﻿namespace SH.Shared.Models.Blocked;
 
-public class DataBlockedCache(string id, DataBlocked data, TtlCache ttl) : CacheDocumentData<DataBlocked>(new CacheIdentity(id), data, ttl)
+public class DataBlockedCache(string id, DataBlocked data) : CacheDocumentData<DataBlocked>(new CacheIdentity(id), data, TtlCache.OneWeek)
 {
 }
 

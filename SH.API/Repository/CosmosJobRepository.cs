@@ -32,7 +32,7 @@ public class CosmosJobRepository(CosmosClient CosmosClient, ILogger<CosmosJobRep
                 results.AddRange(response.Resource);
             }
 
-            if (charges > 30)
+            if (charges > 10d)
                 _logger.LogWarning("Query - Type {Type}, RequestCharge {Charges}", type.ToString(), charges);
 
             return results;

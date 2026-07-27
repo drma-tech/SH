@@ -1,11 +1,11 @@
 ﻿namespace SH.Shared.Core.Models;
 
 using Json = System.Text.Json.Serialization;
-using Nsoft = Newtonsoft.Json;
 
-public readonly record struct CacheIdentity(string RawId) : ICosmosIdentity
+public readonly record struct CacheIdentity(string? DocId) : ICosmosIdentity
 {
-    public string Id => RawId;
+    public string Id => DocId!;
+    public string? RawId => DocId?.RemovePrefix();
     public object Key => Id;
 }
 
@@ -13,10 +13,6 @@ public class CacheDocument(CacheIdentity identity, TtlCache ttl) : CosmosDocumen
 {
     [Json.JsonInclude]
     public TtlCache Ttl { get; init; } = ttl;
-
-    [Json.JsonIgnore]
-    [Nsoft.JsonIgnore]
-    public new CacheIdentity Identity => new(Id);
 }
 
 public class CacheDocumentData<T>(CacheIdentity identity, T? data, TtlCache ttl) : CacheDocument(identity, ttl) where T : class

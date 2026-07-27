@@ -1,4 +1,3 @@
-﻿using SH.Shared.Core;
 using SH.Shared.Core.Types;
 
 namespace SH.Shared.Models.Auth;
