@@ -82,16 +82,27 @@ static void ConfigureServices(IServiceCollection collection, string baseAddress,
     collection.AddPWAUpdater();
     collection.AddScoped<AppVersionHandler>();
 
-    Uri webUri = new(baseAddress);
+    var isLocal = baseAddress.Contains("localhost") || baseAddress.Contains("127.0.0.1");
+    Uri? webUri = null;
     Uri? apiUri = null;
 
-    if (baseAddress.Contains("localhost"))
+    if (isLocal)
     {
-        apiUri = new Uri(configuration["ApiBaseAddress"] ?? throw new UnhandledException("ApiBaseAddress not defined"));
+        webUri = new Uri(baseAddress);
+        apiUri = new Uri(configuration["ApiBaseAddress"] ?? throw new UnhandledException("BaseUrl not defined"));
     }
     else
     {
-        apiUri = new Uri($"{AppInfo.WebSite}/api/");
+        var builder = new UriBuilder(baseAddress);
+
+        //force apex domain
+        //if (builder.Host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+        //{
+        //    builder.Host = builder.Host[4..];
+        //}
+
+        webUri = builder.Uri;
+        apiUri = new Uri(webUri, "api/");
     }
 
     //Local (json files and other assets, not the API)
