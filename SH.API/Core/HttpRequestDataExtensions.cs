@@ -165,6 +165,11 @@ public static class HttpRequestDataExtensions
             return true;
         }
 
+        if (version == "prerendering")
+        {
+            return false;
+        }
+
         if (!DateOnly.TryParseExact(version, "yyyy.MM.dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var clientVersion))
         {
             return true;
