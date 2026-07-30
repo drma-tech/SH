@@ -312,9 +312,9 @@
         IsDirty = true;
     }
 
-    protected override object GetParameterKey()
+    protected override IReadOnlyList<string?> GetParameterKey()
     {
-        return new { propertyId };
+        return [ propertyId ];
     }
 
     protected override async Task LoadParameterDataAsync()

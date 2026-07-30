@@ -13,20 +13,16 @@ namespace SH.API.Core;
 
 public static class HttpRequestDataExtensions
 {
-    public static async Task<T> GetUserBody<T>(this HttpRequestData req, CancellationToken cancellationToken) where T : CosmosDocument
+    public static async Task ValidateUser(this HttpRequestData req, string? requestedUserId, CancellationToken cancellationToken)
     {
-        var model = await JsonSerializer.DeserializeAsync<T>(req.Body, cancellationToken: cancellationToken) ?? throw new NotificationException("body not found");
+        ArgumentNullException.ThrowIfNull(requestedUserId);
 
-        var userId = await req.GetUserIdAsync(cancellationToken);
+        var currentUserId = await req.GetUserIdAsync(cancellationToken);
 
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
-
-        if (model.Id.RemovePrefix() != userId) throw new InvalidOperationException("invalid operation");
-
-        return model;
+        if (currentUserId != requestedUserId.RemovePrefix()) throw new NotificationException("User not validated");
     }
 
-    public static async Task<T> GetPublicBody<T>(this HttpRequestData req, CancellationToken cancellationToken) where T : class
+    public static async Task<T> GetBody<T>(this HttpRequestData req, CancellationToken cancellationToken) where T : class
     {
         req.Body.Position = 0; //in case of a previous read
         return await JsonSerializer.DeserializeAsync<T>(req.Body, cancellationToken: cancellationToken) ?? throw new NotificationException("body not found");

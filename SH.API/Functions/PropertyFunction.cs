@@ -24,7 +24,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
-        var model = await req.GetPublicBody<PropertyModel>(cancellationToken);
+        var model = await req.GetBody<PropertyModel>(cancellationToken);
 
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("profie not found");
         var property = new ProfileProperty()
@@ -37,7 +37,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
 
         profile.Properties.Add(property);
 
-        await repo.ReplaceItemAsync(profile);
+        await repo.UpsertItemAsync(profile);
         return await repoOff.CreateItemAsync(model);
     }
 
@@ -48,7 +48,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
-        var model = await req.GetPublicBody<PropertyModel>(cancellationToken);
+        var model = await req.GetBody<PropertyModel>(cancellationToken);
 
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
@@ -58,8 +58,8 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         property.Title = model.Title;
         property.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
 
-        await repo.ReplaceItemAsync(profile);
-        return await repoOff.ReplaceItemAsync(model);
+        await repo.UpsertItemAsync(profile);
+        return await repoOff.UpsertItemAsync(model);
     }
 
     [Function("PropertyDelete")]
@@ -86,6 +86,6 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
             await repoOff.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id));
         }
 
-        return await repo.ReplaceItemAsync(profile);
+        return await repo.UpsertItemAsync(profile);
     }
 }

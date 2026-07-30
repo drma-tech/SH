@@ -24,7 +24,7 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
-        var model = await req.GetPublicBody<RoomModel>(cancellationToken);
+        var model = await req.GetBody<RoomModel>(cancellationToken);
 
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
@@ -43,7 +43,7 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
 
         property.Rooms.Add(room);
 
-        await repoOff.ReplaceItemAsync(property);
+        await repoOff.UpsertItemAsync(property);
 
         return await repoOff.CreateItemAsync(model);
     }
@@ -55,7 +55,7 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
         var userId = await req.GetUserIdAsync(cancellationToken);
         if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
-        var model = await req.GetPublicBody<RoomModel>(cancellationToken);
+        var model = await req.GetBody<RoomModel>(cancellationToken);
 
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
@@ -71,8 +71,8 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
         shortRoom.Status = model.Status;
         shortRoom.MonthlyPrice = model.GetMonthlyCosts();
 
-        await repoOff.ReplaceItemAsync(property);
-        return await repoOff.ReplaceItemAsync(model);
+        await repoOff.UpsertItemAsync(property);
+        return await repoOff.UpsertItemAsync(model);
     }
 
     [Function("RoomDelete")]
@@ -104,6 +104,6 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
             await repoOff.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, id));
         }
 
-        return await repoOff.ReplaceItemAsync(property);
+        return await repoOff.UpsertItemAsync(property);
     }
 }

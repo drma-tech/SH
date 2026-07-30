@@ -81,11 +81,10 @@ public class PaymentFunction(CosmosMainRepository repo, IHttpClientFactory facto
                 Provider = PaymentProvider.Apple,
                 Product = AccountProduct.Premium,
                 Cycle = purchase.product_id!.Contains("yearly") ? AccountCycle.Yearly : AccountCycle.Monthly,
-                SessionId = receipt //save receipt before cause it may fail
+                SessionId = receipt, //save receipt before cause it may fail
+                SubscriptionId = purchase.original_transaction_id,
+                ExpiresDate = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(purchase.expires_date_ms ?? "0", CultureInfo.InvariantCulture))
             };
-
-            sub.SubscriptionId = purchase.original_transaction_id;
-            sub.ExpiresDate = DateTimeOffset.FromUnixTimeMilliseconds(long.Parse(purchase.expires_date_ms ?? "0", CultureInfo.InvariantCulture));
 
             client.AddSubscription(sub);
 
@@ -189,7 +188,7 @@ public class PaymentFunction(CosmosMainRepository repo, IHttpClientFactory facto
     public async Task<string> CreateCheckoutSession(
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "stripe/create-checkout-session/{priceId}")] HttpRequestData req, string priceId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken) ?? throw new NotificationException("user not available");
+        var userId = await req.GetUserIdAsync(cancellationToken);
         var ip = req.GetUserIP(true);
         var url = req.GetQueryParameters()["url"];
 

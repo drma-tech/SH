@@ -18,7 +18,6 @@ public class LoginFunction(CosmosMainRepository repo, IDistributedCache cache)
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "login/get")] HttpRequestData req, CancellationToken cancellationToken)
     {
         var userId = await req.GetUserIdAsync(cancellationToken);
-        if (string.IsNullOrEmpty(userId)) throw new InvalidOperationException("unauthenticated user");
 
         return await repo.ReadItemAsync<AuthLogin>(new MainIdentity(MainType.Login, userId), cancellationToken);
     }
@@ -31,7 +30,6 @@ public class LoginFunction(CosmosMainRepository repo, IDistributedCache cache)
         var country = req.GetQueryParameters()["country"] ?? "error";
         var ip = req.GetUserIP(true);
         var userId = await req.GetUserIdAsync(cancellationToken);
-        if (string.IsNullOrEmpty(userId)) throw new InvalidOperationException("unauthenticated user");
         var login = await repo.ReadItemAsync<AuthLogin>(new MainIdentity(MainType.Login, userId), cancellationToken);
         var now = DateTimeOffset.UtcNow;
 
@@ -43,7 +41,7 @@ public class LoginFunction(CosmosMainRepository repo, IDistributedCache cache)
                 Accesses = [new Access { Date = now, Platform = platform, Ip = ip, Country = country.ToLower() }]
             };
 
-            await repo.UpsertItemAsync(newLogin);
+            await repo.CreateItemAsync(newLogin);
         }
         else
         {
@@ -57,11 +55,10 @@ public class LoginFunction(CosmosMainRepository repo, IDistributedCache cache)
 
             var cutoff = DateTimeOffset.UtcNow.AddMonths(-6); //Keep access history for the last 6 months only.
 
-            login.Accesses = login.Accesses
+            login.Accesses = [.. login.Accesses
                 .Where(a => a.Date >= cutoff)
                 .Union([new Access { Date = now, Platform = platform, Ip = ip, Country = country.ToLower() }])
-                .Take(100)
-                .ToHashSet();
+                .Take(100)];
 
             await repo.UpsertItemAsync(login);
         }
