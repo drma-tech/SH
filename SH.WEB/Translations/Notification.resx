@@ -126,6 +126,9 @@
   <data name="CheckOurApps" xml:space="preserve">
     <value>Explore our other amazing apps:</value>
   </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>This action cannot be undone. Confirm deletion of this item?</value>
+  </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>External Website Notice</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="FeatureUnavailableMessage" xml:space="preserve">
     <value>Under development</value>
+  </data>
+  <data name="FeatureUnderDevelopment" xml:space="preserve">
+    <value>This feature is still under development. Stay tuned for updates.</value>
   </data>
   <data name="OperationCanceled" xml:space="preserve">
     <value>Operation cancelled!</value>

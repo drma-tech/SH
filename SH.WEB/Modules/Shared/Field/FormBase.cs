@@ -16,4 +16,7 @@ public class FormBase : ComponentBase
     [Parameter] public bool ReadOnly { get; set; }
     [Parameter] public bool Required { get; set; }
     [Parameter] public bool Visible { get; set; } = true;
+
+    [Parameter] public string? CustomInfo { get; set; }
+    [Parameter] public string? CustomWarning { get; set; }
 }

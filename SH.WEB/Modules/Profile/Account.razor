@@ -79,7 +79,10 @@
 
     private async Task Delete(ProfileProperty property)
     {
-        profile = await PropertyApi.Delete(false, property.PropertyId, cts.Token);
-        await ActionsProfile.FinishLoading.Invoke(profile);
+        if (await DialogService.ConfirmDelete())
+        {
+            profile = await PropertyApi.Delete(false, property.PropertyId, cts.Token);
+            await ActionsProfile.FinishLoading.Invoke(profile);
+        }
     }
 }

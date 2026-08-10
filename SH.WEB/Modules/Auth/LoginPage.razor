@@ -238,7 +238,7 @@
 
         // Find closest match
         var closest = KnownDomains
-            .Select(d => new { Domain = d, Distance = StringHelper.Levenshtein(domain, d) })
+            .Select(d => new { Domain = d, Distance = SH.Shared.Core.Helper.StringHelper.Levenshtein(domain, d) })
             .OrderBy(x => x.Distance)
             .First();
 

@@ -7,8 +7,6 @@ public partial class FieldGroup<TEnum> : FormBase
     where TEnum : struct, Enum, IConvertible
 {
     [Parameter] public string? HelpLink { get; set; }
-    [Parameter] public string? CustomInfo { get; set; }
-    [Parameter] public string? CustomWarning { get; set; }
 
     [Parameter] public TEnum SelectedValue { get; set; } = default!;
     [Parameter] public EventCallback<TEnum> SelectedValueChanged { get; set; }

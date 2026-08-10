@@ -88,6 +88,15 @@ namespace SH.WEB.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This action cannot be undone. Confirm deletion of this item?.
+        /// </summary>
+        public static string ConfirmDelete {
+            get {
+                return ResourceManager.GetString("ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to External Website Notice.
         /// </summary>
         public static string ExternalWebsiteNotice {
@@ -111,6 +120,15 @@ namespace SH.WEB.Translations {
         public static string FeatureUnavailableMessage {
             get {
                 return ResourceManager.GetString("FeatureUnavailableMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This feature is still under development. Stay tuned for updates..
+        /// </summary>
+        public static string FeatureUnderDevelopment {
+            get {
+                return ResourceManager.GetString("FeatureUnderDevelopment", resourceCulture);
             }
         }
         

@@ -87,7 +87,8 @@
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
                                         <FieldSelect Name="@TranslationProperty.Languages" TEnum="Language" TValue="HashSet<Language>" Order="@((p) => p.Name)"
-                                                     @bind-SelectedValues="@property.Languages" Multiple="true" ShowDataSelectDescription="false"></FieldSelect>
+                                                     @bind-SelectedValues="@property.Languages" Multiple="true" ShowDataSelectDescription="false"
+                                                     Description="Languages ​​spoken at the property"></FieldSelect>
                                     </MudItem>
                                 </MudGrid>
                             </MudStack>
@@ -206,16 +207,20 @@
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
                     <MudGrid Spacing="@Css.SpaceSmall">
                         <MudItem xs="12" sm="6">
-                            <FieldSwitch Name="@TranslationProperty.SocialRequired" Description="@TranslationProperty.SocialRequiredDescription" @bind-Value="@property.SocialRequired"></FieldSwitch>
+                            <FieldSwitch Name="@TranslationProperty.SocialRequired" Description="@TranslationProperty.SocialRequiredDescription"
+                                         @bind-Value="@property.SocialRequired"></FieldSwitch>
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <FieldSwitch Name="@TranslationProperty.IdVerificationRequired" Description="@TranslationProperty.IdVerificationRequiredDescription" @bind-Value="@property.IdVerificationRequired"></FieldSwitch>
+                            <FieldSwitch Name="@TranslationProperty.IdVerificationRequired" Description="@TranslationProperty.IdVerificationRequiredDescription"
+                                         @bind-Value="@property.IdVerificationRequired"></FieldSwitch>
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <FieldSwitch Name="@TranslationProperty.IncomeVerificationRequired" Description="@TranslationProperty.IncomeVerificationRequiredDescription" @bind-Value="@property.IncomeVerificationRequired" Disabled="true"></FieldSwitch>
+                            <FieldSwitch Name="@TranslationProperty.IncomeVerificationRequired" Description="@TranslationProperty.IncomeVerificationRequiredDescription"
+                                         @bind-Value="@property.IncomeVerificationRequired" Disabled="true" CustomInfo="@Translations.Notification.FeatureUnderDevelopment"></FieldSwitch>
                         </MudItem>
                         <MudItem xs="12" sm="6">
-                            <FieldSwitch Name="@TranslationProperty.BackgroundCheckRequired" Description="@TranslationProperty.BackgroundCheckRequiredDescription" @bind-Value="@property.BackgroundCheckRequired" Disabled="true"></FieldSwitch>
+                            <FieldSwitch Name="@TranslationProperty.BackgroundCheckRequired" Description="@TranslationProperty.BackgroundCheckRequiredDescription"
+                                         @bind-Value="@property.BackgroundCheckRequired" Disabled="true" CustomInfo="@Translations.Notification.FeatureUnderDevelopment"></FieldSwitch>
                         </MudItem>
                     </MudGrid>
                 </MudStack>
@@ -314,7 +319,7 @@
 
     protected override IReadOnlyList<string?> GetParameterKey()
     {
-        return [ propertyId ];
+        return [propertyId];
     }
 
     protected override async Task LoadParameterDataAsync()
@@ -339,24 +344,41 @@
     private async Task SearchClick()
     {
         here = await MapApi.HereGeocode(searchAddress, cts.Token);
-        var first = here?.items.FirstOrDefault();
+        HereRoot? root = null;
 
+        if (here?.items.Empty() ?? true)
+        {
+            await ShowError("Your search did not return any valid address.");
+        }
+        else if (here.items.Count > 1)
+        {
+            await DialogService.SelectAddressPopup(here.items, new EventCallbackFactory().Create(this, async (HereRoot? result) => { await PopulateAddress(result); }));
+        }
+        else
+        {
+            root = here.items.FirstOrDefault();
+            await PopulateAddress(root);
+        }
+    }
+
+    private async Task PopulateAddress(HereRoot? root)
+    {
         model!.Address = new PropertyAddress
         {
-            Latitude = first?.position?.lat ?? 0,
-            Longitude = first?.position?.lng ?? 0,
-            Label = first?.address?.label,
-            CountryCode = first?.address?.countryCode,
-            CountryName = first?.address?.GetCountry(),
-            State = first?.address?.GetState(),
-            City = first?.address?.GetCity(),
-            District = first?.address?.district,
-            Street = first?.address?.street,
-            PostalCode = first?.address?.postalCode,
-            HouseNumber = first?.address?.houseNumber
+            Latitude = root?.position?.lat ?? 0,
+            Longitude = root?.position?.lng ?? 0,
+            Label = root?.address?.label,
+            CountryCode = root?.address?.countryCode,
+            CountryName = root?.address?.GetCountry(),
+            State = root?.address?.GetState(),
+            City = root?.address?.GetCity(),
+            District = root?.address?.district,
+            Street = root?.address?.street,
+            PostalCode = root?.address?.postalCode,
+            HouseNumber = root?.address?.houseNumber
         };
 
-        var country = first?.address?.countryCode.ParseToEnum<CountryExtended>();
+        var country = root?.address?.countryCode.ParseToEnum<CountryExtended>();
         model.Languages = DataHelper.GetLanguages((Country?)country).ToHashSet();
     }
 
@@ -479,7 +501,10 @@
 
     private async Task Delete(RoomShort room)
     {
-        model = await RoomApi.Delete(false, model!.Identity.RawId, room.RoomId, cts.Token);
-        await ActionsProperty.FinishLoading.Invoke(model);
+        if (await DialogService.ConfirmDelete())
+        {
+            model = await RoomApi.Delete(false, model!.Identity.RawId, room.RoomId, cts.Token);
+            await ActionsProperty.FinishLoading.Invoke(model);
+        }
     }
 }

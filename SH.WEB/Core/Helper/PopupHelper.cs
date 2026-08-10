@@ -12,6 +12,17 @@ public static class PopupHelper
 {
     public static readonly EventCallbackFactory Factory = new();
 
+    public static async Task SelectAddressPopup(this IDialogService service, List<HereRoot> items, EventCallback<HereRoot?> selected)
+    {
+        var parameters = new DialogParameters<SelectAddressPopup>
+        {
+            { x => x.Items, items },
+            { x => x.Selected, selected }
+        };
+
+        await service.ShowAsync<SelectAddressPopup>("Select address", parameters, Options(MaxWidth.Medium));
+    }
+
     public static async Task SelectPicturePopup(this IDialogService service, EventCallback<(byte[], string?)> pictureChanged)
     {
         var parameters = new DialogParameters<SelectPicturePopup>
@@ -54,6 +65,12 @@ public static class PopupHelper
     public static async Task AskReviewPopup(this IDialogService service)
     {
         await service.ShowAsync<AskReview>(string.Format(Translations.Module.Help.WriteReviewTitle, AppInfo.Title), Options(MaxWidth.Small, false, false));
+    }
+
+    public static async Task<bool> ConfirmDelete(this IDialogService service, string? customMessage = null)
+    {
+        return await service.ShowMessageBoxAsync(AppInfo.Title, customMessage ?? Translations.Notification.ConfirmDelete,
+            Translations.Button.Ok, Translations.Button.Cancel, null, Options(MaxWidth.Small, false, true)) ?? false;
     }
 
     public static DialogOptions Options(MaxWidth width, bool allowClose = true, bool showHeader = true)

@@ -55,6 +55,6 @@ public class ExternalFunction(IHttpClientFactory factory, IConfiguration config)
     {
         using var http = new HttpClient();
 
-        return await http.Get<HereJson>($"https://geocode.search.hereapi.com/v1/geocode?q={search}&lang=en-US&limit=5&apiKey={HereApiKey}", cancellationToken);
+        return await http.Get<HereJson>($"https://geocode.search.hereapi.com/v1/geocode?q={search}&lang=en-US&limit=10&apiKey={HereApiKey}", cancellationToken);
     }
 }

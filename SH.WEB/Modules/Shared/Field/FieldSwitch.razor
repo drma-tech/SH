@@ -14,8 +14,18 @@
     </div>
     @if (Description.NotEmpty())
     {
-        <MudText Typo="Typo.caption" Style="margin-left: calc(1.5rem + 12px)">
-            @Description
-        </MudText>
+        <div>
+            <MudText Typo="Typo.caption" Style=@(CssIcon.NotEmpty() ? "margin-left: calc(1.5rem + 12px)" : "")>
+                @Description
+            </MudText>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(CustomInfo))
+    {
+        <div>
+            <MudText Typo="Typo.caption" Color="Color.Info" Style=@(CssIcon.NotEmpty() ? "margin-left: calc(1.5rem + 14px)" : "")>
+                @CustomInfo
+            </MudText>
+        </div>
     }
 }

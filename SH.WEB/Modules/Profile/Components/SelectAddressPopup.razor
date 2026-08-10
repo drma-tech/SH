@@ -1,0 +1,31 @@
+@using SH.Shared.Models
+
+<MudDialog Style="width: 100%; max-height: 100vh;">
+    <DialogContent>
+        <MudList T="HereRoot" Dense="true" SelectionMode="SelectionMode.SingleSelection" @bind-SelectedValue="@selected">
+            @foreach (var item in Items)
+            {
+                <MudListItem T="HereRoot" Value="@item" Text="@item.address?.label" />
+            }
+        </MudList>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Confirm" Disabled="@(selected == null)">@Translations.Button.Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
+
+    [Parameter] public List<HereRoot> Items { get; set; } = [];
+    [Parameter] public EventCallback<HereRoot?> Selected { get; set; }
+
+    private HereRoot? selected;
+
+    private async Task Confirm()
+    {
+        await Selected.InvokeAsync(selected);
+
+        MudDialog?.Close();
+    }
+}

@@ -201,10 +201,10 @@
                                         <FieldGroup Name="@TranslationRoom.PreferredOccupations" TEnum="Occupation" SelectedValues="room.PreferredOccupations" Multiple="true"
                                                     CustomInfo="@TranslationRoom.LeaveBlank" Vertical="@AppStateStatic.IsMobile" MudForm="_form"></FieldGroup>
                                     </MudItem>
-                                    <MudItem xs="12">
+                                    <MudItem xs="6">
                                         <FieldNumber T="int?" Name="@TranslationRoom.MinimumAge" @bind-Value="@room.MinimumAge"></FieldNumber>
                                     </MudItem>
-                                    <MudItem xs="12">
+                                    <MudItem xs="6">
                                         <FieldNumber T="int?" Name="@TranslationRoom.MaximumAge" @bind-Value="@room.MaximumAge"></FieldNumber>
                                     </MudItem>
                                 </MudGrid>
@@ -261,7 +261,7 @@
 
         <PageSectionComponent Title="@TranslationRoom.Photos">
             <ActionsFragment>
-                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())" Disabled>
                     @Translations.Button.Add
                 </MudButton>
             </ActionsFragment>
