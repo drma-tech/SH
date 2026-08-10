@@ -13,21 +13,21 @@ public class PrincipalApi(IHttpClientFactory factory) : ApiCosmos<AuthPrincipal>
     {
         ArgumentNullException.ThrowIfNull(obj);
 
-        return await PostAsync(Endpoint.Add(platform.ToString(), country), obj, cancellationToken);
+        return await PostAsync(Endpoint.Add(platform.ToString(), country), obj, actions: null, cancellationToken);
     }
 
     public async Task<AuthPrincipal> Update(AuthPrincipal? obj, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(obj);
 
-        return await PutAsync(Endpoint.Update, obj, ApiContext.Default.AuthPrincipal, cancellationToken);
+        return await PutAsync(Endpoint.Update, obj, ApiContext.Default.AuthPrincipal, actions: null, cancellationToken);
     }
 
     public async Task<AuthPrincipal> Event(string app, string msg, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(msg);
 
-        return await PostAsync(Endpoint.Event(app, msg), null, cancellationToken);
+        return await PostAsync(Endpoint.Event(app, msg), null, actions: null, cancellationToken);
     }
 
     public async Task Remove(CancellationToken cancellationToken)
@@ -56,7 +56,7 @@ public class PrincipalImportApi(IHttpClientFactory factory) : ApiCosmos<AuthPrin
 
     public async Task Migrate(string? oldId, string? newId, CancellationToken cancellationToken)
     {
-        await PutAsync(Endpoint.Migrate(oldId, newId), null, ApiContext.Default.AuthPrincipal, cancellationToken);
+        await PutAsync(Endpoint.Migrate(oldId, newId), null, ApiContext.Default.AuthPrincipal, actions: null, cancellationToken);
     }
 
     private struct Endpoint

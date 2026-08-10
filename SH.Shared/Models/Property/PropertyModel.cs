@@ -1,5 +1,4 @@
-﻿using SH.Shared.Core;
-using SH.Shared.Core.Types;
+﻿using SH.Shared.Core.Types;
 
 namespace SH.Shared.Models.Property
 {

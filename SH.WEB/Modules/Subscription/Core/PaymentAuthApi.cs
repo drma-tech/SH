@@ -19,7 +19,7 @@ namespace SH.WEB.Modules.Subscription.Core
     {
         public async Task AppleVerify(string receipt, CancellationToken cancellationToken)
         {
-            await PostAsync(Endpoint.AppleVerify, receipt, ApiContext.Default.String, cancellationToken);
+            await PostAsync(Endpoint.AppleVerify, receipt, ApiContext.Default.String, null, cancellationToken);
         }
 
         public async Task<AuthPrincipal?> StripeCustomer(CancellationToken cancellationToken)

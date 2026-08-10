@@ -28,11 +28,11 @@
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
                                 <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
-                                        <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="room.AccessType" MudForm="_form"></FieldGroup>
-                                    </MudItem>
-                                    <MudItem xs="12">
                                         <FieldText Name="@TranslationRoom.Title" Placeholder="@TranslationRoom.TitlePlaceholder" @bind-Value="@room.Title"></FieldText>
                                     </MudItem>
+                                    <MudItem xs="12">
+                                        <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="room.AccessType" MudForm="_form"></FieldGroup>
+                                    </MudItem>                                   
                                     <MudItem xs="12" sm="6">
                                         <FieldNumber Name="@TranslationRoom.SizeSqm" @bind-Value="@room.SizeSqm"></FieldNumber>
                                     </MudItem>

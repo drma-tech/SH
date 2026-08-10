@@ -116,6 +116,7 @@ static void ConfigureServices(IServiceCollection services)
         services.AddSingleton<CosmosCacheRepository>();
         services.AddSingleton<CosmosJobRepository>();
         services.AddSingleton<CosmosPropertyOffRepository>();
+        services.AddSingleton<CosmosPropertyOnRepository>();
 
         //general services
 

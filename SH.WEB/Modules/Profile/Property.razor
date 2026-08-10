@@ -74,13 +74,13 @@
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
                                 <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
+                                        <FieldText Name="@TranslationProperty.Title" Placeholder="@TranslationProperty.TitlePlaceholder" @bind-Value="@property.Title"></FieldText>
+                                    </MudItem>
+                                    <MudItem xs="12">
                                         <FieldGroup Name="@TranslationProperty.Structure" TEnum="PropertyStructure" @bind-SelectedValue="property.Structure" MudForm="_form"></FieldGroup>
                                     </MudItem>
                                     <MudItem xs="12">
                                         <FieldGroup Name="@TranslationProperty.SharedWith" TEnum="SharedWith" @bind-SelectedValue="property.SharedWith" MudForm="_form"></FieldGroup>
-                                    </MudItem>
-                                    <MudItem xs="12">
-                                        <FieldText Name="@TranslationProperty.Title" Placeholder="@TranslationProperty.TitlePlaceholder" @bind-Value="@property.Title"></FieldText>
                                     </MudItem>
                                     <MudItem xs="12" sm="6">
                                         <FieldNumber Name="@TranslationProperty.SizeSqm" @bind-Value="@property.SizeSqm"></FieldNumber>

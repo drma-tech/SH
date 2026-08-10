@@ -15,21 +15,35 @@ public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(htt
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return await PostAsync(Endpoint.Add, model, ApiContext.Default.PropertyModel, cancellationToken);
+        return await PostAsync(Endpoint.Add, model, ApiContext.Default.PropertyModel, actions: null, cancellationToken);
     }
 
     public async Task<PropertyModel> Update(PropertyModel? model, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return await PutAsync(Endpoint.Update, model, ApiContext.Default.PropertyModel, cancellationToken);
+        return await PutAsync(Endpoint.Update, model, ApiContext.Default.PropertyModel, actions: null, cancellationToken);
     }
 
     public async Task<ProfileModel> Delete(bool live, string? rawId, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(rawId);
 
-        return await PostAsync(Endpoint.Delete(live, rawId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, cancellationToken);
+        return await PostAsync(Endpoint.Delete(live, rawId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions: null, cancellationToken);
+    }
+
+    public async Task<ProfileModel> Public(string id, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(id);
+
+        return await PostAsync(Endpoint.Public(id), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions, cancellationToken);
+    }
+
+    public async Task<ProfileModel> Private(string id, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(id);
+
+        return await PostAsync(Endpoint.Private(id), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions, cancellationToken);
     }
 
     public struct Endpoint
@@ -37,6 +51,10 @@ public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(htt
         public static string Get(bool live, string rawId) => $"property/get/{live.ToString().ToSlug()}/{rawId}";
 
         public static string Delete(bool live, string rawId) => $"property/delete/{live.ToString().ToSlug()}/{rawId}";
+
+        public static string Public(string rawId) => $"property/public/{rawId}";
+
+        public static string Private(string rawId) => $"property/private/{rawId}";
 
         public const string Add = "property/add";
         public const string Update = "property/update";

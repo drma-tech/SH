@@ -25,23 +25,23 @@ public abstract class ApiCosmos<T>(IHttpClientFactory factory, ApiType type, str
         return await base.GetListAsync<T>(endpoint, actions, cancellationToken);
     }
 
-    protected async Task<T> PostAsync(string endpoint, T? obj, CancellationToken cancellationToken)
+    protected async Task<T> PostAsync(string endpoint, T? obj, RenderControlState<T>? actions, CancellationToken cancellationToken)
     {
-        return await PostAsync(endpoint, obj, typeInfo, typeInfo, cancellationToken);
+        return await PostAsync(endpoint, obj, typeInfo, typeInfo, actions, cancellationToken);
     }
 
-    protected async Task<T> PostAsync<TObj>(string endpoint, TObj? obj, JsonTypeInfo<TObj?> requestTypeInfo, CancellationToken cancellationToken) where TObj : class
+    protected async Task<T> PostAsync<TObj>(string endpoint, TObj? obj, JsonTypeInfo<TObj?> requestTypeInfo, RenderControlState<T>? actions, CancellationToken cancellationToken) where TObj : class
     {
-        var result = await base.PostAsync<TObj, T>(endpoint, obj, requestTypeInfo, typeInfo, cancellationToken);
+        var result = await base.PostAsync<TObj, T>(endpoint, obj, requestTypeInfo, typeInfo, actions, cancellationToken);
 
         DataChanged?.Invoke(result);
 
         return result;
     }
 
-    protected async Task<T> PutAsync<TObj>(string endpoint, TObj? obj, JsonTypeInfo<TObj?> requestTypeInfo, CancellationToken cancellationToken) where TObj : class
+    protected async Task<T> PutAsync<TObj>(string endpoint, TObj? obj, JsonTypeInfo<TObj?> requestTypeInfo, RenderControlState<T>? actions, CancellationToken cancellationToken) where TObj : class
     {
-        var result = await base.PutAsync<TObj, T>(endpoint, obj, requestTypeInfo, typeInfo, cancellationToken);
+        var result = await base.PutAsync<TObj, T>(endpoint, obj, requestTypeInfo, typeInfo, actions, cancellationToken);
 
         DataChanged?.Invoke(result);
 

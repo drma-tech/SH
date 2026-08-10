@@ -238,10 +238,13 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, string[] 
         }
     }
 
-    protected async Task<TOut> PostAsync<TIn, TOut>(string uri, TIn? obj, JsonTypeInfo<TIn?> requestTypeInfo, JsonTypeInfo<TOut?>? responseTypeInfo, CancellationToken cancellationToken)
+    protected async Task<TOut> PostAsync<TIn, TOut>(string uri, TIn? obj, JsonTypeInfo<TIn?> requestTypeInfo, JsonTypeInfo<TOut?>? responseTypeInfo, RenderControlState<TOut>? actions, CancellationToken cancellationToken)
+        where TIn : class
+        where TOut : class
     {
         try
         {
+            if (actions != null) await actions.StartProcessing(null);
             await AppStateStatic.ProcessingStarted.PublishAsync();
 
             SetNewVersion(key, extraKeys);
@@ -260,10 +263,14 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, string[] 
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync(responseTypeInfo, cancellationToken) ?? throw new NotificationException("Failed to read response content.");
+                var result = await response.Content.ReadFromJsonAsync(responseTypeInfo, cancellationToken) ?? throw new NotificationException("Failed to read response content.");
+                if (actions != null) await actions.FinishProcessing(result);
+                return result;
             }
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (actions != null) await actions.ShowError(content);
+
             throw new NotificationException(content);
         }
         finally
@@ -272,10 +279,13 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, string[] 
         }
     }
 
-    protected async Task<TOut> PutAsync<TIn, TOut>(string uri, TIn? obj, JsonTypeInfo<TIn?> requestTypeInfo, JsonTypeInfo<TOut?> responseTypeInfo, CancellationToken cancellationToken)
+    protected async Task<TOut> PutAsync<TIn, TOut>(string uri, TIn? obj, JsonTypeInfo<TIn?> requestTypeInfo, JsonTypeInfo<TOut?> responseTypeInfo, RenderControlState<TOut>? actions, CancellationToken cancellationToken)
+        where TIn : class
+        where TOut : class
     {
         try
         {
+            if (actions != null) await actions.StartProcessing(null);
             await AppStateStatic.ProcessingStarted.PublishAsync();
 
             SetNewVersion(key, extraKeys);
@@ -284,10 +294,13 @@ public abstract class ApiCore(IHttpClientFactory factory, string? key, string[] 
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync(responseTypeInfo, cancellationToken) ?? throw new NotificationException("Failed to read response content.");
+                var result = await response.Content.ReadFromJsonAsync(responseTypeInfo, cancellationToken) ?? throw new NotificationException("Failed to read response content.");
+                if (actions != null) await actions.FinishProcessing(result);
+                return result;
             }
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
+            if (actions != null) await actions.ShowError(content);
 
             throw new NotificationException(content);
         }

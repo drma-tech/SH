@@ -7,7 +7,7 @@
 
 <PageSectionComponent Title="My profile">
     <BodyFragment>
-        <RenderControl Actions="ActionsProfile" Context="profile">
+        <RenderControl Actions="ActionsProfile" Context="profile" LoadingHeight="20px">
             <span>@profile.FirstName</span>
         </RenderControl>
     </BodyFragment>
@@ -20,7 +20,7 @@
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl Actions="ActionsProfile" Context="profile">
+        <RenderControl Actions="ActionsProfile" Context="profile" LoadingHeight="275px">
             <Slider List="@profile.Properties" Context="property">
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">
@@ -38,12 +38,13 @@
                                                    OnClick="@(() => Navigation.NavigateTo($"/{Culture}/property/update/{property.PropertyId}"))" />
                                 </MudTooltip>
                                 <MudTooltip Text="Delete">
-                                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Variant="Variant.Filled" Color="Color.Error"
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Error"
                                                    OnClick="@(() => Delete(property))" />
                                 </MudTooltip>
-                                @*  <MudTooltip Text="Confirm Next Destination">
-                                    <MudIconButton Icon="@Icons.Material.Filled.Check" OnClick="@(() => ConfirmNextDestination(ctx))" Size="Size.Small" />
-                                </MudTooltip> *@
+                                <MudToggleIconButton Toggled="property.IsPublic" ToggledChanged="@(value => property.IsPublic ? Private(property) : Public(property))"
+                                                     Icon="@Icons.Material.Filled.Cancel" Color="@Color.Error"
+                                                     ToggledIcon="@Icons.Material.Filled.CheckCircle" ToggledColor="@Color.Success" />
+                                <span>@(property.IsPublic ? "Public" : "Private")</span>
                             </MudCardActions>
                         </MudCard>
                     </div>
@@ -55,12 +56,12 @@
 
 <PageSectionComponent Title="Guest Ads" Subtitle="Create and manage ads to find a room that matches your needs.">
     <ActionsFragment>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary"Disabled OnClick="@(() => Navigation.NavigateTo("/{culture}/account/ads/guest"))">
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Disabled OnClick="@(() => Navigation.NavigateTo("/{culture}/account/ads/guest"))">
             @Translations.Button.Add
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl Actions="ActionsProfile">
+        <RenderControl Actions="ActionsProfile" LoadingHeight="275px">
             <Slider List="@context.Guests" Context="guest">
                 <span></span>
             </Slider>
@@ -84,5 +85,17 @@
             profile = await PropertyApi.Delete(false, property.PropertyId, Cts.Token);
             await ActionsProfile.FinishLoading.Invoke(profile);
         }
+    }
+
+    private async Task Public(ProfileProperty property)
+    {
+        profile = await PropertyApi.Public(property.PropertyId!, ActionsProfile, Cts.Token);
+        await ShowSuccess("Your property is now public and can be made available to our clients.");
+    }
+
+    private async Task Private(ProfileProperty property)
+    {
+        profile = await PropertyApi.Private(property.PropertyId!, ActionsProfile, Cts.Token);
+        await ShowInfo("Your property is now in private mode and will not be seen or shared with anyone.");
     }
 }
