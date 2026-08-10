@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.JSInterop
-@inherits BaseComponentCore<SelectPicturePopup>
+@inherits ComponentCore<SelectPicturePopup>
 
 <MudDialog Style="width: 100%; max-height: 100vh;">
     <DialogContent>
@@ -49,10 +49,10 @@
         {
             if (file == null) return;
 
-            await using var stream = file.OpenReadStream(maxAllowedSize, cts.Token);
+            await using var stream = file.OpenReadStream(maxAllowedSize, Cts.Token);
             using var streamRef = new DotNetStreamReference(stream);
 
-            buffer = await JsRuntime.Utils().ResizeImage(streamRef, 1600, cts.Token);
+            buffer = await JsRuntime.Utils().ResizeImage(streamRef, 1600, Cts.Token);
 
             var base64 = Convert.ToBase64String(buffer);
 

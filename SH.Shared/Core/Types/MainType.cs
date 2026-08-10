@@ -6,6 +6,6 @@
         Login = 2,
         Profile = 3,
         Proposal = 4,
-        Occupation = 5
+        Occupation = 5,
     }
 }

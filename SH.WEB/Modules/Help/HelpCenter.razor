@@ -6,12 +6,12 @@
 @inject PrincipalApi PrincipalApi
 @inject LoginApi LoginApi
 
-<HeadComponent Title="@Translations.Title.HelpCenter" Description="@Translations.Description.HelpCenter.Format(AppInfo.Title)" Url=@($"/{Culture}/help") Index="true"></HeadComponent>
-<PageSectionComponent IsPageHeader="true" Title="@Translations.Title.HelpCenter" Description="@Translations.Description.HelpCenter.Format(AppInfo.Title)"></PageSectionComponent>
+<HeadComponent Title="@Translations.Title.HelpCenter" Description="@Translations.Description.HelpCenter.CustomFormat(AppInfo.Title)" Url=@($"/{Culture}/help") Index="true"></HeadComponent>
+<PageSectionComponent IsPageHeader="true" Title="@Translations.Title.HelpCenter" Description="@Translations.Description.HelpCenter.CustomFormat(AppInfo.Title)"></PageSectionComponent>
 
 <PageSectionComponent Title="Quick Actions">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@FeedbackClick">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Feedback"></MudIcon>
@@ -36,7 +36,7 @@
 
 <PageSectionComponent Title="Troubleshooting">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@ShowCacheClick">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Memory"></MudIcon>
@@ -61,8 +61,8 @@
 
 <PageSectionComponent Title="@Translations.Module.Help.AppLanguage">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
-            @foreach (var lang in EnumHelper.GetList<AppLanguage>().Where(p => AppStateStatic.SitemapTranslations.Contains(p.Value.ToString())))
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
+            @foreach (var lang in EnumHelper.GetList<AppLanguage>().Where(p => ConfigurationsStatic.SitemapTranslations.Contains(p.Value.ToString())))
             {
                 <MudItem xs="12" sm="6" md="4" lg="3">
                     <MudButton Variant="Variant.Filled" FullWidth="true" Href="@($"/{lang.Value.ToString()}/help")" OnClick="@(() => AppLanguageClick(lang.Value))">
@@ -77,7 +77,7 @@
 
 <PageSectionComponent Title="Account">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" OnClick="@DownloadData" Disabled="AppStateStatic.Principal == null">
                     Download Data
@@ -94,7 +94,7 @@
 
 <PageSectionComponent Title="Legal & Privacy">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/legal/terms") Rel="nofollow">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.DocumentScanner"></MudIcon>
@@ -119,7 +119,7 @@
 
 <PageSectionComponent Title="Get the App">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             @foreach (var store in AppInfo.Stores)
             {
                 if (CurrentPlatform == SH.Shared.Enums.Platform.ios)
@@ -143,7 +143,7 @@
 
 <PageSectionComponent Title="Company">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             <MudItem xs="12" sm="6" md="4" lg="3">
                 <MudButton Variant="Variant.Filled" FullWidth="true" Href=@($"/{Culture}/company/about-us") rel="nofollow">
                     <MudIcon Class="me-2" Icon="@Icons.Material.Filled.Business"></MudIcon>
@@ -168,7 +168,7 @@
 
 <PageSectionComponent Title="More from DRMA Tech">
     <BodyFragment>
-        <MudGrid Spacing="@Css.SpaceSmall">
+        <MudGrid Spacing="@CssHelper.SpaceSmall">
             @foreach (var product in AppInfo.Products)
             {
                 <MudItem xs="12" sm="6" md="4" lg="3">
@@ -181,92 +181,3 @@
         </MudGrid>
     </BodyFragment>
 </PageSectionComponent>
-
-@code {
-    private SH.Shared.Enums.Platform? CurrentPlatform;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            CurrentPlatform = await AppStateStatic.GetPlatform(JsRuntime, cts.Token);
-        }
-    }
-
-    private async Task DownloadData()
-    {
-        try
-        {
-            if (AppStateStatic.Principal == null) return;
-
-            var data = new SuperData() { Principal = AppStateStatic.Principal };
-
-            data.Login = await LoginApi.Get(cts.Token);
-
-            var fileName = $"{AppInfo.Title.ToSlug()}_{AppStateStatic.Principal.AuthProviders[0]}_{DateTime.UtcNow:yyyyMMdd_HHmmss}.json";
-            await JsRuntime.Utils().DownloadFile(fileName, "application/json", data.ConvertFromObjectToBytes(), cts.Token);
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
-        }
-    }
-
-    private async Task DeleteAccount()
-    {
-        try
-        {
-            if (AppStateStatic.Principal == null) return;
-
-            if (AppStateStatic.Principal.GetActiveSubscription() != null)
-            {
-                await DialogService.ShowMessageBoxAsync("You still have an active subscription", "Please cancel your subscription before deleting your profile.");
-                return;
-            }
-
-            if (await DialogService.ShowMessageBoxAsync(AppInfo.Title, Translations.Module.Auth.SureDeleteAccount, Translations.Button.Ok, Translations.Button.Cancel) ?? false)
-            {
-                //remove data from cosmos db
-                await PrincipalApi.Remove(cts.Token);
-
-                //TODO: remove data from supabase table
-
-                //close current login session
-                await Logout();
-            }
-            else
-            {
-                await ShowInfo(Translations.Notification.OperationCanceled);
-            }
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
-        }
-    }
-
-    private async Task FeedbackClick()
-    {
-        await JsRuntime.Window().InvokeVoidAsync("eval", "Userback && Userback.openForm('general', 'form');");
-    }
-
-    private async Task ShowCacheClick()
-    {
-        await JsRuntime.Utils().ShowCache(cts.Token);
-    }
-
-    private async Task ClearCacheClick()
-    {
-        await JsRuntime.Utils().ClearAllStorage();
-    }
-
-    private void AppLanguageClick(AppLanguage lang)
-    {
-        Navigation.NavigateTo($"/{lang.ToString()}/help", true);
-    }
-
-    private async Task Logout()
-    {
-        await JsRuntime.Supabase().SignOutAsync(cts.Token);
-    }
-}

@@ -2,7 +2,7 @@
 
 public static class ImageHelper
 {
-    public static string BlobPath = "https://drmammstorage.blob.core.windows.net";
+    public static string BlobPath { get; } = "https://drmammstorage.blob.core.windows.net";
 
     public enum PhotoType
     {
@@ -16,7 +16,7 @@ public static class ImageHelper
         return type switch
         {
             PhotoType.Gallery => "photo-gallery",
-            _ => throw new InvalidOperationException(nameof(PhotoType))
+            _ => throw new InvalidOperationException(nameof(PhotoType)),
         };
     }
 }

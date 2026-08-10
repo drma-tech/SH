@@ -2,7 +2,7 @@
 
 public class ProfileApi(IHttpClientFactory http) : ApiCosmos<ProfileModel>(http, ApiType.Authenticated, "profile", [], ApiContext.Default.ProfileModel)
 {
-    public async Task<ProfileModel?> Get(ComponentActions<ProfileModel> actions, bool setNewVersion, CancellationToken cancellationToken)
+    public async Task<ProfileModel?> Get(RenderControlState<ProfileModel> actions, bool setNewVersion, CancellationToken cancellationToken)
     {
         return await GetAsync(Endpoint.Get, setNewVersion, actions, cancellationToken);
     }

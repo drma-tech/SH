@@ -9,6 +9,6 @@
         Occupied = 2,
 
         [FieldSettings(nameof(Translations.Enum.RoomStatus.Unavailable), ResourceType = typeof(Translations.Enum.RoomStatus))]
-        Unavailable = 3
+        Unavailable = 3,
     }
 }

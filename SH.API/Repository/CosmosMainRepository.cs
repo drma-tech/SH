@@ -10,7 +10,7 @@ namespace SH.API.Repository;
 public class CosmosMainRepository(CosmosClient CosmosClient, ILogger<CosmosMainRepository> logger)
     : BaseRepository<CosmosMainRepository, MainDocument, MainIdentity>(CosmosClient, logger, "main")
 {
-    public async Task<List<T>> Query<T>(MainType type, Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<T>> Query<T>(MainType type, Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
         where T : MainDocument
     {
         try
@@ -32,8 +32,8 @@ public class CosmosMainRepository(CosmosClient CosmosClient, ILogger<CosmosMainR
                 results.AddRange(response.Resource);
             }
 
-            if (charges > 10d)
-                _logger.LogWarning("Query - Type {Type}, RequestCharge {Charges}", type.ToString(), charges);
+            if (charges > 10d + extra)
+                LogMessages.RequestCharge(Logger, "Query", type.ToString(), charges);
 
             return results;
         }

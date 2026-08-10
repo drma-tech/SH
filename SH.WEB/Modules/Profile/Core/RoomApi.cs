@@ -4,11 +4,11 @@ namespace SH.WEB.Modules.Profile.Core;
 
 public class RoomApi(IHttpClientFactory http) : ApiCosmos<RoomModel>(http, ApiType.Authenticated, "room", ["property", "profile"], ApiContext.Default.RoomModel)
 {
-    public async Task<RoomModel?> Get(bool live, string? rawId, ComponentActions<RoomModel>? actions, CancellationToken cancellationToken)
+    public async Task<RoomModel?> Get(bool live, string? rawId, RenderControlState<RoomModel>? actions, CancellationToken cancellationToken)
     {
         if (rawId.Empty()) return null;
 
-        return await GetAsync(Endpoint.Get(live, rawId), false, actions, cancellationToken);
+        return await GetAsync(Endpoint.Get(live, rawId), setNewVersion: false, actions, cancellationToken);
     }
 
     public async Task<RoomModel> Add(bool live, string propertyId, RoomModel? model, CancellationToken cancellationToken)

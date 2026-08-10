@@ -6,6 +6,6 @@
         Owner = 1,
 
         [FieldSettings(nameof(Translations.Enum.SharedWith.OtherTenants), ResourceType = typeof(Translations.Enum.SharedWith))]
-        OtherTenants = 2
+        OtherTenants = 2,
     }
 }

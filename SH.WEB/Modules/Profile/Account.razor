@@ -69,19 +69,19 @@
 </PageSectionComponent>
 
 @code {
-    private ComponentActions<ProfileModel> ActionsProfile { get; set; } = new ComponentActions<ProfileModel>(obj => obj == null);
+    private RenderControlState<ProfileModel> ActionsProfile { get; set; } = new RenderControlState<ProfileModel>(obj => obj == null);
     private ProfileModel? profile;
 
     protected override async Task LoadStaticDataAsync()
     {
-        profile = await ProfileApi.Get(ActionsProfile, true, cts.Token);
+        profile = await ProfileApi.Get(ActionsProfile, true, Cts.Token);
     }
 
     private async Task Delete(ProfileProperty property)
     {
         if (await DialogService.ConfirmDelete())
         {
-            profile = await PropertyApi.Delete(false, property.PropertyId, cts.Token);
+            profile = await PropertyApi.Delete(false, property.PropertyId, Cts.Token);
             await ActionsProfile.FinishLoading.Invoke(profile);
         }
     }

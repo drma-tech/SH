@@ -17,7 +17,7 @@ public partial class FieldGroup<TEnum> : FormBase
     [Parameter] public Func<TEnum, object> Order { get; set; } = o => o;
     [Parameter] public Func<TEnum, bool> Filter { get; set; } = o => true;
 
-    public List<TEnum> EnumList { get; set; } = [];
+    public IReadOnlyCollection<TEnum> EnumList { get; set; } = [];
 
     [Parameter] public MudForm? MudForm { get; set; }
 

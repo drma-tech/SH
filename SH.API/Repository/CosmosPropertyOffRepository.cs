@@ -10,7 +10,7 @@ namespace SH.API.Repository;
 public class CosmosPropertyOffRepository(CosmosClient CosmosClient, ILogger<CosmosPropertyOffRepository> logger)
     : BaseRepository<CosmosPropertyOffRepository, PropertyDocument, PropertyIdentity>(CosmosClient, logger, "property-off")
 {
-    public async Task<List<T>> Query<T>(PropertyType type, Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<T>> Query<T>(PropertyType type, Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
         where T : PropertyDocument
     {
         try
@@ -32,8 +32,8 @@ public class CosmosPropertyOffRepository(CosmosClient CosmosClient, ILogger<Cosm
                 results.AddRange(response.Resource);
             }
 
-            if (charges > 20)
-                _logger.LogWarning("Query - Type {Type}, RequestCharge {Charges}", type.ToString(), charges);
+            if (charges > 10d + extra)
+                LogMessages.RequestCharge(Logger, "Query", type.ToString(), charges);
 
             return results;
         }

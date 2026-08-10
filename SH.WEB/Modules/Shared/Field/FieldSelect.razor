@@ -106,7 +106,9 @@
     @if (!string.IsNullOrEmpty(HelpLink))
     {
         <MudText Typo="Typo.caption" Style="margin-left: calc(1.5rem + 14px)">
-            <MudLink href="@HelpLink" target="_blank" rel="nofollow" Typo="Typo.caption">@(new Uri(HelpLink).Host)</MudLink>
+            <MudLink href="@HelpLink" target="_blank" rel="nofollow" Typo="Typo.caption" Color="Color.Tertiary">
+                @(new Uri(HelpLink).Host)
+            </MudLink>
         </MudText>
     }
     @if (!string.IsNullOrEmpty(CustomInfo))

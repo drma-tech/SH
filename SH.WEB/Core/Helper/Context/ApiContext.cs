@@ -6,17 +6,6 @@ using System.Text.Json.Serialization;
 namespace SH.WEB.Core.Api
 {
     [JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)]
-    [JsonSerializable(typeof(bool?))]
-    [JsonSerializable(typeof(string))]
-    [JsonSerializable(typeof(Platform?))]
-    [JsonSerializable(typeof(AppLanguage?))]
-    [JsonSerializable(typeof(AuthProvider))]
-    [JsonSerializable(typeof(HashSet<DateTime>))]
-    internal partial class JavascriptContext : JsonSerializerContext
-    {
-    }
-
-    [JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)]
     [JsonSerializable(typeof(PaymentConfigurations))]
     [JsonSerializable(typeof(AuthPrincipal))]
     [JsonSerializable(typeof(AuthLogin))]
@@ -25,7 +14,7 @@ namespace SH.WEB.Core.Api
     [JsonSerializable(typeof(PropertyModel))]
     [JsonSerializable(typeof(RoomModel))]
     [JsonSerializable(typeof(ProfileModel))]
-    internal partial class ApiContext : JsonSerializerContext
+    internal sealed partial class ApiContext : JsonSerializerContext
     {
     }
 }

@@ -9,6 +9,6 @@
         Manager = 2,
 
         [FieldSettings("Real Estate")]
-        RealEstate = 3
+        RealEstate = 3,
     }
 }

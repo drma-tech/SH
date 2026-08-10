@@ -11,4 +11,16 @@ public partial class FieldText : FormBase
     [Parameter] public EventCallback ButtomClicked { get; set; }
     [Parameter] public string? ButtomCssIcon { get; set; }
     [Parameter] public string? ButtomTitle { get; set; }
+
+    private bool _processing;
+
+    private async Task ButtomClickedHandle()
+    {
+        _processing = true;
+
+        await ButtomClicked.InvokeAsync(null);
+
+        await Task.Delay(10000);
+        _processing = false;
+    }
 }

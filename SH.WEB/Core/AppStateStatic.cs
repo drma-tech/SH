@@ -34,19 +34,19 @@ public static class AppStateStatic
 
     public static bool IsLocalhost(this NavigationManager navigation)
     {
-        return navigation.BaseUri.Contains("localhost") || navigation.BaseUri.Contains("develop");
+        return navigation.BaseUri.Contains("localhost", StringComparison.OrdinalIgnoreCase) || navigation.BaseUri.Contains("develop", StringComparison.OrdinalIgnoreCase);
     }
 
     public static bool IsPrerendering(this NavigationManager navigation)
     {
-        return navigation.BaseUri.Contains("127.0.0.1");
+        return navigation.BaseUri.Contains("127.0.0.1", StringComparison.OrdinalIgnoreCase);
     }
 
     public static bool CanShowSnackbar(this string message)
     {
         var now = DateTime.UtcNow;
 
-        if (LastSnackbarMessage == message && now - LastSnackbarAt < SnackbarDelay)
+        if (string.Equals(LastSnackbarMessage, message, StringComparison.OrdinalIgnoreCase) && now - LastSnackbarAt < SnackbarDelay)
         {
             return false;
         }
@@ -113,15 +113,12 @@ public static class AppStateStatic
 
     #region AppLanguage
 
-    public static string[] SupportedLanguages => ["en", "pt", "es", "fr", "it", "de", "zh"];
-    public static string[] SitemapTranslations => ["en", "pt", "es"];
-
     private static AppLanguage? _appLanguage;
     private static readonly SemaphoreSlim _appLanguageSemaphore = new(1, 1);
 
     public static bool IsValidLanguage(this string? lang)
     {
-        return SupportedLanguages.Contains(lang);
+        return ConfigurationsStatic.SupportedLanguages.Contains(lang);
     }
 
     public static async Task<AppLanguage> GetAppLanguage(IJSRuntime js, CancellationToken cancellationToken)
@@ -165,12 +162,12 @@ public static class AppStateStatic
     {
         if (code.Empty()) return AppLanguage.en;
 
-        if (System.Enum.TryParse<AppLanguage>(code, true, out var language) && System.Enum.IsDefined(language))
+        if (System.Enum.TryParse<AppLanguage>(code, ignoreCase: true, out var language) && System.Enum.IsDefined(language))
         {
             return language;
         }
-        else
-            return fallback;
+
+        return fallback;
     }
 
     public static string GetCulture(this NavigationManager navigation)

@@ -1,5 +1,4 @@
-﻿using SH.Shared.Core;
-using SH.Shared.Core.Types;
+﻿using SH.Shared.Core.Types;
 using SH.Shared.Models.Auth;
 
 namespace SH.Shared.Models
@@ -16,7 +15,7 @@ namespace SH.Shared.Models
         MostlyHome = 3,
 
         [FieldSettings("Variable")]
-        Variable = 4
+        Variable = 4,
     }
 
     public class ProfileModel(string? id) : MainDocument(new MainIdentity(MainType.Profile, id))
@@ -34,7 +33,7 @@ namespace SH.Shared.Models
         public HomeSchedule? HomeSchedule { get; set; }
 
         //[FieldSettings("Languages spoken")]
-        public HashSet<Language> Languages { get; set; } = [];
+        public IEnumerable<Language> Languages { get; set; } = [];
 
         public string? AboutMe { get; set; }
         public string? ProfilePicture { get; set; }
@@ -61,8 +60,10 @@ namespace SH.Shared.Models
         public bool EmailVerified { get; set; }
         public bool PhoneVerified { get; set; }
 
-        public HashSet<ProfileProperty> Properties { get; set; } = [];
-        public HashSet<ProfileGuest> Guests { get; set; } = [];
+        public ISet<ProfileProperty> Properties { get; set; } = new HashSet<ProfileProperty>();
+        public ISet<ProfileGuest> Guests { get; set; } = new HashSet<ProfileGuest>();
+
+        protected override object?[] EqualityValues => [Id];
     }
 
     public class ProfileProperty : EqualityBase<AuthSubscription>

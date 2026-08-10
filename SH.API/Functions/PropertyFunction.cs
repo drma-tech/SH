@@ -32,7 +32,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
             PropertyId = model.Identity.RawId,
             Title = model.Title,
             UrlPath = model.Photos.FirstOrDefault()?.UrlPath,
-            Role = PropertyUserRole.Owner
+            Role = PropertyUserRole.Owner,
         };
 
         profile.Properties.Add(property);
@@ -53,7 +53,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
-        var property = profile.Properties.SingleOrDefault(p => p.PropertyId == model.Identity.RawId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var property = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, model.Identity.RawId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
         property.Title = model.Title;
         property.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
@@ -72,7 +72,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
-        if (profile.Properties.RemoveWhere(p => p.PropertyId == id) != 1)
+        if (profile.Properties.ToHashSet().RemoveWhere(p => string.Equals(p.PropertyId, id, StringComparison.Ordinal)) != 1)
         {
             throw new InvalidOperationException("Your profile is not linked to this property.");
         }

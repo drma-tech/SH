@@ -12,12 +12,12 @@ public static class PopupHelper
 {
     public static readonly EventCallbackFactory Factory = new();
 
-    public static async Task SelectAddressPopup(this IDialogService service, List<HereRoot> items, EventCallback<HereRoot?> selected)
+    public static async Task SelectAddressPopup(this IDialogService service, IEnumerable<HereRoot> items, EventCallback<HereRoot?> selected)
     {
         var parameters = new DialogParameters<SelectAddressPopup>
         {
             { x => x.Items, items },
-            { x => x.Selected, selected }
+            { x => x.Selected, selected },
         };
 
         await service.ShowAsync<SelectAddressPopup>("Select address", parameters, Options(MaxWidth.Medium));
@@ -27,7 +27,7 @@ public static class PopupHelper
     {
         var parameters = new DialogParameters<SelectPicturePopup>
         {
-            { x => x.PictureChanged, pictureChanged }
+            { x => x.PictureChanged, pictureChanged },
         };
 
         await service.ShowAsync<SelectPicturePopup>("Picture", parameters, Options(MaxWidth.Medium));
@@ -59,18 +59,18 @@ public static class PopupHelper
             { x => x.Culture, culture },
         };
 
-        await service.ShowAsync<Onboarding>(string.Format(Translations.Module.Help.WelcomeTo, AppInfo.Title), parameters, Options(MaxWidth.Medium));
+        await service.ShowAsync<Onboarding>(Translations.Module.Help.WelcomeTo.CustomFormat(AppInfo.Title), parameters, Options(MaxWidth.Medium));
     }
 
     public static async Task AskReviewPopup(this IDialogService service)
     {
-        await service.ShowAsync<AskReview>(string.Format(Translations.Module.Help.WriteReviewTitle, AppInfo.Title), Options(MaxWidth.Small, false, false));
+        await service.ShowAsync<AskReview>(Translations.Module.Help.WriteReviewTitle.CustomFormat(AppInfo.Title), Options(MaxWidth.Small, allowClose: false, showHeader: false));
     }
 
     public static async Task<bool> ConfirmDelete(this IDialogService service, string? customMessage = null)
     {
         return await service.ShowMessageBoxAsync(AppInfo.Title, customMessage ?? Translations.Notification.ConfirmDelete,
-            Translations.Button.Ok, Translations.Button.Cancel, null, Options(MaxWidth.Small, false, true)) ?? false;
+            Translations.Button.Ok, Translations.Button.Cancel, cancelText: null, Options(MaxWidth.Small, allowClose: false, showHeader: true)) ?? false;
     }
 
     public static DialogOptions Options(MaxWidth width, bool allowClose = true, bool showHeader = true)
@@ -82,7 +82,7 @@ public static class PopupHelper
             BackdropClick = allowClose,
             NoHeader = !showHeader,
             Position = DialogPosition.Center,
-            MaxWidth = width
+            MaxWidth = width,
         };
     }
 }

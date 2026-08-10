@@ -7,4 +7,5 @@ global using SH.Shared.Models;
 global using SH.WEB.Core;
 global using SH.WEB.Core.Api;
 global using SH.WEB.Core.Helper;
-global using SH.WEB.Shared.Core;
+global using SH.WEB.Core.Helper.Javascript;
+global using SH.WEB.Shared;

@@ -6,6 +6,6 @@
         House = 1,
 
         [FieldSettings(nameof(Translations.Enum.PropertyStructure.Apartment), ResourceType = typeof(Translations.Enum.PropertyStructure))]
-        Apartment = 2
+        Apartment = 2,
     }
 }

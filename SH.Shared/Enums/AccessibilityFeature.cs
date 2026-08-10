@@ -9,6 +9,6 @@
         StepFreeEntrance = 2,
 
         [FieldSettings(nameof(Translations.Enum.AccessibilityFeature.AccessibleElevator), ResourceType = typeof(Translations.Enum.AccessibilityFeature))]
-        AccessibleElevator = 3
+        AccessibleElevator = 3,
     }
 }

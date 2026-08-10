@@ -6,14 +6,14 @@ public class MapApi(IHttpClientFactory http) : ApiCosmos<HereJson>(http, ApiType
 {
     public async Task<HereJson?> HereBrowser(double Latitude, double Longitude, CancellationToken cancellationToken)
     {
-        return await GetAsync(MapEndpoint.HereBrowser(Latitude, Longitude), false, null, cancellationToken);
+        return await GetAsync(MapEndpoint.HereBrowser(Latitude, Longitude), setNewVersion: false, actions: null, cancellationToken);
     }
 
     public async Task<HereJson?> HereGeocode(string? search, CancellationToken cancellationToken)
     {
         if (search.Empty()) throw new ArgumentNullException(nameof(search));
 
-        return await GetAsync(MapEndpoint.HereGeocode(search), false, null, cancellationToken);
+        return await GetAsync(MapEndpoint.HereGeocode(search), setNewVersion: false, actions: null, cancellationToken);
     }
 
     public struct MapEndpoint

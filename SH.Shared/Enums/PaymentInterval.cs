@@ -12,6 +12,6 @@
         EveryTwoWeeks = 3,
 
         [FieldSettings(nameof(Translations.Enum.PaymentInterval.Monthly), ResourceType = typeof(Translations.Enum.PaymentInterval))]
-        Monthly = 4
+        Monthly = 4,
     }
 }

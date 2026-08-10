@@ -39,6 +39,6 @@
         Dishwasher = 12,
 
         [FieldSettings(nameof(Translations.Enum.RoomAmenity.Custom), ResourceType = typeof(Translations.Enum.RoomAmenity))]
-        Custom = 99
+        Custom = 99,
     }
 }

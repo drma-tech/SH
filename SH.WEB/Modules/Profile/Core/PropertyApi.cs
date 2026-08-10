@@ -4,11 +4,11 @@ namespace SH.WEB.Modules.Profile.Core;
 
 public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(http, ApiType.Authenticated, "property", ["profile"], ApiContext.Default.PropertyModel)
 {
-    public async Task<PropertyModel?> Get(bool live, string? rawId, ComponentActions<PropertyModel>? actions, CancellationToken cancellationToken)
+    public async Task<PropertyModel?> Get(bool live, string? rawId, RenderControlState<PropertyModel>? actions, CancellationToken cancellationToken)
     {
         if (rawId.Empty()) return null;
 
-        return await GetAsync(Endpoint.Get(live, rawId), false, actions, cancellationToken);
+        return await GetAsync(Endpoint.Get(live, rawId), setNewVersion: false, actions, cancellationToken);
     }
 
     public async Task<PropertyModel> Add(PropertyModel? model, CancellationToken cancellationToken)

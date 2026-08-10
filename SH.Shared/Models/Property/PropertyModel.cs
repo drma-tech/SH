@@ -9,7 +9,7 @@ namespace SH.Shared.Models.Property
 
         public SharedWith SharedWith { get; set; } = SharedWith.Owner;
 
-        public HashSet<PropertyMember> Members { get; set; } = [];
+        public ISet<PropertyMember> Members { get; set; } = new HashSet<PropertyMember>();
 
         public PropertyAddress Address { get; set; } = new();
 
@@ -21,13 +21,13 @@ namespace SH.Shared.Models.Property
 
         public string? CheckInInstructions { get; set; }
 
-        public HashSet<Language> Languages { get; set; } = [];
+        public IReadOnlyCollection<Language> Languages { get; set; } = [];
 
         public int? SizeSqm { get; set; }
 
-        public HashSet<PropertyFacilityModel> Facilities { get; set; } = [];
-        public HashSet<PropertyAmenityModel> Amenities { get; set; } = [];
-        public HashSet<AccessibilityFeature> Accessibilities { get; set; } = [];
+        public ISet<PropertyFacilityModel> Facilities { get; set; } = new HashSet<PropertyFacilityModel>();
+        public ISet<PropertyAmenityModel> Amenities { get; set; } = new HashSet<PropertyAmenityModel>();
+        public ISet<AccessibilityFeature> Accessibilities { get; set; } = new HashSet<AccessibilityFeature>();
 
         public bool AddressVerified { get; set; }
 
@@ -36,8 +36,8 @@ namespace SH.Shared.Models.Property
         public bool IncomeVerificationRequired { get; set; }
         public bool BackgroundCheckRequired { get; set; }
 
-        public HashSet<PropertyPhoto> Photos { get; set; } = [];
-        public HashSet<RoomShort> Rooms { get; set; } = [];
+        public ISet<PropertyPhoto> Photos { get; set; } = new HashSet<PropertyPhoto>();
+        public ISet<RoomShort> Rooms { get; set; } = new HashSet<RoomShort>();
 
         public void SanitizeOpenTextFields()
         {
@@ -46,6 +46,8 @@ namespace SH.Shared.Models.Property
             LocationDesc = LocationDesc?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
             CheckInInstructions = CheckInInstructions?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
         }
+
+        protected override object?[] EqualityValues => [Id];
     }
 
     public class PropertyAddress

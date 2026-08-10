@@ -1,6 +1,4 @@
-﻿using SH.Shared.Core;
-
-namespace SH.Shared.Models;
+﻿namespace SH.Shared.Models;
 
 public class Position
 {
@@ -53,5 +51,5 @@ public class HereRoot
 
 public class HereJson
 {
-    public List<HereRoot> items { get; set; } = [];
+    public IReadOnlyCollection<HereRoot> items { get; set; } = [];
 }

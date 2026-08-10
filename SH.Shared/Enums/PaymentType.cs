@@ -12,6 +12,6 @@
         Bills = 3,
 
         [FieldSettings(nameof(Translations.Enum.PaymentType.Custom), ResourceType = typeof(Translations.Enum.PaymentType))]
-        Custom = 99
+        Custom = 99,
     }
 }

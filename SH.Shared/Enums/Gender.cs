@@ -9,6 +9,6 @@
         Woman = 2,
 
         [FieldSettings(nameof(Translations.Enum.Gender.NonBinary), ResourceType = typeof(Translations.Enum.Gender))]
-        NonBinary = 3
+        NonBinary = 3,
     }
 }

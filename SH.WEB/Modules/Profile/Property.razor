@@ -25,7 +25,7 @@
         <PageSectionComponent Title="@TranslationProperty.Address">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs" Row="true">
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
                             <FieldText @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search"
                                        Name="@TranslationProperty.SearchAddress" Placeholder="@TranslationProperty.SearchAddressPlaceholder"
@@ -69,10 +69,10 @@
         <PageSectionComponent Title="@TranslationProperty.BasicData">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                                <MudGrid Spacing="@Css.SpaceSmall">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
                                         <FieldGroup Name="@TranslationProperty.Structure" TEnum="PropertyStructure" @bind-SelectedValue="property.Structure" MudForm="_form"></FieldGroup>
                                     </MudItem>
@@ -95,7 +95,7 @@
                         </MudItem>
                         <MudItem xs="12" sm="6">
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                                <MudGrid Spacing="@Css.SpaceSmall">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
                                         <MudTabs>
                                             <MudTabPanel Text="@TranslationProperty.Description">
@@ -205,7 +205,7 @@
         <PageSectionComponent Title="@TranslationProperty.Requirements" Description="@TranslationProperty.RequirementsDescription">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
                             <FieldSwitch Name="@TranslationProperty.SocialRequired" Description="@TranslationProperty.SocialRequiredDescription"
                                          @bind-Value="@property.SocialRequired"></FieldSwitch>
@@ -292,12 +292,12 @@
 {
     [Parameter] public string? propertyId { get; set; }
 
-    private ComponentActions<PropertyModel> ActionsProperty { get; set; } = new ComponentActions<PropertyModel>(obj => obj == null);
+    private RenderControlState<PropertyModel> ActionsProperty { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
     private PropertyModel? model;
 
-    private ComponentActions<HashSet<PropertyFacilityModel>> ActionsFacilities { get; set; } = new ComponentActions<HashSet<PropertyFacilityModel>>(p => p == null || p.Empty());
-    private ComponentActions<HashSet<PropertyAmenityModel>> ActionsAmenities { get; set; } = new ComponentActions<HashSet<PropertyAmenityModel>>(p => p == null || p.Empty());
-    private ComponentActions<HashSet<AccessibilityFeature>> ActionsAccessibilities { get; set; } = new ComponentActions<HashSet<AccessibilityFeature>>(p => p == null || p.Empty());
+    private RenderControlState<ISet<PropertyFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<PropertyFacilityModel>>(p => p == null || p.Empty());
+    private RenderControlState<ISet<PropertyAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<PropertyAmenityModel>>(p => p == null || p.Empty());
+    private RenderControlState<ISet<AccessibilityFeature>> ActionsAccessibilities { get; set; } = new RenderControlState<ISet<AccessibilityFeature>>(p => p == null || p.Empty());
 
     private string? searchAddress { get; set; }
 
@@ -333,7 +333,7 @@
         }
         else
         {
-            model = await PropertyApi.Get(false, propertyId, ActionsProperty, cts.Token) ?? throw new NotificationException("property not found");
+            model = await PropertyApi.Get(false, propertyId, ActionsProperty, Cts.Token) ?? throw new NotificationException("property not found");
         }
 
         await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
@@ -343,7 +343,7 @@
 
     private async Task SearchClick()
     {
-        here = await MapApi.HereGeocode(searchAddress, cts.Token);
+        here = await MapApi.HereGeocode(searchAddress, Cts.Token);
         HereRoot? root = null;
 
         if (here?.items.Empty() ?? true)
@@ -471,11 +471,11 @@
 
                 if (Navigation.Uri.Contains("/add/"))
                 {
-                    model = await PropertyApi.Add(model, cts.Token);
+                    model = await PropertyApi.Add(model, Cts.Token);
                 }
                 else
                 {
-                    model = await PropertyApi.Update(model, cts.Token);
+                    model = await PropertyApi.Update(model, Cts.Token);
                 }
 
                 await ActionsProperty.FinishProcessing.Invoke(model);
@@ -503,7 +503,7 @@
     {
         if (await DialogService.ConfirmDelete())
         {
-            model = await RoomApi.Delete(false, model!.Identity.RawId, room.RoomId, cts.Token);
+            model = await RoomApi.Delete(false, model!.Identity.RawId, room.RoomId, Cts.Token);
             await ActionsProperty.FinishLoading.Invoke(model);
         }
     }

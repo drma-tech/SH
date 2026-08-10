@@ -27,6 +27,6 @@
         Elevator = 8,
 
         [FieldSettings(nameof(Translations.Enum.PropertyFacility.Custom), ResourceType = typeof(Translations.Enum.PropertyFacility))]
-        Custom = 99
+        Custom = 99,
     }
 }

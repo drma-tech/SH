@@ -9,6 +9,6 @@
         Security = 2,
 
         [FieldSettings(nameof(Translations.Enum.PropertyAmenity.Custom), ResourceType = typeof(Translations.Enum.PropertyAmenity))]
-        Custom = 99
+        Custom = 99,
     }
 }

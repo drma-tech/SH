@@ -18,6 +18,6 @@
         AirportPickup = 5,
 
         [FieldSettings(nameof(Translations.Enum.RoomService.Custom), ResourceType = typeof(Translations.Enum.RoomService))]
-        Custom = 99
+        Custom = 99,
     }
 }

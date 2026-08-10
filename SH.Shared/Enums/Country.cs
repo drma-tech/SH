@@ -753,5 +753,5 @@ public enum Country
     ZM = 894,
 
     [FieldSettings(nameof(Translations.Enum.Country.Zimbabwe), Group = nameof(Translations.Enum.Country.Africa), ResourceType = typeof(Translations.Enum.Country))]
-    ZW = 716
+    ZW = 716,
 }

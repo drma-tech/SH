@@ -6,6 +6,6 @@
         Auto = 1,
 
         [FieldSettings(nameof(Translations.Enum.AvailabilityMode.Manual), ResourceType = typeof(Translations.Enum.AvailabilityMode))]
-        Manual = 2
+        Manual = 2,
     }
 }

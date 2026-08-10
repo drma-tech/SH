@@ -23,10 +23,10 @@
         <PageSectionComponent Title="@TranslationRoom.BasicData">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                                <MudGrid Spacing="@Css.SpaceSmall">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
                                         <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="room.AccessType" MudForm="_form"></FieldGroup>
                                     </MudItem>
@@ -41,7 +41,7 @@
                         </MudItem>
                         <MudItem xs="12" sm="6">
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                                <MudGrid Spacing="@Css.SpaceSmall">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
                                         <MudTabs>
                                             <MudTabPanel Text="@TranslationRoom.Description">
@@ -165,10 +165,10 @@
             <BodyFragment>
 
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                                <MudGrid Spacing="@Css.SpaceSmall">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
                                         <FieldGroup Name="@TranslationRoom.Couples" TEnum="Allowed" @bind-SelectedValue="room.Couples" MudForm="_form"></FieldGroup>
                                     </MudItem>
@@ -192,7 +192,7 @@
                         </MudItem>
                         <MudItem xs="12" sm="6">
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                                <MudGrid Spacing="@Css.SpaceSmall">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
                                         <FieldGroup Name="@TranslationRoom.PreferredGenders" TEnum="Gender" SelectedValues="room.PreferredGenders" Multiple="true"
                                                     CustomInfo="@TranslationRoom.LeaveBlank" Vertical="@AppStateStatic.IsMobile" MudForm="_form"></FieldGroup>
@@ -283,7 +283,7 @@
         <PageSectionComponent Title="@TranslationRoom.Management">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
                             <FieldGroup Name="@TranslationRoom.AvailabilityMode" TEnum="AvailabilityMode" @bind-SelectedValue="room.AvailabilityMode"
                                         CustomInfo="@TranslationRoom.AvailabilityModeDescription" MudForm="_form"></FieldGroup>
@@ -293,7 +293,7 @@
                                         CustomInfo="@TranslationRoom.AvailabilityStatusDescription" MudForm="_form"></FieldGroup>
                         </MudItem>
                     </MudGrid>
-                    <MudGrid Spacing="@Css.SpaceSmall">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="6" sm="3">
                             <FieldNumber T="int" Name="@TranslationRoom.Capacity" @bind-Value="@room.Capacity" Disabled="@(room.AccessType == AccessType.Private)"></FieldNumber>
                             <MudText Typo="Typo.caption" Color="Color.Default">
@@ -328,7 +328,7 @@
     [Parameter] public string? propertyId { get; set; }
     [Parameter] public string? roomId { get; set; }
 
-    private ComponentActions<RoomModel> ActionsRoom { get; set; } = new ComponentActions<RoomModel>(obj => obj == null);
+    private RenderControlState<RoomModel> ActionsRoom { get; set; } = new RenderControlState<RoomModel>(obj => obj == null);
     private RoomModel? model;
 
     private MudForm? _form;
@@ -349,10 +349,10 @@
     public decimal? ChargeAmount { get; set; }
     public string? ChargeCustomName { get; set; }
 
-    public ComponentActions<HashSet<RoomFacilityModel>> ActionsFacilities { get; set; } = new ComponentActions<HashSet<RoomFacilityModel>>(list => list == null || list.Empty());
-    public ComponentActions<HashSet<RoomAmenityModel>> ActionsAmenities { get; set; } = new ComponentActions<HashSet<RoomAmenityModel>>(list => list == null || list.Empty());
-    public ComponentActions<HashSet<ServiceModel>> ActionsServices { get; set; } = new ComponentActions<HashSet<ServiceModel>>(list => list == null || list.Empty());
-    public ComponentActions<HashSet<ChargeModel>> ActionsCharges { get; set; } = new ComponentActions<HashSet<ChargeModel>>(list => list == null || list.Empty());
+    public RenderControlState<ISet<RoomFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<RoomFacilityModel>>(list => list == null || list.Empty());
+    public RenderControlState<ISet<RoomAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<RoomAmenityModel>>(list => list == null || list.Empty());
+    public RenderControlState<ISet<ServiceModel>> ActionsServices { get; set; } = new RenderControlState<ISet<ServiceModel>>(list => list == null || list.Empty());
+    public RenderControlState<ISet<ChargeModel>> ActionsCharges { get; set; } = new RenderControlState<ISet<ChargeModel>>(list => list == null || list.Empty());
 
     private void OnFieldChanged(FormFieldChangedEventArgs args)
     {
@@ -373,7 +373,7 @@
         }
         else
         {
-            model = await RoomApi.Get(false, roomId, ActionsRoom, cts.Token) ?? throw new NotificationException("room not found");
+            model = await RoomApi.Get(false, roomId, ActionsRoom, Cts.Token) ?? throw new NotificationException("room not found");
         }
 
         await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
@@ -494,11 +494,11 @@
 
                 if (Navigation.Uri.Contains("/add/"))
                 {
-                    model = await RoomApi.Add(false, propertyId!, model, cts.Token);
+                    model = await RoomApi.Add(false, propertyId!, model, Cts.Token);
                 }
                 else
                 {
-                    model = await RoomApi.Update(false, propertyId!, model, cts.Token);
+                    model = await RoomApi.Update(false, propertyId!, model, Cts.Token);
                 }
 
                 IsDirty = false; StateHasChanged();

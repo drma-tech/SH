@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -12,7 +13,7 @@ public static class AuthUsersHelper
     {
         var principal = await req.ParseAndValidateJwtAsync(cancellationToken);
 
-        var id = principal?.Claims.FirstOrDefault(w => w.Type == "user_id")?.Value;
+        var id = principal?.Claims.FirstOrDefault(w => string.Equals(w.Type, "user_id", StringComparison.OrdinalIgnoreCase))?.Value;
 
         return id ?? throw new UnhandledException("unauthenticated user");
     }
@@ -23,16 +24,38 @@ public static class AuthUsersHelper
         {
             if (includePort)
                 return values.FirstOrDefault()?.Split(',')[0];
-            else
-                return values.FirstOrDefault()?.Split(',')[0].Split(':')[0];
+
+            return values.FirstOrDefault()?.Split(',')[0].Split(':')[0];
         }
 
-        if (Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT") == "Development")
+        if (string.Equals(Environment.GetEnvironmentVariable("AZURE_FUNCTIONS_ENVIRONMENT"), "Development", StringComparison.OrdinalIgnoreCase))
         {
             return "127.0.0.1";
         }
 
         return null;
+    }
+
+    public static CultureInfo? GetUserCulture(this HttpRequestData req)
+    {
+        var language = "en";
+
+        if (req.Headers.TryGetValues("Referer", out var referers))
+        {
+            var referer = referers.FirstOrDefault();
+
+            if (Uri.TryCreate(referer, UriKind.Absolute, out var uri))
+            {
+                var segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                if (segments.Length > 0 && ConfigurationsStatic.SupportedLanguages.Contains(segments[0], StringComparer.OrdinalIgnoreCase))
+                {
+                    language = segments[0];
+                }
+            }
+        }
+
+        return CultureInfo.GetCultureInfo(language);
     }
 
     private static async Task<ClaimsPrincipal?> ParseAndValidateJwtAsync(this HttpRequestData req, CancellationToken cancellationToken)
@@ -41,7 +64,7 @@ public static class AuthUsersHelper
         {
             var authHeader = header2.LastOrDefault();
 
-            if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
+            if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
             {
                 var token = authHeader.Substring("Bearer ".Length);
 
@@ -52,7 +75,7 @@ public static class AuthUsersHelper
 
                 var claims = principal.Claims.ToList();
 
-                claims.Add(new Claim("user_id", principal.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? ""));
+                claims.Add(new Claim("user_id", principal.FindFirst(c => string.Equals(c.Type, ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))?.Value ?? ""));
 
                 return new ClaimsPrincipal(new ClaimsIdentity(claims, "supabase"));
             }
@@ -100,7 +123,7 @@ public static class AuthUsersHelper
         }
 
         // Encontrar a chave que bate com o kid do token
-        var jwk = _jwksCache.Keys.FirstOrDefault(k => k.Kid == jwt.Header.Kid) ?? throw new SecurityTokenException("Supabase signing key not found for kid: " + jwt.Header.Kid);
+        var jwk = _jwksCache.Keys.FirstOrDefault(k => string.Equals(k.Kid, jwt.Header.Kid, StringComparison.OrdinalIgnoreCase)) ?? throw new SecurityTokenException("Supabase signing key not found for kid: " + jwt.Header.Kid);
 
         // Criar ECDsaSecurityKey a partir do JWK (ES256 / P-256)
         var ecdsa = ECDsa.Create(new ECParameters
@@ -109,8 +132,8 @@ public static class AuthUsersHelper
             Q = new ECPoint
             {
                 X = Base64UrlEncoder.DecodeBytes(jwk.X),
-                Y = Base64UrlEncoder.DecodeBytes(jwk.Y)
-            }
+                Y = Base64UrlEncoder.DecodeBytes(jwk.Y),
+            },
         });
 
         var signingKey = new ECDsaSecurityKey(ecdsa) { KeyId = jwk.Kid };
@@ -130,7 +153,7 @@ public static class AuthUsersHelper
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = signingKey,
 
-            ValidAlgorithms = [SecurityAlgorithms.EcdsaSha256]
+            ValidAlgorithms = [SecurityAlgorithms.EcdsaSha256],
         };
 
         var principal = handler.ValidateToken(token, validationParameters, out _);

@@ -5,7 +5,7 @@
 <PageSectionComponent Title="Basic Data">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="4">
                     <FieldText Name="@Translations.Module.Profile.FirstName" @bind-Value="@profile.FirstName"></FieldText>
                 </MudItem>
@@ -16,7 +16,7 @@
                     <FieldSelect Name="@Translations.Module.Profile.Nationality" TEnum="Country" TValue="Country?" SelectedValue="profile.Nationality"></FieldSelect>
                 </MudItem>
             </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="4">
                     <FieldNumber Name="@Translations.Module.Profile.Age" Rows="6" @bind-Value="@profile.Age"></FieldNumber>
                 </MudItem>
@@ -27,19 +27,19 @@
                     <FieldSelect Name="@Translations.Module.Profile.Occupation" TEnum="Occupation" TValue="Occupation?" SelectedValue="profile.Occupation"></FieldSelect>
                 </MudItem>
             </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="4">
                     <FieldSelect Name="@Translations.Module.Profile.HomeSchedule" TEnum="HomeSchedule" TValue="HomeSchedule?" SelectedValue="profile.HomeSchedule"></FieldSelect>
                 </MudItem>
                 <MudItem xs="12" sm="4">
-                    <FieldSelect Name="@Translations.Module.Profile.Languages" TEnum="Language" TValue="HashSet<Language>"
+                    <FieldSelect Name="@Translations.Module.Profile.Languages" TEnum="Language" TValue="IEnumerable<Language>"
                                  SelectedValue="profile.Languages" Multiple="true" ShowDataSelectDescription="false"></FieldSelect>
                 </MudItem>
                 <MudItem xs="12" sm="4">
                     <FieldText Name="@Translations.Module.Profile.ProfilePicture" @bind-Value="@profile.ProfilePicture"></FieldText>
                 </MudItem>
             </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12">
                     <FieldText Name="@Translations.Module.Profile.AboutMe" @bind-Value="profile.AboutMe" Rows="8"></FieldText>
                 </MudItem>
@@ -51,7 +51,7 @@
 <PageSectionComponent Title="Household Profile">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="6" sm="4" Style="padding-top: 4px;">
                     <FieldSwitch Name="@Translations.Module.Profile.Smokes" @bind-Value="@profile.Smokes"></FieldSwitch>
                 </MudItem>
@@ -62,7 +62,7 @@
                     <FieldSwitch Name="@Translations.Module.Profile.LivesWithPets" @bind-Value="@profile.LivesWithPets"></FieldSwitch>
                 </MudItem>
             </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="6" sm="4" Style="padding-top: 4px;">
                     <FieldSwitch Name="@Translations.Module.Profile.LivesWithChildren" @bind-Value="@profile.LivesWithChildren"></FieldSwitch>
                 </MudItem>
@@ -80,7 +80,7 @@
 <PageSectionComponent Title="Social Media">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="6">
                     <FieldText CssIcon="@Icons.Custom.Brands.Instagram" Name="@Translations.Module.Profile.Instagram" @bind-Value="@profile.Instagram"></FieldText>
                 </MudItem>
@@ -88,7 +88,7 @@
                     <FieldText CssIcon="@Icons.Custom.Brands.LinkedIn" Name="@Translations.Module.Profile.LinkedIn" @bind-Value="@profile.LinkedIn"></FieldText>
                 </MudItem>
             </MudGrid>
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="6">
                     <FieldText CssIcon="@Icons.Custom.Brands.Facebook" Name="@Translations.Module.Profile.Facebook" @bind-Value="@profile.Facebook"></FieldText>
                 </MudItem>
@@ -103,7 +103,7 @@
 <PageSectionComponent Title="Verifications">
     <BodyFragment>
         <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
-            <MudGrid Spacing="@Css.SpaceSmall">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="6" sm="4" md="3" xl="2" Style="padding-top: 4px;">
                     <ItemData Name="@Translations.Module.Profile.IdVerified" Value="@profile.IdVerified"></ItemData>
                 </MudItem>

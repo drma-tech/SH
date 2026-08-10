@@ -6,6 +6,6 @@
         Private = 1,
 
         [FieldSettings(nameof(Translations.Enum.AccessType.Shared), ResourceType = typeof(Translations.Enum.AccessType))]
-        Shared = 2
+        Shared = 2,
     }
 }

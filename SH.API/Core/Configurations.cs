@@ -1,4 +1,4 @@
-﻿namespace SH.Shared.Core;
+﻿namespace SH.API.Core;
 
 public class Configurations
 {

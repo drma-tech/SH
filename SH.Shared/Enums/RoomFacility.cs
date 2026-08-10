@@ -18,6 +18,6 @@
         StorageSpace = 5,
 
         [FieldSettings(nameof(Translations.Enum.RoomFacility.Custom), ResourceType = typeof(Translations.Enum.RoomFacility))]
-        Custom = 99
+        Custom = 99,
     }
 }

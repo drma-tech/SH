@@ -9,6 +9,6 @@
         No = 2,
 
         [FieldSettings(nameof(Translations.Enum.Allowed.Negotiable), ResourceType = typeof(Translations.Enum.Allowed))]
-        Negotiable = 3
+        Negotiable = 3,
     }
 }

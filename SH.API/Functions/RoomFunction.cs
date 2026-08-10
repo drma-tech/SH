@@ -29,16 +29,16 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
-        var temp = profile.Properties.SingleOrDefault(p => p.PropertyId == propertyId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var temp = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
-        var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
+        var property = live ? throw new NotImplementedException("live not available") : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
         var room = new RoomShort()
         {
             RoomId = model.Identity.RawId,
             Title = model.Title,
             Status = model.Status,
-            MonthlyPrice = model.GetMonthlyCosts()
+            MonthlyPrice = model.GetMonthlyCosts(),
         };
 
         property.Rooms.Add(room);
@@ -60,11 +60,11 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
-        var temp = profile.Properties.SingleOrDefault(p => p.PropertyId == propertyId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var temp = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
         var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
-        var shortRoom = property.Rooms.Single(p => p.RoomId == model.Identity.RawId);
+        var shortRoom = property.Rooms.Single(p => string.Equals(p.RoomId, model.Identity.RawId, StringComparison.Ordinal));
 
         shortRoom.Title = model.Title;
         shortRoom.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
@@ -85,12 +85,12 @@ public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository
         var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
 
         //todo: change properties of all members
-        var temp = profile.Properties.SingleOrDefault(p => p.PropertyId == propertyId) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var temp = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
 
-        var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
+        var property = live ? throw new NotImplementedException("live not available") : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
         //todo: change properties of all members
-        if (property.Rooms.RemoveWhere(p => p.RoomId == id) != 1)
+        if (property.Rooms.ToHashSet().RemoveWhere(p => string.Equals(p.RoomId, id, StringComparison.Ordinal)) != 1)
         {
             throw new InvalidOperationException("Your profile is not linked to this property.");
         }

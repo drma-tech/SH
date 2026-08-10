@@ -20,15 +20,15 @@ public partial class FieldSelect<TValue, TEnum> : FormBase
     [Parameter] public TValue SelectedValue { get; set; } = default!;
     [Parameter] public EventCallback<TValue> SelectedValueChanged { get; set; }
 
-    [Parameter] public HashSet<TEnum> SelectedValues { get; set; } = [];
-    [Parameter] public EventCallback<HashSet<TEnum>> SelectedValuesChanged { get; set; }
+    [Parameter] public IReadOnlyCollection<TEnum> SelectedValues { get; set; } = [];
+    [Parameter] public EventCallback<IReadOnlyCollection<TEnum>> SelectedValuesChanged { get; set; }
 
     [Parameter] public Func<EnumFieldObject<TEnum>, object> Order { get; set; } = o => o.Value;
     [Parameter] public Func<EnumFieldObject<TEnum>, bool> Filter { get; set; } = o => true;
 
-    public IReadOnlyList<EnumFieldObject<TEnum>> EnumList { get; set; } = [];
-    public IReadOnlyList<EnumFieldObject<TEnum>> EnumListRaw { get; set; } = [];
-    public IReadOnlyList<string> EnumListGroup { get; set; } = [];    
+    public IEnumerable<EnumFieldObject<TEnum>> EnumList { get; set; } = [];
+    public IEnumerable<EnumFieldObject<TEnum>> EnumListRaw { get; set; } = [];
+    public IEnumerable<string> EnumListGroup { get; set; } = [];
 
     protected override void OnInitialized()
     {
@@ -48,7 +48,7 @@ public partial class FieldSelect<TValue, TEnum> : FormBase
 
         if (ShowGroup)
         {
-            EnumListGroup = [.. EnumListRaw.Select(s => s.Group ?? "").Order().Distinct()];
+            EnumListGroup = [.. EnumListRaw.Select(s => s.Group ?? "").Order(StringComparer.OrdinalIgnoreCase).Distinct(StringComparer.OrdinalIgnoreCase)];
         }
         else
         {

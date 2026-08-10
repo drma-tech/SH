@@ -1,5 +1,4 @@
-﻿using SH.Shared.Core;
-using SH.Shared.Core.Types;
+﻿using SH.Shared.Core.Types;
 
 namespace SH.Shared.Models.Property
 {
@@ -26,14 +25,14 @@ namespace SH.Shared.Models.Property
         Pending = 1,
         Approved = 2,
         Rejected = 3,
-        Cancelled = 4
+        Cancelled = 4,
     }
 
     public enum OccupationStatus
     {
         Scheduled = 1,
         Active = 2,
-        Expired = 3
+        Expired = 3,
     }
 
     public class RoomModel(string? id) : PropertyDocument(new PropertyIdentity(PropertyType.Room, id))
@@ -45,21 +44,21 @@ namespace SH.Shared.Models.Property
         public int? SizeSqm { get; set; }
         public AccessType AccessType { get; set; } = AccessType.Private;
 
-        public HashSet<RoomFacilityModel> Facilities { get; set; } =
-        [
+        public ISet<RoomFacilityModel> Facilities { get; set; } = new HashSet<RoomFacilityModel>()
+        {
             new() { Facility = RoomFacility.Bathroom, AccessType = AccessType.Shared },
-            new() { Facility = RoomFacility.Kitchen, AccessType = AccessType.Shared }
-        ];
+            new() { Facility = RoomFacility.Kitchen, AccessType = AccessType.Shared },
+        };
 
-        public HashSet<RoomAmenityModel> Amenities { get; set; } =
-        [
+        public ISet<RoomAmenityModel> Amenities { get; set; } = new HashSet<RoomAmenityModel>()
+        {
             new() { Amenity = RoomAmenity.WiFi },
             new() { Amenity = RoomAmenity.Furnished },
             new() { Amenity = RoomAmenity.Closet },
-            new() { Amenity = RoomAmenity.LockableRoom }
-        ];
+            new() { Amenity = RoomAmenity.LockableRoom },
+        };
 
-        public HashSet<ServiceModel> Services { get; set; } = [];
+        public ISet<ServiceModel> Services { get; set; } = new HashSet<ServiceModel>();
 
         //Preferences / Rules
 
@@ -69,8 +68,8 @@ namespace SH.Shared.Models.Property
         public Allowed Children { get; set; } = Allowed.Negotiable;
         public Allowed Alcohol { get; set; } = Allowed.Negotiable;
         public Allowed Visits { get; set; } = Allowed.Negotiable;
-        public HashSet<Gender> PreferredGenders { get; set; } = [];
-        public HashSet<Occupation> PreferredOccupations { get; set; } = [];
+        public ISet<Gender> PreferredGenders { get; set; } = new HashSet<Gender>();
+        public ISet<Occupation> PreferredOccupations { get; set; } = new HashSet<Occupation>();
         public int? MinimumAge { get; set; }
         public int? MaximumAge { get; set; }
 
@@ -80,7 +79,7 @@ namespace SH.Shared.Models.Property
         public int? PeriodStay { get; set; } = 1;
         public StayInterval IntervalStay { get; set; } = StayInterval.Month;
         public string MinimumStay => $"{PeriodStay} {IntervalStay.GetFieldSettings().Name}";
-        public HashSet<ChargeModel> Costs { get; set; } = [];
+        public ISet<ChargeModel> Costs { get; set; } = new HashSet<ChargeModel>();
 
         //Management
 
@@ -90,7 +89,7 @@ namespace SH.Shared.Models.Property
         public AvailabilityMode AvailabilityMode { get; set; } = AvailabilityMode.Auto; //auto = calcula de acordo com Occupations, manual = definido pelo dono do apt
         public DateTime AvailableFrom { get; set; } = DateTime.UtcNow; //todo: calcular em toda mudanca de ocupacao
 
-        public HashSet<RoomPhoto> Photos { get; set; } = [];
+        public ISet<RoomPhoto> Photos { get; set; } = new HashSet<RoomPhoto>();
 
         public void SanitizeOpenTextFields()
         {
@@ -114,6 +113,8 @@ namespace SH.Shared.Models.Property
 
             return total;
         }
+
+        protected override object?[] EqualityValues => [Id];
     }
 
     public class RoomPhoto : EqualityBase<PropertyPhoto>
@@ -170,6 +171,8 @@ namespace SH.Shared.Models.Property
         public decimal RentPrice { get; set; }
         public ProposalStatus Status { get; set; } = ProposalStatus.Pending; //Pending / Approved / Rejected / Cancelled
         public string[] Events { get; set; } = [];
+
+        protected override object?[] EqualityValues => [Id];
     }
 
     public class RoomOccupation(string id) : MainDocument(new MainIdentity(MainType.Occupation, id))
@@ -180,5 +183,7 @@ namespace SH.Shared.Models.Property
         public DateTime? End { get; set; }
         public OccupationStatus Status { get; set; } = OccupationStatus.Scheduled; //Scheduled / Active / Expired
         public string[] Events { get; set; } = [];
+
+        protected override object?[] EqualityValues => [Id];
     }
 }

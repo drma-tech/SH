@@ -17,7 +17,7 @@
 @code {
     [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
 
-    [Parameter] public List<HereRoot> Items { get; set; } = [];
+    [Parameter] public IEnumerable<HereRoot> Items { get; set; } = [];
     [Parameter] public EventCallback<HereRoot?> Selected { get; set; }
 
     private HereRoot? selected;
