@@ -24,6 +24,10 @@ namespace SH.Shared.Models.Property
 
         public int? SizeSqm { get; set; }
 
+        public string? CountryCode { get; set; }
+        public string? StateCode { get; set; }
+        public string? CityCode { get; set; }
+
         public ISet<PropertyFacilityModel> Facilities { get; set; } = new HashSet<PropertyFacilityModel>();
         public ISet<PropertyAmenityModel> Amenities { get; set; } = new HashSet<PropertyAmenityModel>();
         public ISet<AccessibilityFeature> Accessibilities { get; set; } = new HashSet<AccessibilityFeature>();

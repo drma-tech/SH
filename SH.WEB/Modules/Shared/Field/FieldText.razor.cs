@@ -11,6 +11,7 @@ public partial class FieldText : FormBase
     [Parameter] public EventCallback ButtomClicked { get; set; }
     [Parameter] public string? ButtomCssIcon { get; set; }
     [Parameter] public string? ButtomTitle { get; set; }
+    [Parameter] public bool ButtomDisabled { get; set; }
 
     private bool _processing;
 

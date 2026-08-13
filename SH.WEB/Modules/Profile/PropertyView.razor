@@ -1,0 +1,79 @@
+﻿@page "/{culture}/property/view/{propertyId}"
+
+@using SH.Shared.Models.Property
+@using SH.WEB.Modules.Auth.Core
+@using SH.WEB.Modules.Profile.Core
+@using TranslationProperty = SH.Shared.Translations.Model.Property;
+@inherits PageParameterCore<PropertyView>
+
+@inject PrincipalApi PrincipalApi
+@inject MapApi MapApi
+@inject PropertyApi PropertyApi
+@inject RoomApi RoomApi
+
+<HeadComponent Title="@Property?.Title" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
+
+<PageSectionComponent Title="@Property?.Title" Description="@Property?.Description" IsPageHeader="true" Image="@Property?.Photos.FirstOrDefault()?.UrlPath"></PageSectionComponent>
+
+<RenderControl Actions="ActionsProperty" Context="property">
+
+    <PageSectionComponent Title="@TranslationProperty.Photos">
+        <BodyFragment>
+            <Slider List="property.Photos" Context="item">
+                <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                    <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                              ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                    <div class="carousel-caption">
+                        <MudText Typo="Typo.caption" Inline="false">
+                            @item.Caption.Truncate(40)
+                        </MudText>
+                    </div>
+                </div>
+            </Slider>
+        </BodyFragment>
+    </PageSectionComponent>
+
+    <PageSectionComponent Title="@TranslationProperty.Rooms">
+        <ActionsFragment>
+            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/room/add/{propertyId}/{Guid.NewGuid()}"))">
+                @Translations.Button.Add
+            </MudButton>
+        </ActionsFragment>
+        <BodyFragment>
+            <Slider List="@property.Rooms" Context="room">
+                <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
+                    <div style="position: relative;">
+                        <MudCard Outlined="true">
+                            <MudCardMedia Image="@(room.UrlPath ?? "images/no-image.webp")" Height="150" />
+                            <MudCardHeader Style="text-align: initial;" Class="pa-2">
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.body1" Color="Color.Secondary">@room?.Title</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                        </MudCard>
+                    </div>
+                </div>
+            </Slider>
+        </BodyFragment>
+    </PageSectionComponent>
+</RenderControl>
+
+<FloatingButton Template="Template.Back"></FloatingButton>
+
+@code
+{
+    [Parameter] public string? propertyId { get; set; }
+
+    private RenderControlState<PropertyModel> ActionsProperty { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
+    private PropertyModel? Property { get; set; }
+
+    protected override IReadOnlyList<string?> GetParameterKey()
+    {
+        return [propertyId];
+    }
+
+    protected override async Task LoadParameterDataAsync()
+    {
+        Property = await PropertyApi.Get(false, propertyId, ActionsProperty, Cts.Token) ?? throw new NotificationException("property not found");
+    }
+}

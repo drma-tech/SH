@@ -8,6 +8,7 @@ using Polly;
 using Polly.Extensions.Http;
 using SH.WEB.Core.Auth;
 using SH.WEB.Modules.Auth.Core;
+using SH.WEB.Modules.Index.Core;
 using SH.WEB.Modules.Profile.Core;
 using SH.WEB.Modules.Subscription.Core;
 using System.Globalization;
@@ -145,6 +146,7 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<PropertyApi>();
     collection.AddScoped<RoomApi>();
     collection.AddScoped<ProfileApi>();
+    collection.AddScoped<IndexApi>();
 }
 
 static async Task ConfigureCulture(NavigationManager? nav, IJSRuntime js)

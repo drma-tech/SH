@@ -7,5 +7,7 @@
         Profile = 3,
         Proposal = 4,
         Occupation = 5,
+        CountryIndex = 6,
+        StateIndex = 7,
     }
 }

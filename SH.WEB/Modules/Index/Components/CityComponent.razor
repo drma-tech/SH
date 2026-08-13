@@ -1,0 +1,23 @@
+﻿@using SH.Shared.Models.Index
+@using SH.WEB.Modules.Index.Core
+
+@inherits ComponentCore<CityComponent>
+
+@inject IndexApi IndexApi
+
+<MudChipSet T="CityIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
+    @foreach (var item in State?.Cities ?? new HashSet<CityIndexItem>())
+    {
+        <MudChip T="CityIndexItem" Size="AppStateStatic.Size" Value="@item" Variant="Variant.Outlined">
+            @item.CityName
+        </MudChip>
+    }
+</MudChipSet>
+
+@code {
+    [Parameter] public CountryIndexItem? Country { get; set; }
+    [Parameter] public StateIndexItem? State { get; set; }
+
+    [Parameter] public CityIndexItem? Value { get; set; }
+    [Parameter] public EventCallback<CityIndexItem> ValueChanged { get; set; }   
+}

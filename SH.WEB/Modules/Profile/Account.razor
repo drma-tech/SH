@@ -82,7 +82,7 @@
     {
         if (await DialogService.ConfirmDelete())
         {
-            profile = await PropertyApi.Delete(false, property.PropertyId, Cts.Token);
+            profile = await PropertyApi.Delete(property.PropertyId, Cts.Token);
             await ActionsProfile.FinishLoading.Invoke(profile);
         }
     }

@@ -13,13 +13,13 @@ namespace SH.API.Repository.Core
         protected Container Container { get; }
         protected const double extra = 1;
 
-        protected BaseRepository(CosmosClient CosmosClient, ILogger<TClass> logger, string containerId)
+        protected BaseRepository(CosmosClient client, ILogger<TClass> logger, string containerId)
         {
             Logger = logger;
 
             var databaseId = ApiStartup.Configurations.CosmosDB?.DatabaseId;
 
-            Container = CosmosClient.GetContainer(databaseId, containerId);
+            Container = client.GetContainer(databaseId, containerId);
         }
 
         public virtual async Task<T?> ReadItemAsync<T>(TId id, CancellationToken cancellationToken) where T : TData

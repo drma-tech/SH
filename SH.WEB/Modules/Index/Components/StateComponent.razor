@@ -1,0 +1,34 @@
+﻿@using SH.Shared.Models.Index
+@using SH.WEB.Modules.Index.Core
+
+@inherits ComponentParameterCore<StateComponent>
+
+@inject IndexApi IndexApi
+
+<MudChipSet T="StateIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
+    @foreach (var item in StateIndex?.States ?? new HashSet<StateIndexItem>())
+    {
+        <MudChip T="StateIndexItem" Size="AppStateStatic.Size" Value="@item" Variant="Variant.Outlined">
+            @item.StateName
+        </MudChip>
+    }
+</MudChipSet>
+
+@code {
+    public StateIndex? StateIndex { get; set; }
+
+    [Parameter] public CountryIndexItem? Country { get; set; }
+
+    [Parameter] public StateIndexItem? Value { get; set; }
+    [Parameter] public EventCallback<StateIndexItem?> ValueChanged { get; set; }
+
+    protected override IReadOnlyList<string> GetParameterKey()
+    {
+        return [Country?.CountryCode ?? ""];
+    }
+
+    protected override async Task LoadParameterDataAsync()
+    {
+        StateIndex = await IndexApi.GetState(Country?.CountryCode, null, Cts.Token);
+    }
+}

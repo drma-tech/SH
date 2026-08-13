@@ -22,12 +22,12 @@
 
 <RenderControl Actions="ActionsProperty" Context="property">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
-        <PageSectionComponent Title="@TranslationProperty.Address">
+        <PageSectionComponent Title="@TranslationProperty.Address" Visible="@(Navigation.Uri.Contains("/add/"))">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs" Row="true">
                     <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
-                            <FieldText @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search"
+                            <FieldText @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search" 
                                        Name="@TranslationProperty.SearchAddress" Placeholder="@TranslationProperty.SearchAddressPlaceholder"
                                        Description="@TranslationProperty.SearchAddressDescription"></FieldText>
                         </MudItem>
@@ -380,6 +380,10 @@
 
         var country = root?.address?.countryCode.ParseToEnum<CountryExtended>();
         model.Languages = DataHelper.GetLanguages((Country?)country).ToHashSet();
+
+        model.CountryCode = model.Address.CountryCode.ToSlug();
+        model.StateCode = model.Address.State.ToSlug();
+        model.CityCode = model.Address.City.ToSlug();
     }
 
     private async Task AddFacility()

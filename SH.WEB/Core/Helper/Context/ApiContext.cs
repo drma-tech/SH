@@ -1,6 +1,8 @@
 ﻿using SH.Shared.Models.Auth;
+using SH.Shared.Models.Index;
 using SH.Shared.Models.Property;
 using SH.Shared.Models.Subscription;
+using SH.Shared.Requests;
 using System.Text.Json.Serialization;
 
 namespace SH.WEB.Core.Api
@@ -12,8 +14,12 @@ namespace SH.WEB.Core.Api
     [JsonSerializable(typeof(AuthSubscription))]
     [JsonSerializable(typeof(HereJson))]
     [JsonSerializable(typeof(PropertyModel))]
+    [JsonSerializable(typeof(IReadOnlyCollection<PropertyModel>))]
     [JsonSerializable(typeof(RoomModel))]
     [JsonSerializable(typeof(ProfileModel))]
+    [JsonSerializable(typeof(CountryIndex))]
+    [JsonSerializable(typeof(StateIndex))]
+    [JsonSerializable(typeof(PropertySearchRequest))]
     internal sealed partial class ApiContext : JsonSerializerContext
     {
     }

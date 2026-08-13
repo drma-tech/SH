@@ -28,6 +28,12 @@ public static class HttpRequestDataExtensions
         return await JsonSerializer.DeserializeAsync<T>(req.Body, cancellationToken: cancellationToken) ?? throw new NotificationException("body not found");
     }
 
+    public static async Task<T> GetRequest<T>(this HttpRequestData req, CancellationToken cancellationToken) where T : RequestBase
+    {
+        req.Body.Position = 0; //in case of a previous read
+        return await JsonSerializer.DeserializeAsync<T>(req.Body, cancellationToken: cancellationToken) ?? throw new NotificationException("body not found");
+    }
+
     public static async Task<HttpResponseData> CreateResponse<T>(this HttpRequestData req, T? doc, TtlCache? maxAge, CancellationToken cancellationToken) where T : class
     {
         var response = req.CreateResponse();

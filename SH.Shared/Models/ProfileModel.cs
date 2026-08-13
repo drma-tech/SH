@@ -1,5 +1,4 @@
 ﻿using SH.Shared.Core.Types;
-using SH.Shared.Models.Auth;
 
 namespace SH.Shared.Models
 {
@@ -66,7 +65,7 @@ namespace SH.Shared.Models
         protected override object?[] EqualityValues => [Id];
     }
 
-    public class ProfileProperty : EqualityBase<AuthSubscription>
+    public class ProfileProperty : EqualityBase<ProfileProperty>
     {
         public string? PropertyId { get; set; }
         public string? Title { get; set; }
@@ -77,7 +76,7 @@ namespace SH.Shared.Models
         protected override object?[] EqualityValues => [PropertyId];
     }
 
-    public class ProfileGuest : EqualityBase<AuthSubscription>
+    public class ProfileGuest : EqualityBase<ProfileGuest>
     {
         public string? PropertyId { get; set; }
 

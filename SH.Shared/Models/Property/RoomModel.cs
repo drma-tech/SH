@@ -117,7 +117,7 @@ namespace SH.Shared.Models.Property
         protected override object?[] EqualityValues => [Id];
     }
 
-    public class RoomPhoto : EqualityBase<PropertyPhoto>
+    public class RoomPhoto : EqualityBase<RoomPhoto>
     {
         public string? UrlPath { get; set; }
         public string? Caption { get; set; }
@@ -126,7 +126,7 @@ namespace SH.Shared.Models.Property
         protected override object?[] EqualityValues => [UrlPath];
     }
 
-    public class RoomFacilityModel : EqualityBase<PropertyPhoto>
+    public class RoomFacilityModel : EqualityBase<RoomFacilityModel>
     {
         public RoomFacility Facility { get; set; }
         public AccessType AccessType { get; set; }
@@ -135,7 +135,7 @@ namespace SH.Shared.Models.Property
         protected override object?[] EqualityValues => [Facility, CustomName];
     }
 
-    public class RoomAmenityModel : EqualityBase<PropertyPhoto>
+    public class RoomAmenityModel : EqualityBase<RoomAmenityModel>
     {
         public RoomAmenity Amenity { get; set; }
         public string? CustomName { get; set; }
@@ -143,7 +143,7 @@ namespace SH.Shared.Models.Property
         protected override object?[] EqualityValues => [Amenity, CustomName];
     }
 
-    public class ServiceModel : EqualityBase<PropertyPhoto>
+    public class ServiceModel : EqualityBase<ServiceModel>
     {
         public RoomService Service { get; set; }
         public RoomServicePrice Price { get; set; }
@@ -152,7 +152,7 @@ namespace SH.Shared.Models.Property
         protected override object?[] EqualityValues => [Service, CustomName];
     }
 
-    public class ChargeModel : EqualityBase<PropertyPhoto>
+    public class ChargeModel : EqualityBase<ChargeModel>
     {
         public PaymentType Type { get; set; }
         public PaymentInterval Frequency { get; set; }

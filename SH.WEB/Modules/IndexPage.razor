@@ -1,0 +1,89 @@
+﻿@page "/"
+@page "/{culture}"
+@using SH.Shared.Models.Index
+@using SH.Shared.Models.Property
+@using SH.Shared.Requests
+@using SH.WEB.Modules.Index.Components
+@using SH.WEB.Modules.Profile.Core
+
+@inherits PageCore<IndexPage>
+
+@inject PropertyApi PropertyApi
+
+<HeadComponent Title="@Translations.Title.AppSubtitle" Description="@Translations.Description.AppDescription" Url=@($"/{Culture}") Index="@Culture.NotEmpty()" Shared="true"></HeadComponent>
+
+<PageSectionComponent IsPageHeader="true" Image="icon/icon-71.png" Title="@AppInfo.Title" Subtitle="@Translations.Title.AppSubtitle"></PageSectionComponent>
+
+<MudGrid>
+    <MudItem sm="12" md="4">
+        <PageSectionComponent Title="Country">
+            <BodyFragment>
+                <CountryComponent @bind-Value="@Country"></CountryComponent>
+            </BodyFragment>
+        </PageSectionComponent>
+    </MudItem>
+    <MudItem sm="12" md="4">
+        <PageSectionComponent Title="State">
+            <BodyFragment>
+                <StateComponent Country="@Country" @bind-Value="@State"></StateComponent>
+            </BodyFragment>
+        </PageSectionComponent>
+    </MudItem>
+    <MudItem sm="12" md="4">
+        <PageSectionComponent Title="City">
+            <BodyFragment>
+                <CityComponent Country="@Country" State="@State" @bind-Value="@City"></CityComponent>
+            </BodyFragment>
+        </PageSectionComponent>
+    </MudItem>
+</MudGrid>
+
+<PageSectionComponent Title="Result">
+    <ActionsFragment>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Search">
+            Search
+        </MudButton>
+    </ActionsFragment>
+    <BodyFragment>
+        <RenderControl Actions="ActionsProperty" Context="list" LoadingHeight="275px">
+            <Slider List="@list" Context="item">
+                <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px; height: 100%;")">
+                    <div style="position: relative; height: 100%;">
+                        <a href="@($"/{Culture}/property/view/{item.Identity.RawId}")">
+                            <MudCard Outlined="true" Style="height: 100%;">
+                                <MudCardMedia Image="@(item.Photos.FirstOrDefault()?.UrlPath ?? "images/no-image.webp")" Height="150" />
+                                <MudCardHeader Style="text-align: initial;" Class="pa-2">
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.body1" Color="Color.Secondary">@item?.Title</MudText>
+                                        <MudText Typo="Typo.body2">@($"{0} rooms available")</MudText>
+                                    </CardHeaderContent>
+                                </MudCardHeader>
+                            </MudCard>
+                        </a>
+                    </div>
+                </div>
+            </Slider>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+@code {
+    public CountryIndexItem? Country { get; set; }
+    public StateIndexItem? State { get; set; }
+    public CityIndexItem? City { get; set; }
+
+    private RenderControlState<IReadOnlyCollection<PropertyModel>> ActionsProperty { get; set; } = new RenderControlState<IReadOnlyCollection<PropertyModel>>(lst => lst == null || lst.Empty());
+    public IReadOnlyCollection<PropertyModel> Properties { get; set; } = [];
+
+    private async Task Search()
+    {
+        var request = new PropertySearchRequest
+        {
+            Country = Country?.CountryCode,
+            State = State?.StateCode,
+            City = City?.CityCode
+        };
+
+        Properties = await PropertyApi.Search(request, ActionsProperty, Cts.Token);
+    }
+}
