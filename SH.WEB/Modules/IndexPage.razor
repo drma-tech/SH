@@ -45,7 +45,7 @@
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl Actions="ActionsProperty" Context="list" LoadingHeight="275px">
+        <RenderControl State="PropertyState" Context="list" LoadingHeight="275px">
             <Slider List="@list" Context="item">
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px; height: 100%;")">
                     <div style="position: relative; height: 100%;">
@@ -72,8 +72,13 @@
     public StateIndexItem? State { get; set; }
     public CityIndexItem? City { get; set; }
 
-    private RenderControlState<IReadOnlyCollection<PropertyModel>> ActionsProperty { get; set; } = new RenderControlState<IReadOnlyCollection<PropertyModel>>(lst => lst == null || lst.Empty());
+    private RenderControlState<IReadOnlyCollection<PropertyModel>> PropertyState { get; set; } = new RenderControlState<IReadOnlyCollection<PropertyModel>>(lst => lst == null || lst.Empty());
     public IReadOnlyCollection<PropertyModel> Properties { get; set; } = [];
+
+    protected override async Task LoadStaticDataAsync()
+    {
+        await PropertyState.FinishLoading.Invoke([]);
+    }
 
     private async Task Search()
     {
@@ -84,6 +89,6 @@
             City = City?.CityCode
         };
 
-        Properties = await PropertyApi.Search(request, ActionsProperty, Cts.Token);
+        Properties = await PropertyApi.Search(request, PropertyState, Cts.Token);
     }
 }

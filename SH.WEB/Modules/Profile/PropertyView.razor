@@ -11,14 +11,124 @@
 @inject PropertyApi PropertyApi
 @inject RoomApi RoomApi
 
-<HeadComponent Title="@Property?.Title" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
+<HeadComponent Title="@Title" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
 
-<PageSectionComponent Title="@Property?.Title" Description="@Property?.Description" IsPageHeader="true" Image="@Property?.Photos.FirstOrDefault()?.UrlPath"></PageSectionComponent>
+<PageSectionComponent Title="@Title" IsPageHeader="true" Image="@PhotoUrl">
+    <ExtraFragment>
+        <RenderControl State="PropertyState" Context="property">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
+                <MudItem xs="6" sm="4" md="3" xl="2">
+                    <CustomChip Name="@TranslationProperty.Structure" Value="@property.Structure.GetFieldSettings().Name"></CustomChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3" xl="2">
+                    <CustomChip Name="@TranslationProperty.SharedWith" Value="@property.SharedWith.GetFieldSettings().Name"></CustomChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3" xl="2">
+                    <CustomChip Name="@TranslationProperty.AddressVerified" Value="@property.AddressVerified"></CustomChip>
+                </MudItem>
+            </MudGrid>
+        </RenderControl>
+    </ExtraFragment>
+    <ActionsFragment>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="me-2">
+            Action 1
+        </MudButton>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="me-2">
+            Action 2
+        </MudButton>
+    </ActionsFragment>
+</PageSectionComponent>
 
-<RenderControl Actions="ActionsProperty" Context="property">
+<PageSectionComponent Title="About" Color="Color.Secondary">
+    <BodyFragment>
+        <RenderControl State="PropertyState" Context="property">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
+                <MudItem xs="12" md="6">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                                Description:
+                            </MudText>
+                            <MudText Typo="Typo.body1">
+                                @(property?.Description ?? "no description")
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+                <MudItem xs="12" md="6">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                                Location Description:
+                            </MudText>
+                            <MudText Typo="Typo.body1">
+                                @(property?.LocationDesc ?? "no location description")
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            </MudGrid>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
 
-    <PageSectionComponent Title="@TranslationProperty.Photos">
-        <BodyFragment>
+<PageSectionComponent Title="Details" Color="Color.Secondary">
+    <BodyFragment>
+        <RenderControl State="PropertyState" Context="property">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
+                <MudItem xs="12" sm="6">
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                        @TranslationProperty.Facilities
+                    </MudText>
+                    <CustomChips Values="@property.Facilities.Select(f => f.CustomName ?? f.Facility.GetFieldSettings().Name)"></CustomChips>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                        @TranslationProperty.Amenities
+                    </MudText>
+                    <CustomChips Values="@property.Amenities.Select(a => a.CustomName ?? a.Amenity.GetFieldSettings().Name)"></CustomChips>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                        @TranslationProperty.Accessibilities
+                    </MudText>
+                    <CustomChips Values="@property.Accessibilities.Select(a => a.GetFieldSettings().Name)"></CustomChips>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                        @TranslationProperty.Languages
+                    </MudText>
+                    <CustomChips Values="@property.Languages.Select(l => l.GetFieldSettings().Name)"></CustomChips>
+                </MudItem>
+            </MudGrid>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="@TranslationProperty.Requirements" Color="Color.Secondary" Description="Requirements to apply as a tenant for this property">
+    <BodyFragment>
+        <RenderControl State="PropertyState" Context="property">
+            <MudGrid Spacing="@CssHelper.SpaceSmall">
+                <MudItem xs="12" sm="6" md="3">
+                    <CustomChip Name="@TranslationProperty.SocialRequired" Value="@property.SocialRequired"></CustomChip>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="3">
+                    <CustomChip Name="@TranslationProperty.IdVerificationRequired" Value="@property.IdVerificationRequired"></CustomChip>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="3">
+                    <CustomChip Name="@TranslationProperty.IncomeVerificationRequired" Value="@property.IncomeVerificationRequired"></CustomChip>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="3">
+                    <CustomChip Name="@TranslationProperty.BackgroundCheckRequired" Value="@property.BackgroundCheckRequired"></CustomChip>
+                </MudItem>
+            </MudGrid>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="@TranslationProperty.Photos" Color="Color.Secondary">
+    <BodyFragment>
+        <RenderControl State="PropertyState" Context="property">
             <Slider List="property.Photos" Context="item">
                 <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
                     <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
@@ -30,16 +140,13 @@
                     </div>
                 </div>
             </Slider>
-        </BodyFragment>
-    </PageSectionComponent>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
 
-    <PageSectionComponent Title="@TranslationProperty.Rooms">
-        <ActionsFragment>
-            <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/room/add/{propertyId}/{Guid.NewGuid()}"))">
-                @Translations.Button.Add
-            </MudButton>
-        </ActionsFragment>
-        <BodyFragment>
+<PageSectionComponent Title="@TranslationProperty.Rooms" Color="Color.Secondary">
+    <BodyFragment>
+        <RenderControl State="PropertyState" Context="property">
             <Slider List="@property.Rooms" Context="room">
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">
@@ -54,9 +161,19 @@
                     </div>
                 </div>
             </Slider>
-        </BodyFragment>
-    </PageSectionComponent>
-</RenderControl>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
+
+<PageSectionComponent Title="Reviews" Color="Color.Secondary">
+    <BodyFragment>
+        <RenderControl State="ReviewsState" Context="reviews">
+            <Slider List="@reviews" Context="review">
+                @review
+            </Slider>
+        </RenderControl>
+    </BodyFragment>
+</PageSectionComponent>
 
 <FloatingButton Template="Template.Back"></FloatingButton>
 
@@ -64,8 +181,11 @@
 {
     [Parameter] public string? propertyId { get; set; }
 
-    private RenderControlState<PropertyModel> ActionsProperty { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
-    private PropertyModel? Property { get; set; }
+    private string? Title = "Title";
+    private string? PhotoUrl;
+
+    private RenderControlState<PropertyModel> PropertyState { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
+    private RenderControlState<List<string>> ReviewsState { get; set; } = new RenderControlState<List<string>>(list => list == null || list.Empty());
 
     protected override IReadOnlyList<string?> GetParameterKey()
     {
@@ -74,6 +194,11 @@
 
     protected override async Task LoadParameterDataAsync()
     {
-        Property = await PropertyApi.Get(false, propertyId, ActionsProperty, Cts.Token) ?? throw new NotificationException("property not found");
+        var property = await PropertyApi.View(propertyId, PropertyState, Cts.Token);
+
+        Title = property?.Title;
+        PhotoUrl = property?.Photos.FirstOrDefault()?.UrlPath;
+
+        await ReviewsState.FinishLoading.Invoke([]);
     }
 }

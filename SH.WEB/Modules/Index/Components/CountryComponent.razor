@@ -5,23 +5,25 @@
 
 @inject IndexApi IndexApi
 
-<MudChipSet T="CountryIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
-    @foreach (var item in CountryIndex?.Countries ?? new HashSet<CountryIndexItem>())
-    {
-        <MudChip T="CountryIndexItem" Size="AppStateStatic.Size" Value="@item" Variant="Variant.Outlined">
-            @item.CountryName
-        </MudChip>
-    }
-</MudChipSet>
+<RenderControl State="Actions" Context="ctx" LoadingHeight="40px">
+    <MudChipSet T="CountryIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
+        @foreach (var item in ctx.Countries ?? new HashSet<CountryIndexItem>())
+        {
+            <MudChip T="CountryIndexItem" Size="AppStateStatic.Size" Value="@item" Variant="Variant.Outlined">
+                @item.CountryName
+            </MudChip>
+        }
+    </MudChipSet>
+</RenderControl>
 
 @code {
-    public CountryIndex? CountryIndex { get; set; }
-
     [Parameter] public CountryIndexItem? Value { get; set; }
     [Parameter] public EventCallback<CountryIndexItem?> ValueChanged { get; set; }
 
+    private RenderControlState<CountryIndex> Actions { get; set; } = new RenderControlState<CountryIndex>(obj => obj == null);
+
     protected override async Task LoadStaticDataAsync()
     {
-        CountryIndex = await IndexApi.GetCountry(null, Cts.Token);
+        await IndexApi.GetCountry(Actions, Cts.Token);
     }
 }

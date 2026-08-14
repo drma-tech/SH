@@ -139,7 +139,7 @@
     <value>Amenity</value>
   </data>
   <data name="BackgroundCheckRequired" xml:space="preserve">
-    <value>Background Check Required</value>
+    <value>Background Check</value>
   </data>
   <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
     <value>It requires the candidate to have undergone a background check.</value>
@@ -187,13 +187,13 @@
     <value>House Number</value>
   </data>
   <data name="IdVerificationRequired" xml:space="preserve">
-    <value>ID Verification Required</value>
+    <value>ID Verification</value>
   </data>
   <data name="IdVerificationRequiredDescription" xml:space="preserve">
     <value>Requires the candidate to have completed identity verification.</value>
   </data>
   <data name="IncomeVerificationRequired" xml:space="preserve">
-    <value>Income Verification Required</value>
+    <value>Income Verification</value>
   </data>
   <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
     <value>Requires the candidate to have completed income verification.</value>
@@ -247,7 +247,7 @@
     <value>Size (sqm)</value>
   </data>
   <data name="SocialRequired" xml:space="preserve">
-    <value>Social Media Required</value>
+    <value>Social Media</value>
   </data>
   <data name="SocialRequiredDescription" xml:space="preserve">
     <value>Requires the candidate to have registered at least one social media account.</value>

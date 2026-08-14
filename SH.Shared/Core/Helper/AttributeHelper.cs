@@ -29,6 +29,8 @@ namespace SH.Shared.Core.Helper
                 Group = attr.Group,
                 Placeholder = attr.Placeholder,
                 Description = attr.Description,
+                Icon = attr.Icon,
+                Url = attr.Url,
             };
 
             ApplyTranslations(obj, attr, translate);
@@ -46,6 +48,8 @@ namespace SH.Shared.Core.Helper
                 if (attr.Group.NotEmpty()) obj.Group = rm.GetResourceString(attr.Group);
                 if (attr.Placeholder.NotEmpty()) obj.Placeholder = rm.GetResourceString(attr.Placeholder)?.Replace(@"\n", Environment.NewLine, StringComparison.Ordinal);
                 if (attr.Description.NotEmpty()) obj.Description = rm.GetResourceString(attr.Description);
+                if (attr.Icon.NotEmpty()) obj.Icon = rm.GetResourceString(attr.Icon);
+                if (attr.Url.NotEmpty()) obj.Url = rm.GetResourceString(attr.Url);
             }
         }
 

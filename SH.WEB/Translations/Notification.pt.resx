@@ -126,6 +126,9 @@
   <data name="CheckOurApps" xml:space="preserve">
     <value>Explore nossos outros aplicativos incríveis:</value>
   </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Esta ação não pode ser desfeita. Confirmar a exclusão deste item?</value>
+  </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>Aviso de site externo</value>
   </data>
@@ -134,6 +137,12 @@
   </data>
   <data name="FeatureUnavailableMessage" xml:space="preserve">
     <value>Em desenvolvimento</value>
+  </data>
+  <data name="FeatureUnderDevelopment" xml:space="preserve">
+    <value>Este recurso ainda está em desenvolvimento. Fique ligado nas atualizações.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Não</value>
   </data>
   <data name="OperationCanceled" xml:space="preserve">
     <value>Operação cancelada!</value>
@@ -167,6 +176,9 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Versão</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Sim</value>
   </data>
   <data name="YouMustLogged" xml:space="preserve">
     <value>Você deve estar logado</value>

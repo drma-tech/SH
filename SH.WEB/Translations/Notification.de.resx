@@ -126,6 +126,9 @@
   <data name="CheckOurApps" xml:space="preserve">
     <value>Entdecken Sie unsere anderen tollen Apps:</value>
   </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Diese Aktion kann nicht rückgängig gemacht werden. Löschen dieses Elements bestätigen?</value>
+  </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>Hinweis zur externen Website</value>
   </data>
@@ -134,6 +137,12 @@
   </data>
   <data name="FeatureUnavailableMessage" xml:space="preserve">
     <value>In Entwicklung</value>
+  </data>
+  <data name="FeatureUnderDevelopment" xml:space="preserve">
+    <value>Diese Funktion befindet sich noch in der Entwicklung. Bleiben Sie dran für Updates.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nein</value>
   </data>
   <data name="OperationCanceled" xml:space="preserve">
     <value>Aktion abgebrochen!</value>
@@ -167,6 +176,9 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
   </data>
   <data name="YouMustLogged" xml:space="preserve">
     <value>Sie müssen angemeldet sein</value>

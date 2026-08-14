@@ -7,5 +7,8 @@ public class FieldSettingsAttribute(string name) : Attribute
     public string? Group { get; set; }
     public string? Placeholder { get; set; }
     public string? Description { get; set; }
+    public string? Icon { get; set; }
+    public string? Url { get; set; }
+
     public Type? ResourceType { get; set; }
 }

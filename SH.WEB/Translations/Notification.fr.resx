@@ -126,6 +126,9 @@
   <data name="CheckOurApps" xml:space="preserve">
     <value>Découvrez nos autres applications étonnantes :</value>
   </data>
+  <data name="ConfirmDelete" xml:space="preserve">
+    <value>Cette action ne peut pas être annulée. Confirmer la suppression de cet élément ?</value>
+  </data>
   <data name="ExternalWebsiteNotice" xml:space="preserve">
     <value>Avis de site Web externe</value>
   </data>
@@ -134,6 +137,12 @@
   </data>
   <data name="FeatureUnavailableMessage" xml:space="preserve">
     <value>En développement</value>
+  </data>
+  <data name="FeatureUnderDevelopment" xml:space="preserve">
+    <value>Cette fonctionnalité est encore en développement. Restez à l'écoute des mises à jour.</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Non</value>
   </data>
   <data name="OperationCanceled" xml:space="preserve">
     <value>Opération annulée !</value>
@@ -167,6 +176,9 @@
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Oui</value>
   </data>
   <data name="YouMustLogged" xml:space="preserve">
     <value>Vous devez être connecté</value>

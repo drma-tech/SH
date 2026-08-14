@@ -18,7 +18,7 @@
 
 <CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<RenderControl Actions="ActionsRoom" Class="mb-3" Context="room">
+<RenderControl State="ActionsRoom" Class="mb-3" Context="room">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
         <PageSectionComponent Title="@TranslationRoom.BasicData">
             <BodyFragment>
@@ -32,7 +32,7 @@
                                     </MudItem>
                                     <MudItem xs="12">
                                         <FieldGroup Name="@TranslationRoom.AccessType" TEnum="AccessType" @bind-SelectedValue="room.AccessType" MudForm="_form"></FieldGroup>
-                                    </MudItem>                                   
+                                    </MudItem>
                                     <MudItem xs="12" sm="6">
                                         <FieldNumber Name="@TranslationRoom.SizeSqm" @bind-Value="@room.SizeSqm"></FieldNumber>
                                     </MudItem>
@@ -72,7 +72,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsFacilities">
+                <RenderControl State="ActionsFacilities">
                     @foreach (var item in room.Facilities)
                     {
                         @if (item.Facility == SH.Shared.Enums.RoomFacility.Custom)
@@ -106,7 +106,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsAmenities">
+                <RenderControl State="ActionsAmenities">
                     @foreach (var item in room.Amenities)
                     {
                         @if (item.Amenity == SH.Shared.Enums.RoomAmenity.Custom)
@@ -141,7 +141,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsServices">
+                <RenderControl State="ActionsServices">
                     @foreach (var item in room.Services)
                     {
                         @if (item.Service == SH.Shared.Enums.RoomService.Custom)
@@ -239,7 +239,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsCharges">
+                <RenderControl State="ActionsCharges">
                     @foreach (var item in room.Costs)
                     {
                         @if (item.Type == SH.Shared.Enums.PaymentType.Custom)
@@ -361,7 +361,7 @@
 
     protected override IReadOnlyList<string?> GetParameterKey()
     {
-        return [ propertyId, roomId ];
+        return [propertyId, roomId];
     }
 
     protected override async Task LoadParameterDataAsync()
@@ -373,7 +373,7 @@
         }
         else
         {
-            model = await RoomApi.Get(false, roomId, ActionsRoom, Cts.Token) ?? throw new NotificationException("room not found");
+            model = await RoomApi.Get(propertyId, roomId, ActionsRoom, Cts.Token) ?? throw new NotificationException("room not found");
         }
 
         await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
@@ -494,11 +494,11 @@
 
                 if (Navigation.Uri.Contains("/add/"))
                 {
-                    model = await RoomApi.Add(false, propertyId!, model, Cts.Token);
+                    model = await RoomApi.Add(propertyId!, model, Cts.Token);
                 }
                 else
                 {
-                    model = await RoomApi.Update(false, propertyId!, model, Cts.Token);
+                    model = await RoomApi.Update(propertyId!, model, Cts.Token);
                 }
 
                 IsDirty = false; StateHasChanged();

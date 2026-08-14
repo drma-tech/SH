@@ -7,7 +7,7 @@
 
 <PageSectionComponent Title="My profile">
     <BodyFragment>
-        <RenderControl Actions="ActionsProfile" Context="profile" LoadingHeight="20px">
+        <RenderControl State="ActionsProfile" Context="profile" LoadingHeight="20px">
             <span>@profile.FirstName</span>
         </RenderControl>
     </BodyFragment>
@@ -20,7 +20,7 @@
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl Actions="ActionsProfile" Context="profile" LoadingHeight="275px">
+        <RenderControl State="ActionsProfile" Context="profile" LoadingHeight="275px">
             <Slider List="@profile.Properties" Context="property">
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">
@@ -61,7 +61,7 @@
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl Actions="ActionsProfile" LoadingHeight="275px">
+        <RenderControl State="ActionsProfile" LoadingHeight="275px">
             <Slider List="@context.Guests" Context="guest">
                 <span></span>
             </Slider>

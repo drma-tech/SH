@@ -5,11 +5,18 @@ namespace SH.WEB.Modules.Profile.Core;
 
 public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(http, ApiType.Authenticated, "property", ["profile"], ApiContext.Default.PropertyModel)
 {
-    public async Task<PropertyModel?> Get(bool live, string? rawId, RenderControlState<PropertyModel>? actions, CancellationToken cancellationToken)
+    public async Task<PropertyModel?> Get(string? propertyId, RenderControlState<PropertyModel>? actions, CancellationToken cancellationToken)
     {
-        if (rawId.Empty()) return null;
+        if (propertyId.Empty()) return null;
 
-        return await GetAsync(Endpoint.Get(live, rawId), setNewVersion: false, actions, cancellationToken);
+        return await GetAsync(Endpoint.Get(propertyId), setNewVersion: false, actions, cancellationToken);
+    }
+
+    public async Task<PropertyModel?> View(string? propertyId, RenderControlState<PropertyModel>? actions, CancellationToken cancellationToken)
+    {
+        if (propertyId.Empty()) return null;
+
+        return await GetAsync(Endpoint.View(propertyId), setNewVersion: false, actions, cancellationToken);
     }
 
     public async Task<IReadOnlyCollection<PropertyModel>> Search(PropertySearchRequest request, RenderControlState<IReadOnlyCollection<PropertyModel>>? actions, CancellationToken cancellationToken)
@@ -31,36 +38,38 @@ public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(htt
         return await PutAsync(Endpoint.Update, model, ApiContext.Default.PropertyModel, actions: null, cancellationToken);
     }
 
-    public async Task<ProfileModel> Delete(string? rawId, CancellationToken cancellationToken)
+    public async Task<ProfileModel> Delete(string? propertyId, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(rawId);
+        ArgumentNullException.ThrowIfNull(propertyId);
 
-        return await PostAsync(Endpoint.Delete(rawId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions: null, cancellationToken);
+        return await PostAsync(Endpoint.Delete(propertyId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions: null, cancellationToken);
     }
 
-    public async Task<ProfileModel> Public(string id, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)
+    public async Task<ProfileModel> Public(string propertyId, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(id);
+        ArgumentNullException.ThrowIfNull(propertyId);
 
-        return await PostAsync(Endpoint.Public(id), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions, cancellationToken);
+        return await PostAsync(Endpoint.Public(propertyId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions, cancellationToken);
     }
 
-    public async Task<ProfileModel> Private(string id, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)
+    public async Task<ProfileModel> Private(string propertyId, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)
     {
-        ArgumentNullException.ThrowIfNull(id);
+        ArgumentNullException.ThrowIfNull(propertyId);
 
-        return await PostAsync(Endpoint.Private(id), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions, cancellationToken);
+        return await PostAsync(Endpoint.Private(propertyId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions, cancellationToken);
     }
 
     public struct Endpoint
     {
-        public static string Get(bool live, string rawId) => $"property/get/{live.ToString().ToSlug()}/{rawId}";
+        public static string Get(string propertyId) => $"property/get/{propertyId}";
 
-        public static string Delete(string rawId) => $"property/delete/{rawId}";
+        public static string View(string propertyId) => $"property/view/{propertyId}";
 
-        public static string Public(string rawId) => $"property/public/{rawId}";
+        public static string Delete(string propertyId) => $"property/delete/{propertyId}";
 
-        public static string Private(string rawId) => $"property/private/{rawId}";
+        public static string Public(string propertyId) => $"property/public/{propertyId}";
+
+        public static string Private(string propertyId) => $"property/private/{propertyId}";
 
         public const string Search = "property/search";
         public const string Add = "property/add";

@@ -1,109 +1,95 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using SH.API.Core.Auth;
+using Microsoft.Extensions.DependencyInjection;
+using SH.API.Repository.Core;
 using SH.Shared.Core.Types;
 using SH.Shared.Models.Property;
 
 namespace SH.API.Functions;
 
-public class RoomFunction(CosmosMainRepository repo, CosmosPropertyOffRepository repoOff)
+public class RoomFunction(CosmosMainRepository repoMain, [FromKeyedServices("Off")] CosmosPropertyRepository repoOff, [FromKeyedServices("On")] CosmosPropertyRepository repoOn)
 {
+    private CosmosPropertyRepository GetRepo(bool isPublic)
+    {
+        return isPublic ? repoOn : repoOff;
+    }
+
     [Function("RoomGet")]
     public async Task<HttpResponseData?> RoomGet(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "room/get/{live}/{id}")] HttpRequestData req, bool live, string id, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "room/get/{propertyId}/{roomId}")] HttpRequestData req, string propertyId, string roomId, CancellationToken cancellationToken)
     {
-        var model = live ? null : await repoOff.ReadItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, id), cancellationToken);
+        var isPublic = await req.IsPropertyPublic(repoMain, propertyId, cancellationToken);
+        var repo = GetRepo(isPublic);
+
+        var model = await repo.ReadItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, roomId), cancellationToken);
 
         return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
     }
 
     [Function("RoomAdd")]
     public async Task<RoomModel?> RoomAdd(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "room/add/{live}/{propertyId}")] HttpRequestData req, bool live, string propertyId, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "room/add/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
+        var body = await req.GetBody<RoomModel>(cancellationToken);
 
-        var model = await req.GetBody<RoomModel>(cancellationToken);
+        var isPublic = await req.IsPropertyPublic(repoMain, propertyId, cancellationToken);
+        var repo = GetRepo(isPublic);
 
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
-
-        //todo: change properties of all members
-        var temp = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
-
-        var property = live ? throw new NotImplementedException("live not available") : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
+        var model = await repo.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
         var room = new RoomShort()
         {
-            RoomId = model.Identity.RawId,
-            Title = model.Title,
-            Status = model.Status,
-            MonthlyPrice = model.GetMonthlyCosts(),
+            RoomId = body.Identity.RawId,
+            Title = body.Title,
+            Status = body.Status,
+            MonthlyPrice = body.GetMonthlyCosts(),
         };
 
-        property.Rooms.Add(room);
+        model.Rooms.Add(room);
 
-        await repoOff.UpsertItemAsync(property);
+        await repo.UpsertItemAsync(model);
 
-        return await repoOff.CreateItemAsync(model);
+        return await repo.CreateItemAsync(body);
     }
 
     [Function("RoomUpdate")]
     public async Task<RoomModel?> RoomUpdate(
-       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Put, Route = "room/update/{live}/{propertyId}")] HttpRequestData req, bool live, string propertyId, CancellationToken cancellationToken)
+       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Put, Route = "room/update/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
+        var body = await req.GetBody<RoomModel>(cancellationToken);
 
-        var model = await req.GetBody<RoomModel>(cancellationToken);
+        var isPublic = await req.IsPropertyPublic(repoMain, propertyId, cancellationToken);
+        var repo = GetRepo(isPublic);
 
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
+        var model = await repo.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
-        //todo: change properties of all members
-        var temp = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var shortRoom = model.Rooms.Single(p => string.Equals(p.RoomId, body.Identity.RawId, StringComparison.Ordinal));
 
-        var property = live ? throw new NotImplementedException() : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
+        shortRoom.Title = body.Title;
+        shortRoom.UrlPath = body.Photos.FirstOrDefault()?.UrlPath;
+        shortRoom.Status = body.Status;
+        shortRoom.MonthlyPrice = body.GetMonthlyCosts();
 
-        var shortRoom = property.Rooms.Single(p => string.Equals(p.RoomId, model.Identity.RawId, StringComparison.Ordinal));
-
-        shortRoom.Title = model.Title;
-        shortRoom.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
-        shortRoom.Status = model.Status;
-        shortRoom.MonthlyPrice = model.GetMonthlyCosts();
-
-        await repoOff.UpsertItemAsync(property);
-        return await repoOff.UpsertItemAsync(model);
+        await repo.UpsertItemAsync(model);
+        return await repo.UpsertItemAsync(body);
     }
 
     [Function("RoomDelete")]
     public async Task<PropertyModel> RoomDelete(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "room/delete/{live}/{propertyId}/{id}")] HttpRequestData req, bool live, string propertyId, string id, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "room/delete/{propertyId}/{roomId}")] HttpRequestData req, string propertyId, string roomId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
+        var isPublic = await req.IsPropertyPublic(repoMain, propertyId, cancellationToken);
+        var repo = GetRepo(isPublic);
 
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
+        var model = await repo.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
-        //todo: change properties of all members
-        var temp = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
-
-        var property = live ? throw new NotImplementedException("live not available") : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, temp.PropertyId), cancellationToken) ?? throw new NotificationException("Property not found");
-
-        //todo: change properties of all members
-        if (property.Rooms.ToHashSet().RemoveWhere(p => string.Equals(p.RoomId, id, StringComparison.Ordinal)) != 1)
+        if (model.Rooms.ToHashSet().RemoveWhere(p => string.Equals(p.RoomId, roomId, StringComparison.Ordinal)) != 1)
         {
-            throw new InvalidOperationException("Your profile is not linked to this property.");
+            throw new InvalidOperationException("Room not found");
         }
 
-        if (live)
-        {
-            //todo: implement live repository
-        }
-        else
-        {
-            await repoOff.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, id));
-        }
+        await repo.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, roomId));
 
-        return await repoOff.UpsertItemAsync(property);
+        return await repo.UpsertItemAsync(model);
     }
 }

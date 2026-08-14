@@ -1,5 +1,6 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.DependencyInjection;
 using SH.API.Core.Auth;
 using SH.API.Repository.Core;
 using SH.Shared.Core.Types;
@@ -9,13 +10,32 @@ using SH.Shared.Requests;
 
 namespace SH.API.Functions;
 
-public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffRepository repoOff, CosmosPropertyOnRepository repoOn)
+public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices("Off")] CosmosPropertyRepository repoOff, [FromKeyedServices("On")] CosmosPropertyRepository repoOn)
 {
+    private CosmosPropertyRepository GetRepo(bool isPublic)
+    {
+        return isPublic ? repoOn : repoOff;
+    }
+
     [Function("PropertyGet")]
     public async Task<HttpResponseData?> PropertyGet(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "property/get/{live}/{id}")] HttpRequestData req, bool live, string id, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "property/get/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
-        var model = live ? null : await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id), cancellationToken);
+        var isPublic = await req.IsPropertyPublic(repoMain, propertyId, cancellationToken);
+        var repo = GetRepo(isPublic);
+
+        var model = await repo.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken);
+
+        return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
+    }
+
+    [Function("PropertyView")]
+    public async Task<HttpResponseData?> PropertyView(
+       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "property/view/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
+    {
+        var model = await repoOn.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
+
+        model.Address = new();
 
         return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
     }
@@ -36,7 +56,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
             .Take(request.Take)
             .OrderByDescending(p => p.DateTimeCreated);
 
-        var result = await repoOff.Query(PropertyType.Property, predicate, transform, cancellationToken);
+        var result = await repoOn.Query(PropertyType.Property, predicate, transform, cancellationToken);
 
         return await req.CreateResponse(result, TtlCache.OneDay, cancellationToken);
     }
@@ -46,11 +66,10 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/add")] HttpRequestData req, CancellationToken cancellationToken)
     {
         var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
 
         var body = await req.GetBody<PropertyModel>(cancellationToken);
 
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("profie not found");
+        var profile = await repoMain.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("profie not found");
         var property = new ProfileProperty()
         {
             PropertyId = body.Identity.RawId,
@@ -61,7 +80,7 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
 
         profile.Properties.Add(property);
 
-        var countryIndex = await repo.ReadItemAsync<CountryIndex>(new MainIdentity(MainType.CountryIndex, "all"), cancellationToken);
+        var countryIndex = await repoMain.ReadItemAsync<CountryIndex>(new MainIdentity(MainType.CountryIndex, "all"), cancellationToken);
         countryIndex ??= new CountryIndex("all");
 
         var country = countryIndex.Countries.FirstOrDefault(c => string.Equals(c.CountryCode, body.CountryCode, StringComparison.Ordinal)) ?? new CountryIndexItem(body.CountryCode, body.Address.CountryName);
@@ -70,10 +89,10 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
 
         if (countryChanged)
         {
-            await repo.UpsertItemAsync(countryIndex);
+            await repoMain.UpsertItemAsync(countryIndex);
         }
 
-        var stateIndex = await repo.ReadItemAsync<StateIndex>(new MainIdentity(MainType.StateIndex, body.CountryCode), cancellationToken);
+        var stateIndex = await repoMain.ReadItemAsync<StateIndex>(new MainIdentity(MainType.StateIndex, body.CountryCode), cancellationToken);
         stateIndex ??= new StateIndex(body.CountryCode);
 
         var state = stateIndex.States.FirstOrDefault(s => string.Equals(s.StateCode, body.StateCode, StringComparison.Ordinal)) ?? new StateIndexItem(body.StateCode, body.Address.State);
@@ -84,10 +103,10 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
 
         if (stateChanged || citychanged)
         {
-            await repo.UpsertItemAsync(stateIndex);
+            await repoMain.UpsertItemAsync(stateIndex);
         }
 
-        await repo.UpsertItemAsync(profile);
+        await repoMain.UpsertItemAsync(profile);
         return await repoOff.CreateItemAsync(body);
     }
 
@@ -95,58 +114,55 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
     public async Task<PropertyModel?> PropertyUpdate(
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Put, Route = "property/update")] HttpRequestData req, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
+        var body = await req.GetBody<PropertyModel>(cancellationToken);
 
-        var model = await req.GetBody<PropertyModel>(cancellationToken);
-
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await req.GetProfile(repoMain, cancellationToken);
 
         //todo: change properties of all members
-        var property = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, model.Identity.RawId, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var profileProperty = await req.GetProfileProperty(repoMain, body.Id, profile, cancellationToken);
 
-        property.Title = model.Title;
-        property.UrlPath = model.Photos.FirstOrDefault()?.UrlPath;
+        profileProperty.Title = body.Title;
+        profileProperty.UrlPath = body.Photos.FirstOrDefault()?.UrlPath;
 
-        await repo.UpsertItemAsync(profile);
-        return await repoOff.UpsertItemAsync(model);
+        await repoMain.UpsertItemAsync(profile);
+        return await repoOff.UpsertItemAsync(body);
     }
 
     [Function("PropertyDelete")]
     public async Task<ProfileModel> PropertyDelete(
-        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/delete/{id}")] HttpRequestData req, string id, CancellationToken cancellationToken)
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/delete/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("unauthenticated user");
+        var isPublic = await req.IsPropertyPublic(repoMain, propertyId, cancellationToken);
+        var repo = GetRepo(isPublic);
 
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
+        var profile = await req.GetProfile(repoMain, cancellationToken);
 
         //todo: remove properties of all members
-        var property = profile.Properties.SingleOrDefault(p => string.Equals(p.PropertyId, id, StringComparison.Ordinal)) ?? throw new InvalidOperationException("Your profile is not linked to this property.");
+        var profileProperty = await req.GetProfileProperty(repoMain, propertyId, profile, cancellationToken);
 
-        //todo: delete photos and rooms
+        profile.Properties.Remove(profileProperty);
 
-        profile.Properties.Remove(property);
+        var model = await repo.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("Property not found");
 
-        if (property.IsPublic)
+        foreach (var item in model.Rooms)
         {
-            await repoOn.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id));
-        }
-        else
-        {
-            await repoOff.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id));
+            await repo.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, item.RoomId));
+
+            //todo: delete photos
         }
 
-        return await repo.UpsertItemAsync(profile);
+        await repo.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId));
+
+        return await repoMain.UpsertItemAsync(profile);
     }
 
     [Function("PropertyPublicMode")]
     public async Task<ProfileModel> PropertyPublicMode(
-     [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/public/{id}")] HttpRequestData req, string id, CancellationToken cancellationToken)
+     [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/public/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
         var userId = await req.GetUserIdAsync(cancellationToken);
 
-        var property = await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id), cancellationToken) ?? throw new NotificationException("property not found");
+        var property = await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
         //var ProfileValidator = new PropertyValidation();
         //var ProfileValid = (await ProfileValidator.ValidateAsync(profile, options => options.IncludeAllRuleSets(), cancellationToken)).IsValid;
 
@@ -176,23 +192,23 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         //}
 
         await repoOn.CreateItemAsync(property);
-        await repoOff.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id));
+        await repoOff.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId));
 
         //todo: update all members of the property to be public
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new UnhandledException("Profile is null");
-        var prop = profile.Properties.Single(p => string.Equals(p.PropertyId, id, StringComparison.Ordinal));
+        var profile = await repoMain.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new UnhandledException("Profile is null");
+        var prop = profile.Properties.Single(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal));
         prop.IsPublic = true;
 
-        return await repo.UpsertItemAsync(profile);
+        return await repoMain.UpsertItemAsync(profile);
     }
 
     [Function("PropertyPrivateMode")]
     public async Task<ProfileModel> PropertyPrivateMode(
-     [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/private/{id}")] HttpRequestData req, string id, CancellationToken cancellationToken)
+     [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/private/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
         var userId = await req.GetUserIdAsync(cancellationToken);
 
-        var property = await repoOn.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id), cancellationToken) ?? throw new NotificationException("property not found");
+        var property = await repoOn.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
         //var ProfileValidator = new PropertyValidation();
         //var ProfileValid = (await ProfileValidator.ValidateAsync(profile, options => options.IncludeAllRuleSets(), cancellationToken)).IsValid;
 
@@ -222,13 +238,13 @@ public class PropertyFunction(CosmosMainRepository repo, CosmosPropertyOffReposi
         //}
 
         await repoOff.CreateItemAsync(property);
-        await repoOn.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, id));
+        await repoOn.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId));
 
         //todo: update all members of the property to be private
-        var profile = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new UnhandledException("Profile is null");
-        var prop = profile.Properties.Single(p => string.Equals(p.PropertyId, id, StringComparison.Ordinal));
+        var profile = await repoMain.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new UnhandledException("Profile is null");
+        var prop = profile.Properties.Single(p => string.Equals(p.PropertyId, propertyId, StringComparison.Ordinal));
         prop.IsPublic = false;
 
-        return await repo.UpsertItemAsync(profile);
+        return await repoMain.UpsertItemAsync(profile);
     }
 }

@@ -124,7 +124,7 @@ namespace SH.Shared.Translations.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Background Check Required.
+        ///   Looks up a localized string similar to Background Check.
         /// </summary>
         public static string BackgroundCheckRequired {
             get {
@@ -268,7 +268,7 @@ namespace SH.Shared.Translations.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ID Verification Required.
+        ///   Looks up a localized string similar to ID Verification.
         /// </summary>
         public static string IdVerificationRequired {
             get {
@@ -286,7 +286,7 @@ namespace SH.Shared.Translations.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Income Verification Required.
+        ///   Looks up a localized string similar to Income Verification.
         /// </summary>
         public static string IncomeVerificationRequired {
             get {
@@ -448,7 +448,7 @@ namespace SH.Shared.Translations.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Social Media Required.
+        ///   Looks up a localized string similar to Social Media.
         /// </summary>
         public static string SocialRequired {
             get {

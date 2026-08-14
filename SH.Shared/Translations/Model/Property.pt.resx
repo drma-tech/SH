@@ -139,7 +139,7 @@
     <value>Amenidade</value>
   </data>
   <data name="BackgroundCheckRequired" xml:space="preserve">
-    <value>Verificação de antecedentes necessária</value>
+    <value>Verificação de antecedentes</value>
   </data>
   <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
     <value>Exige que o candidato tenha passado por uma verificação de antecedentes.</value>
@@ -187,13 +187,13 @@
     <value>Número da casa</value>
   </data>
   <data name="IdVerificationRequired" xml:space="preserve">
-    <value>Verificação de identidade necessária</value>
+    <value>Verificação de identidade</value>
   </data>
   <data name="IdVerificationRequiredDescription" xml:space="preserve">
     <value>Requer que o candidato tenha concluído a verificação de identidade.</value>
   </data>
   <data name="IncomeVerificationRequired" xml:space="preserve">
-    <value>Verificação de renda necessária</value>
+    <value>Verificação de Renda</value>
   </data>
   <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
     <value>Requer que o candidato tenha concluído a verificação de renda.</value>
@@ -247,7 +247,7 @@
     <value>Tamanho (m²)</value>
   </data>
   <data name="SocialRequired" xml:space="preserve">
-    <value>Redes sociais obrigatórias</value>
+    <value>Mídias Sociais</value>
   </data>
   <data name="SocialRequiredDescription" xml:space="preserve">
     <value>Exige que o candidato tenha registrado pelo menos uma conta em rede social.</value>

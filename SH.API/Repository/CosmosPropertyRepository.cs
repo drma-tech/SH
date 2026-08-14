@@ -7,8 +7,8 @@ using System.Linq.Expressions;
 
 namespace SH.API.Repository;
 
-public class CosmosPropertyOnRepository(CosmosClient client, ILogger<CosmosPropertyOnRepository> logger)
-    : BaseRepository<CosmosPropertyOnRepository, PropertyDocument, PropertyIdentity>(client, logger, "property-on")
+public class CosmosPropertyRepository(CosmosClient client, ILogger<CosmosPropertyRepository> logger, string containerId)
+    : BaseRepository<CosmosPropertyRepository, PropertyDocument, PropertyIdentity>(client, logger, containerId)
 {
     public async Task<IReadOnlyCollection<T>> Query<T>(PropertyType type, Expression<Func<T, bool>>? predicate, Func<IQueryable<T>, IQueryable<T>>? transform, CancellationToken cancellationToken)
         where T : PropertyDocument

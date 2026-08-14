@@ -1,23 +1,45 @@
 ﻿@using SH.Shared.Models.Index
 @using SH.WEB.Modules.Index.Core
 
-@inherits ComponentCore<CityComponent>
+@inherits ComponentParameterCore<CityComponent>
 
 @inject IndexApi IndexApi
 
-<MudChipSet T="CityIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
-    @foreach (var item in State?.Cities ?? new HashSet<CityIndexItem>())
-    {
-        <MudChip T="CityIndexItem" Size="AppStateStatic.Size" Value="@item" Variant="Variant.Outlined">
-            @item.CityName
-        </MudChip>
-    }
-</MudChipSet>
+<RenderControl State="Actions" Context="ctx" LoadingHeight="40px">
+    <MudChipSet T="CityIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
+        @foreach (var item in ctx.Cities ?? new HashSet<CityIndexItem>())
+        {
+            <MudChip T="CityIndexItem" Size="AppStateStatic.Size" Value="@item" Variant="Variant.Outlined">
+                @item.CityName
+            </MudChip>
+        }
+    </MudChipSet>
+</RenderControl>
 
 @code {
     [Parameter] public CountryIndexItem? Country { get; set; }
     [Parameter] public StateIndexItem? State { get; set; }
 
     [Parameter] public CityIndexItem? Value { get; set; }
-    [Parameter] public EventCallback<CityIndexItem> ValueChanged { get; set; }   
+    [Parameter] public EventCallback<CityIndexItem> ValueChanged { get; set; }
+
+    private RenderControlState<StateIndexItem> Actions { get; set; } = new RenderControlState<StateIndexItem>(obj => obj == null);
+
+    protected override async Task LoadStaticDataAsync()
+    {
+        await Actions.StartLoading.Invoke("Select a state");
+    }
+
+    protected override IReadOnlyList<string> GetParameterKey()
+    {
+        return [
+            Country?.CountryCode ?? "",
+            State?.StateCode ?? ""
+        ];
+    }
+
+    protected override async Task LoadParameterDataAsync()
+    {
+        await Actions.FinishLoading.Invoke(State);
+    }
 }

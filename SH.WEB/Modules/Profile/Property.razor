@@ -20,7 +20,7 @@
 
 <CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<RenderControl Actions="ActionsProperty" Context="property">
+<RenderControl State="ActionsProperty" Context="property">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
         <PageSectionComponent Title="@TranslationProperty.Address" Visible="@(Navigation.Uri.Contains("/add/"))">
             <BodyFragment>
@@ -131,7 +131,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsFacilities">
+                <RenderControl State="ActionsFacilities">
                     @foreach (var item in property.Facilities)
                     {
                         @if (item.Facility == SH.Shared.Enums.PropertyFacility.Custom)
@@ -165,7 +165,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsAmenities">
+                <RenderControl State="ActionsAmenities">
                     @foreach (var item in property.Amenities)
                     {
                         @if (item.Amenity == SH.Shared.Enums.PropertyAmenity.Custom)
@@ -193,7 +193,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl Actions="ActionsAccessibilities">
+                <RenderControl State="ActionsAccessibilities">
                     @foreach (var item in property.Accessibilities)
                     {
                         <MudChip T="string" OnClose="() => RemoveAccessibility(item)" Color="Color.Primary">@item.GetFieldSettings().Name</MudChip>
@@ -333,7 +333,7 @@
         }
         else
         {
-            model = await PropertyApi.Get(false, propertyId, ActionsProperty, Cts.Token) ?? throw new NotificationException("property not found");
+            model = await PropertyApi.Get(propertyId, ActionsProperty, Cts.Token) ?? throw new NotificationException("property not found");
         }
 
         await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
@@ -507,7 +507,7 @@
     {
         if (await DialogService.ConfirmDelete())
         {
-            model = await RoomApi.Delete(false, model!.Identity.RawId, room.RoomId, Cts.Token);
+            model = await RoomApi.Delete(model!.Identity.RawId, room.RoomId, Cts.Token);
             await ActionsProperty.FinishLoading.Invoke(model);
         }
     }

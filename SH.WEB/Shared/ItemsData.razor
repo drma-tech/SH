@@ -1,0 +1,121 @@
+﻿@typeparam TValue
+
+<div>
+    @if (OnlyLabel)
+    {
+        <MudChip T="string" Variant="Variant.Outlined" Size="AppStateStatic.Size" Class="mx-0" Style="width: 100%; justify-content: space-between;">
+            @Name
+            <MudTooltip Text="@Placeholder">
+                <MudIcon Icon="@Icons.Material.Filled.Help" Style="margin-inline: -6px; cursor: help"></MudIcon>
+            </MudTooltip>
+        </MudChip>
+    }
+    else
+    {
+        @if (ShowLabel)
+        {
+            <MudChip T="string" Variant="Variant.Filled" Size="AppStateStatic.Size" Class="me-2">
+                @Name
+            </MudChip>
+        }
+        @if (ShowOnlyQty)
+        {
+            <MudAvatar Style="width: 32px; height: 32px; vertical-align: middle; text-align: center;" Variant="Variant.Outlined">
+                <MudText Typo="Typo.body1">
+                    @(Values?.Count() ?? 0)
+                </MudText>
+            </MudAvatar>
+        }
+        else
+        {
+            if (Values == null || !Values.Any())
+            {
+                <MudChip T="string" Size="AppStateStatic.Size" Color="Color.Error" Class="mx-0" Variant="Variant.Outlined">
+                    <ChildContent>
+                        <MudText Typo="Typo.body2">
+                            Not Found
+                        </MudText>
+                    </ChildContent>
+                </MudChip>
+            }
+            else
+            {
+                if (typeof(TValue) == typeof(string))
+                {
+                    @foreach (var item in Values ?? [])
+                    {
+                        var resultE = item as string;
+
+                        <MudAvatar Style="width: 32px; height: 32px; vertical-align: middle; text-align: center;" Class="my-1 me-1" Variant="Variant.Outlined">
+                            <MudTooltip Text="...">
+                                <MudText Typo="Typo.body2" Style="font-size: 12px;">
+                                    @resultE?.ToUpper()
+                                </MudText>
+                            </MudTooltip>
+                        </MudAvatar>
+                    }
+                }
+                else
+                {
+                    @foreach (var item in Values ?? [])
+                    {
+                        var resultE = (Enum?)(object?)item;
+
+                        @if (OnlyIcon)
+                        {
+                            <MudAvatar Style="width: 32px; height: 32px; vertical-align: middle; text-align: center;" Class="my-1 me-1" Variant="Variant.Outlined">
+                                <MudTooltip Text="@resultE?.GetFieldSettings()?.Name">
+                                    <MudLink Href="@resultE?.GetFieldSettings()?.Url" Target="_blank">
+                                        <MudImage Src="@resultE?.GetFieldSettings()?.Icon" Style="max-width: 28px; max-height: 28px; vertical-align: middle;"></MudImage>
+                                    </MudLink>
+                                </MudTooltip>
+                            </MudAvatar>
+                        }
+                        else if (OnlyText)
+                        {
+                            <MudAvatar Style="width: 32px; height: 32px; vertical-align: middle; text-align: center;" Class="my-1 me-1" Variant="Variant.Outlined">
+                                <MudTooltip Text="@resultE?.GetFieldSettings()?.Name">
+                                    <MudText Typo="Typo.body2" Style="font-size: 12px;">
+                                        @resultE?.GetFieldSettings(false)?.Description?.ToUpper()
+                                    </MudText>
+                                </MudTooltip>
+                            </MudAvatar>
+                        }
+                        else if (ShowName)
+                        {
+                            <MudChip T="string" Variant="Variant.Outlined">
+                                @resultE?.GetFieldSettings()?.Name
+                            </MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="string" Href="@resultE?.GetFieldSettings()?.Url" Target="_blank" Size="AppStateStatic.Size" Class="mx-0" Variant="Variant.Outlined">
+                                <AvatarContent>
+                                    <MudAvatar>
+                                        <MudImage Src="@resultE?.GetFieldSettings()?.Icon"></MudImage>
+                                    </MudAvatar>
+                                </AvatarContent>
+                                <ChildContent>
+                                    @resultE?.GetFieldSettings()?.Name
+                                </ChildContent>
+                            </MudChip>
+                        }
+                    }
+                }
+            }
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+
+    [Parameter] public IEnumerable<TValue>? Values { get; set; } = [];
+    [Parameter] public bool ShowOnlyQty { get; set; } = false;
+    [Parameter] public bool ShowLabel { get; set; } = true;
+    [Parameter] public bool ShowName { get; set; } = false;
+    [Parameter] public bool OnlyLabel { get; set; } = false;
+    [Parameter] public bool OnlyIcon { get; set; } = false;
+    [Parameter] public bool OnlyText { get; set; } = false;
+}

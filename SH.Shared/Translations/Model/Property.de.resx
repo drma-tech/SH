@@ -139,7 +139,7 @@
     <value>Annehmlichkeiten</value>
   </data>
   <data name="BackgroundCheckRequired" xml:space="preserve">
-    <value>Hintergrundüberprüfung erforderlich</value>
+    <value>Hintergrundüberprüfung</value>
   </data>
   <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
     <value>Voraussetzung hierfür ist, dass sich der Kandidat einer Zuverlässigkeitsüberprüfung unterzogen hat.</value>
@@ -187,13 +187,13 @@
     <value>Hausnummer</value>
   </data>
   <data name="IdVerificationRequired" xml:space="preserve">
-    <value>ID-Verifizierung erforderlich</value>
+    <value>ID-Verifizierung</value>
   </data>
   <data name="IdVerificationRequiredDescription" xml:space="preserve">
     <value>Erfordert, dass der Kandidat die Identitätsüberprüfung abgeschlossen hat.</value>
   </data>
   <data name="IncomeVerificationRequired" xml:space="preserve">
-    <value>Einkommensnachweis erforderlich</value>
+    <value>Einkommensüberprüfung</value>
   </data>
   <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
     <value>Erfordert, dass der Kandidat einen Einkommensnachweis abgeschlossen hat.</value>
@@ -247,7 +247,7 @@
     <value>Größe (qm)</value>
   </data>
   <data name="SocialRequired" xml:space="preserve">
-    <value>Soziale Medien erforderlich</value>
+    <value>Soziale Medien</value>
   </data>
   <data name="SocialRequiredDescription" xml:space="preserve">
     <value>Erfordert, dass der Kandidat mindestens ein Social-Media-Konto registriert hat.</value>

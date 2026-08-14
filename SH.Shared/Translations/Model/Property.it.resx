@@ -139,7 +139,7 @@
     <value>Comodità</value>
   </data>
   <data name="BackgroundCheckRequired" xml:space="preserve">
-    <value>Controllo dei precedenti obbligatorio</value>
+    <value>Controllo dei precedenti</value>
   </data>
   <data name="BackgroundCheckRequiredDescription" xml:space="preserve">
     <value>Richiede che il candidato sia stato sottoposto a un controllo dei precedenti.</value>
@@ -187,13 +187,13 @@
     <value>Numero civico</value>
   </data>
   <data name="IdVerificationRequired" xml:space="preserve">
-    <value>Verifica dell'identità obbligatoria</value>
+    <value>Verifica dell'identità</value>
   </data>
   <data name="IdVerificationRequiredDescription" xml:space="preserve">
     <value>Richiede che il candidato abbia completato la verifica dell'identità.</value>
   </data>
   <data name="IncomeVerificationRequired" xml:space="preserve">
-    <value>Verifica del reddito richiesta</value>
+    <value>Verifica del reddito</value>
   </data>
   <data name="IncomeVerificationRequiredDescription" xml:space="preserve">
     <value>Richiede che il candidato abbia completato la verifica del reddito.</value>
@@ -247,7 +247,7 @@
     <value>Superficie (mq)</value>
   </data>
   <data name="SocialRequired" xml:space="preserve">
-    <value>Social media richiesti</value>
+    <value>Social media</value>
   </data>
   <data name="SocialRequiredDescription" xml:space="preserve">
     <value>Richiede che il candidato abbia registrato almeno un account di social media.</value>

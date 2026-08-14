@@ -12,7 +12,6 @@ public class ProfileFunction(CosmosMainRepository repo)
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "profile/get")] HttpRequestData req, CancellationToken cancellationToken)
     {
         var userId = await req.GetUserIdAsync(cancellationToken);
-        if (userId.Empty()) throw new InvalidOperationException("userId null");
 
         var model = await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken);
 
