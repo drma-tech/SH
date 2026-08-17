@@ -11,7 +11,7 @@ namespace SH.API.Repository.Core
     {
         protected ILogger<TClass> Logger { get; }
         protected Container Container { get; }
-        protected const double extra = 1;
+        protected const double extra = 2;
 
         protected BaseRepository(CosmosClient client, ILogger<TClass> logger, string containerId)
         {

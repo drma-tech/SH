@@ -24,7 +24,7 @@ namespace SH.WEB.Modules.Subscription.Core
 
         public async Task<AuthPrincipal?> StripeCustomer(CancellationToken cancellationToken)
         {
-            return await GetAsync<AuthPrincipal>(Endpoint.StripeCustomer, setNewVersion: true, actions: null, cancellationToken);
+            return await GetAsync<AuthPrincipal>(Endpoint.StripeCustomer, setNewVersion: true, state: null, cancellationToken);
         }
 
         public async Task<string?> StripePortalLink(CancellationToken cancellationToken)

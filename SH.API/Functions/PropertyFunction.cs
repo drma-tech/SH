@@ -107,7 +107,9 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         }
 
         await repoMain.UpsertItemAsync(profile);
-        return await repoOff.CreateItemAsync(body);
+
+        var repo = GetRepo(isPublic: false);
+        return await repo.CreateItemAsync(body);
     }
 
     [Function("PropertyUpdate")]
@@ -119,13 +121,15 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         var profile = await req.GetProfile(repoMain, cancellationToken);
 
         //todo: change properties of all members
-        var profileProperty = await req.GetProfileProperty(repoMain, body.Id, profile, cancellationToken);
+        var profileProperty = await req.GetProfileProperty(repoMain, body.Identity.RawId, profile, cancellationToken);
 
         profileProperty.Title = body.Title;
         profileProperty.UrlPath = body.Photos.FirstOrDefault()?.UrlPath;
 
         await repoMain.UpsertItemAsync(profile);
-        return await repoOff.UpsertItemAsync(body);
+
+        var repo = GetRepo(profileProperty.IsPublic);
+        return await repo.UpsertItemAsync(body);
     }
 
     [Function("PropertyDelete")]

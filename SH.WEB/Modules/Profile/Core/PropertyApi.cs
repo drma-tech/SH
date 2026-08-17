@@ -28,21 +28,21 @@ public class PropertyApi(IHttpClientFactory http) : ApiCosmos<PropertyModel>(htt
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return await PostAsync(Endpoint.Add, model, ApiContext.Default.PropertyModel, actions: null, cancellationToken);
+        return await PostAsync(Endpoint.Add, model, ApiContext.Default.PropertyModel, state: null, cancellationToken);
     }
 
     public async Task<PropertyModel> Update(PropertyModel? model, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        return await PutAsync(Endpoint.Update, model, ApiContext.Default.PropertyModel, actions: null, cancellationToken);
+        return await PutAsync(Endpoint.Update, model, ApiContext.Default.PropertyModel, state: null, cancellationToken);
     }
 
     public async Task<ProfileModel> Delete(string? propertyId, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(propertyId);
 
-        return await PostAsync(Endpoint.Delete(propertyId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, actions: null, cancellationToken);
+        return await PostAsync(Endpoint.Delete(propertyId), null, ApiContext.Default.ProfileModel, ApiContext.Default.ProfileModel, state: null, cancellationToken);
     }
 
     public async Task<ProfileModel> Public(string propertyId, RenderControlState<ProfileModel>? actions, CancellationToken cancellationToken)

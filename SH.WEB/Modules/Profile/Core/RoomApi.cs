@@ -17,7 +17,7 @@ public class RoomApi(IHttpClientFactory http) : ApiCosmos<RoomModel>(http, ApiTy
         ArgumentNullException.ThrowIfNull(propertyId);
         ArgumentNullException.ThrowIfNull(model);
 
-        return await PostAsync(Endpoint.Add(propertyId), model, ApiContext.Default.RoomModel, actions: null, cancellationToken);
+        return await PostAsync(Endpoint.Add(propertyId), model, ApiContext.Default.RoomModel, state: null, cancellationToken);
     }
 
     public async Task<RoomModel> Update(string? propertyId, RoomModel? model, CancellationToken cancellationToken)
@@ -25,7 +25,7 @@ public class RoomApi(IHttpClientFactory http) : ApiCosmos<RoomModel>(http, ApiTy
         ArgumentNullException.ThrowIfNull(propertyId);
         ArgumentNullException.ThrowIfNull(model);
 
-        return await PutAsync(Endpoint.Update(propertyId), model, ApiContext.Default.RoomModel, actions: null, cancellationToken);
+        return await PutAsync(Endpoint.Update(propertyId), model, ApiContext.Default.RoomModel, state: null, cancellationToken);
     }
 
     public async Task<PropertyModel> Delete(string? propertyId, string? roomId, CancellationToken cancellationToken)
@@ -33,7 +33,7 @@ public class RoomApi(IHttpClientFactory http) : ApiCosmos<RoomModel>(http, ApiTy
         ArgumentNullException.ThrowIfNull(propertyId);
         ArgumentNullException.ThrowIfNull(roomId);
 
-        return await PostAsync(Endpoint.Delete(propertyId, roomId), null, ApiContext.Default.PropertyModel, ApiContext.Default.PropertyModel, actions: null, cancellationToken);
+        return await PostAsync(Endpoint.Delete(propertyId, roomId), null, ApiContext.Default.PropertyModel, ApiContext.Default.PropertyModel, state: null, cancellationToken);
     }
 
     public struct Endpoint
