@@ -1,5 +1,8 @@
 ﻿using SH.Shared.Core.Types;
 
+using Json = System.Text.Json.Serialization;
+using Nsoft = Newtonsoft.Json;
+
 namespace SH.Shared.Models
 {
     public enum HomeSchedule
@@ -69,9 +72,13 @@ namespace SH.Shared.Models
     {
         public string? PropertyId { get; set; }
         public string? Title { get; set; }
-        public string? UrlPath { get; set; }
+        public string? PhotoId { get; set; }
         public bool IsPublic { get; set; }
         public PropertyUserRole Role { get; set; }
+
+        [Json.JsonIgnore]
+        [Nsoft.JsonIgnore]
+        public string? PhotoUrl => PhotoId.NotEmpty() ? $"{ImageHelper.BlobPath}/{ImageHelper.GetPhotoContainer(ImageHelper.PhotoType.Gallery)}/{PhotoId}.jpg" : null;
 
         protected override object?[] EqualityValues => [PropertyId];
     }

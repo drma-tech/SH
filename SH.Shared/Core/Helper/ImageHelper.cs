@@ -2,7 +2,7 @@
 
 public static class ImageHelper
 {
-    public static string BlobPath { get; } = "https://drmammstorage.blob.core.windows.net";
+    public static string BlobPath { get; } = "https://drmashstorage.blob.core.windows.net";
 
     public enum PhotoType
     {

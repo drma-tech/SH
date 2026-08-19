@@ -20,6 +20,7 @@ namespace SH.WEB.Core.Api
     [JsonSerializable(typeof(CountryIndex))]
     [JsonSerializable(typeof(StateIndex))]
     [JsonSerializable(typeof(PropertySearchRequest))]
+    [JsonSerializable(typeof(PhotoRequest))]
     internal sealed partial class ApiContext : JsonSerializerContext
     {
     }

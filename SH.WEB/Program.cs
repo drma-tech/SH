@@ -6,6 +6,7 @@ using Microsoft.JSInterop;
 using MudBlazor.Services;
 using Polly;
 using Polly.Extensions.Http;
+using SH.WEB.Api;
 using SH.WEB.Core.Auth;
 using SH.WEB.Modules.Auth.Core;
 using SH.WEB.Modules.Index.Core;
@@ -138,6 +139,8 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<LoginApi>();
     collection.AddScoped<PublicLoginApi>();
     collection.AddScoped<MapApi>();
+    collection.AddScoped<StoragePropertyApi>();
+    collection.AddScoped<StorageRoomApi>();
 
     collection.AddScoped<PaymentConfigurationApi>();
     collection.AddScoped<PaymentAuthApi>();

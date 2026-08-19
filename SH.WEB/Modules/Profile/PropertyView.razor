@@ -80,25 +80,25 @@
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">
                         @TranslationProperty.Facilities
                     </MudText>
-                    <CustomChips Values="@property.Facilities.Select(f => f.CustomName ?? f.Facility.GetFieldSettings().Name)"></CustomChips>
+                    <CustomEnumChips Values="@property.Facilities.AsField()"></CustomEnumChips>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">
                         @TranslationProperty.Amenities
                     </MudText>
-                    <CustomChips Values="@property.Amenities.Select(a => a.CustomName ?? a.Amenity.GetFieldSettings().Name)"></CustomChips>
+                    <CustomEnumChips Values="@property.Amenities.AsField()"></CustomEnumChips>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">
                         @TranslationProperty.Accessibilities
                     </MudText>
-                    <CustomChips Values="@property.Accessibilities.Select(a => a.GetFieldSettings().Name)"></CustomChips>
+                    <CustomEnumChips Values="@property.Accessibilities.AsField()"></CustomEnumChips>
                 </MudItem>
                 <MudItem xs="12" sm="6">
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">
                         @TranslationProperty.Languages
                     </MudText>
-                    <CustomChips Values="@property.Languages.Select(l => l.GetFieldSettings().Name)"></CustomChips>
+                    <CustomEnumChips Values="@property.Languages.AsField()"></CustomEnumChips>
                 </MudItem>
             </MudGrid>
         </RenderControl>
@@ -131,7 +131,7 @@
         <RenderControl State="PropertyState" Context="property">
             <Slider List="property.Photos" Context="item">
                 <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
-                    <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                    <MudImage Src="@item.PhotoUrl" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
                               ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
                     <div class="carousel-caption">
                         <MudText Typo="Typo.caption" Inline="false">
@@ -151,7 +151,7 @@
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">
                         <MudCard Outlined="true">
-                            <MudCardMedia Image="@(room.UrlPath ?? "images/no-image.webp")" Height="150" />
+                            <MudCardMedia Image="@(room.PhotoUrl ?? "images/no-image.webp")" Height="150" />
                             <MudCardHeader Style="text-align: initial;" Class="pa-2">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.body1" Color="Color.Secondary">@room?.Title</MudText>
@@ -197,7 +197,7 @@
         var property = await PropertyApi.View(propertyId, PropertyState, Cts.Token);
 
         Title = property?.Title;
-        PhotoUrl = property?.Photos.FirstOrDefault()?.UrlPath;
+        PhotoUrl = property?.Photos.FirstOrDefault()?.PhotoUrl;
 
         await ReviewsState.FinishLoading.Invoke([]);
     }

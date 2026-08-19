@@ -1,0 +1,41 @@
+﻿@inherits FieldBase
+@typeparam TValue where TValue : struct, Enum
+
+<span class="@Class" style="@Style">
+    @if (Name.NotEmpty())
+    {
+        <MudChip T="string" Size="Size" Variant="Variant.Filled" Class="mx-0" Color="ColorName">
+            @Name
+        </MudChip>
+    }
+    @if (Values == null || Values.Empty())
+    {
+        <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue">
+            @FallbackValue
+        </MudChip>
+    }
+    else
+    {
+        @foreach (var item in Values)
+        {
+            <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue">
+                @if (item.Icon.NotEmpty())
+                {
+                    <MudIcon Icon="@IconsFA.Solid.Icon(item.Icon).Font" Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
+                }
+                @item.Name
+            </MudChip>
+        }
+    }
+</span>
+
+@code {
+    [Parameter] public IEnumerable<EnumFieldObject<TValue>> Values { get; set; } = [];
+    [Parameter] public string? FallbackValue { get; set; } = "N/A";
+
+    [Parameter] public Color ColorName { get; set; } = Color.Default;
+    [Parameter] public Color ColorValue { get; set; } = Color.Default;
+
+    [Parameter] public string? ValueChipClass { get; set; } = "ms-1 me-0";
+    [Parameter] public string? ValueChipStyle { get; set; }
+}

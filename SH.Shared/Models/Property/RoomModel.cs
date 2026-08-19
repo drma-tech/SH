@@ -1,5 +1,8 @@
 ﻿using SH.Shared.Core.Types;
 
+using Json = System.Text.Json.Serialization;
+using Nsoft = Newtonsoft.Json;
+
 namespace SH.Shared.Models.Property
 {
     public enum StayDuration
@@ -119,11 +122,15 @@ namespace SH.Shared.Models.Property
 
     public class RoomPhoto : EqualityBase<RoomPhoto>
     {
-        public string? UrlPath { get; set; }
+        public string? PhotoId { get; set; }
         public string? Caption { get; set; }
         public int Order { get; set; }
 
-        protected override object?[] EqualityValues => [UrlPath];
+        [Json.JsonIgnore]
+        [Nsoft.JsonIgnore]
+        public string? PhotoUrl => PhotoId.NotEmpty() ? $"{ImageHelper.BlobPath}/{ImageHelper.GetPhotoContainer(ImageHelper.PhotoType.Gallery)}/{PhotoId}.jpg" : null;
+
+        protected override object?[] EqualityValues => [PhotoId];
     }
 
     public class RoomFacilityModel : EqualityBase<RoomFacilityModel>

@@ -66,7 +66,7 @@ public class RoomFunction(CosmosMainRepository repoMain, [FromKeyedServices("Off
         var shortRoom = model.Rooms.Single(p => string.Equals(p.RoomId, body.Identity.RawId, StringComparison.Ordinal));
 
         shortRoom.Title = body.Title;
-        shortRoom.UrlPath = body.Photos.FirstOrDefault()?.UrlPath;
+        shortRoom.PhotoId = body.Photos.FirstOrDefault()?.PhotoId;
         shortRoom.Status = body.Status;
         shortRoom.MonthlyPrice = body.GetMonthlyCosts();
 

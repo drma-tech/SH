@@ -25,7 +25,7 @@
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">
                         <MudCard Outlined="true">
-                            <MudCardMedia Image="@(property.UrlPath ?? "images/no-image.webp")" Height="150" />
+                            <MudCardMedia Image="@(property.PhotoUrl ?? "images/no-image.webp")" Height="150" />
                             <MudCardHeader Style="text-align: initial;" Class="pa-2">
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.body1" Color="Color.Secondary">@property?.Title</MudText>

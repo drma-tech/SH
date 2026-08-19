@@ -7,10 +7,11 @@ using SH.Shared.Core.Types;
 using SH.Shared.Models.Index;
 using SH.Shared.Models.Property;
 using SH.Shared.Requests;
+using static SH.Shared.Core.Helper.ImageHelper;
 
 namespace SH.API.Functions;
 
-public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices("Off")] CosmosPropertyRepository repoOff, [FromKeyedServices("On")] CosmosPropertyRepository repoOn)
+public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices("Off")] CosmosPropertyRepository repoOff, [FromKeyedServices("On")] CosmosPropertyRepository repoOn, StorageHelper storageHelper)
 {
     private CosmosPropertyRepository GetRepo(bool isPublic)
     {
@@ -74,7 +75,7 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         {
             PropertyId = body.Identity.RawId,
             Title = body.Title,
-            UrlPath = body.Photos.FirstOrDefault()?.UrlPath,
+            PhotoId = body.Photos.FirstOrDefault()?.PhotoId,
             Role = PropertyUserRole.Owner,
         };
 
@@ -124,7 +125,7 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         var profileProperty = await req.GetProfileProperty(repoMain, body.Identity.RawId, profile, cancellationToken);
 
         profileProperty.Title = body.Title;
-        profileProperty.UrlPath = body.Photos.FirstOrDefault()?.UrlPath;
+        profileProperty.PhotoId = body.Photos.FirstOrDefault()?.PhotoId;
 
         await repoMain.UpsertItemAsync(profile);
 
@@ -153,6 +154,11 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
             await repo.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, item.RoomId));
 
             //todo: delete photos
+        }
+
+        foreach (var item in model.Photos)
+        {
+            await storageHelper.DeletePhoto(PhotoType.Gallery, $"{item.PhotoId}.jpg", cancellationToken);
         }
 
         await repo.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId));

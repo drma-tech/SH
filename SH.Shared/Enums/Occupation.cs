@@ -2,16 +2,16 @@
 {
     public enum Occupation
     {
-        [FieldSettings(nameof(Translations.Enum.Occupation.Student), ResourceType = typeof(Translations.Enum.Occupation))]
+        [FieldSettings(nameof(Translations.Enum.Occupation.Student), Icon = "user-graduate", ResourceType = typeof(Translations.Enum.Occupation))]
         Student = 1,
 
-        [FieldSettings(nameof(Translations.Enum.Occupation.Employed), ResourceType = typeof(Translations.Enum.Occupation))]
+        [FieldSettings(nameof(Translations.Enum.Occupation.Employed), Icon = "briefcase", ResourceType = typeof(Translations.Enum.Occupation))]
         Employed = 2,
 
-        [FieldSettings(nameof(Translations.Enum.Occupation.Retired), ResourceType = typeof(Translations.Enum.Occupation))]
+        [FieldSettings(nameof(Translations.Enum.Occupation.Retired), Icon = "person-walking-luggage", ResourceType = typeof(Translations.Enum.Occupation))]
         Retired = 3,
 
-        [FieldSettings(nameof(Translations.Enum.Occupation.Unemployed), ResourceType = typeof(Translations.Enum.Occupation))]
+        [FieldSettings(nameof(Translations.Enum.Occupation.Unemployed), Icon = "house-user", ResourceType = typeof(Translations.Enum.Occupation))]
         Unemployed = 4,
     }
 }

@@ -6,6 +6,7 @@
 @using SH.Shared.Models.Property
 @using SH.Shared.Models.Property.Core
 @using SH.Shared.Requests
+@using SH.WEB.Api
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
 @using TranslationRoom = SH.Shared.Translations.Model.Room;
@@ -13,12 +14,13 @@
 
 @inject PrincipalApi PrincipalApi
 @inject RoomApi RoomApi
+@inject StorageRoomApi StorageRoomApi
 
 <HeadComponent Title="@Translations.Title.Bedroom" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
 
 <CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<RenderControl State="ActionsRoom" Class="mb-3" Context="room">
+<RenderControl State="RoomState" Class="mb-3" Context="room">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
         <PageSectionComponent Title="@TranslationRoom.BasicData">
             <BodyFragment>
@@ -261,22 +263,43 @@
 
         <PageSectionComponent Title="@TranslationRoom.Photos">
             <ActionsFragment>
-                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())" Disabled>
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
                     @Translations.Button.Add
                 </MudButton>
             </ActionsFragment>
             <BodyFragment>
-                <Slider List="room.Photos" Context="item">
-                    <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
-                        <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
-                                  ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
-                        <div class="carousel-caption">
-                            <MudText Typo="Typo.caption" Inline="false">
-                                @item.Caption.Truncate(40)
-                            </MudText>
+                @if (Navigation.Uri.Contains("/add/"))
+                {
+                    <Slider List="PhotoRequests" Context="item">
+                        <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                            <MudImage Src="@($"data:image/webp;base64,{item.Buffer.ConvertFromBytesToBase64()}")" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                                      ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                            <div class="carousel-caption">
+                                <MudText Typo="Typo.caption" Inline="false">
+                                    @item.Caption.Truncate(40)
+                                </MudText>
+                            </div>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Color="Color.Error" OnClick="@(() => PhotoRequests.Remove(item))"
+                                           Style="position: absolute; top: 10px; right: 10px;" Variant="Variant.Filled" />
                         </div>
-                    </div>
-                </Slider>
+                    </Slider>
+                }
+                else
+                {
+                    <Slider List="room.Photos" Context="item">
+                        <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                            <MudImage Src="@item.PhotoUrl" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                                      ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                            <div class="carousel-caption">
+                                <MudText Typo="Typo.caption" Inline="false">
+                                    @item.Caption.Truncate(40)
+                                </MudText>
+                            </div>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Color="Color.Error" OnClick="@(() => DeletePhoto(item))"
+                                           Style="position: absolute; top: 10px; right: 10px;" Variant="Variant.Filled" />
+                        </div>
+                    </Slider>
+                }
             </BodyFragment>
         </PageSectionComponent>
 
@@ -325,10 +348,10 @@
 
 @code
 {
-    [Parameter] public string? propertyId { get; set; }
-    [Parameter] public string? roomId { get; set; }
+    [Parameter] public required string propertyId { get; set; }
+    [Parameter] public required string roomId { get; set; }
 
-    private RenderControlState<RoomModel> ActionsRoom { get; set; } = new RenderControlState<RoomModel>(obj => obj == null);
+    private RenderControlState<RoomModel> RoomState { get; set; } = new RenderControlState<RoomModel>(obj => obj == null);
     private RoomModel? model;
 
     private MudForm? _form;
@@ -348,6 +371,8 @@
     public PaymentInterval Frequency { get; set; } = PaymentInterval.Monthly;
     public decimal? ChargeAmount { get; set; }
     public string? ChargeCustomName { get; set; }
+
+    public List<PhotoRequest> PhotoRequests { get; set; } = [];
 
     public RenderControlState<ISet<RoomFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<RoomFacilityModel>>(list => list == null || list.Empty());
     public RenderControlState<ISet<RoomAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<RoomAmenityModel>>(list => list == null || list.Empty());
@@ -369,11 +394,11 @@
         if (Navigation.Uri.Contains("/add/"))
         {
             model ??= new(roomId);
-            await ActionsRoom.FinishLoading.Invoke(model);
+            await RoomState.FinishLoading.Invoke(model);
         }
         else
         {
-            model = await RoomApi.Get(propertyId, roomId, ActionsRoom, Cts.Token) ?? throw new NotificationException("room not found");
+            model = await RoomApi.Get(propertyId, roomId, RoomState, Cts.Token) ?? throw new NotificationException("room not found");
         }
 
         await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
@@ -463,12 +488,20 @@
     {
         try
         {
-            var request = new PhotoRequest { Buffer = buffer };
+            var request = new PhotoRequest { PropertyId = propertyId, RoomId = roomId, Buffer = buffer, Caption = caption };
 
-            // _profile = await StorageApi.UploadPhoto(request, cts.Token);
-            model!.Photos.Add(new RoomPhoto { UrlPath = $"data:image/webp;base64,{buffer.ConvertFromBytesToBase64()}", Caption = caption });
+            if (Navigation.Uri.Contains("/add/"))
+            {
+                PhotoRequests.Add(request);
+            }
+            else
+            {
+                model = await StorageRoomApi.UploadPhotoRoom(request, Cts.Token);
+            }
 
             await _form!.FieldChanged.InvokeAsync();
+
+            await RoomState.FinishLoading.Invoke(model);
         }
         catch (Exception ex)
         {
@@ -490,20 +523,25 @@
 
             if (result.IsValid)
             {
-                await ActionsRoom.StartProcessing.Invoke(null);
+                await RoomState.StartProcessing.Invoke(null);
 
                 if (Navigation.Uri.Contains("/add/"))
                 {
                     model = await RoomApi.Add(propertyId!, model, Cts.Token);
+
+                    foreach (var item in PhotoRequests)
+                    {
+                        model = await StorageRoomApi.UploadPhotoRoom(item, Cts.Token);
+                    }
                 }
                 else
                 {
                     model = await RoomApi.Update(propertyId!, model, Cts.Token);
                 }
 
-                IsDirty = false; StateHasChanged();
+                await RoomState.FinishProcessing.Invoke(model);
 
-                await ActionsRoom.FinishProcessing.Invoke(model);
+                IsDirty = false; StateHasChanged();
 
                 await ShowSuccess(Translations.Notification.OperationCompleted);
 
@@ -520,5 +558,11 @@
         {
             await ProcessException(ex);
         }
+    }
+
+    private async Task DeletePhoto(RoomPhoto item)
+    {
+        model = await StorageRoomApi.DeletePhotoGallery(new PhotoRequest { PropertyId = propertyId, RoomId = roomId, PhotoId = item.PhotoId }, Cts.Token);
+        await RoomState.FinishLoading.Invoke(model);
     }
 }

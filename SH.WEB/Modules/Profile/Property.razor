@@ -3,9 +3,11 @@
 
 @using FluentValidation
 @using MudBlazor.Utilities
+@using SH.Shared.Core.Types
 @using SH.Shared.Models.Property
 @using SH.Shared.Models.Property.Core
 @using SH.Shared.Requests
+@using SH.WEB.Api
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
 @using TranslationProperty = SH.Shared.Translations.Model.Property;
@@ -15,19 +17,20 @@
 @inject MapApi MapApi
 @inject PropertyApi PropertyApi
 @inject RoomApi RoomApi
+@inject StoragePropertyApi StoragePropertyApi
 
 <HeadComponent Title="@Translations.Title.Property" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
 
 <CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<RenderControl State="ActionsProperty" Context="property">
+<RenderControl State="PropertyState" Context="property">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
         <PageSectionComponent Title="@TranslationProperty.Address" Visible="@(Navigation.Uri.Contains("/add/"))">
             <BodyFragment>
                 <MudStack Spacing="3" Breakpoint="Breakpoint.Xs" Row="true">
                     <MudGrid Spacing="@CssHelper.SpaceSmall">
                         <MudItem xs="12" sm="6">
-                            <FieldText @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search" 
+                            <FieldText @bind-Value="@searchAddress" ButtomClicked="SearchClick" ButtomCssIcon="@Icons.Material.Filled.Search"
                                        Name="@TranslationProperty.SearchAddress" Placeholder="@TranslationProperty.SearchAddressPlaceholder"
                                        Description="@TranslationProperty.SearchAddressDescription"></FieldText>
                         </MudItem>
@@ -131,7 +134,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl State="ActionsFacilities">
+                <RenderControl State="FacilitiesState">
                     @foreach (var item in property.Facilities)
                     {
                         @if (item.Facility == SH.Shared.Enums.PropertyFacility.Custom)
@@ -165,7 +168,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl State="ActionsAmenities">
+                <RenderControl State="AmenitiesState">
                     @foreach (var item in property.Amenities)
                     {
                         @if (item.Amenity == SH.Shared.Enums.PropertyAmenity.Custom)
@@ -193,7 +196,7 @@
                 </MudToolBar>
             </ActionsFragment>
             <BodyFragment>
-                <RenderControl State="ActionsAccessibilities">
+                <RenderControl State="AccessibilitiesState">
                     @foreach (var item in property.Accessibilities)
                     {
                         <MudChip T="string" OnClose="() => RemoveAccessibility(item)" Color="Color.Primary">@item.GetFieldSettings().Name</MudChip>
@@ -229,28 +232,49 @@
 
         <PageSectionComponent Title="@TranslationProperty.Photos">
             <ActionsFragment>
-                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Disabled OnClick="@(() => SelectPicture())">
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
                     @Translations.Button.Add
                 </MudButton>
             </ActionsFragment>
             <BodyFragment>
-                <Slider List="property.Photos" Context="item">
-                    <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
-                        <MudImage Src="@item.UrlPath" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
-                                  ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
-                        <div class="carousel-caption">
-                            <MudText Typo="Typo.caption" Inline="false">
-                                @item.Caption.Truncate(40)
-                            </MudText>
+                @if (Navigation.Uri.Contains("/add/"))
+                {
+                    <Slider List="PhotoRequests" Context="item">
+                        <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                            <MudImage Src="@($"data:image/webp;base64,{item.Buffer.ConvertFromBytesToBase64()}")" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                                      ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                            <div class="carousel-caption">
+                                <MudText Typo="Typo.caption" Inline="false">
+                                    @item.Caption.Truncate(40)
+                                </MudText>
+                            </div>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Color="Color.Error" OnClick="@(() => PhotoRequests.Remove(item))"
+                                           Style="position: absolute; top: 10px; right: 10px;" Variant="Variant.Filled" />
                         </div>
-                    </div>
-                </Slider>
+                    </Slider>
+                }
+                else
+                {
+                    <Slider List="property.Photos" Context="item">
+                        <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                            <MudImage Src="@item.PhotoUrl" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                                      ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                            <div class="carousel-caption">
+                                <MudText Typo="Typo.caption" Inline="false">
+                                    @item.Caption.Truncate(40)
+                                </MudText>
+                            </div>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Color="Color.Error" OnClick="@(() => DeletePhoto(item))"
+                                           Style="position: absolute; top: 10px; right: 10px;" Variant="Variant.Filled" />
+                        </div>
+                    </Slider>
+                }
             </BodyFragment>
         </PageSectionComponent>
 
         <PageSectionComponent Title="@TranslationProperty.Rooms">
             <ActionsFragment>
-                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/room/add/{propertyId}/{Guid.NewGuid()}"))">
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddRoom">
                     @Translations.Button.Add
                 </MudButton>
             </ActionsFragment>
@@ -259,7 +283,7 @@
                     <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                         <div style="position: relative;">
                             <MudCard Outlined="true">
-                                <MudCardMedia Image="@(room.UrlPath ?? "images/no-image.webp")" Height="150" />
+                                <MudCardMedia Image="@(room.PhotoUrl ?? "images/no-image.webp")" Height="150" />
                                 <MudCardHeader Style="text-align: initial;" Class="pa-2">
                                     <CardHeaderContent>
                                         <MudText Typo="Typo.body1" Color="Color.Secondary">@room?.Title</MudText>
@@ -290,14 +314,14 @@
 
 @code
 {
-    [Parameter] public string? propertyId { get; set; }
+    [Parameter] public required string propertyId { get; set; }
 
-    private RenderControlState<PropertyModel> ActionsProperty { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
+    private RenderControlState<PropertyModel> PropertyState { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
     private PropertyModel? model;
 
-    private RenderControlState<ISet<PropertyFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<PropertyFacilityModel>>(p => p == null || p.Empty());
-    private RenderControlState<ISet<PropertyAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<PropertyAmenityModel>>(p => p == null || p.Empty());
-    private RenderControlState<ISet<AccessibilityFeature>> ActionsAccessibilities { get; set; } = new RenderControlState<ISet<AccessibilityFeature>>(p => p == null || p.Empty());
+    private RenderControlState<ISet<PropertyFacilityModel>> FacilitiesState { get; set; } = new RenderControlState<ISet<PropertyFacilityModel>>(p => p == null || p.Empty());
+    private RenderControlState<ISet<PropertyAmenityModel>> AmenitiesState { get; set; } = new RenderControlState<ISet<PropertyAmenityModel>>(p => p == null || p.Empty());
+    private RenderControlState<ISet<AccessibilityFeature>> AccessibilitiesState { get; set; } = new RenderControlState<ISet<AccessibilityFeature>>(p => p == null || p.Empty());
 
     private string? searchAddress { get; set; }
 
@@ -308,6 +332,8 @@
     public AccessibilityFeature? PropertyAccessibility { get; set; }
 
     private HereJson? here;
+
+    public List<PhotoRequest> PhotoRequests { get; set; } = [];
 
     private MudForm? _form;
     private bool IsDirty { get; set; } = false;
@@ -329,16 +355,16 @@
             model ??= new(propertyId);
             model.Members.Add(new PropertyMember { UserId = AppStateStatic.UserId, Role = PropertyUserRole.Owner });
 
-            await ActionsProperty.FinishLoading.Invoke(model);
+            await PropertyState.FinishLoading.Invoke(model);
         }
         else
         {
-            model = await PropertyApi.Get(propertyId, ActionsProperty, Cts.Token) ?? throw new NotificationException("property not found");
+            model = await PropertyApi.Get(propertyId, PropertyState, Cts.Token) ?? throw new NotificationException("property not found");
         }
 
-        await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
-        await ActionsAmenities.FinishLoading.Invoke(model.Amenities);
-        await ActionsAccessibilities.FinishLoading.Invoke(model.Accessibilities);
+        await FacilitiesState.FinishLoading.Invoke(model.Facilities);
+        await AmenitiesState.FinishLoading.Invoke(model.Amenities);
+        await AccessibilitiesState.FinishLoading.Invoke(model.Accessibilities);
     }
 
     private async Task SearchClick()
@@ -445,12 +471,20 @@
     {
         try
         {
-            var request = new PhotoRequest { Buffer = buffer };
+            var request = new PhotoRequest { PropertyId = propertyId, Buffer = buffer, Caption = caption };
 
-            // _profile = await StorageApi.UploadPhoto(request, cts.Token);
-            model!.Photos.Add(new PropertyPhoto { UrlPath = $"data:image/webp;base64,{buffer.ConvertFromBytesToBase64()}", Caption = caption });
+            if (Navigation.Uri.Contains("/add/"))
+            {
+                PhotoRequests.Add(request);
+            }
+            else
+            {
+                model = await StoragePropertyApi.UploadPhotoProperty(request, Cts.Token);
+            }
 
             await _form!.FieldChanged.InvokeAsync();
+
+            await PropertyState.FinishLoading.Invoke(model);
         }
         catch (Exception ex)
         {
@@ -471,18 +505,23 @@
 
             if (result.IsValid)
             {
-                await ActionsProperty.StartProcessing.Invoke(null);
+                await PropertyState.StartProcessing.Invoke(null);
 
                 if (Navigation.Uri.Contains("/add/"))
                 {
                     model = await PropertyApi.Add(model, Cts.Token);
+
+                    foreach (var item in PhotoRequests)
+                    {
+                        model = await StoragePropertyApi.UploadPhotoProperty(item, Cts.Token);
+                    }
                 }
                 else
                 {
                     model = await PropertyApi.Update(model, Cts.Token);
                 }
 
-                await ActionsProperty.FinishProcessing.Invoke(model);
+                await PropertyState.FinishProcessing.Invoke(model);
 
                 IsDirty = false; StateHasChanged();
 
@@ -503,12 +542,29 @@
         }
     }
 
+    private async Task DeletePhoto(PropertyPhoto item)
+    {
+        model = await StoragePropertyApi.DeletePhotoGallery(new PhotoRequest { PropertyId = propertyId, PhotoId = item.PhotoId }, Cts.Token);
+        await PropertyState.FinishLoading.Invoke(model);
+    }
+
     private async Task Delete(RoomShort room)
     {
         if (await DialogService.ConfirmDelete())
         {
             model = await RoomApi.Delete(model!.Identity.RawId, room.RoomId, Cts.Token);
-            await ActionsProperty.FinishLoading.Invoke(model);
+            await PropertyState.FinishLoading.Invoke(model);
         }
+    }
+
+    private async Task AddRoom()
+    {
+        if (Navigation.Uri.Contains("/add/"))
+        {
+            await ShowInfo("Save the property before adding a new room.");
+            return;
+        }
+
+        Navigation.NavigateTo($"/{Culture}/room/add/{propertyId}/{Guid.NewGuid()}");
     }
 }

@@ -117,6 +117,7 @@ static void ConfigureServices(IServiceCollection services)
         services.AddSingleton<CosmosJobRepository>();
         services.AddKeyedSingleton("On", (sp, _) => new CosmosPropertyRepository(sp.GetRequiredService<CosmosClient>(), sp.GetRequiredService<ILogger<CosmosPropertyRepository>>(), "property-on"));
         services.AddKeyedSingleton("Off", (sp, _) => new CosmosPropertyRepository(sp.GetRequiredService<CosmosClient>(), sp.GetRequiredService<ILogger<CosmosPropertyRepository>>(), "property-off"));
+        services.AddSingleton<StorageHelper>();
 
         //general services
 

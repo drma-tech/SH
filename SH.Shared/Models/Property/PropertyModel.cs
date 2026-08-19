@@ -1,5 +1,8 @@
 ﻿using SH.Shared.Core.Types;
 
+using Json = System.Text.Json.Serialization;
+using Nsoft = Newtonsoft.Json;
+
 namespace SH.Shared.Models.Property
 {
     public class PropertyModel(string? id) : PropertyDocument(new PropertyIdentity(PropertyType.Property, id))
@@ -72,11 +75,15 @@ namespace SH.Shared.Models.Property
 
     public class PropertyPhoto : EqualityBase<PropertyPhoto>
     {
-        public string? UrlPath { get; set; }
+        public string? PhotoId { get; set; }
         public string? Caption { get; set; }
         public int Order { get; set; }
 
-        protected override object?[] EqualityValues => [UrlPath];
+        [Json.JsonIgnore]
+        [Nsoft.JsonIgnore]
+        public string? PhotoUrl => PhotoId.NotEmpty() ? $"{ImageHelper.BlobPath}/{ImageHelper.GetPhotoContainer(ImageHelper.PhotoType.Gallery)}/{PhotoId}.jpg" : null;
+
+        protected override object?[] EqualityValues => [PhotoId];
     }
 
     public class PropertyMember : EqualityBase<PropertyMember>
@@ -107,10 +114,14 @@ namespace SH.Shared.Models.Property
     {
         public string? RoomId { get; set; }
         public string? Title { get; set; }
-        public string? UrlPath { get; set; }
+        public string? PhotoId { get; set; }
         public RoomStatus Status { get; set; } = RoomStatus.Available;
         public decimal? MonthlyPrice { get; set; } //rent + utilities + others
         public double? Rating { get; set; }
+
+        [Json.JsonIgnore]
+        [Nsoft.JsonIgnore]
+        public string? PhotoUrl => PhotoId.NotEmpty() ? $"{ImageHelper.BlobPath}/{ImageHelper.GetPhotoContainer(ImageHelper.PhotoType.Gallery)}/{PhotoId}.jpg" : null;
 
         protected override object?[] EqualityValues => [RoomId];
     }
