@@ -1,16 +1,12 @@
 ﻿@page "/{culture}/room/add/{propertyId}/{roomId}"
 @page "/{culture}/room/update/{propertyId}/{roomId}"
 
-@using Microsoft.JSInterop
-@using MudBlazor.Utilities
 @using SH.Shared.Models.Property
-@using SH.Shared.Models.Property.Core
-@using SH.Shared.Requests
 @using SH.WEB.Api
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
 @using TranslationRoom = SH.Shared.Translations.Model.Room;
-@inherits PageParameterCore<Room>
+@inherits PageParameterCore<RoomPage>
 
 @inject PrincipalApi PrincipalApi
 @inject RoomApi RoomApi
@@ -79,13 +75,13 @@
                     {
                         @if (item.Facility == SH.Shared.Enums.RoomFacility.Custom)
                         {
-                            <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
+                            <MudChip T="RoomFacilityModel" Value="@item" OnClose="RemoveFacility" Color="Color.Primary">
                                 @($"{item.CustomName} ({item.AccessType.GetFieldSettings().Name})")
                             </MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
+                            <MudChip T="RoomFacilityModel" Value="@item" OnClose="RemoveFacility" Color="Color.Primary">
                                 @($"{item.Facility.GetFieldSettings().Name} ({item.AccessType.GetFieldSettings().Name})")
                             </MudChip>
                         }
@@ -113,13 +109,13 @@
                     {
                         @if (item.Amenity == SH.Shared.Enums.RoomAmenity.Custom)
                         {
-                            <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">
+                            <MudChip T="RoomAmenityModel" Value="@item" OnClose="RemoveAmenity" Color="Color.Primary">
                                 @item.CustomName
                             </MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">
+                            <MudChip T="RoomAmenityModel" Value="@item" OnClose="RemoveAmenity" Color="Color.Primary">
                                 @item.Amenity.GetFieldSettings().Name
                             </MudChip>
                         }
@@ -148,13 +144,13 @@
                     {
                         @if (item.Service == SH.Shared.Enums.RoomService.Custom)
                         {
-                            <MudChip T="string" OnClose="() => RemoveService(item)" Color="Color.Primary">
+                            <MudChip T="ServiceModel" Value="@item" OnClose="RemoveService" Color="Color.Primary">
                                 @($"{item.CustomName} ({item.Price.GetFieldSettings().Name})")
                             </MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" OnClose="() => RemoveService(item)" Color="Color.Primary">
+                            <MudChip T="ServiceModel" Value="@item" OnClose="RemoveService" Color="Color.Primary">
                                 @($"{item.Service.GetFieldSettings().Name} ({item.Price.GetFieldSettings().Name})")
                             </MudChip>
                         }
@@ -246,13 +242,13 @@
                     {
                         @if (item.Type == SH.Shared.Enums.PaymentType.Custom)
                         {
-                            <MudChip T="string" OnClose="() => RemoveCharge(item)" Color="Color.Primary">
+                            <MudChip T="ChargeModel" Value="@item" OnClose="RemoveCharge" Color="Color.Primary">
                                 @($"{item.CustomName} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
                             </MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" OnClose="() => RemoveCharge(item)" Color="Color.Primary">
+                            <MudChip T="ChargeModel" Value="@item" OnClose="RemoveCharge" Color="Color.Primary">
                                 @($"{item.Type.GetFieldSettings().Name} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
                             </MudChip>
                         }
@@ -263,7 +259,7 @@
 
         <PageSectionComponent Title="@TranslationRoom.Photos">
             <ActionsFragment>
-                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@SelectPicture">
                     @Translations.Button.Add
                 </MudButton>
             </ActionsFragment>
@@ -345,224 +341,3 @@
 <FloatingButton StartIcon="@Icons.Material.Filled.Save" OnClick="SaveHandle" Position="2" Disabled="!IsDirty"></FloatingButton>
 
 <FloatingButton Template="Template.Back"></FloatingButton>
-
-@code
-{
-    [Parameter] public required string propertyId { get; set; }
-    [Parameter] public required string roomId { get; set; }
-
-    private RenderControlState<RoomModel> RoomState { get; set; } = new RenderControlState<RoomModel>(obj => obj == null);
-    private RoomModel? model;
-
-    private MudForm? _form;
-    public bool IsDirty { get; set; } = false;
-
-    public RoomFacility? RoomFacility { get; set; }
-    public AccessType RoomFacilityAccess { get; set; } = AccessType.Private;
-    public string? RoomFacilityCustomName { get; set; }
-
-    public RoomAmenity? RoomAmenity { get; set; }
-    public string? RoomAmenityCustomName { get; set; }
-    public RoomService? RoomService { get; set; }
-    public RoomServicePrice RoomServicePrice { get; set; } = RoomServicePrice.Included;
-
-    public string? RoomServiceCustomName { get; set; }
-    public PaymentType PaymentType { get; set; } = PaymentType.Rent;
-    public PaymentInterval Frequency { get; set; } = PaymentInterval.Monthly;
-    public decimal? ChargeAmount { get; set; }
-    public string? ChargeCustomName { get; set; }
-
-    public List<PhotoRequest> PhotoRequests { get; set; } = [];
-
-    public RenderControlState<ISet<RoomFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<RoomFacilityModel>>(list => list == null || list.Empty());
-    public RenderControlState<ISet<RoomAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<RoomAmenityModel>>(list => list == null || list.Empty());
-    public RenderControlState<ISet<ServiceModel>> ActionsServices { get; set; } = new RenderControlState<ISet<ServiceModel>>(list => list == null || list.Empty());
-    public RenderControlState<ISet<ChargeModel>> ActionsCharges { get; set; } = new RenderControlState<ISet<ChargeModel>>(list => list == null || list.Empty());
-
-    private void OnFieldChanged(FormFieldChangedEventArgs args)
-    {
-        IsDirty = true;
-    }
-
-    protected override IReadOnlyList<string?> GetParameterKey()
-    {
-        return [propertyId, roomId];
-    }
-
-    protected override async Task LoadParameterDataAsync()
-    {
-        if (Navigation.Uri.Contains("/add/"))
-        {
-            model ??= new(roomId);
-            await RoomState.FinishLoading.Invoke(model);
-        }
-        else
-        {
-            model = await RoomApi.Get(propertyId, roomId, RoomState, Cts.Token) ?? throw new NotificationException("room not found");
-        }
-
-        await ActionsFacilities.FinishLoading.Invoke(model.Facilities);
-        await ActionsAmenities.FinishLoading.Invoke(model.Amenities);
-        await ActionsServices.FinishLoading.Invoke(model.Services);
-        await ActionsCharges.FinishLoading.Invoke(model.Costs);
-    }
-
-    private async Task AddFacility()
-    {
-        if (RoomFacility.HasValue)
-        {
-            model!.Facilities.Add(new RoomFacilityModel { Facility = RoomFacility.Value, AccessType = RoomFacilityAccess, CustomName = RoomFacilityCustomName });
-            RoomFacility = null;
-            RoomFacilityAccess = AccessType.Private;
-            RoomFacilityCustomName = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveFacility(RoomFacilityModel item)
-    {
-        model!.Facilities.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task AddAmenity()
-    {
-        if (RoomAmenity.HasValue)
-        {
-            model!.Amenities.Add(new RoomAmenityModel { Amenity = RoomAmenity.Value, CustomName = RoomAmenityCustomName });
-            RoomAmenity = null;
-            RoomAmenityCustomName = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveAmenity(RoomAmenityModel item)
-    {
-        model!.Amenities.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task AddService()
-    {
-        if (RoomService.HasValue)
-        {
-            model!.Services.Add(new ServiceModel { Service = RoomService.Value, Price = RoomServicePrice, CustomName = RoomServiceCustomName });
-            RoomService = null;
-            RoomServicePrice = RoomServicePrice.Included;
-            RoomServiceCustomName = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveService(ServiceModel item)
-    {
-        model!.Services.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task AddCharge()
-    {
-        if (ChargeAmount.HasValue)
-        {
-            model!.Costs.Add(new ChargeModel { Type = PaymentType, Frequency = Frequency, Amount = ChargeAmount.Value, CustomName = ChargeCustomName });
-            PaymentType = PaymentType.Rent;
-            Frequency = PaymentInterval.Monthly;
-            ChargeAmount = null;
-            ChargeCustomName = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveCharge(ChargeModel item)
-    {
-        model!.Costs.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task SelectPicture()
-    {
-        await DialogService.SelectPicturePopup(new EventCallbackFactory().Create(this, async ((byte[], string?) result) => await PictureChanged(result.Item1, result.Item2)));
-    }
-
-    private async Task PictureChanged(byte[] buffer, string? caption)
-    {
-        try
-        {
-            var request = new PhotoRequest { PropertyId = propertyId, RoomId = roomId, Buffer = buffer, Caption = caption };
-
-            if (Navigation.Uri.Contains("/add/"))
-            {
-                PhotoRequests.Add(request);
-            }
-            else
-            {
-                model = await StorageRoomApi.UploadPhotoRoom(request, Cts.Token);
-            }
-
-            await _form!.FieldChanged.InvokeAsync();
-
-            await RoomState.FinishLoading.Invoke(model);
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
-        }
-    }
-
-    private async Task SaveHandle()
-    {
-        if (model == null) throw new InvalidOperationException("property is null");
-
-        try
-        {
-            model.SanitizeOpenTextFields();
-
-            var validator = new RoomValidation();
-
-            var result = await validator.ValidateAsync(model);
-
-            if (result.IsValid)
-            {
-                await RoomState.StartProcessing.Invoke(null);
-
-                if (Navigation.Uri.Contains("/add/"))
-                {
-                    model = await RoomApi.Add(propertyId!, model, Cts.Token);
-
-                    foreach (var item in PhotoRequests)
-                    {
-                        model = await StorageRoomApi.UploadPhotoRoom(item, Cts.Token);
-                    }
-                }
-                else
-                {
-                    model = await RoomApi.Update(propertyId!, model, Cts.Token);
-                }
-
-                await RoomState.FinishProcessing.Invoke(model);
-
-                IsDirty = false; StateHasChanged();
-
-                await ShowSuccess(Translations.Notification.OperationCompleted);
-
-                await JsRuntime.InvokeVoidAsync("history.back");
-            }
-            else
-            {
-                var message = result.Errors[0].ErrorMessage;
-
-                await ShowWarning(message);
-            }
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
-        }
-    }
-
-    private async Task DeletePhoto(RoomPhoto item)
-    {
-        model = await StorageRoomApi.DeletePhotoGallery(new PhotoRequest { PropertyId = propertyId, RoomId = roomId, PhotoId = item.PhotoId }, Cts.Token);
-        await RoomState.FinishLoading.Invoke(model);
-    }
-}

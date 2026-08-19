@@ -15,7 +15,7 @@
 
 <PageSectionComponent Title="Host Ads" Subtitle="Create and manage ads for rooms you want to rent out.">
     <ActionsFragment>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => Navigation.NavigateTo($"/{Culture}/property/add/{Guid.NewGuid()}"))">
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Href="@($"/{Culture}/property/add/{Guid.NewGuid()}")">
             @Translations.Button.Add
         </MudButton>
     </ActionsFragment>
@@ -35,7 +35,7 @@
                             <MudCardActions Style="align-self: center;">
                                 <MudTooltip Text="Update">
                                     <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Primary"
-                                                   OnClick="@(() => Navigation.NavigateTo($"/{Culture}/property/update/{property.PropertyId}"))" />
+                                                   Href="@($"/{Culture}/property/update/{property.PropertyId}")" />
                                 </MudTooltip>
                                 <MudTooltip Text="Delete">
                                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Error"
@@ -56,7 +56,7 @@
 
 <PageSectionComponent Title="Guest Ads" Subtitle="Create and manage ads to find a room that matches your needs.">
     <ActionsFragment>
-        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Disabled OnClick="@(() => Navigation.NavigateTo("/{culture}/account/ads/guest"))">
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" Disabled Href="@($"/{Culture}/account/ads/guest")">
             @Translations.Button.Add
         </MudButton>
     </ActionsFragment>

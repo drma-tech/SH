@@ -1,6 +1,5 @@
 ﻿@page "/{culture}/property/view/{propertyId}"
 
-@using SH.Shared.Models.Property
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
 @using TranslationProperty = SH.Shared.Translations.Model.Property;
@@ -176,29 +175,3 @@
 </PageSectionComponent>
 
 <FloatingButton Template="Template.Back"></FloatingButton>
-
-@code
-{
-    [Parameter] public string? propertyId { get; set; }
-
-    private string? Title = "Title";
-    private string? PhotoUrl;
-
-    private RenderControlState<PropertyModel> PropertyState { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
-    private RenderControlState<List<string>> ReviewsState { get; set; } = new RenderControlState<List<string>>(list => list == null || list.Empty());
-
-    protected override IReadOnlyList<string?> GetParameterKey()
-    {
-        return [propertyId];
-    }
-
-    protected override async Task LoadParameterDataAsync()
-    {
-        var property = await PropertyApi.View(propertyId, PropertyState, Cts.Token);
-
-        Title = property?.Title;
-        PhotoUrl = property?.Photos.FirstOrDefault()?.PhotoUrl;
-
-        await ReviewsState.FinishLoading.Invoke([]);
-    }
-}

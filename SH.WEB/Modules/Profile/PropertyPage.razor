@@ -1,17 +1,12 @@
 ﻿@page "/{culture}/property/add/{propertyId}"
 @page "/{culture}/property/update/{propertyId}"
 
-@using FluentValidation
-@using MudBlazor.Utilities
-@using SH.Shared.Core.Types
 @using SH.Shared.Models.Property
-@using SH.Shared.Models.Property.Core
-@using SH.Shared.Requests
 @using SH.WEB.Api
 @using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
 @using TranslationProperty = SH.Shared.Translations.Model.Property;
-@inherits PageParameterCore<Property>
+@inherits PageParameterCore<PropertyPage>
 
 @inject PrincipalApi PrincipalApi
 @inject MapApi MapApi
@@ -139,13 +134,13 @@
                     {
                         @if (item.Facility == SH.Shared.Enums.PropertyFacility.Custom)
                         {
-                            <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
+                            <MudChip T="PropertyFacilityModel" Value="@item" OnClose="RemoveFacility" Color="Color.Primary">
                                 @item.CustomName
                             </MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" OnClose="() => RemoveFacility(item)" Color="Color.Primary">
+                            <MudChip T="PropertyFacilityModel" Value="@item" OnClose="RemoveFacility" Color="Color.Primary">
                                 @item.Facility.GetFieldSettings().Name
                             </MudChip>
                         }
@@ -173,11 +168,15 @@
                     {
                         @if (item.Amenity == SH.Shared.Enums.PropertyAmenity.Custom)
                         {
-                            <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.CustomName</MudChip>
+                            <MudChip T="PropertyAmenityModel" Value="@item" OnClose="RemoveAmenity" Color="Color.Primary">
+                                @item.CustomName
+                            </MudChip>
                         }
                         else
                         {
-                            <MudChip T="string" OnClose="() => RemoveAmenity(item)" Color="Color.Primary">@item.Amenity.GetFieldSettings().Name</MudChip>
+                            <MudChip T="PropertyAmenityModel" Value="@item" OnClose="RemoveAmenity" Color="Color.Primary">
+                                @item.Amenity.GetFieldSettings().Name
+                            </MudChip>
                         }
                     }
                 </RenderControl>
@@ -199,7 +198,9 @@
                 <RenderControl State="AccessibilitiesState">
                     @foreach (var item in property.Accessibilities)
                     {
-                        <MudChip T="string" OnClose="() => RemoveAccessibility(item)" Color="Color.Primary">@item.GetFieldSettings().Name</MudChip>
+                        <MudChip T="AccessibilityFeature" Value="@item" OnClose="RemoveAccessibility" Color="Color.Primary">
+                            @item.GetFieldSettings().Name
+                        </MudChip>
                     }
                 </RenderControl>
             </BodyFragment>
@@ -232,7 +233,7 @@
 
         <PageSectionComponent Title="@TranslationProperty.Photos">
             <ActionsFragment>
-                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@(() => SelectPicture())">
+                <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@SelectPicture">
                     @Translations.Button.Add
                 </MudButton>
             </ActionsFragment>
@@ -292,7 +293,7 @@
                                 <MudCardActions Style="align-self: center;">
                                     <MudTooltip Text="Update">
                                         <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Primary"
-                                                       OnClick="@(() => Navigation.NavigateTo($"/{Culture}/room/update/{propertyId}/{room.RoomId}"))" />
+                                                       Href="@($"/{Culture}/room/update/{propertyId}/{room.RoomId}")" />
                                     </MudTooltip>
                                     <MudTooltip Text="Delete">
                                         <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Variant="Variant.Filled" Color="Color.Error"
@@ -311,260 +312,3 @@
 <FloatingButton StartIcon="@Icons.Material.Filled.Save" OnClick="SaveHandle" Position="2" Disabled="!IsDirty"></FloatingButton>
 
 <FloatingButton Template="Template.Back"></FloatingButton>
-
-@code
-{
-    [Parameter] public required string propertyId { get; set; }
-
-    private RenderControlState<PropertyModel> PropertyState { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
-    private PropertyModel? model;
-
-    private RenderControlState<ISet<PropertyFacilityModel>> FacilitiesState { get; set; } = new RenderControlState<ISet<PropertyFacilityModel>>(p => p == null || p.Empty());
-    private RenderControlState<ISet<PropertyAmenityModel>> AmenitiesState { get; set; } = new RenderControlState<ISet<PropertyAmenityModel>>(p => p == null || p.Empty());
-    private RenderControlState<ISet<AccessibilityFeature>> AccessibilitiesState { get; set; } = new RenderControlState<ISet<AccessibilityFeature>>(p => p == null || p.Empty());
-
-    private string? searchAddress { get; set; }
-
-    public PropertyFacility? PropertyFacility { get; set; }
-    public string? PropertyFacilityCustomName { get; set; }
-    public PropertyAmenity? PropertyAmenity { get; set; }
-    public string? PropertyAmenityCustomName { get; set; }
-    public AccessibilityFeature? PropertyAccessibility { get; set; }
-
-    private HereJson? here;
-
-    public List<PhotoRequest> PhotoRequests { get; set; } = [];
-
-    private MudForm? _form;
-    private bool IsDirty { get; set; } = false;
-
-    private void OnFieldChanged(FormFieldChangedEventArgs args)
-    {
-        IsDirty = true;
-    }
-
-    protected override IReadOnlyList<string?> GetParameterKey()
-    {
-        return [propertyId];
-    }
-
-    protected override async Task LoadParameterDataAsync()
-    {
-        if (Navigation.Uri.Contains("/add/"))
-        {
-            model ??= new(propertyId);
-            model.Members.Add(new PropertyMember { UserId = AppStateStatic.UserId, Role = PropertyUserRole.Owner });
-
-            await PropertyState.FinishLoading.Invoke(model);
-        }
-        else
-        {
-            model = await PropertyApi.Get(propertyId, PropertyState, Cts.Token) ?? throw new NotificationException("property not found");
-        }
-
-        await FacilitiesState.FinishLoading.Invoke(model.Facilities);
-        await AmenitiesState.FinishLoading.Invoke(model.Amenities);
-        await AccessibilitiesState.FinishLoading.Invoke(model.Accessibilities);
-    }
-
-    private async Task SearchClick()
-    {
-        here = await MapApi.HereGeocode(searchAddress, Cts.Token);
-        HereRoot? root = null;
-
-        if (here?.items.Empty() ?? true)
-        {
-            await ShowError("Your search did not return any valid address.");
-        }
-        else if (here.items.Count > 1)
-        {
-            await DialogService.SelectAddressPopup(here.items, new EventCallbackFactory().Create(this, async (HereRoot? result) => { await PopulateAddress(result); }));
-        }
-        else
-        {
-            root = here.items.FirstOrDefault();
-            await PopulateAddress(root);
-        }
-    }
-
-    private async Task PopulateAddress(HereRoot? root)
-    {
-        model!.Address = new PropertyAddress
-        {
-            Latitude = root?.position?.lat ?? 0,
-            Longitude = root?.position?.lng ?? 0,
-            Label = root?.address?.label,
-            CountryCode = root?.address?.countryCode,
-            CountryName = root?.address?.GetCountry(),
-            State = root?.address?.GetState(),
-            City = root?.address?.GetCity(),
-            District = root?.address?.district,
-            Street = root?.address?.street,
-            PostalCode = root?.address?.postalCode,
-            HouseNumber = root?.address?.houseNumber
-        };
-
-        var country = root?.address?.countryCode.ParseToEnum<CountryExtended>();
-        model.Languages = DataHelper.GetLanguages((Country?)country).ToHashSet();
-
-        model.CountryCode = model.Address.CountryCode.ToSlug();
-        model.StateCode = model.Address.State.ToSlug();
-        model.CityCode = model.Address.City.ToSlug();
-    }
-
-    private async Task AddFacility()
-    {
-        if (PropertyFacility.HasValue)
-        {
-            model!.Facilities.Add(new PropertyFacilityModel { Facility = PropertyFacility.Value, CustomName = PropertyFacilityCustomName });
-            PropertyFacility = null;
-            PropertyFacilityCustomName = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveFacility(PropertyFacilityModel item)
-    {
-        model!.Facilities.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task AddAmenity()
-    {
-        if (PropertyAmenity.HasValue)
-        {
-            model!.Amenities.Add(new PropertyAmenityModel { Amenity = PropertyAmenity.Value, CustomName = PropertyAmenityCustomName });
-            PropertyAmenity = null;
-            PropertyAmenityCustomName = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveAmenity(PropertyAmenityModel item)
-    {
-        model!.Amenities.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task AddAccessibility()
-    {
-        if (PropertyAccessibility.HasValue)
-        {
-            model!.Accessibilities.Add(PropertyAccessibility.Value);
-            PropertyAccessibility = null;
-            await _form!.FieldChanged.InvokeAsync();
-        }
-    }
-
-    private async Task RemoveAccessibility(AccessibilityFeature item)
-    {
-        model!.Accessibilities.Remove(item);
-        await _form!.FieldChanged.InvokeAsync();
-    }
-
-    private async Task SelectPicture()
-    {
-        await DialogService.SelectPicturePopup(new EventCallbackFactory().Create(this, async ((byte[], string?) result) => await PictureChanged(result.Item1, result.Item2)));
-    }
-
-    private async Task PictureChanged(byte[] buffer, string? caption)
-    {
-        try
-        {
-            var request = new PhotoRequest { PropertyId = propertyId, Buffer = buffer, Caption = caption };
-
-            if (Navigation.Uri.Contains("/add/"))
-            {
-                PhotoRequests.Add(request);
-            }
-            else
-            {
-                model = await StoragePropertyApi.UploadPhotoProperty(request, Cts.Token);
-            }
-
-            await _form!.FieldChanged.InvokeAsync();
-
-            await PropertyState.FinishLoading.Invoke(model);
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
-        }
-    }
-
-    private async Task SaveHandle()
-    {
-        if (model == null) throw new InvalidOperationException("property is null");
-
-        try
-        {
-            model.SanitizeOpenTextFields();
-
-            var validator = new PropertyValidation();
-            var result = await validator.ValidateAsync(model, options => options.IncludeRuleSets("OFF"));
-
-            if (result.IsValid)
-            {
-                await PropertyState.StartProcessing.Invoke(null);
-
-                if (Navigation.Uri.Contains("/add/"))
-                {
-                    model = await PropertyApi.Add(model, Cts.Token);
-
-                    foreach (var item in PhotoRequests)
-                    {
-                        model = await StoragePropertyApi.UploadPhotoProperty(item, Cts.Token);
-                    }
-                }
-                else
-                {
-                    model = await PropertyApi.Update(model, Cts.Token);
-                }
-
-                await PropertyState.FinishProcessing.Invoke(model);
-
-                IsDirty = false; StateHasChanged();
-
-                await ShowSuccess(Translations.Notification.OperationCompleted);
-
-                Navigation.NavigateTo($"/{Culture}/account");
-            }
-            else
-            {
-                var message = result.Errors[0].ErrorMessage;
-
-                await ShowWarning(message);
-            }
-        }
-        catch (Exception ex)
-        {
-            await ProcessException(ex);
-        }
-    }
-
-    private async Task DeletePhoto(PropertyPhoto item)
-    {
-        model = await StoragePropertyApi.DeletePhotoGallery(new PhotoRequest { PropertyId = propertyId, PhotoId = item.PhotoId }, Cts.Token);
-        await PropertyState.FinishLoading.Invoke(model);
-    }
-
-    private async Task Delete(RoomShort room)
-    {
-        if (await DialogService.ConfirmDelete())
-        {
-            model = await RoomApi.Delete(model!.Identity.RawId, room.RoomId, Cts.Token);
-            await PropertyState.FinishLoading.Invoke(model);
-        }
-    }
-
-    private async Task AddRoom()
-    {
-        if (Navigation.Uri.Contains("/add/"))
-        {
-            await ShowInfo("Save the property before adding a new room.");
-            return;
-        }
-
-        Navigation.NavigateTo($"/{Culture}/room/add/{propertyId}/{Guid.NewGuid()}");
-    }
-}
