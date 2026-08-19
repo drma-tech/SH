@@ -2,7 +2,7 @@
 
 namespace SH.WEB.Modules.Subscription.Core
 {
-    public class PaymentPublicApi(IHttpClientFactory factory) : ApiCosmos<AuthSubscription>(factory, ApiType.Anonymous, null, [], ApiContext.Default.AuthSubscription)
+    public class PaymentPublicApi(IHttpClientFactory factory) : ApiCosmos<AuthSubscription>(factory, ApiType.Anonymous, key: null, [], ApiContext.Default.AuthSubscription)
     {
         public async Task<bool> StripeValidateSession(string id, CancellationToken cancellationToken)
         {
@@ -15,11 +15,11 @@ namespace SH.WEB.Modules.Subscription.Core
         }
     }
 
-    public class PaymentAuthApi(IHttpClientFactory factory) : ApiCosmos<AuthSubscription>(factory, ApiType.Authenticated, null, [], ApiContext.Default.AuthSubscription)
+    public class PaymentAuthApi(IHttpClientFactory factory) : ApiCosmos<AuthSubscription>(factory, ApiType.Authenticated, key: null, [], ApiContext.Default.AuthSubscription)
     {
         public async Task AppleVerify(string receipt, CancellationToken cancellationToken)
         {
-            await PostAsync(Endpoint.AppleVerify, receipt, ApiContext.Default.String, null, cancellationToken);
+            await PostAsync(Endpoint.AppleVerify, receipt, ApiContext.Default.String, state: null, cancellationToken);
         }
 
         public async Task<AuthPrincipal?> StripeCustomer(CancellationToken cancellationToken)

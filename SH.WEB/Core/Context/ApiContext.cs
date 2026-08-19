@@ -5,7 +5,7 @@ using SH.Shared.Models.Subscription;
 using SH.Shared.Requests;
 using System.Text.Json.Serialization;
 
-namespace SH.WEB.Core.Api
+namespace SH.WEB.Core.Context
 {
     [JsonSourceGenerationOptions(PropertyNameCaseInsensitive = true)]
     [JsonSerializable(typeof(PaymentConfigurations))]
