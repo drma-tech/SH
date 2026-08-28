@@ -10,8 +10,8 @@ namespace SH.WEB.Modules.Profile
         private string? Title = "Title";
         private string? PhotoUrl;
 
-        private RenderControlState<PropertyModel> PropertyState { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
-        private RenderControlState<List<string>> ReviewsState { get; set; } = new RenderControlState<List<string>>(list => list == null || list.Empty());
+        private RenderControlState<PropertyModel?> PropertyState { get; set; } = new RenderControlState<PropertyModel?>(null, obj => obj == null);
+        private RenderControlState<List<string>> ReviewsState { get; set; } = new RenderControlState<List<string>>([], list => list.Empty());
 
         protected override IReadOnlyList<string?> GetParameterKey()
         {
@@ -20,7 +20,7 @@ namespace SH.WEB.Modules.Profile
 
         protected override async Task LoadParameterDataAsync()
         {
-            var property = await PropertyApi.View(propertyId, PropertyState, Cts.Token);
+            var property = await PropertyPublicApi.View(propertyId, [PropertyState], Cts.Token);
 
             Title = property?.Title;
             PhotoUrl = property?.Photos.FirstOrDefault()?.PhotoUrl;

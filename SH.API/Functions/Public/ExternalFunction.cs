@@ -1,0 +1,61 @@
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.Extensions.Configuration;
+using SH.API.Core.Auth;
+
+namespace SH.API.Functions.Public;
+
+public class ExternalFunction(IHttpClientFactory factory, IConfiguration config)
+{
+    [Function("External")]
+    public async Task<HttpResponseData> External(
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "public/external")] HttpRequestData req, CancellationToken cancellationToken)
+    {
+        var url = req.GetQueryParameters()["url"]?.ConvertFromBase64ToString() ?? throw new UnhandledException("url null");
+
+        var client = factory.CreateClient();
+
+        using var response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+
+        var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+
+        return await req.CreateResponse(stream, TtlCache.OneDay, cancellationToken);
+    }
+
+    [Function("Country")]
+    public async Task<HttpResponseData> Country([HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "public/country")] HttpRequestData req, CancellationToken cancellationToken)
+    {
+        var ip = req.GetUserIP(includePort: false);
+
+        var client = factory.CreateClient("ipinfo");
+
+        if (ip.NotEmpty() && !string.Equals(ip, "127.0.0.1", StringComparison.Ordinal))
+        {
+            var result = await client.GetStringAsync($"https://ipinfo.io/{ip}/country", cancellationToken);
+            return await req.CreateResponse(result.Trim().ToLowerInvariant(), TtlCache.OneMinute, cancellationToken);
+        }
+
+        return await req.CreateResponse((string?)null, TtlCache.OneMinute, cancellationToken);
+    }
+
+    public string? HereApiKey { get; set; } = config.GetValue<string>("Here:ApiKey");
+
+    [Function("HereBrowser")]
+    public async Task<HereJson?> HereBrowser(
+        [HttpTrigger(AuthorizationLevel.Function, Method.Get, Route = "location/here/browser")] HttpRequestData req, CancellationToken cancellationToken)
+    {
+        var latitude = req.GetQueryParameters()["latitude"];
+        var longitude = req.GetQueryParameters()["longitude"];
+
+        using var client = factory.CreateClient();
+        return await client.Get<HereJson>($"https://browse.search.hereapi.com/v1/browse?at={latitude},{longitude}&lang=en-US&limit=1&apiKey={HereApiKey}", cancellationToken);
+    }
+
+    [Function("HereGeocode")]
+    public async Task<HereJson?> HereGeocode(
+        [HttpTrigger(AuthorizationLevel.Function, Method.Get, Route = "location/here/geocode")] HttpRequestData req, string search, CancellationToken cancellationToken)
+    {
+        using var client = new HttpClient();
+        return await client.Get<HereJson>($"https://geocode.search.hereapi.com/v1/geocode?q={search}&lang=en-US&limit=10&apiKey={HereApiKey}", cancellationToken);
+    }
+}

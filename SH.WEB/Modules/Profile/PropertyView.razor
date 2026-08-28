@@ -1,13 +1,12 @@
 ﻿@page "/{culture}/property/view/{propertyId}"
 
-@using SH.WEB.Modules.Auth.Core
 @using SH.WEB.Modules.Profile.Core
 @using TranslationProperty = SH.Shared.Translations.Model.Property;
 @inherits PageParameterCore<PropertyView>
 
 @inject PrincipalApi PrincipalApi
 @inject MapApi MapApi
-@inject PropertyApi PropertyApi
+@inject PropertyPublicApi PropertyPublicApi
 @inject RoomApi RoomApi
 
 <HeadComponent Title="@Title" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>

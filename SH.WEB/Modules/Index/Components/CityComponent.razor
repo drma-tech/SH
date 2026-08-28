@@ -1,11 +1,8 @@
 ﻿@using SH.Shared.Models.Index
-@using SH.WEB.Modules.Index.Core
 
 @inherits ComponentParameterCore<CityComponent>
 
-@inject IndexApi IndexApi
-
-<RenderControl State="Actions" Context="ctx" LoadingHeight="40px">
+<RenderControl T="StateIndexItem" State="Actions" Context="ctx" LoadingHeight="40px">
     <MudChipSet T="CityIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
         @foreach (var item in ctx.Cities ?? new HashSet<CityIndexItem>())
         {
@@ -23,7 +20,7 @@
     [Parameter] public CityIndexItem? Value { get; set; }
     [Parameter] public EventCallback<CityIndexItem> ValueChanged { get; set; }
 
-    private RenderControlState<StateIndexItem> Actions { get; set; } = new RenderControlState<StateIndexItem>(obj => obj == null);
+    private RenderControlState<StateIndexItem?> Actions { get; set; } = new RenderControlState<StateIndexItem?>(null, obj => obj == null);
 
     protected override async Task LoadStaticDataAsync()
     {

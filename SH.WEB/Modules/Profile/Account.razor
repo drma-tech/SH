@@ -1,13 +1,11 @@
 ﻿@page "/{culture}/account"
-@using SH.WEB.Modules.Profile.Core
 @inherits PageCore<Account>
 
 @inject ProfileApi ProfileApi
-@inject PropertyApi PropertyApi
 
 <PageSectionComponent Title="My profile">
     <BodyFragment>
-        <RenderControl State="ActionsProfile" Context="profile" LoadingHeight="20px">
+        <RenderControl T="ProfileModel" State="ActionsProfile" Context="profile" LoadingHeight="20px">
             <span>@profile.FirstName</span>
         </RenderControl>
     </BodyFragment>
@@ -61,7 +59,7 @@
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl State="ActionsProfile" LoadingHeight="275px">
+        <RenderControl T="ProfileModel" State="ActionsProfile" LoadingHeight="275px">
             <Slider List="@context.Guests" Context="guest">
                 <span></span>
             </Slider>
@@ -70,32 +68,32 @@
 </PageSectionComponent>
 
 @code {
-    private RenderControlState<ProfileModel> ActionsProfile { get; set; } = new RenderControlState<ProfileModel>(obj => obj == null);
+    private RenderControlState<ProfileModel?> ActionsProfile { get; set; } = new RenderControlState<ProfileModel?>(null, obj => obj == null);
     private ProfileModel? profile;
 
     protected override async Task LoadStaticDataAsync()
     {
-        profile = await ProfileApi.Get(ActionsProfile, true, Cts.Token);
+        profile = await ProfileApi.Get([ActionsProfile], true, Cts.Token);
     }
 
     private async Task Delete(ProfileProperty property)
     {
         if (await DialogService.ConfirmDelete())
         {
-            profile = await PropertyApi.Delete(property.PropertyId, Cts.Token);
+            profile = await ProfileApi.DeleteProperty(property.PropertyId, Cts.Token);
             await ActionsProfile.FinishLoading.Invoke(profile);
         }
     }
 
     private async Task Public(ProfileProperty property)
     {
-        profile = await PropertyApi.Public(property.PropertyId!, ActionsProfile, Cts.Token);
+        profile = await ProfileApi.PropertyPublic(property.PropertyId!, [ActionsProfile], Cts.Token);
         await ShowSuccess("Your property is now public and can be made available to our clients.");
     }
 
     private async Task Private(ProfileProperty property)
     {
-        profile = await PropertyApi.Private(property.PropertyId!, ActionsProfile, Cts.Token);
+        profile = await ProfileApi.PropertyPrivate(property.PropertyId!, [ActionsProfile], Cts.Token);
         await ShowInfo("Your property is now in private mode and will not be seen or shared with anyone.");
     }
 }

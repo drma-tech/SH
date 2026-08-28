@@ -6,12 +6,12 @@ using Microsoft.JSInterop;
 using MudBlazor.Services;
 using Polly;
 using Polly.Extensions.Http;
-using SH.WEB.Api;
+using SH.WEB.Api.Core;
+using SH.WEB.Api.Module.Cosmos.Admin;
+using SH.WEB.Api.Module.Cosmos.Anonymous;
+using SH.WEB.Api.Module.Cosmos.Authenticated;
 using SH.WEB.Core.Auth;
 using SH.WEB.Modules.Auth.Core;
-using SH.WEB.Modules.Index.Core;
-using SH.WEB.Modules.Profile.Core;
-using SH.WEB.Modules.Subscription.Core;
 using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
@@ -134,22 +134,26 @@ static void ConfigurePrerendering()
 
 static void ConfigureApi(IServiceCollection collection)
 {
-    collection.AddScoped<PrincipalApi>();
-    collection.AddScoped<PrincipalImportApi>();
-    collection.AddScoped<LoginApi>();
-    collection.AddScoped<PublicLoginApi>();
-    collection.AddScoped<MapApi>();
-    collection.AddScoped<StoragePropertyApi>();
-    collection.AddScoped<StorageRoomApi>();
-
-    collection.AddScoped<PaymentConfigurationApi>();
-    collection.AddScoped<PaymentAuthApi>();
+    //Admin
+    collection.AddScoped<PrincipalAdminApi>();
+    //Anonymous
+    collection.AddScoped<IndexCountryApi>();
+    collection.AddScoped<IndexStateApi>();
     collection.AddScoped<PaymentPublicApi>();
-    collection.AddScoped<IpInfoApi>();
+    collection.AddScoped<PropertyPublicApi>();
+    collection.AddScoped<PublicLoginApi>();
+    //Authenticated
+    collection.AddScoped<LoginApi>();
+    collection.AddScoped<MapApi>();
+    collection.AddScoped<PaymentAuthApi>();
+    collection.AddScoped<PrincipalApi>();
+    collection.AddScoped<ProfileApi>();
     collection.AddScoped<PropertyApi>();
     collection.AddScoped<RoomApi>();
-    collection.AddScoped<ProfileApi>();
-    collection.AddScoped<IndexApi>();
+    collection.AddScoped<StoragePropertyApi>();
+    collection.AddScoped<StorageRoomApi>();
+    //External
+    collection.AddScoped<IpInfoApi>();
 }
 
 static async Task ConfigureCulture(NavigationManager? nav, IJSRuntime js)

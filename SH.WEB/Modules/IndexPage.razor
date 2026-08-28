@@ -4,11 +4,10 @@
 @using SH.Shared.Models.Property
 @using SH.Shared.Requests
 @using SH.WEB.Modules.Index.Components
-@using SH.WEB.Modules.Profile.Core
 
 @inherits PageCore<IndexPage>
 
-@inject PropertyApi PropertyApi
+@inject PropertyPublicApi PropertyPublicApi
 
 <HeadComponent Title="@Translations.Title.AppSubtitle" Description="@Translations.Description.AppDescription" Url=@($"/{Culture}") Index="@Culture.NotEmpty()" Shared="true"></HeadComponent>
 
@@ -72,7 +71,7 @@
     public StateIndexItem? State { get; set; }
     public CityIndexItem? City { get; set; }
 
-    private RenderControlState<IReadOnlyCollection<PropertyModel>> PropertyState { get; set; } = new RenderControlState<IReadOnlyCollection<PropertyModel>>(lst => lst == null || lst.Empty());
+    private RenderControlState<IReadOnlyCollection<PropertyModel>> PropertyState { get; set; } = new RenderControlState<IReadOnlyCollection<PropertyModel>>([], lst => lst.Empty());
     public IReadOnlyCollection<PropertyModel> Properties { get; set; } = [];
 
     protected override async Task LoadStaticDataAsync()
@@ -89,6 +88,6 @@
             City = City?.CityCode
         };
 
-        Properties = await PropertyApi.Search(request, PropertyState, Cts.Token);
+        Properties = await PropertyPublicApi.Search(request, [PropertyState], Cts.Token);
     }
 }

@@ -13,7 +13,7 @@ namespace SH.WEB.Modules.Profile
         [Parameter] public required string propertyId { get; set; }
         [Parameter] public required string roomId { get; set; }
 
-        private RenderControlState<RoomModel> RoomState { get; set; } = new RenderControlState<RoomModel>(obj => obj == null);
+        private RenderControlState<RoomModel?> RoomState { get; set; } = new RenderControlState<RoomModel?>(null, obj => obj == null);
         private RoomModel? model;
 
         private MudForm? _form;
@@ -36,10 +36,10 @@ namespace SH.WEB.Modules.Profile
 
         public ICollection<PhotoRequest> PhotoRequests { get; set; } = [];
 
-        public RenderControlState<ISet<RoomFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<RoomFacilityModel>>(list => list == null || list.Empty());
-        public RenderControlState<ISet<RoomAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<RoomAmenityModel>>(list => list == null || list.Empty());
-        public RenderControlState<ISet<ServiceModel>> ActionsServices { get; set; } = new RenderControlState<ISet<ServiceModel>>(list => list == null || list.Empty());
-        public RenderControlState<ISet<ChargeModel>> ActionsCharges { get; set; } = new RenderControlState<ISet<ChargeModel>>(list => list == null || list.Empty());
+        public RenderControlState<ISet<RoomFacilityModel>> ActionsFacilities { get; set; } = new RenderControlState<ISet<RoomFacilityModel>>(new HashSet<RoomFacilityModel>(), list => list.Empty());
+        public RenderControlState<ISet<RoomAmenityModel>> ActionsAmenities { get; set; } = new RenderControlState<ISet<RoomAmenityModel>>(new HashSet<RoomAmenityModel>(), list => list.Empty());
+        public RenderControlState<ISet<ServiceModel>> ActionsServices { get; set; } = new RenderControlState<ISet<ServiceModel>>(new HashSet<ServiceModel>(), list => list.Empty());
+        public RenderControlState<ISet<ChargeModel>> ActionsCharges { get; set; } = new RenderControlState<ISet<ChargeModel>>(new HashSet<ChargeModel>(), list => list.Empty());
 
         private void OnFieldChanged(FormFieldChangedEventArgs args)
         {
@@ -60,7 +60,7 @@ namespace SH.WEB.Modules.Profile
             }
             else
             {
-                model = await RoomApi.Get(propertyId, roomId, RoomState, Cts.Token) ?? throw new NotificationException("room not found");
+                model = await RoomApi.Get(propertyId, roomId, [RoomState], Cts.Token) ?? throw new NotificationException("room not found");
             }
 
             await ActionsFacilities.FinishLoading.Invoke(model.Facilities);

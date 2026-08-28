@@ -12,12 +12,12 @@ namespace SH.WEB.Modules.Profile
     {
         [Parameter] public required string propertyId { get; set; }
 
-        private RenderControlState<PropertyModel> PropertyState { get; set; } = new RenderControlState<PropertyModel>(obj => obj == null);
+        private RenderControlState<PropertyModel?> PropertyState { get; set; } = new RenderControlState<PropertyModel?>(null, obj => obj == null);
         private PropertyModel? model;
 
-        private RenderControlState<ISet<PropertyFacilityModel>> FacilitiesState { get; set; } = new RenderControlState<ISet<PropertyFacilityModel>>(p => p == null || p.Empty());
-        private RenderControlState<ISet<PropertyAmenityModel>> AmenitiesState { get; set; } = new RenderControlState<ISet<PropertyAmenityModel>>(p => p == null || p.Empty());
-        private RenderControlState<ISet<AccessibilityFeature>> AccessibilitiesState { get; set; } = new RenderControlState<ISet<AccessibilityFeature>>(p => p == null || p.Empty());
+        private RenderControlState<ISet<PropertyFacilityModel>> FacilitiesState { get; set; } = new RenderControlState<ISet<PropertyFacilityModel>>(new HashSet<PropertyFacilityModel>(), p => p.Empty());
+        private RenderControlState<ISet<PropertyAmenityModel>> AmenitiesState { get; set; } = new RenderControlState<ISet<PropertyAmenityModel>>(new HashSet<PropertyAmenityModel>(), p => p.Empty());
+        private RenderControlState<ISet<AccessibilityFeature>> AccessibilitiesState { get; set; } = new RenderControlState<ISet<AccessibilityFeature>>(new HashSet<AccessibilityFeature>(), p => p.Empty());
 
         private string? searchAddress { get; set; }
 
@@ -55,7 +55,7 @@ namespace SH.WEB.Modules.Profile
             }
             else
             {
-                model = await PropertyApi.Get(propertyId, PropertyState, Cts.Token) ?? throw new NotificationException("property not found");
+                model = await PropertyApi.Get(propertyId, [PropertyState], Cts.Token) ?? throw new NotificationException("property not found");
             }
 
             await FacilitiesState.FinishLoading.Invoke(model.Facilities);
@@ -248,7 +248,7 @@ namespace SH.WEB.Modules.Profile
         {
             if (await DialogService.ConfirmDelete())
             {
-                model = await RoomApi.Delete(model!.Identity.RawId, room.RoomId, Cts.Token);
+                model = await PropertyApi.DeleteRoom(model!.Identity.RawId, room.RoomId, Cts.Token);
                 await PropertyState.FinishLoading.Invoke(model);
             }
         }

@@ -2,7 +2,6 @@
 using Microsoft.JSInterop;
 using MudBlazor;
 using SH.Shared.Models.Auth;
-using SH.WEB.Modules.Subscription.Core;
 using System.Security.Claims;
 
 namespace SH.WEB.Core;

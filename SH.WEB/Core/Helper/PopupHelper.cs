@@ -3,8 +3,7 @@ using MudBlazor;
 using SH.WEB.Modules.Auth;
 using SH.WEB.Modules.Help;
 using SH.WEB.Modules.Profile.Components;
-using SH.WEB.Modules.Subscription.Components;
-using SH.WEB.Shared;
+using SH.WEB.Modules.Subscription;
 
 namespace SH.WEB.Core.Helper;
 
@@ -54,17 +53,17 @@ public static class PopupHelper
 
     public static async Task OnboardingPopup(this IDialogService service, string culture)
     {
-        var parameters = new DialogParameters<Onboarding>
+        var parameters = new DialogParameters<OnboardingPopup>
         {
             { x => x.Culture, culture },
         };
 
-        await service.ShowAsync<Onboarding>(Translations.Module.Help.WelcomeTo.CustomFormat(AppInfo.Title), parameters, Options(MaxWidth.Medium));
+        await service.ShowAsync<OnboardingPopup>(Translations.Module.Help.WelcomeTo.CustomFormat(AppInfo.Title), parameters, Options(MaxWidth.Medium));
     }
 
     public static async Task AskReviewPopup(this IDialogService service)
     {
-        await service.ShowAsync<AskReview>(Translations.Module.Help.WriteReviewTitle.CustomFormat(AppInfo.Title), Options(MaxWidth.Small, allowClose: false, showHeader: false));
+        await service.ShowAsync<AskReviewPopup>(Translations.Module.Help.WriteReviewTitle.CustomFormat(AppInfo.Title), Options(MaxWidth.Small, allowClose: false, showHeader: false));
     }
 
     public static async Task<bool> ConfirmDelete(this IDialogService service, string? customMessage = null)

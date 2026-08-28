@@ -22,7 +22,7 @@ namespace SH.WEB.Translations.Module {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Auth {
+    public class Auth {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace SH.WEB.Translations.Module {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SH.WEB.Translations.Module.Auth", typeof(Auth).Assembly);
@@ -51,7 +51,7 @@ namespace SH.WEB.Translations.Module {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Authentication in progress....
         /// </summary>
-        internal static string AuthenticationInProgress {
+        public static string AuthenticationInProgress {
             get {
                 return ResourceManager.GetString("AuthenticationInProgress", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to We&apos;ve sent a verification code to {0}. Please enter it to continue..
         /// </summary>
-        internal static string CodeSent {
+        public static string CodeSent {
             get {
                 return ResourceManager.GetString("CodeSent", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Continue with {0}.
         /// </summary>
-        internal static string ContinueWith {
+        public static string ContinueWith {
             get {
                 return ResourceManager.GetString("ContinueWith", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Create Account.
         /// </summary>
-        internal static string CreateAccount {
+        public static string CreateAccount {
             get {
                 return ResourceManager.GetString("CreateAccount", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        internal static string Email {
+        public static string Email {
             get {
                 return ResourceManager.GetString("Email", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to The email may take a minute or more to arrive..
         /// </summary>
-        internal static string EmailDelay {
+        public static string EmailDelay {
             get {
                 return ResourceManager.GetString("EmailDelay", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Enter the code you received by email..
         /// </summary>
-        internal static string EnterCode {
+        public static string EnterCode {
             get {
                 return ResourceManager.GetString("EnterCode", resourceCulture);
             }
@@ -126,16 +126,34 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Enter a valid email address..
         /// </summary>
-        internal static string EnterEmail {
+        public static string EnterEmail {
             get {
                 return ResourceManager.GetString("EnterEmail", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is not a valid email address.
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the social login attempt fails, please try again or use the option to log in with email..
+        /// </summary>
+        public static string LoginSocialFailed {
+            get {
+                return ResourceManager.GetString("LoginSocialFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Microsoft emails (Outlook, Hotmail, etc.) may not work..
         /// </summary>
-        internal static string MicrosoftEmails {
+        public static string MicrosoftEmails {
             get {
                 return ResourceManager.GetString("MicrosoftEmails", resourceCulture);
             }
@@ -144,7 +162,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to My Account.
         /// </summary>
-        internal static string MyAccount {
+        public static string MyAccount {
             get {
                 return ResourceManager.GetString("MyAccount", resourceCulture);
             }
@@ -153,7 +171,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Sorry, there&apos;s nothing at this address..
         /// </summary>
-        internal static string NothingThisAddress {
+        public static string NothingThisAddress {
             get {
                 return ResourceManager.GetString("NothingThisAddress", resourceCulture);
             }
@@ -162,7 +180,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to OTP Code.
         /// </summary>
-        internal static string OTPCode {
+        public static string OTPCode {
             get {
                 return ResourceManager.GetString("OTPCode", resourceCulture);
             }
@@ -171,7 +189,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Sign In or Sign Up.
         /// </summary>
-        internal static string SignInSignUp {
+        public static string SignInSignUp {
             get {
                 return ResourceManager.GetString("SignInSignUp", resourceCulture);
             }
@@ -180,7 +198,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to delete your account? This action cannot be undone..
         /// </summary>
-        internal static string SureDeleteAccount {
+        public static string SureDeleteAccount {
             get {
                 return ResourceManager.GetString("SureDeleteAccount", resourceCulture);
             }
@@ -189,7 +207,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to I have read and agree to the {0} and {1}.
         /// </summary>
-        internal static string Terms1 {
+        public static string Terms1 {
             get {
                 return ResourceManager.GetString("Terms1", resourceCulture);
             }
@@ -198,7 +216,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to I understand that in the first phase some features of the platform are limited or disabled..
         /// </summary>
-        internal static string Terms2 {
+        public static string Terms2 {
             get {
                 return ResourceManager.GetString("Terms2", resourceCulture);
             }
@@ -207,7 +225,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to Unauthenticated User.
         /// </summary>
-        internal static string UnauthenticatedUser {
+        public static string UnauthenticatedUser {
             get {
                 return ResourceManager.GetString("UnauthenticatedUser", resourceCulture);
             }
@@ -216,7 +234,7 @@ namespace SH.WEB.Translations.Module {
         /// <summary>
         ///   Looks up a localized string similar to You need to be logged in to access this content..
         /// </summary>
-        internal static string YouMustLogged {
+        public static string YouMustLogged {
             get {
                 return ResourceManager.GetString("YouMustLogged", resourceCulture);
             }

@@ -1,11 +1,10 @@
 ﻿@using SH.Shared.Models.Index
-@using SH.WEB.Modules.Index.Core
 
 @inherits ComponentParameterCore<StateComponent>
 
-@inject IndexApi IndexApi
+@inject IndexStateApi IndexStateApi
 
-<RenderControl State="Actions" Context="ctx" LoadingHeight="40px">
+<RenderControl T="StateIndex" State="Actions" Context="ctx" LoadingHeight="40px">
     <MudChipSet T="StateIndexItem" SelectedValue="@Value" SelectedValueChanged="ValueChanged" CheckMark="true" SelectionMode="@SelectionMode.SingleSelection">
         @foreach (var item in ctx.States ?? new HashSet<StateIndexItem>())
         {
@@ -22,7 +21,7 @@
     [Parameter] public StateIndexItem? Value { get; set; }
     [Parameter] public EventCallback<StateIndexItem?> ValueChanged { get; set; }
 
-    private RenderControlState<StateIndex> Actions { get; set; } = new RenderControlState<StateIndex>(obj => obj == null);
+    private RenderControlState<StateIndex?> Actions { get; set; } = new RenderControlState<StateIndex?>(null, obj => obj == null);
 
     protected override async Task LoadStaticDataAsync()
     {
@@ -36,6 +35,6 @@
 
     protected override async Task LoadParameterDataAsync()
     {
-        await IndexApi.GetState(Country?.CountryCode, Actions, Cts.Token);
+        await IndexStateApi.GetState(Country?.CountryCode, [Actions], Cts.Token);
     }
 }
