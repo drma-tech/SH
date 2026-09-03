@@ -8,7 +8,7 @@ namespace SH.API.Repository.Core
     {
         public static async Task<ProfileModel> GetProfile(this HttpRequestData req, CosmosMainRepository repo, CancellationToken cancellationToken)
         {
-            var userId = await req.GetUserIdAsync(cancellationToken);
+            var userId = await req.GetUserIdAsync();
 
             return await repo.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("Profile not found");
         }

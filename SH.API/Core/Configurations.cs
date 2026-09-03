@@ -8,8 +8,9 @@ public class Configurations
     public Stripe? Stripe { get; set; }
     public Here? Here { get; set; }
     public Didit? Didit { get; set; }
-    public SupabaseAuth? SupabaseAuth { get; set; }
+    public ClerkAuth? ClerkAuth { get; set; }
     public ZeptoMail? ZeptoMail { get; set; }
+    public bool IsMaintenanceMode { get; set; }
 }
 
 public class CosmosDB
@@ -71,16 +72,12 @@ public class Didit
     public string? SecretKey { get; set; }
 }
 
-public class SupabaseAuth
+public class ClerkAuth
 {
-    public string? Url { get; set; }
-    public string? Key { get; set; }
-    public string? ServiceKey { get; set; }
+    public string? SecretKey { get; set; }
 }
 
 public class ZeptoMail
 {
     public string? ApiKey { get; set; }
-    public string? SecrectWebhook { get; set; }
-    public string? JobApiKey { get; set; }
 }

@@ -66,7 +66,7 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
     public async Task<PropertyModel?> PropertyAdd(
         [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/add")] HttpRequestData req, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
+        var userId = await req.GetUserIdAsync();
 
         var body = await req.GetBody<PropertyModel>(cancellationToken);
 
@@ -170,7 +170,7 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
     public async Task<ProfileModel> PropertyPublicMode(
      [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/public/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
+        var userId = await req.GetUserIdAsync();
 
         var property = await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
         //var ProfileValidator = new PropertyValidation();
@@ -216,7 +216,7 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
     public async Task<ProfileModel> PropertyPrivateMode(
      [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/private/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
     {
-        var userId = await req.GetUserIdAsync(cancellationToken);
+        var userId = await req.GetUserIdAsync();
 
         var property = await repoOn.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
         //var ProfileValidator = new PropertyValidation();

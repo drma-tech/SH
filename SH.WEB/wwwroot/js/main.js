@@ -59,9 +59,9 @@ const servicesConfig = {
     SentryDsn: "https://42509737a1905acfacb225afeceda501@o4510938040041472.ingest.us.sentry.io/4511616754057216",
 };
 
-const supabaseConfig = {
-    projectUrl: "https://llwdeaieehfqabqgsbjg.supabase.co",
-    supabaseKey: "sb_publishable_eTtEX1u9zYlSJF0Rl25W-g_M_Dl4O6a",
+const clerkConfig = {
+    devPk: "pk_test_Z2xvd2luZy1iZWFnbGUtODM0NC5jbGVyay5hY2NvdW50cy5kZXYk",
+    prdPk: "",
 };
 
 const baseApiUrl = isLocalhost ? "http://localhost:7034" : "";
@@ -76,6 +76,6 @@ window.appConfig = {
     isWebview,
     isPrintScreen,
     servicesConfig,
-    supabaseConfig,
+    clerkConfig,
     baseApiUrl
 };

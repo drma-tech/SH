@@ -36,7 +36,7 @@ public class StorageFunction(CosmosMainRepository repoMain, [FromKeyedServices("
 
         if (property.Photos.Count == 1) //add photo to profile if it is the first one
         {
-            var userId = await req.GetUserIdAsync(cancellationToken);
+            var userId = await req.GetUserIdAsync();
             var profile = await repoMain.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new NotificationException("profie not found");
 
             var profProperty = profile.Properties.Single(p => string.Equals(p.PropertyId, request.PropertyId, StringComparison.Ordinal));
