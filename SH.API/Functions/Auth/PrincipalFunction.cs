@@ -1,3 +1,4 @@
+using Clerk.BackendAPI;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using SH.API.Core.Auth;
@@ -62,6 +63,18 @@ public class PrincipalFunction(CosmosMainRepository repo, IHttpClientFactory fac
             await repo.CreateItemAsync(newLogin);
         }
 
+        var countryEnum = country.NotEmpty() ? country.ParseToEnum<Country>() : (Country?)null;
+
+        var profile = new ProfileModel(userId)
+        {
+            FirstName = body.DisplayName?.Split(" ").ElementAtIndex(0),
+            LastName = body.DisplayName?.Split(" ").ElementAtIndex(1),
+            Nationality = countryEnum,
+            Languages = countryEnum.GetLanguages(),
+        };
+
+        await repo.CreateItemAsync(profile);
+
         return principal;
     }
 
@@ -88,7 +101,14 @@ public class PrincipalFunction(CosmosMainRepository repo, IHttpClientFactory fac
     {
         var userId = await req.GetUserIdAsync();
 
+        //todo: delete properties and rooms
+
         await repo.DeleteItemAsync<AuthPrincipal>(new MainIdentity(MainType.Principal, userId));
         await repo.DeleteItemAsync<AuthLogin>(new MainIdentity(MainType.Login, userId));
+        await repo.DeleteItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId));
+
+        var sdk = new ClerkBackendApi(bearerAuth: ApiStartup.Configurations.ClerkAuth!.SecretKey);
+
+        await sdk.Users.DeleteAsync(userId);
     }
 }

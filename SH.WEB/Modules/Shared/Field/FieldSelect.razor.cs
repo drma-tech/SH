@@ -9,7 +9,12 @@ public partial class FieldSelect<TValue, TEnum> : FormBase
     [Parameter] public bool ShowGroup { get; set; }
     [Parameter] public bool ShowHelper { get; set; } = true;
     [Parameter] public bool ShowDescription { get; set; } = true;
+
+    /// <summary>
+    /// Show description of each item
+    /// </summary>
     [Parameter] public bool ShowDataSelectDescription { get; set; } = true;
+
     [Parameter] public string? HelpLink { get; set; }
 
     [Parameter] public EventCallback ButtomClicked { get; set; }

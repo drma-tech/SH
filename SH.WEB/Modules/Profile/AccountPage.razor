@@ -1,12 +1,30 @@
 ﻿@page "/{culture}/account"
-@inherits PageCore<Account>
+@inherits PageCore<AccountPage>
 
 @inject ProfileApi ProfileApi
 
 <PageSectionComponent Title="My profile">
+    <ActionsFragment>
+        <MudButton StartIcon="@Icons.Material.Filled.Edit" Variant="Variant.Filled" Color="Color.Primary" Href="@($"/{Culture}/account/edit")">
+            @Translations.Button.Edit
+        </MudButton>
+    </ActionsFragment>
     <BodyFragment>
-        <RenderControl T="ProfileModel" State="ActionsProfile" Context="profile" LoadingHeight="20px">
-            <span>@profile.FirstName</span>
+        <RenderControl T="ProfileModel" State="ActionsProfile" Context="profile">
+            <div>
+                <CustomChip Name="Name" Value="@($"{profile.FirstName} {profile.LastName}")" Class="me-2"></CustomChip>
+                <CustomChip Name="Nationality" Value="@profile.Nationality?.GetFieldSettings().Name" Class="me-2"></CustomChip>
+                <CustomChip Name="Languages" Value="@string.Join(", ", profile.Languages.Select(l => l.GetFieldSettings().Name))" Class="me-2"></CustomChip>
+                <CustomChip Name="Gender" Value="@profile.Gender?.GetFieldSettings().Name" Class="me-2"></CustomChip>
+                <CustomChip Name="Home Schedule" Value="@profile.HomeSchedule?.GetFieldSettings().Name" Class="me-2"></CustomChip>
+                <CustomChip Name="Occupation" Value="@profile.Occupation?.GetFieldSettings().Name" Class="me-2"></CustomChip>
+
+            </div>
+            <div>
+                <CustomChip Name="ID Verified" Value="@profile.IdVerified" Class="me-2"></CustomChip>
+                <CustomChip Name="Email Verified" Value="@profile.EmailVerified" Class="me-2"></CustomChip>
+                <CustomChip Name="Phone Verified" Value="@profile.PhoneVerified" Class="me-2"></CustomChip>
+            </div>
         </RenderControl>
     </BodyFragment>
 </PageSectionComponent>
@@ -18,7 +36,7 @@
         </MudButton>
     </ActionsFragment>
     <BodyFragment>
-        <RenderControl State="ActionsProfile" Context="profile" LoadingHeight="275px">
+        <RenderControl T="ProfileModel" State="ActionsProfile" Context="profile" LoadingHeight="275px">
             <Slider List="@profile.Properties" Context="property">
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">

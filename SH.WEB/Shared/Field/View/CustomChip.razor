@@ -8,50 +8,47 @@
             @Name
         </MudChip>
     }
-    @if (Value != null)
+    @if (Value is bool resultB)
     {
-        @if (Value is bool resultB)
-        {
-            <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue" Href="@ValueHref">
-                <MudIcon Icon="@(resultB ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)" Color="@(resultB ? Color.Success : Color.Error)"
-                         Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
-                @if (IncludeBoolText)
-                {
-                    @(resultB ? Translations.Notification.Yes : Translations.Notification.No)
-                }
-            </MudChip>
-        }
-        else
-        {
-            <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue" Href="@ValueHref" OnClick="ValueClick">
-                @if (Icon.NotEmpty())
-                {
-                    <MudTooltip Text="@IconTooltip">
-                        <MudIcon Icon="@Icon" Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
-                    </MudTooltip>
-                }
-                @if (Image.NotEmpty())
-                {
-                    <MudImage Src="@Image" Class="me-1" Style="@ImageStyle"></MudImage>
-                }
-                @if (Value is null)
-                {
-                    @FallbackValue
-                }
-                else
-                {
-                    <MudTooltip Text="@ValueTooltip">
-                        @Value
-                    </MudTooltip>
-                }
-                @if (ButtonClick.HasDelegate)
-                {
-                    <MudTooltip Text="@ButtonTooltip">
-                        <MudIconButton Icon="@ButtonIcon" OnClick="ButtonClick" Size="Size.Small" Color="ColorButton"></MudIconButton>
-                    </MudTooltip>
-                }
-            </MudChip>
-        }
+        <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue" Href="@ValueHref">
+            <MudIcon Icon="@(resultB ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Cancel)" Color="@(resultB ? Color.Success : Color.Error)"
+                     Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
+            @if (IncludeBoolText)
+            {
+                @(resultB ? Translations.Notification.Yes : Translations.Notification.No)
+            }
+        </MudChip>
+    }
+    else
+    {
+        <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue" Href="@ValueHref" OnClick="ValueClick">
+            @if (Icon.NotEmpty())
+            {
+                <MudTooltip Text="@IconTooltip">
+                    <MudIcon Icon="@Icon" Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
+                </MudTooltip>
+            }
+            @if (Image.NotEmpty())
+            {
+                <MudImage Src="@Image" Class="me-1" Style="@ImageStyle"></MudImage>
+            }
+            @if (Value is null)
+            {
+                @FallbackValue
+            }
+            else
+            {
+                <MudTooltip Text="@ValueTooltip">
+                    @Value
+                </MudTooltip>
+            }
+            @if (ButtonClick.HasDelegate)
+            {
+                <MudTooltip Text="@ButtonTooltip">
+                    <MudIconButton Icon="@ButtonIcon" OnClick="ButtonClick" Size="Size.Small" Color="ColorButton"></MudIconButton>
+                </MudTooltip>
+            }
+        </MudChip>
     }
 </span>
 

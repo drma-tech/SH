@@ -7,16 +7,16 @@ namespace SH.Shared.Models
 {
     public enum HomeSchedule
     {
-        [FieldSettings("Day")]
+        [FieldSettings("Day", Description = "I am usually at home during the day.")]
         Day = 1,
 
-        [FieldSettings("Night")]
+        [FieldSettings("Night", Description = "I am usually at home during the night.")]
         Night = 2,
 
-        [FieldSettings("Mostly Home")]
+        [FieldSettings("Mostly Home", Description = "I am usually at home most of the time.")]
         MostlyHome = 3,
 
-        [FieldSettings("Variable")]
+        [FieldSettings("Variable", Description = "My schedule varies.")]
         Variable = 4,
     }
 
@@ -35,7 +35,7 @@ namespace SH.Shared.Models
         public HomeSchedule? HomeSchedule { get; set; }
 
         //[FieldSettings("Languages spoken")]
-        public IEnumerable<Language> Languages { get; set; } = [];
+        public IReadOnlyCollection<Language> Languages { get; set; } = [];
 
         public string? AboutMe { get; set; }
         public string? ProfilePicture { get; set; }
@@ -64,6 +64,11 @@ namespace SH.Shared.Models
 
         public ISet<ProfileProperty> Properties { get; set; } = new HashSet<ProfileProperty>();
         public ISet<ProfileGuest> Guests { get; set; } = new HashSet<ProfileGuest>();
+
+        public void SanitizeOpenTextFields()
+        {
+            AboutMe = AboutMe?.RemoveUnsafeControlChars()?.NormalizeToNfc()?.Trim();
+        }
 
         protected override object?[] EqualityValues => [Id];
     }

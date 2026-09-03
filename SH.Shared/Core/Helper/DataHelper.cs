@@ -1,4 +1,4 @@
-﻿namespace SH.WEB.Core.Helper;
+﻿namespace SH.Shared.Core.Helper;
 
 public static class DataHelper
 {

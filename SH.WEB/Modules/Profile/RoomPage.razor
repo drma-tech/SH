@@ -2,9 +2,6 @@
 @page "/{culture}/room/update/{propertyId}/{roomId}"
 
 @using SH.Shared.Models.Property
-@using SH.WEB.Api
-@using SH.WEB.Modules.Auth.Core
-@using SH.WEB.Modules.Profile.Core
 @using TranslationRoom = SH.Shared.Translations.Model.Room;
 @inherits PageParameterCore<RoomPage>
 
@@ -16,7 +13,7 @@
 
 <CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<RenderControl State="RoomState" Class="mb-3" Context="room">
+<RenderControl T="RoomModel" State="RoomState" Class="mb-3" Context="room">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
         <PageSectionComponent Title="@TranslationRoom.BasicData">
             <BodyFragment>

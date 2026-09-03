@@ -17,4 +17,16 @@ public class ProfileFunction(CosmosMainRepository repo)
 
         return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
     }
+
+    [Function("ProfileUpdate")]
+    public async Task<HttpResponseData?> ProfileUpdate(
+        [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "profile/update")] HttpRequestData req, CancellationToken cancellationToken)
+    {
+        var body = await req.GetBody<ProfileModel>(cancellationToken);
+        await req.ValidateUser(body.Identity.RawId, cancellationToken);
+
+        var result = await repo.UpsertItemAsync(body);
+
+        return await req.CreateResponse(result, TtlCache.OneHour, cancellationToken);
+    }
 }

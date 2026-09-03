@@ -3,7 +3,7 @@ using SH.Shared.Models.Property;
 
 namespace SH.WEB.Modules.Profile
 {
-    public partial class PropertyView
+    public partial class PropertyViewPage
     {
         [Parameter] public required string propertyId { get; set; }
 

@@ -21,7 +21,7 @@
     [Parameter] public StateIndexItem? Value { get; set; }
     [Parameter] public EventCallback<StateIndexItem?> ValueChanged { get; set; }
 
-    private RenderControlState<StateIndex?> Actions { get; set; } = new RenderControlState<StateIndex?>(null, obj => obj == null);
+    private RenderControlState<StateIndex?> Actions { get; set; } = new RenderControlState<StateIndex?>(null, obj => obj == null || obj.States.Empty());
 
     protected override async Task LoadStaticDataAsync()
     {
@@ -36,5 +36,8 @@
     protected override async Task LoadParameterDataAsync()
     {
         await IndexStateApi.GetState(Country?.CountryCode, [Actions], Cts.Token);
+        Value?.StateCode = null;
+        Value?.StateName = null;
+        await ValueChanged.InvokeAsync(Value);
     }
 }

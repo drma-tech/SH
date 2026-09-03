@@ -1,8 +1,9 @@
 ﻿@page "/{culture}/property/view/{propertyId}"
 
+@using SH.Shared.Models.Property
 @using SH.WEB.Modules.Profile.Core
 @using TranslationProperty = SH.Shared.Translations.Model.Property;
-@inherits PageParameterCore<PropertyView>
+@inherits PageParameterCore<PropertyViewPage>
 
 @inject PrincipalApi PrincipalApi
 @inject MapApi MapApi
@@ -13,7 +14,7 @@
 
 <PageSectionComponent Title="@Title" IsPageHeader="true" Image="@PhotoUrl">
     <ExtraFragment>
-        <RenderControl State="PropertyState" Context="property">
+        <RenderControl T="PropertyModel" State="PropertyState" Context="property">
             <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="6" sm="4" md="3" xl="2">
                     <CustomChip Name="@TranslationProperty.Structure" Value="@property.Structure.GetFieldSettings().Name"></CustomChip>
@@ -37,15 +38,15 @@
     </ActionsFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="About" Color="Color.Secondary">
+<PageSectionComponent Title="@SH.Shared.Translations.Model.Property.About" Color="Color.Secondary">
     <BodyFragment>
-        <RenderControl State="PropertyState" Context="property">
+        <RenderControl T="PropertyModel" State="PropertyState" Context="property">
             <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" md="6">
                     <MudCard>
                         <MudCardContent>
                             <MudText Typo="Typo.h6" Color="Color.Tertiary">
-                                Description:
+                                @SH.Shared.Translations.Model.Property.Description
                             </MudText>
                             <MudText Typo="Typo.body1">
                                 @(property?.Description ?? "no description")
@@ -57,7 +58,7 @@
                     <MudCard>
                         <MudCardContent>
                             <MudText Typo="Typo.h6" Color="Color.Tertiary">
-                                Location Description:
+                                @SH.Shared.Translations.Model.Property.LocationDesc
                             </MudText>
                             <MudText Typo="Typo.body1">
                                 @(property?.LocationDesc ?? "no location description")
@@ -70,9 +71,9 @@
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Details" Color="Color.Secondary">
+<PageSectionComponent Title="@SH.Shared.Translations.Model.Property.Details" Color="Color.Secondary">
     <BodyFragment>
-        <RenderControl State="PropertyState" Context="property">
+        <RenderControl T="PropertyModel" State="PropertyState" Context="property">
             <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="6">
                     <MudText Typo="Typo.h6" Color="Color.Tertiary">
@@ -105,7 +106,7 @@
 
 <PageSectionComponent Title="@TranslationProperty.Requirements" Color="Color.Secondary" Description="Requirements to apply as a tenant for this property">
     <BodyFragment>
-        <RenderControl State="PropertyState" Context="property">
+        <RenderControl T="PropertyModel" State="PropertyState" Context="property">
             <MudGrid Spacing="@CssHelper.SpaceSmall">
                 <MudItem xs="12" sm="6" md="3">
                     <CustomChip Name="@TranslationProperty.SocialRequired" Value="@property.SocialRequired"></CustomChip>
@@ -126,7 +127,7 @@
 
 <PageSectionComponent Title="@TranslationProperty.Photos" Color="Color.Secondary">
     <BodyFragment>
-        <RenderControl State="PropertyState" Context="property">
+        <RenderControl T="PropertyModel" State="PropertyState" Context="property">
             <Slider List="property.Photos" Context="item">
                 <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
                     <MudImage Src="@item.PhotoUrl" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
@@ -144,7 +145,7 @@
 
 <PageSectionComponent Title="@TranslationProperty.Rooms" Color="Color.Secondary">
     <BodyFragment>
-        <RenderControl State="PropertyState" Context="property">
+        <RenderControl T="PropertyModel" State="PropertyState" Context="property">
             <Slider List="@property.Rooms" Context="room">
                 <div style="@($"width: {(AppStateStatic.IsMobile ? "200" : "250")}px;")">
                     <div style="position: relative;">
@@ -163,7 +164,7 @@
     </BodyFragment>
 </PageSectionComponent>
 
-<PageSectionComponent Title="Reviews" Color="Color.Secondary">
+<PageSectionComponent Title="@SH.Shared.Translations.Model.Property.Reviews" Color="Color.Secondary">
     <BodyFragment>
         <RenderControl State="ReviewsState" Context="reviews">
             <Slider List="@reviews" Context="review">

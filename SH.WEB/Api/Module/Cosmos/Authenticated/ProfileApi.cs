@@ -9,6 +9,11 @@ public class ProfileApi(IHttpClientFactory http) : ApiCosmos<ProfileModel>(http,
         return await GetAsync("profile/get", setNewVersion, states, cancellationToken);
     }
 
+    public async Task<ProfileModel?> Update(ProfileModel obj, RenderControlState<ProfileModel?>[] states, CancellationToken cancellationToken)
+    {
+        return await PostAsync("profile/update", obj, states, cancellationToken);
+    }
+
     public async Task<ProfileModel?> DeleteProperty(string? propertyId, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(propertyId);

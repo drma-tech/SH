@@ -76,7 +76,7 @@ namespace SH.WEB.Modules.Auth
                 await LoginApi.Add(platform, country, Cts.Token);
             }
 
-            Navigation.NavigateTo($"/{Culture}/profile");
+            Navigation.NavigateTo($"/{Culture}/account");
         }
 
         private async Task Logout()

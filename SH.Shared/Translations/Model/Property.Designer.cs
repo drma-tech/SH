@@ -61,6 +61,15 @@ namespace SH.Shared.Translations.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string About {
+            get {
+                return ResourceManager.GetString("About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accessibilities.
         /// </summary>
         public static string Accessibilities {
@@ -201,6 +210,15 @@ namespace SH.Shared.Translations.Model {
         public static string DescriptionPlaceholder {
             get {
                 return ResourceManager.GetString("DescriptionPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
             }
         }
         
@@ -390,6 +408,15 @@ namespace SH.Shared.Translations.Model {
         public static string RequirementsDescription {
             get {
                 return ResourceManager.GetString("RequirementsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reviews.
+        /// </summary>
+        public static string Reviews {
+            get {
+                return ResourceManager.GetString("Reviews", resourceCulture);
             }
         }
         

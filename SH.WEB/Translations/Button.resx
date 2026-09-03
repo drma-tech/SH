@@ -138,6 +138,12 @@
   <data name="ContinueWebsite" xml:space="preserve">
     <value>Continue to Website</value>
   </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
   </data>
@@ -149,6 +155,9 @@
   </data>
   <data name="Ok" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>Pending</value>
   </data>
   <data name="Recent" xml:space="preserve">
     <value>Recent</value>

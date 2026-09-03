@@ -2,9 +2,6 @@
 @page "/{culture}/property/update/{propertyId}"
 
 @using SH.Shared.Models.Property
-@using SH.WEB.Api
-@using SH.WEB.Modules.Auth.Core
-@using SH.WEB.Modules.Profile.Core
 @using TranslationProperty = SH.Shared.Translations.Model.Property;
 @inherits PageParameterCore<PropertyPage>
 
@@ -18,7 +15,7 @@
 
 <CustomNavigationLock IsDirty="IsDirty"></CustomNavigationLock>
 
-<RenderControl State="PropertyState" Context="property">
+<RenderControl T="PropertyModel" State="PropertyState" Context="property">
     <MudForm @ref="_form" FieldChanged="OnFieldChanged">
         <PageSectionComponent Title="@TranslationProperty.Address" Visible="@(Navigation.Uri.Contains("/add/"))">
             <BodyFragment>

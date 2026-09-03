@@ -20,7 +20,7 @@
     [Parameter] public CityIndexItem? Value { get; set; }
     [Parameter] public EventCallback<CityIndexItem> ValueChanged { get; set; }
 
-    private RenderControlState<StateIndexItem?> Actions { get; set; } = new RenderControlState<StateIndexItem?>(null, obj => obj == null);
+    private RenderControlState<StateIndexItem?> Actions { get; set; } = new RenderControlState<StateIndexItem?>(null, obj => obj == null || obj.Cities.Empty());
 
     protected override async Task LoadStaticDataAsync()
     {
@@ -37,6 +37,16 @@
 
     protected override async Task LoadParameterDataAsync()
     {
-        await Actions.FinishLoading.Invoke(State);
+        if (State?.StateCode != null)
+        {
+            await Actions.FinishLoading.Invoke(State);
+        }
+        else
+        {
+            await Actions.StartLoading.Invoke("Select a state");
+        }
+        Value?.CityCode = null;
+        Value?.CityName = null;
+        await ValueChanged.InvokeAsync(Value);
     }
 }

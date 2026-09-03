@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>À propos</value>
+  </data>
   <data name="Accessibilities" xml:space="preserve">
     <value>Accessibilités</value>
   </data>
@@ -164,6 +167,9 @@
   </data>
   <data name="DescriptionPlaceholder" xml:space="preserve">
     <value>Décrivez la propriété, ses règles et ce qui fait de cet endroit un bon choix pour les résidents.</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Détails</value>
   </data>
   <data name="District" xml:space="preserve">
     <value>District</value>
@@ -227,6 +233,9 @@
   </data>
   <data name="RequirementsDescription" xml:space="preserve">
     <value>Sélectionnez selon vos besoins, en gardant à l'esprit que de nombreuses exigences peuvent réduire le bassin de candidats potentiels</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Avis</value>
   </data>
   <data name="Rooms" xml:space="preserve">
     <value>Chambres</value>

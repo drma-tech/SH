@@ -1,0 +1,187 @@
+﻿@page "/{culture}/account/edit"
+@using MudBlazor.Utilities
+@using SH.Shared.Models.Property.Core
+@inherits PageCore<AccountEditPage>
+
+@inject ProfileApi ProfileApi
+
+<RenderControl T="ProfileModel" State="ProfileState" Context="profile">
+    <MudForm @ref="_form" FieldChanged="OnFieldChanged">
+
+        <PageSectionComponent Title="Basic Data">
+            <BodyFragment>
+                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
+                        <MudItem xs="12" sm="6">
+                            <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
+                                    <MudItem xs="12" sm="6">
+                                        <FieldText Name="First Name" @bind-Value="@profile.FirstName"></FieldText>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldText Name="Last Name" @bind-Value="@profile.LastName"></FieldText>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldSelect Name="Nationality" TEnum="Country" TValue="Country?" Order="@((p) => p.Name)" @bind-SelectedValue="@profile.Nationality"></FieldSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldNumber Name="Age" @bind-Value="@profile.Age"></FieldNumber>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldSelect Name="Gender" TEnum="Gender" TValue="Gender?" @bind-SelectedValue="@profile.Gender"></FieldSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldSelect Name="Occupation" TEnum="Occupation" TValue="Occupation?" @bind-SelectedValue="@profile.Occupation"></FieldSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldSelect Name="Home Schedule" TEnum="HomeSchedule" TValue="HomeSchedule?" @bind-SelectedValue="@profile.HomeSchedule"
+                                                     ShowDataSelectDescription="true"></FieldSelect>
+                                    </MudItem>
+                                    <MudItem xs="12" sm="6">
+                                        <FieldSelect Name="Languages" TEnum="Language" TValue="Language" @bind-SelectedValues="@profile.Languages"
+                                                     ShowDataSelectDescription="false" Multiple="true"></FieldSelect>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudStack>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                <MudGrid Spacing="@CssHelper.SpaceSmall">
+                                    <MudItem xs="12">
+                                        <FieldText Name="About Me" Rows="10" @bind-Value="@profile.AboutMe"
+                                                   Placeholder="Tell us more about yourself so the host and/or your future roommates can get to know you better."></FieldText>
+                                    </MudItem>
+                                </MudGrid>
+                            </MudStack>
+                        </MudItem>
+                    </MudGrid>
+                </MudStack>
+            </BodyFragment>
+        </PageSectionComponent>
+
+        <PageSectionComponent Title="Household Profile">
+            <BodyFragment>
+                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
+                        <MudItem xs="12" sm="4">
+                            <FieldSwitch Name="Smokes" @bind-Value="@profile.Smokes" Description="Do you smoke inside the house?"></FieldSwitch>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <FieldSwitch Name="Drinks Alcohol" @bind-Value="@profile.DrinksAlcohol" Description="Do you drink alcohol inside the house?"></FieldSwitch>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <FieldSwitch Name="Lives With Pets" @bind-Value="@profile.LivesWithPets" Description="Do you live with pets?"></FieldSwitch>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <FieldSwitch Name="Lives With Children" @bind-Value="@profile.LivesWithChildren" Description="Do you live with children?"></FieldSwitch>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <FieldSwitch Name="Lives As Couple" @bind-Value="@profile.LivesAsCouple" Description="Do you live with your partner?"></FieldSwitch>
+                        </MudItem>
+                        <MudItem xs="12" sm="4">
+                            <FieldSwitch Name="Hosts Visitors" @bind-Value="@profile.HostsVisitors" Description="Do you plan to have visitors?"></FieldSwitch>
+                        </MudItem>
+                    </MudGrid>
+                </MudStack>
+            </BodyFragment>
+        </PageSectionComponent>
+
+        <PageSectionComponent Title="Social Media">
+            <BodyFragment>
+                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
+                        <MudItem xs="12" sm="6">
+                            <FieldText Name="Instagram" @bind-Value="@profile.Instagram"></FieldText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <FieldText Name="LinkedIn" @bind-Value="@profile.LinkedIn"></FieldText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <FieldText Name="Facebook" @bind-Value="@profile.Facebook"></FieldText>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <FieldText Name="Other Social Media" @bind-Value="@profile.OtherSocialMedia"></FieldText>
+                        </MudItem>
+                    </MudGrid>
+                </MudStack>
+            </BodyFragment>
+        </PageSectionComponent>
+
+        <PageSectionComponent Title="Verifications">
+            <BodyFragment>
+                <MudGrid Spacing="@CssHelper.SpaceSmall">
+                    <MudItem xs="12" sm="4">
+                        <FieldActive Name="Identity" @bind-Value="@profile.IdVerified" CssIcon="@IconsFA.Solid.Icon("id-card").Font" Disabled="true"></FieldActive>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <FieldActive Name="Email" @bind-Value="@profile.EmailVerified" CssIcon="@IconsFA.Solid.Icon("at").Font" Disabled="true"></FieldActive>
+                    </MudItem>
+                    <MudItem xs="12" sm="4">
+                        <FieldActive Name="Phone" @bind-Value="@profile.PhoneVerified" CssIcon="@IconsFA.Solid.Icon("phone").Font" Disabled="true"></FieldActive>
+                    </MudItem>
+                </MudGrid>
+            </BodyFragment>
+        </PageSectionComponent>
+
+    </MudForm>
+</RenderControl>
+
+<FloatingButton StartIcon="@Icons.Material.Filled.Save" OnClick="SaveHandle" Position="2" Disabled="!IsDirty"></FloatingButton>
+
+<FloatingButton Template="Template.Back"></FloatingButton>
+
+@code {
+    private RenderControlState<ProfileModel?> ProfileState { get; set; } = new RenderControlState<ProfileModel?>(null, obj => obj == null);
+    private ProfileModel? model;
+
+    private MudForm? _form;
+    private bool IsDirty { get; set; }
+
+    protected override async Task LoadStaticDataAsync()
+    {
+        model = await ProfileApi.Get([ProfileState], false, Cts.Token);
+    }
+
+    private void OnFieldChanged(FormFieldChangedEventArgs args)
+    {
+        IsDirty = true;
+    }
+
+    private async Task SaveHandle()
+    {
+        if (model == null) throw new InvalidOperationException("property is null");
+
+        try
+        {
+            model.SanitizeOpenTextFields();
+
+            var validator = new ProfileValidation();
+            var result = await validator.ValidateAsync(model, cancellation: Cts.Token);
+
+            if (result.IsValid)
+            {
+                await ProfileState.StartProcessing.Invoke(null);
+
+                model = await ProfileApi.Update(model, [ProfileState], Cts.Token);
+
+                await ProfileState.FinishProcessing.Invoke(model);
+
+                IsDirty = false; StateHasChanged();
+
+                await ShowSuccess(Translations.Notification.OperationCompleted);
+
+                Navigation.NavigateTo($"/{Culture}/account");
+            }
+            else
+            {
+                var message = result.Errors[0].ErrorMessage;
+
+                await ShowWarning(message);
+            }
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
+    }
+}
