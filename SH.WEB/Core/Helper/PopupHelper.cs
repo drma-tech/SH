@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using SH.WEB.Modules.Auth;
 using SH.WEB.Modules.Help;
-using SH.WEB.Modules.Profile.Components;
+using SH.WEB.Modules.Profile;
 using SH.WEB.Modules.Subscription;
 
 namespace SH.WEB.Core.Helper;

@@ -21,34 +21,37 @@
     }
     else
     {
-        <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue" Href="@ValueHref" OnClick="ValueClick">
-            @if (Icon.NotEmpty())
-            {
-                <MudTooltip Text="@IconTooltip">
-                    <MudIcon Icon="@Icon" Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
-                </MudTooltip>
-            }
-            @if (Image.NotEmpty())
-            {
-                <MudImage Src="@Image" Class="me-1" Style="@ImageStyle"></MudImage>
-            }
-            @if (Value is null)
-            {
-                @FallbackValue
-            }
-            else
-            {
-                <MudTooltip Text="@ValueTooltip">
-                    @Value
-                </MudTooltip>
-            }
-            @if (ButtonClick.HasDelegate)
-            {
-                <MudTooltip Text="@ButtonTooltip">
-                    <MudIconButton Icon="@ButtonIcon" OnClick="ButtonClick" Size="Size.Small" Color="ColorButton"></MudIconButton>
-                </MudTooltip>
-            }
-        </MudChip>
+        @if (_valueWasProvided)
+        {
+            <MudChip T="string" Size="Size" Variant="Variant.Outlined" Class="@ValueChipClass" Style="@ValueChipStyle" Color="ColorValue" Href="@ValueHref" OnClick="ValueClick">
+                @if (Icon.NotEmpty())
+                {
+                    <MudTooltip Text="@IconTooltip">
+                        <MudIcon Icon="@Icon" Class="me-1" Style="@($"margin-left: -{(AppStateStatic.IsMobile ? 4 : 6)}px; font-size: 20px;")"></MudIcon>
+                    </MudTooltip>
+                }
+                @if (Image.NotEmpty())
+                {
+                    <MudImage Src="@Image" Class="me-1" Style="@ImageStyle"></MudImage>
+                }
+                @if (Value is null)
+                {
+                    @FallbackValue
+                }
+                else
+                {
+                    <MudTooltip Text="@ValueTooltip">
+                        @Value
+                    </MudTooltip>
+                }
+                @if (ButtonClick.HasDelegate)
+                {
+                    <MudTooltip Text="@ButtonTooltip">
+                        <MudIconButton Icon="@ButtonIcon" OnClick="ButtonClick" Size="Size.Small" Color="ColorButton"></MudIconButton>
+                    </MudTooltip>
+                }
+            </MudChip>
+        }
     }
 </span>
 
@@ -76,4 +79,13 @@
     [Parameter] public string? IconTooltip { get; set; }
     [Parameter] public string? ValueTooltip { get; set; }
     [Parameter] public string? ButtonTooltip { get; set; }
+
+    private bool _valueWasProvided;
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        _valueWasProvided = parameters.TryGetValue(nameof(Value), out TValue? value);
+
+        return base.SetParametersAsync(parameters);
+    }
 }

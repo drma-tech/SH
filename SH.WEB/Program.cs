@@ -11,7 +11,6 @@ using SH.WEB.Api.Module.Cosmos.Admin;
 using SH.WEB.Api.Module.Cosmos.Anonymous;
 using SH.WEB.Api.Module.Cosmos.Authenticated;
 using SH.WEB.Core.Auth;
-using SH.WEB.Modules.Auth.Core;
 using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 

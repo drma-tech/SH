@@ -101,6 +101,13 @@ public class PrincipalFunction(CosmosMainRepository repo, IHttpClientFactory fac
     {
         var userId = await req.GetUserIdAsync();
 
+        await DeleteUser(repo, userId);
+    }
+
+    public static async Task DeleteUser(CosmosMainRepository repo, string? userId)
+    {
+        if (userId.Empty()) throw new UnhandledException("UserId is empty");
+
         //todo: delete properties and rooms
 
         await repo.DeleteItemAsync<AuthPrincipal>(new MainIdentity(MainType.Principal, userId));
@@ -108,7 +115,6 @@ public class PrincipalFunction(CosmosMainRepository repo, IHttpClientFactory fac
         await repo.DeleteItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId));
 
         var sdk = new ClerkBackendApi(bearerAuth: ApiStartup.Configurations.ClerkAuth!.SecretKey);
-
         await sdk.Users.DeleteAsync(userId);
     }
 }

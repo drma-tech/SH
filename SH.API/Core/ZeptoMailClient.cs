@@ -14,7 +14,7 @@ namespace SH.API.Core
 
         public async Task SendWelcomeTemplate(string user_id, string address, string? name, CancellationToken cancellationToken)
         {
-            name ??= address.Split("@")[0];
+            name = name.NotEmpty() ? name : address.Split("@")[0];
 
             var payload = new
             {
