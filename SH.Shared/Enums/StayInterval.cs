@@ -3,7 +3,7 @@
     public enum StayInterval
     {
         [FieldSettings(nameof(Translations.Enum.StayInterval.Week), ResourceType = typeof(Translations.Enum.StayInterval))]
-        Week = 1,
+        Week = 2,
 
         [FieldSettings(nameof(Translations.Enum.StayInterval.Month), ResourceType = typeof(Translations.Enum.StayInterval))]
         Month = 3,

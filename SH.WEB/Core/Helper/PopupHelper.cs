@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using SH.Shared.Models.Property;
 using SH.WEB.Modules.Help;
 using SH.WEB.Modules.Profile;
 using SH.WEB.Modules.Subscription;
@@ -29,6 +30,26 @@ public static class PopupHelper
         };
 
         await service.ShowAsync<SelectPicturePopup>("Picture", parameters, Options(MaxWidth.Medium));
+    }
+
+    public static async Task RoomViewPopup(this IDialogService service, string? roomId, string? roomTitle)
+    {
+        var parameters = new DialogParameters<RoomViewPopup>
+        {
+            { x => x.RoomId, roomId },
+        };
+
+        await service.ShowAsync<RoomViewPopup>(roomTitle, parameters, Options(MaxWidth.Large));
+    }
+
+    public static async Task ProposalPopup(this IDialogService service, RoomModel? room)
+    {
+        var parameters = new DialogParameters<ProposalPopup>
+        {
+            { x => x.Room, room },
+        };
+
+        await service.ShowAsync<ProposalPopup>("Proposal", parameters, Options(MaxWidth.Small));
     }
 
     public static async Task SettingsPopup(this IDialogService service)

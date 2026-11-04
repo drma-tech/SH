@@ -189,11 +189,11 @@
                             <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
                                 <MudGrid Spacing="@CssHelper.SpaceSmall">
                                     <MudItem xs="12">
-                                        <FieldGroup Name="@TranslationRoom.PreferredGenders" TEnum="Gender" SelectedValues="room.PreferredGenders" Multiple="true"
+                                        <FieldGroup Name="@TranslationRoom.PreferredGenders" TEnum="Gender" @bind-SelectedValues="room.PreferredGenders" Multiple="true"
                                                     CustomInfo="@TranslationRoom.LeaveBlank" Vertical="@AppStateStatic.IsMobile" MudForm="_form"></FieldGroup>
                                     </MudItem>
                                     <MudItem xs="12">
-                                        <FieldGroup Name="@TranslationRoom.PreferredOccupations" TEnum="Occupation" SelectedValues="room.PreferredOccupations" Multiple="true"
+                                        <FieldGroup Name="@TranslationRoom.PreferredOccupations" TEnum="Occupation" @bind-SelectedValues="room.PreferredOccupations" Multiple="true"
                                                     CustomInfo="@TranslationRoom.LeaveBlank" Vertical="@AppStateStatic.IsMobile" MudForm="_form"></FieldGroup>
                                     </MudItem>
                                     <MudItem xs="6">

@@ -2,6 +2,7 @@
 @inherits PageCore<AccountPage>
 
 @inject ProfileApi ProfileApi
+@inject PropertyApi PropertyApi
 
 <PageSectionComponent Title="My profile">
     <ActionsFragment>
@@ -49,6 +50,10 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardActions Style="align-self: center;">
+                                <MudTooltip Text="Manage">
+                                    <MudIconButton Icon="@Icons.Material.Filled.Settings" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Primary"
+                                                   Href="@($"/{Culture}/property/manage/{property.PropertyId}")" />
+                                </MudTooltip>
                                 <MudTooltip Text="Update">
                                     <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Primary"
                                                    Href="@($"/{Culture}/property/update/{property.PropertyId}")" />
@@ -57,10 +62,6 @@
                                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="AppStateStatic.Size" Variant="Variant.Filled" Class="me-2" Color="Color.Error"
                                                    OnClick="@(() => Delete(property))" />
                                 </MudTooltip>
-                                <MudToggleIconButton Toggled="property.IsPublic" ToggledChanged="@(value => property.IsPublic ? Private(property) : Public(property))"
-                                                     Icon="@Icons.Material.Filled.Cancel" Color="@Color.Error"
-                                                     ToggledIcon="@Icons.Material.Filled.CheckCircle" ToggledColor="@Color.Success" />
-                                <span>@(property.IsPublic ? "Public" : "Private")</span>
                             </MudCardActions>
                         </MudCard>
                     </div>
@@ -84,34 +85,3 @@
         </RenderControl>
     </BodyFragment>
 </PageSectionComponent>
-
-@code {
-    private RenderControlState<ProfileModel?> ActionsProfile { get; set; } = new RenderControlState<ProfileModel?>(null, obj => obj == null);
-    private ProfileModel? profile;
-
-    protected override async Task LoadStaticDataAsync()
-    {
-        profile = await ProfileApi.Get([ActionsProfile], true, Cts.Token);
-    }
-
-    private async Task Delete(ProfileProperty property)
-    {
-        if (await DialogService.ConfirmDelete())
-        {
-            profile = await ProfileApi.DeleteProperty(property.PropertyId, Cts.Token);
-            await ActionsProfile.FinishLoading.Invoke(profile);
-        }
-    }
-
-    private async Task Public(ProfileProperty property)
-    {
-        profile = await ProfileApi.PropertyPublic(property.PropertyId!, [ActionsProfile], Cts.Token);
-        await ShowSuccess("Your property is now public and can be made available to our clients.");
-    }
-
-    private async Task Private(ProfileProperty property)
-    {
-        profile = await ProfileApi.PropertyPrivate(property.PropertyId!, [ActionsProfile], Cts.Token);
-        await ShowInfo("Your property is now in private mode and will not be seen or shared with anyone.");
-    }
-}

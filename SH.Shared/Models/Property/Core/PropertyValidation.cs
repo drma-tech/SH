@@ -50,6 +50,9 @@ public class PropertyValidation : AbstractValidator<PropertyModel>
         {
             RuleFor(x => x.Photos).NotEmpty()
                .WithName(Translations.Model.Property.Photos);
+
+            RuleFor(x => x.Rooms).NotEmpty()
+               .WithName(Translations.Model.Property.Rooms);
         });
     }
 }

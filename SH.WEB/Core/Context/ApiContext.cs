@@ -21,6 +21,8 @@ namespace SH.WEB.Core.Context
     [JsonSerializable(typeof(StateIndex))]
     [JsonSerializable(typeof(PropertySearchRequest))]
     [JsonSerializable(typeof(PhotoRequest))]
+    [JsonSerializable(typeof(RoomProposal))]
+    [JsonSerializable(typeof(RoomOccupation))]
     internal sealed partial class ApiContext : JsonSerializerContext
     {
     }

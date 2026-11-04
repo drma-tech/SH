@@ -1,0 +1,51 @@
+﻿@page "/{culture}/property/manage/{propertyId}"
+@using SH.Shared.Models.Property
+
+@inherits PageCore<PropertyManagePage>
+
+@inject PropertyApi PropertyApi
+@inject ProfileApi ProfileApi
+@inject RoomApi RoomApi
+@inject RoomProposalApi RoomProposalApi
+
+<HeadComponent Title="@Translations.Title.Property" Url="@(new Uri(Navigation.Uri).PathAndQuery)" Index="false"></HeadComponent>
+
+<RenderControl T="ProfileModel" State="ActionsProfile" Context="profile">
+    <PageSectionComponent Title="@PropertyState.Instance?.Title" Subtitle="@PropertyState.Instance?.Address.Label">
+        <ActionsFragment>
+            <MudToggleGroup T="bool" SelectionMode="SelectionMode.SingleSelection" Value="@property!.IsPublic" ValueChanged="(bool value) => IsPublicChanged(value)" Class="me-2">
+                <MudToggleItem Value="false" Text="Private" />
+                <MudToggleItem Value="true" Text="Public" />
+            </MudToggleGroup>
+            <MudButton StartIcon="@Icons.Material.Filled.Map" Variant="Variant.Filled" Color="Color.Primary" Class="me-2" OnClick="VerifyAddress">
+                Verify Address
+            </MudButton>
+        </ActionsFragment>
+    </PageSectionComponent>
+</RenderControl>
+
+<RenderControl T="PropertyModel" State="PropertyState" Context="property">
+    <PageSectionComponent Title="Proposals">
+        <ActionsFragment>
+            <MudSelect T="RoomShort" Label="Rooms" Value="selectedRoom" ValueChanged="OnRoomChanged" FitContent="true">
+                @foreach (var room in property.Rooms)
+                {
+                    <MudSelectItem Value="@room">
+                        @room.Title
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </ActionsFragment>
+        <BodyFragment>
+           @*  <MudDataGrid T="RoomProposal" Items="@ActionsProposal.Instance" Dense="true">
+                <Columns>
+                    <PropertyColumn Property="x => x.Start" />
+                    <PropertyColumn Property="x => x.End" />
+                    <PropertyColumn Property="x => x.RentPrice" />
+                </Columns>
+            </MudDataGrid> *@
+        </BodyFragment>
+    </PageSectionComponent>
+</RenderControl>
+
+<FloatingButton Template="Template.Back"></FloatingButton>

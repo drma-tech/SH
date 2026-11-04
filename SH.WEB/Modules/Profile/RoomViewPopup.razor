@@ -1,0 +1,228 @@
+﻿@using SH.Shared.Models.Property;
+@using SH.WEB.Modules.Profile.Core
+@using TranslationRoom = SH.Shared.Translations.Model.Room;
+
+@inherits PageCore<RoomViewPopup>
+
+@inject RoomPublicApi RoomPublicApi
+
+<MudDialog Style="width: 100%; max-height: 90vh;">
+    <DialogContent>
+        <PageSectionComponent Title="@SH.Shared.Translations.Model.Property.About" Color="Color.Secondary">
+            <ExtraFragment>
+                <RenderControl T="RoomModel" State="RoomState" Context="room">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
+                        <MudItem xs="6" sm="4" md="3" xl="2">
+                            <CustomChip Name="@TranslationRoom.AvailabilityStatus" Value="@room.Status.GetFieldSettings().Name" ColorValue="StatusColor(room.Status)"></CustomChip>
+                        </MudItem>
+                        <MudItem xs="6" sm="4" md="3" xl="2">
+                            <CustomChip Name="@TranslationRoom.AccessType" Value="@room.AccessType.GetFieldSettings().Name"></CustomChip>
+                        </MudItem>
+                        <MudItem xs="6" sm="4" md="3" xl="2">
+                            <CustomChip Name="@TranslationRoom.MinimumStay" Value="@room.MinimumStay"></CustomChip>
+                        </MudItem>
+                        @if (room.AccessType == AccessType.Shared)
+                        {
+                            <MudItem xs="6" sm="4" md="3" xl="2">
+                                <CustomChip Name="@TranslationRoom.CurrentOccupancy" Value="@($"{room.CurrentOccupancy} / {room.Capacity}")" ColorValue="OcupationColor(room.CurrentOccupancy, room.Capacity)"></CustomChip>
+                            </MudItem>
+                        }
+                        @if (room.AccessType == AccessType.Private)
+                        {
+                            <MudItem xs="6" sm="4" md="3" xl="2">
+                                <CustomChip Name="@TranslationRoom.AvailableFrom" Value="@room.AvailableFrom.ToShortDateString()"></CustomChip>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </RenderControl>
+            </ExtraFragment>
+            <BodyFragment>
+                <RenderControl T="RoomModel" State="RoomState" Context="room">
+                    <MudCard>
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                                @SH.Shared.Translations.Model.Property.Description
+                            </MudText>
+                            <MudText Typo="Typo.body1">
+                                @(room?.Description ?? "no description")
+                            </MudText>
+                        </MudCardContent>
+                    </MudCard>
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
+        <PageSectionComponent Title="@SH.Shared.Translations.Model.Property.Details" Color="Color.Secondary">
+            <BodyFragment>
+                <RenderControl T="RoomModel" State="RoomState" Context="room">
+                    <MudGrid Spacing="@CssHelper.SpaceSmall">
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                                @TranslationRoom.Facilities
+                            </MudText>
+                            <CustomEnumChips Values="@room.Facilities.AsField()"></CustomEnumChips>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                                @TranslationRoom.Amenities
+                            </MudText>
+                            <CustomEnumChips Values="@room.Amenities.AsField()"></CustomEnumChips>
+                        </MudItem>
+                        <MudItem xs="12" sm="6">
+                            <MudText Typo="Typo.h6" Color="Color.Tertiary">
+                                @TranslationRoom.Services
+                            </MudText>
+                            <CustomEnumChips Values="@room.Services.AsField()"></CustomEnumChips>
+                        </MudItem>
+                    </MudGrid>
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.Preferences" Color="Color.Secondary">
+            <BodyFragment>
+                <RenderControl T="RoomModel" State="RoomState" Context="room">
+                    <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                        <MudGrid Spacing="@CssHelper.SpaceNone">
+                            <MudItem xs="12" sm="6">
+                                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                    <MudGrid Spacing="@CssHelper.SpaceNone">
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.Couples" Value="@room.Couples.GetFieldSettings().Name" ColorValue="AllowColor(room.Couples)"></CustomChip>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.Children" Value="@room.Children.GetFieldSettings().Name" ColorValue="AllowColor(room.Children)"></CustomChip>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.Pets" Value="@room.Pets.GetFieldSettings().Name" ColorValue="AllowColor(room.Pets)"></CustomChip>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.Visits" Value="@room.Visits.GetFieldSettings().Name" ColorValue="AllowColor(room.Visits)"></CustomChip>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.Smoking" Value="@room.Smoking.GetFieldSettings().Name" ColorValue="AllowColor(room.Smoking)"></CustomChip>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.Alcohol" Value="@room.Alcohol.GetFieldSettings().Name" ColorValue="AllowColor(room.Alcohol)"></CustomChip>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudStack>
+                            </MudItem>
+                            <MudItem xs="12" sm="6">
+                                <MudStack Spacing="3" Breakpoint="Breakpoint.Xs">
+                                    <MudGrid Spacing="@CssHelper.SpaceNone">
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChips Name="@TranslationRoom.PreferredGenders" Values="@room.PreferredGenders"></CustomChips>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChips Name="@TranslationRoom.PreferredOccupations" Values="@room.PreferredOccupations"></CustomChips>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.MinimumAge" Value="@room.MinimumAge"></CustomChip>
+                                        </MudItem>
+                                        <MudItem xs="12" sm="6">
+                                            <CustomChip Name="@TranslationRoom.MaximumAge" Value="@room.MaximumAge"></CustomChip>
+                                        </MudItem>
+                                    </MudGrid>
+                                </MudStack>
+                            </MudItem>
+                        </MudGrid>
+                    </MudStack>
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.Photos" Color="Color.Secondary">
+            <BodyFragment>
+                <RenderControl T="RoomModel" State="RoomState" Context="room">
+                    <Slider List="room.Photos" Context="item">
+                        <div style="@($"height: {(AppStateStatic.IsMobile ? "150" : "200")}px;")">
+                            <MudImage Src="@item.PhotoUrl" Alt="@item.Caption" FallbackSrc="@ImageHelper.GetDefaultPhoto"
+                                      ObjectFit="ObjectFit.Cover" ObjectPosition="ObjectPosition.Center" Style="height: 100%;"></MudImage>
+                            <div class="carousel-caption">
+                                <MudText Typo="Typo.caption" Inline="false">
+                                    @item.Caption.Truncate(40)
+                                </MudText>
+                            </div>
+                        </div>
+                    </Slider>
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
+        <PageSectionComponent Title="@TranslationRoom.RentalTerms" Color="Color.Secondary">
+            <BodyFragment>
+                <RenderControl T="RoomModel" State="RoomState" Context="room">
+                    @foreach (var item in room.Costs)
+                    {
+                        @if (item.Type == SH.Shared.Enums.PaymentType.Custom)
+                        {
+                            <MudChip T="ChargeModel" Value="@item" Color="Color.Primary">
+                                @($"{item.CustomName} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
+                            </MudChip>
+                        }
+                        else
+                        {
+                            <MudChip T="ChargeModel" Value="@item" Color="Color.Primary">
+                                @($"{item.Type.GetFieldSettings().Name} ({item.Frequency.GetFieldSettings().Name}: {room.Currency.ToString()} {item.Amount:N2})")
+                            </MudChip>
+                        }
+                    }
+                </RenderControl>
+            </BodyFragment>
+        </PageSectionComponent>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" OnClick="@(() => { MudDialog?.Close(); })">
+            @Translations.Button.Close
+        </MudButton>
+        <MudButton Variant="Variant.Filled" OnClick="@(async () => { await DialogService.ProposalPopup(RoomState.Instance); })"
+                   Color="Color.Primary">
+            Apply Now
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
+
+    [Parameter] public string? RoomId { get; set; }
+
+    private RenderControlState<RoomModel?> RoomState { get; set; } = new RenderControlState<RoomModel?>(null, obj => obj == null);
+
+    private string? PhotoUrl;
+
+    protected override async Task LoadStaticDataAsync()
+    {
+        await RoomPublicApi.View(RoomId, [RoomState], Cts.Token);
+
+        PhotoUrl = RoomState.Instance?.Photos.FirstOrDefault()?.PhotoUrl;
+    }
+
+    private Color StatusColor(RoomStatus status)
+    {
+        return status switch
+        {
+            RoomStatus.Available => Color.Success,
+            _ => Color.Error
+        };
+    }
+
+    private Color OcupationColor(int? current, int total)
+    {
+        if (current < total)
+        {
+            return Color.Success;
+        }
+        else
+        {
+            return Color.Error;
+        }
+    }
+
+    private Color AllowColor(Allowed allowed)
+    {
+        return allowed switch
+        {
+            Allowed.Yes => Color.Success,
+            Allowed.No => Color.Error,
+            _ => Color.Warning
+        };
+    }
+}

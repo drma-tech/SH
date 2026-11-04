@@ -34,6 +34,7 @@ namespace SH.WEB.Core.Helper
 
         public static CssHelper Build() => new();
 
+        public static int SpaceNone => 0;
         public static int SpaceSmall => AppStateStatic.IsMobile ? 2 : 3;
         public static int SpaceMedium => AppStateStatic.IsMobile ? 4 : 6;
         public static int SpaceLarge => AppStateStatic.IsMobile ? 6 : 9;

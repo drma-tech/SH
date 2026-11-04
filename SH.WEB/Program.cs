@@ -141,6 +141,7 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<IndexStateApi>();
     collection.AddScoped<PaymentPublicApi>();
     collection.AddScoped<PropertyPublicApi>();
+    collection.AddScoped<RoomPublicApi>();
     collection.AddScoped<PublicLoginApi>();
     //Authenticated
     collection.AddScoped<LoginApi>();
@@ -150,6 +151,7 @@ static void ConfigureApi(IServiceCollection collection)
     collection.AddScoped<ProfileApi>();
     collection.AddScoped<PropertyApi>();
     collection.AddScoped<RoomApi>();
+    collection.AddScoped<RoomProposalApi>();
     collection.AddScoped<StoragePropertyApi>();
     collection.AddScoped<StorageRoomApi>();
     //External

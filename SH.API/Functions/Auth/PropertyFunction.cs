@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,7 @@ using SH.API.Repository.Core;
 using SH.Shared.Core.Types;
 using SH.Shared.Models.Index;
 using SH.Shared.Models.Property;
-using SH.Shared.Requests;
+using SH.Shared.Models.Property.Core;
 using static SH.Shared.Core.Helper.ImageHelper;
 
 namespace SH.API.Functions.Auth;
@@ -28,38 +29,6 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         var model = await repo.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken);
 
         return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
-    }
-
-    [Function("PropertyView")]
-    public async Task<HttpResponseData?> PropertyView(
-       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "property/view/{propertyId}")] HttpRequestData req, string propertyId, CancellationToken cancellationToken)
-    {
-        var model = await repoOn.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
-
-        model.Address = new();
-
-        return await req.CreateResponse(model, TtlCache.OneDay, cancellationToken);
-    }
-
-    [Function("PropertySearch")]
-    public async Task<HttpResponseData?> PropertySearch(
-       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "property/search")] HttpRequestData req, CancellationToken cancellationToken)
-    {
-        var request = await req.GetRequest<PropertySearchRequest>(cancellationToken) ?? throw new NotificationException("invalid request");
-        var predicate = ExpressionExtensions.CreatePredicate<PropertyModel>();
-
-        if (request.Country.NotEmpty()) predicate = predicate.AndAlso(p => p.CountryCode == request.Country);
-        if (request.State.NotEmpty()) predicate = predicate.AndAlso(p => p.StateCode == request.State);
-        if (request.City.NotEmpty()) predicate = predicate.AndAlso(p => p.CityCode == request.City);
-
-        var transform = TransformExtensions.CreateTransform<PropertyModel>()
-            .Skip(request.Skip)
-            .Take(request.Take)
-            .OrderByDescending(p => p.DateTimeCreated);
-
-        var result = await repoOn.Query(PropertyType.Property, predicate, transform, cancellationToken);
-
-        return await req.CreateResponse(result, TtlCache.OneDay, cancellationToken);
     }
 
     [Function("PropertyAdd")]
@@ -173,36 +142,25 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         var userId = await req.GetUserIdAsync();
 
         var property = await repoOff.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
-        //var ProfileValidator = new PropertyValidation();
-        //var ProfileValid = (await ProfileValidator.ValidateAsync(profile, options => options.IncludeAllRuleSets(), cancellationToken)).IsValid;
 
-        //if (profile.MaritalStatus == MaritalStatus.Married || profile.MaritalStatus == MaritalStatus.CommonLawCohabiting)
-        //{
-        //    throw new NotificationException(
-        //        "You cannot make your profile public while in a committed relationship. Once your status changes, you can activate it."
-        //    );
-        //}
+        var ProfileValidator = new PropertyValidation();
 
-        //var filter = await repo.ReadItemAsync<FilterModel>(new MainIdentity(MainType.Filter, userId), cancellationToken) ?? throw new NotificationException("filter not found");
-        //var FilterValidator = new FilterValidation();
-        //var FilterValid = filter != null && (await FilterValidator.ValidateAsync(filter, cancellationToken)).IsValid;
+        var validation = await ProfileValidator.ValidateAsync(property, options => options.IncludeAllRuleSets(), cancellationToken);
 
-        //var setting = await repo.ReadItemAsync<SettingModel>(new MainIdentity(MainType.Setting, userId), cancellationToken) ?? throw new NotificationException("setting not found");
-        //var SettingValid = setting != null;
-
-        //var PhotoValidator = new PhotoValidation();
-        //var GalleryValid = profile.Gallery != null && (await PhotoValidator.ValidateAsync(profile.Gallery, cancellationToken)).IsValid;
-
-        //var validation = await repo.ReadItemAsync<ValidationModel>(new MainIdentity(MainType.Validation, userId), cancellationToken) ?? throw new NotificationException("validation not found");
-        //var ValidationsValid = validation != null && validation.Gallery;
-
-        //if (!ProfileValid || !FilterValid || !SettingValid || !GalleryValid || !ValidationsValid)
-        //{
-        //    throw new NotificationException("Please complete all steps before making your profile public.");
-        //}
+        if (!validation.IsValid)
+        {
+            throw new NotificationException(validation.Errors.FirstOrDefault()?.ErrorMessage ?? "Invalid property data.");
+        }
 
         await repoOn.CreateItemAsync(property);
         await repoOff.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId));
+
+        foreach (var room in property.Rooms)
+        {
+            var model = await repoOff.ReadItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, room.RoomId), cancellationToken) ?? throw new NotificationException("Room not found");
+            await repoOn.CreateItemAsync(model);
+            await repoOff.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, model.Id));
+        }
 
         //todo: update all members of the property to be public
         var profile = await repoMain.ReadItemAsync<ProfileModel>(new MainIdentity(MainType.Profile, userId), cancellationToken) ?? throw new UnhandledException("Profile is null");
@@ -219,33 +177,6 @@ public class PropertyFunction(CosmosMainRepository repoMain, [FromKeyedServices(
         var userId = await req.GetUserIdAsync();
 
         var property = await repoOn.ReadItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId), cancellationToken) ?? throw new NotificationException("property not found");
-        //var ProfileValidator = new PropertyValidation();
-        //var ProfileValid = (await ProfileValidator.ValidateAsync(profile, options => options.IncludeAllRuleSets(), cancellationToken)).IsValid;
-
-        //if (profile.MaritalStatus == MaritalStatus.Married || profile.MaritalStatus == MaritalStatus.CommonLawCohabiting)
-        //{
-        //    throw new NotificationException(
-        //        "You cannot make your profile public while in a committed relationship. Once your status changes, you can activate it."
-        //    );
-        //}
-
-        //var filter = await repo.ReadItemAsync<FilterModel>(new MainIdentity(MainType.Filter, userId), cancellationToken) ?? throw new NotificationException("filter not found");
-        //var FilterValidator = new FilterValidation();
-        //var FilterValid = filter != null && (await FilterValidator.ValidateAsync(filter, cancellationToken)).IsValid;
-
-        //var setting = await repo.ReadItemAsync<SettingModel>(new MainIdentity(MainType.Setting, userId), cancellationToken) ?? throw new NotificationException("setting not found");
-        //var SettingValid = setting != null;
-
-        //var PhotoValidator = new PhotoValidation();
-        //var GalleryValid = profile.Gallery != null && (await PhotoValidator.ValidateAsync(profile.Gallery, cancellationToken)).IsValid;
-
-        //var validation = await repo.ReadItemAsync<ValidationModel>(new MainIdentity(MainType.Validation, userId), cancellationToken) ?? throw new NotificationException("validation not found");
-        //var ValidationsValid = validation != null && validation.Gallery;
-
-        //if (!ProfileValid || !FilterValid || !SettingValid || !GalleryValid || !ValidationsValid)
-        //{
-        //    throw new NotificationException("Please complete all steps before making your profile public.");
-        //}
 
         await repoOff.CreateItemAsync(property);
         await repoOn.DeleteItemAsync<PropertyModel>(new PropertyIdentity(PropertyType.Property, propertyId));

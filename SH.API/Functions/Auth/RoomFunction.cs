@@ -1,6 +1,7 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.DependencyInjection;
+using SH.API.Core.Auth;
 using SH.API.Repository.Core;
 using SH.Shared.Core.Types;
 using SH.Shared.Models.Property;
@@ -91,5 +92,33 @@ public class RoomFunction(CosmosMainRepository repoMain, [FromKeyedServices("Off
         await repo.DeleteItemAsync<RoomModel>(new PropertyIdentity(PropertyType.Room, roomId));
 
         return await repo.UpsertItemAsync(model);
+    }
+
+    [Function("RoomProposal")]
+    public async Task<RoomProposal> RoomProposal(
+       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Post, Route = "room/proposal")] HttpRequestData req, CancellationToken cancellationToken)
+    {
+        var body = await req.GetBody<RoomProposal>(cancellationToken);
+        body.UserId = await req.GetUserIdAsync();
+
+        var result = await repoMain.Query<RoomProposal>(MainType.Proposal, p => p.RoomId == body.RoomId && p.UserId == body.UserId, null, cancellationToken);
+
+        if (result.Count != 0)
+        {
+            throw new NotificationException("The proposal has already been registered previously.");
+        }
+
+        return await repoMain.CreateItemAsync(body);
+    }
+
+    [Function("RoomProposalList")]
+    public async Task<HttpResponseData?> RoomProposalList(
+       [HttpTrigger(AuthorizationLevel.Anonymous, Method.Get, Route = "room/proposal/list/{roomId}")] HttpRequestData req, string roomId, CancellationToken cancellationToken)
+    {
+        //var profile = await req.GetProfile(repoMain, cancellationToken);
+
+        var result = await repoMain.Query<RoomProposal>(MainType.Proposal, p => p.RoomId == roomId, null, cancellationToken);
+
+        return await req.CreateResponse(result, TtlCache.OneHour, cancellationToken);
     }
 }

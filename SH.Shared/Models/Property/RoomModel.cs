@@ -1,5 +1,5 @@
 ﻿using SH.Shared.Core.Types;
-
+using System.Globalization;
 using Json = System.Text.Json.Serialization;
 using Nsoft = Newtonsoft.Json;
 
@@ -71,8 +71,8 @@ namespace SH.Shared.Models.Property
         public Allowed Children { get; set; } = Allowed.Negotiable;
         public Allowed Alcohol { get; set; } = Allowed.Negotiable;
         public Allowed Visits { get; set; } = Allowed.Negotiable;
-        public ISet<Gender> PreferredGenders { get; set; } = new HashSet<Gender>();
-        public ISet<Occupation> PreferredOccupations { get; set; } = new HashSet<Occupation>();
+        public IEnumerable<Gender> PreferredGenders { get; set; } = [];
+        public IEnumerable<Occupation> PreferredOccupations { get; set; } = [];
         public int? MinimumAge { get; set; }
         public int? MaximumAge { get; set; }
 
@@ -81,7 +81,11 @@ namespace SH.Shared.Models.Property
         public Currency Currency { get; set; } = Currency.USD;
         public int? PeriodStay { get; set; } = 1;
         public StayInterval IntervalStay { get; set; } = StayInterval.Month;
-        public string MinimumStay => $"{PeriodStay} {IntervalStay.GetFieldSettings().Name}";
+
+        [Json.JsonIgnore]
+        [Nsoft.JsonIgnore]
+        public string MinimumStay => string.Create(CultureInfo.InvariantCulture, $"{PeriodStay} {IntervalStay.GetFieldSettings().Name}");
+
         public ISet<ChargeModel> Costs { get; set; } = new HashSet<ChargeModel>();
 
         //Management
@@ -171,9 +175,9 @@ namespace SH.Shared.Models.Property
 
     public class RoomProposal(string id) : MainDocument(new MainIdentity(MainType.Proposal, id))
     {
-        public string? RoomId { get; set; } = id;
+        public string? RoomId { get; set; }
         public string? UserId { get; set; } //todo: user premium = Fast-Track
-        public DateTime Start { get; set; }
+        public DateTime Start { get; set; } = DateTime.UtcNow;
         public DateTime? End { get; set; }
         public decimal RentPrice { get; set; }
         public ProposalStatus Status { get; set; } = ProposalStatus.Pending; //Pending / Approved / Rejected / Cancelled
@@ -186,7 +190,7 @@ namespace SH.Shared.Models.Property
     {
         public string? RoomId { get; set; }
         public string? UserId { get; set; }
-        public DateTime Start { get; set; }
+        public DateTime Start { get; set; } = DateTime.UtcNow;
         public DateTime? End { get; set; }
         public OccupationStatus Status { get; set; } = OccupationStatus.Scheduled; //Scheduled / Active / Expired
         public string[] Events { get; set; } = [];

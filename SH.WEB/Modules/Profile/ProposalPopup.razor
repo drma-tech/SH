@@ -1,0 +1,97 @@
+﻿@using SH.Shared.Models.Property;
+
+@inherits PageCore<ProposalPopup>
+
+@inject RoomProposalApi RoomProposalApi
+
+<MudDialog Style="width: 100%; max-height: 90vh;">
+    <DialogContent>
+        <MudGrid Spacing="@CssHelper.SpaceMedium">
+            <MudItem xs="12" sm="6">
+                <MudDatePicker Label="Start" Date="@Proposal.Start" DateChanged="OnStartDateChanged" MinDate="DateTime.UtcNow"></MudDatePicker>
+                <MudText Typo="Typo.caption" Color="Color.Default">
+                    The start date is mandatory
+                </MudText>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudDatePicker Label="End" @bind-Date="@Proposal.End" MinDate="MinDate()"></MudDatePicker>
+                <MudText Typo="Typo.caption" Color="Color.Default">
+                    @($"Minimum stay: {Room.MinimumStay}")
+                </MudText>
+            </MudItem>
+            <MudItem xs="12">
+                <MudGrid Spacing="@CssHelper.SpaceMedium">
+                    <MudItem xs="12" sm="6">
+                        <FieldNumber T="decimal" Name="@($"Rent Price ({Room.Costs.Single(p => p.Type == PaymentType.Rent).Frequency})")" @bind-Value="@Proposal.RentPrice" Style="width: 100%;"></FieldNumber>
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudFab Variant="Variant.Filled" OnClick="@(() => { Proposal.RentPrice = Math.Round(Proposal.RentPrice * 1.1m, 0); })" Label="+10%" />
+                        <MudFab Variant="Variant.Filled" OnClick="@(() => { Proposal.RentPrice = Math.Round(Proposal.RentPrice * 1.2m, 0); })" Label="+20%" />
+                        <MudFab Variant="Variant.Filled" OnClick="@(() => { Proposal.RentPrice = Math.Round(Proposal.RentPrice * 1.3m, 0); })" Label="+30%" />
+                    </MudItem>
+                </MudGrid>
+                <MudText Typo="Typo.caption" Color="Color.Default">
+                    You can propose a higher amount to increase your chances (optional)
+                </MudText>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" OnClick="@(() => { MudDialog?.Close(); })">
+            @Translations.Button.Close
+        </MudButton>
+        <MudButton Variant="Variant.Filled" OnClick="@SaveHandle" Color="Color.Primary">
+            @Translations.Button.Ok
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance? MudDialog { get; set; }
+
+    [Parameter, EditorRequired] public RoomModel Room { get; set; }
+
+    private RoomProposal Proposal { get; set; } = new(Guid.NewGuid().ToString());
+
+    protected override async Task LoadStaticDataAsync()
+    {
+        Proposal.RoomId = Room.Identity.RawId;
+        Proposal.RentPrice = Room.Costs.Single(p => p.Type == PaymentType.Rent).Amount;
+        Proposal.End = MinDate();
+    }
+
+    private void OnStartDateChanged(DateTime? date)
+    {
+        Proposal.Start = date ?? DateTime.UtcNow;
+        if (Proposal.End < MinDate()) Proposal.End = MinDate();
+    }
+
+    private DateTime? MinDate()
+    {
+        if (!Room.PeriodStay.HasValue) return null;
+
+        if (Room.IntervalStay == StayInterval.Week)
+        {
+            return Proposal.Start.AddDays(Room.PeriodStay.Value * 7);
+        }
+        else
+        {
+            return Proposal.Start.AddMonths(Room.PeriodStay.Value);
+        }
+    }
+
+    private async Task SaveHandle()
+    {
+        try
+        {
+            await RoomProposalApi.Proposal(Proposal, Cts.Token);
+
+            await ShowSuccess(Translations.Notification.OperationCompleted);
+            MudDialog?.Close();
+        }
+        catch (Exception ex)
+        {
+            await ProcessException(ex);
+        }
+    }
+}

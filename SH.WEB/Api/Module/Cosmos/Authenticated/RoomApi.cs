@@ -29,3 +29,20 @@ public class RoomApi(IHttpClientFactory http) : ApiCosmos<RoomModel>(http, ApiTy
         return await PostAsync($"room/update/{propertyId}", model, ApiContext.Default.RoomModel, states: [], cancellationToken);
     }
 }
+
+public class RoomProposalApi(IHttpClientFactory http) : ApiCosmos<RoomProposal>(http, ApiType.Authenticated, "room", ["property", "profile"], ApiContext.Default.RoomProposal)
+{
+    public async Task<RoomProposal?> Proposal(RoomProposal? model, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(model);
+
+        return await PostAsync($"room/proposal", model, ApiContext.Default.RoomProposal, states: [], cancellationToken);
+    }
+
+    public async Task<IEnumerable<RoomProposal>> GetListAsync(string? roomId, RenderControlState<IEnumerable<RoomProposal>>[] states, CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(roomId);
+
+        return await GetListAsync($"room/proposal/list/{roomId}", states, cancellationToken);
+    }
+}
