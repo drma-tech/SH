@@ -97,7 +97,7 @@ Shared Home integrates with external services for application functionality and 
 
 2. Open `SH.sln` in Visual Studio or your preferred .NET IDE.
 
-3. Configure the backend settings in `SH.API/local.settings.json` or use .NET User Secrets for local development.
+3. Configure the backend settings in `SH.API/local.settings.json` or use .NET User Secrets for local development. See the [Configuration Guide](docs/CONFIGURATION.md) for details.
 
 4. Start the backend from the `SH.API` directory:
 
@@ -108,6 +108,10 @@ Shared Home integrates with external services for application functionality and 
 5. Configure the frontend API base address and run the `SH.WEB` project.
 
 Some features depend on external services and valid credentials. A complete local environment requires the corresponding service accounts and configuration.
+
+## Documentation
+
+- [Configuration Guide](docs/CONFIGURATION.md)
 
 ## License
 
