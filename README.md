@@ -1,27 +1,29 @@
 # Shared Home
 
-[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdrma-tech%2FSH.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdrma-tech%2FSH?ref=badge_shield&issueType=license)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdrma-tech%2FSH.svg?type=shield&issueType=license)](https://app.fossa.com/projects/git%2Bgithub.com%2FSH?ref=badge_shield&issueType=license)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fdrma-tech%2FSH.svg?type=shield&issueType=security)](https://app.fossa.com/projects/git%2Bgithub.com%2Fdrma-tech%2FSH?ref=badge_shield&issueType=security)
 [![Quality gate status](https://sonarcloud.io/api/project_badges/measure?project=drma-tech_SH&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=drma-tech_SH)
 
-**Find a place to live, or find people to share one with.**
+**Find a room, discover the people you may live with, and make shared living easier to arrange.**
 
-[Shared Home](https://shared-home.com) is a shared-housing platform that brings together people looking for rooms and people offering them. It combines a room marketplace with user profiles and shared-living information to help people find housing and potential housemates.
+[Shared Home](https://shared-home.com) is a global shared-housing discovery platform that connects people offering rooms in occupied properties with people looking for a place to live.
 
-The project aims to make shared housing easier to discover, manage, and arrange, whether someone is looking for an available room or wants to rent out a space in their property.
+Shared Home is focused on rooms in shared homes, not entire apartments or properties. A listed property must already have at least one resident, such as the host or another tenant. The platform helps people discover rooms and learn about the people they may share a home with.
+
+Shared Home is a discovery and advertising platform, not a rental agency or payment intermediary. Hosts and prospective residents arrange rental terms, agreements, and payments directly with each other.
 
 ## Features
 
 ### Room Marketplace
 
-- Create and manage property listings.
+- Create and manage property information.
 - Add rooms with descriptions, photos, size, access type, facilities, and rental details.
 - Specify rental costs, payment frequency, currency, and stay requirements.
-- Manage property information, amenities, accessibility details, and available facilities.
+- Manage property amenities, accessibility details, and available facilities.
 
-### Rental Requests
+### Rental Proposals
 
-- Submit and manage room proposals.
+- Submit and manage proposals for available rooms.
 - Track proposal statuses, including pending, approved, rejected, and cancelled.
 - Manage property members and their roles.
 
@@ -29,13 +31,13 @@ The project aims to make shared housing easier to discover, manage, and arrange,
 
 - Create profiles with personal details, languages, nationality, occupation, and lifestyle information.
 - Add verification details for identity, email, and phone.
-- Share information that can help people assess whether a shared-living arrangement is suitable.
+- Share information that can help hosts and residents assess whether a shared-living arrangement may be suitable.
 
 ### Shared-Living Discovery
 
-Shared Home is designed to support both room discovery and finding compatible people to live with. Profile information and shared-living preferences provide a foundation for this experience.
+Shared Home is designed to help people discover both rooms and the people who live in the properties offering them. Room listings, user profiles, and shared-living preferences provide the foundation for this experience.
 
-The guest-side room advertising flow and automated roommate compatibility matching are not currently implemented as complete features.
+Guest-side room advertising, complete public discovery of room-seeker profiles, automated roommate compatibility matching, and the private resident community experience are planned areas of development and are not currently available as complete features.
 
 ## Technology Stack
 
@@ -73,6 +75,7 @@ Shared Home integrates with external services for application functionality and 
 - **Clerk:** Authentication and user identity management.
 - **Stripe:** Payment processing.
 - **HERE:** Geocoding and location-related services.
+- **Didit:** Identity verification integration.
 - **Sentry:** Error monitoring and diagnostics.
 - **Google Analytics:** Usage analytics.
 - **Google AdSense:** Advertising.
@@ -112,6 +115,7 @@ Some features depend on external services and valid credentials. A complete loca
 ## Documentation
 
 - [Configuration Guide](docs/CONFIGURATION.md)
+- [Roadmap](ROADMAP.md)
 
 ## License
 
