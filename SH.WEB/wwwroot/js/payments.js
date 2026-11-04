@@ -4,7 +4,7 @@ import { storage, notification, interop } from "./utils.js";
 
 export const apple = {
     openCheckout(productId) {
-        if (!window.appConfig.isWebview) {
+        if (window.appConfig?.isMobileApp !== true) {
             notification.showError("It looks like you're accessing accessing this from a browser, but this feature is only available in the app. Please open the app to continue.");
             Sentry.captureMessage("It looks like you're accessing accessing this from a browser, but this feature is only available in the app. Please open the app to continue.", "error");
             return;
@@ -13,32 +13,41 @@ export const apple = {
         window.WTN.inAppPurchase({
             productId: productId,
             callback: function (data) {
-                if (data.isSuccess) {
-                    if (!data) {
-                        notification.showError("No data returned from purchase");
-                        return;
-                    }
-                    if (!data.isSuccess) {
-                        notification.showError("Purchase failed or canceled");
-                        return;
-                    }
-
-                    const receiptData = data.receiptData;
-                    if (!receiptData) {
-                        notification.showError("Receipt not found");
-                        return;
-                    }
-
-                    interop.invokeDotNetWhenReady(
-                        "SH.WEB",
-                        "AppleVerify",
-                        receiptData
-                    );
+                if (!data) {
+                    notification.showError("No data returned from purchase");
+                    Sentry.captureMessage("No data returned from purchase", "error");
+                    return;
                 }
+
+                if (!data.isSuccess) {
+                    notification.showError("Purchase failed or canceled");
+                    Sentry.captureMessage("Purchase failed or canceled", "error");
+                    return;
+                }
+
+                const receiptData = data.receiptData;
+
+                if (!receiptData) {
+                    notification.showError("Receipt not found");
+                    Sentry.captureMessage("Receipt not found", "error");
+                    return;
+                }
+
+                void interop.invokeDotNetWhenReady(
+                    "SH.WEB",
+                    "AppleVerify",
+                    receiptData
+                );
             },
         });
     },
     getReceiptData() {
+        if (window.appConfig?.isMobileApp !== true) {
+            notification.showError("It looks like you're accessing accessing this from a browser, but this feature is only available in the app. Please open the app to continue.");
+            Sentry.captureMessage("It looks like you're accessing accessing this from a browser, but this feature is only available in the app. Please open the app to continue.", "error");
+            return;
+        }
+
         window.WTN.getReceiptData({
             callback: function (data) {
                 if (data.receiptData.isSuccess) {
@@ -53,7 +62,7 @@ export const apple = {
 export const google = {
     openCheckout(productId, type) {
         try {
-            if (!window.appConfig.isWebview) {
+            if (window.appConfig?.isMobileApp !== true) {
                 notification.showError("It looks like you're accessing accessing this from a browser, but this feature is only available in the app. Please open the app to continue.");
                 Sentry.captureMessage("It looks like you're accessing accessing this from a browser, but this feature is only available in the app. Please open the app to continue.", "error");
                 return;
@@ -74,6 +83,7 @@ export const google = {
             });
         } catch (e) {
             notification.showError(`error: ${JSON.stringify(e)}`);
+            Sentry.captureException(e);
         }
     },
 };
@@ -88,8 +98,16 @@ export const stripe = {
                 const session = window.clerk.session;
                 const token = session ? await session.getToken() : null;
 
+                if (!token) {
+                    notification.showError("Failed to retrieve authentication token.");
+                    Sentry.captureMessage("Failed to retrieve authentication token.", "error");
+                    return;
+                }
+
+                const url = encodeURIComponent(window.location.href);
+
                 response = await fetch(
-                    `${window.appConfig.baseApiUrl}/api/stripe/create-checkout-session/${priceId}?url=${window.location.href}`,
+                    `${window.appConfig?.baseApiUrl}/api/stripe/create-checkout-session/${priceId}?url=${url}`,
                     {
                         method: "POST",
                         headers: {
@@ -103,6 +121,7 @@ export const stripe = {
             if (!response.ok) {
                 const error = await response.text();
                 notification.showError(error);
+                Sentry.captureMessage(error, "error");
                 return;
             }
 
@@ -111,6 +130,7 @@ export const stripe = {
             window.location.href = checkoutUrl;
         } catch (e) {
             notification.showError(`error: ${JSON.stringify(e)}`);
+            Sentry.captureException(e);
         }
     },
 };

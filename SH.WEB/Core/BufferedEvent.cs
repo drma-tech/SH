@@ -16,7 +16,7 @@ namespace SH.WEB.Core
 
             if (PendingEvents.TryRemove(name, out var args))
             {
-                _ = SafeInvoke(handler, args);
+                SafeInvoke(handler, args).FireAndForget();
             }
         }
 

@@ -5,7 +5,7 @@ import { notification } from "./utils.js";
 //setTimeout(() => { throw new Error('error test call'); }, 100);
 
 window.addEventListener("error", function (event) {
-    const { message, filename } = event;
+    const { message, filename, lineno, colno, error } = event;
 
     if (filename?.includes("blazor.webassembly")) {
         notification.showBrowserWarning();
@@ -13,6 +13,37 @@ window.addEventListener("error", function (event) {
     }
 
     if (message.includes("ResizeObserver loop completed with undelivered notifications")) {
+        return;
+    }
+
+    if (message.includes("Failed to fetch")) {
+        return;
+    }
+
+    if (message === "Script error.") {
+        const details = {
+            script_url: filename || null,
+            line: lineno || null,
+            column: colno || null,
+            stack: error?.stack || null,
+            page_url: window.location.href,
+            referrer: document.referrer || null,
+        };
+
+        const hasDetails = details.script_url || details.stack;
+
+        if (hasDetails) {
+            Sentry.captureMessage(`Script error: ${JSON.stringify(details)}`, "error");
+        } else {
+            Sentry.captureMessage("Script error: details unavailable", {
+                level: "error",
+                tags: {
+                    error_type: "cross_origin_script_error",
+                },
+                extra: details,
+            });
+        }
+
         return;
     }
 

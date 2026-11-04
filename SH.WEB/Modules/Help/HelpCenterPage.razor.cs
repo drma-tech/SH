@@ -6,12 +6,14 @@ namespace SH.WEB.Modules.Help
     public partial class HelpCenterPage
     {
         private SH.Shared.Enums.Platform? CurrentPlatform;
+        private bool DarkMode;
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
                 CurrentPlatform = await AppStateStatic.GetPlatform(JsRuntime, Cts.Token);
+                DarkMode = await AppStateStatic.GetDarkMode(JsRuntime, Cts.Token) ?? false;
             }
         }
 
@@ -69,7 +71,7 @@ namespace SH.WEB.Modules.Help
 
         private async Task FeedbackClick()
         {
-            await JsRuntime.Window().InvokeVoidAsync("eval", "Userback && Userback.openForm('general', 'form');");
+            await JsRuntime.Window().InvokeVoidAsync("eval", Cts.Token, "uj && uj.open();");
         }
 
         private async Task ShowCacheClick()

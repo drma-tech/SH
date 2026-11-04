@@ -1,4 +1,4 @@
-﻿namespace SH.API.Core;
+namespace SH.API.Core;
 
 public static class ApiStartup
 {

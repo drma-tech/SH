@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using MudBlazor;
 using SH.WEB.Core.Auth;
@@ -7,6 +8,8 @@ namespace SH.WEB.Layout
 {
     public partial class MainLayout : IDisposable
     {
+        [Parameter][SupplyParameterFromQuery(Name = "printscreen")] public bool Printscreen { get; set; } = false;
+
         private bool ShowAdvertising { get; set; } = true;
 
         private MudThemeProvider? _mudThemeProvider;
@@ -26,9 +29,14 @@ namespace SH.WEB.Layout
 
                 AppStateStatic.DarkModeChanged += dark => { _darkMode = dark; StateHasChanged(); };
                 AppStateStatic.BreakpointChanged.Subscribe(breakpoint => StateHasChanged(), Cts.Token);
-                AppStateStatic.HideAdvertising.Subscribe(hide => { ShowAdvertising = !hide; _ = InvokeAsync(StateHasChanged); }, Cts.Token);
+                AppStateStatic.HideAdvertising.Subscribe(hide => { ShowAdvertising = !hide; StateHasChanged(); }, Cts.Token);
 
-                PrincipalApi.DataChanged += principal => { AppStateStatic.Principal = principal; StateHasChanged(); };
+                PrincipalApi.DataChanged += async principal => { AppStateStatic.Principal = principal; await InvokeAsync(StateHasChanged); };
+
+                if (Printscreen)
+                {
+                    ShowAdvertising = false;
+                }
 
                 // 2 = transform claims into useful data (need to register before ClerkAuthChanged)
                 AuthStateProvider.AuthenticationStateChanged += async (task) =>
@@ -169,7 +177,12 @@ namespace SH.WEB.Layout
                 var system = await _mudThemeProvider.GetSystemDarkModeAsync();
                 darkMode = system;
 
-                await JsRuntime.Utils().SetStorage("dark-mode", darkMode ?? false, JavascriptContext.Default.Boolean, cancellationToken);
+                await JsRuntime.Utils().SetStorage("dark-mode", system, JavascriptContext.Default.Boolean, cancellationToken);
+            }
+
+            if (Printscreen)
+            {
+                darkMode = true;
             }
 
             AppStateStatic.ChangeDarkMode(darkMode ?? false);
@@ -219,11 +232,11 @@ namespace SH.WEB.Layout
 
             if (accesses.Count >= 3 && isOddAccess && !reviewed && !isTooSoon)
             {
-                _ = Task.Run(async () =>
+                Task.Run(async () =>
                 {
                     await Task.Delay(5000, cancellationToken); //delay of 5 seconds
                     await DialogService.AskReviewPopup();
-                }, cancellationToken);
+                }, cancellationToken).FireAndForget();
             }
         }
 
@@ -260,7 +273,7 @@ namespace SH.WEB.Layout
 
         private async Task ShowOnBoardingPopup(CancellationToken cancellationToken)
         {
-            if (Navigation.Uri.Contains("printscreen", StringComparison.OrdinalIgnoreCase))
+            if (Printscreen)
             {
                 return;
             }
@@ -288,25 +301,25 @@ namespace SH.WEB.Layout
         [JSInvokable]
         public static void RegistrationSuccessful()
         {
-            _ = BufferedEvent.Invoke(nameof(RegistrationSuccessful));
+            BufferedEvent.Invoke(nameof(RegistrationSuccessful)).FireAndForget();
         }
 
         [JSInvokable]
         public static void AppleVerify(string receipt)
         {
-            _ = BufferedEvent.Invoke(nameof(AppleVerify), receipt);
+            BufferedEvent.Invoke(nameof(AppleVerify), receipt).FireAndForget();
         }
 
         [JSInvokable]
         public static void ShowError(string error)
         {
-            _ = BufferedEvent.Invoke(nameof(ShowError), error);
+            BufferedEvent.Invoke(nameof(ShowError), error).FireAndForget();
         }
 
         [JSInvokable]
         public static void ClerkAuthChanged(string? token)
         {
-            _ = BufferedEvent.Invoke(nameof(ClerkAuthChanged), token);
+            BufferedEvent.Invoke(nameof(ClerkAuthChanged), token).FireAndForget();
         }
 
         private bool isDisposed;

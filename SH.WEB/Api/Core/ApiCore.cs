@@ -49,6 +49,10 @@ public abstract class ApiCore(string? key, string[] extraKeys)
 
             return await http.GetStringAsync(uri, cancellationToken);
         }
+        catch (OperationCanceledException)
+        {
+            return null;
+        }
         finally
         {
             await AppStateStatic.ProcessingFinished.PublishAsync();
@@ -65,6 +69,10 @@ public abstract class ApiCore(string? key, string[] extraKeys)
                 return await http.GetJsonFromApi<bool>(uri.ConfigureParameters(GetVersion()), cancellationToken);
 
             return await http.GetJsonFromApi<bool>(uri, cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            return false;
         }
         finally
         {
@@ -99,6 +107,10 @@ public abstract class ApiCore(string? key, string[] extraKeys)
                 await state.ShowWarning(ex.Message);
             }
             throw;
+        }
+        catch (OperationCanceledException)
+        {
+            return [];
         }
         catch (Exception ex)
         {
@@ -148,6 +160,10 @@ public abstract class ApiCore(string? key, string[] extraKeys)
             }
             throw;
         }
+        catch (OperationCanceledException)
+        {
+            return default;
+        }
         catch (Exception ex)
         {
             foreach (var state in states)
@@ -183,7 +199,7 @@ public abstract class ApiCore(string? key, string[] extraKeys)
             {
                 await state.FinishLoading(result);
             }
-            return result ?? [];
+            return result;
         }
         catch (NotificationException ex)
         {
@@ -192,6 +208,10 @@ public abstract class ApiCore(string? key, string[] extraKeys)
                 await state.ShowWarning(ex.Message);
             }
             throw;
+        }
+        catch (OperationCanceledException)
+        {
+            return [];
         }
         catch (Exception ex)
         {

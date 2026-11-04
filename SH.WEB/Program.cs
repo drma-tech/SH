@@ -15,23 +15,37 @@ using System.Globalization;
 using Toolbelt.Blazor.Extensions.DependencyInjection;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
+var userDomain = new Uri(builder.HostEnvironment.BaseAddress).Host;
+
+//var ignoredErrors = new[]
+//{
+//    "failed to fetch",
+//};
 
 builder.UseSentry(options =>
 {
     options.Dsn = "https://42509737a1905acfacb225afeceda501@o4510938040041472.ingest.us.sentry.io/4511616754057216";
     options.DiagnosticLevel = SentryLevel.Warning;
-    options.Environment = builder.HostEnvironment.Environment;
+    options.Environment = builder.HostEnvironment.Environment.ToLowerInvariant();
 
     options.TracePropagationTargets = []; //Disable tracing because it breaks communication with external APIs.
 
     options.SetBeforeSend(evt =>
     {
+        //var errorText = $"{evt.Message?.Formatted} {evt.Exception}";
+        //if (ignoredErrors.Any(error => errorText.Contains(error, StringComparison.OrdinalIgnoreCase)))
+        //{
+        //    return null;
+        //}
+
         const string error = "error";
 
         evt.Release = $"sh-blazor@{AppStateStatic.Version ?? error}";
 
         evt.SetTag("custom.version", AppStateStatic.Version ?? error);
+        evt.SetTag("custom.domain", userDomain);
         evt.SetTag("custom.platform", AppStateStatic.GetSavedPlatform()?.ToString() ?? error);
+        evt.SetTag("custom.isAuthenticated", AppStateStatic.IsAuthenticated.ToString() ?? error);
 
         evt.SetExtra("browser_name", AppStateStatic.BrowserName ?? error);
         evt.SetExtra("browser_version", AppStateStatic.BrowserVersion ?? error);
@@ -65,9 +79,9 @@ AppStateStatic.OperatingSystem = await js.Utils().GetOperatingSystem(Cancellatio
 AppStateStatic.IsBeta = await js.Utils().GetStorage("beta", JavascriptContext.Default.Boolean, CancellationToken.None);
 
 await js.Utils().SetStorage("app-version", AppStateStatic.Version, JavascriptContext.Default.String, CancellationToken.None);
-_ = await AppStateStatic.GetPlatform(js, CancellationToken.None);
+await AppStateStatic.GetPlatform(js, CancellationToken.None);
 await js.Services().InitGoogleAnalytics(AppStateStatic.Version, CancellationToken.None);
-await js.Services().InitUserBack(AppStateStatic.Version, CancellationToken.None);
+await js.Services().InitUserJot(CancellationToken.None);
 
 await app.RunAsync();
 

@@ -28,14 +28,22 @@ export const storage = {
             notification.showError("Key/value must be strings");
             return null;
         }
-        localStorage.setItem(key, value);
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            notification.showError(e.message);
+        }
     },
     setSessionStorage(key, value) {
         if (typeof key !== "string" || typeof value !== "string") {
             notification.showError("Key/value must be strings");
             return null;
         }
-        sessionStorage.setItem(key, value);
+        try {
+            sessionStorage.setItem(key, value);
+        } catch (e) {
+            notification.showError(e.message);
+        }
     },
     removeLocalStorage(key) {
         localStorage.removeItem(key);
@@ -56,9 +64,10 @@ export const storage = {
 
 export const notification = {
     showError(message) {
-        if (window.DotNet) {
+        if (window.DotNet?.invokeMethodAsync) {
             try {
-                window.DotNet.invokeMethodAsync("SH.WEB", "ShowError", message);
+                window.DotNet.invokeMethodAsync("SD.WEB", "ShowError", message)
+                    .catch(() => this.showToast(message));
             } catch {
                 this.showToast(message);
             }
@@ -68,7 +77,6 @@ export const notification = {
     },
     showToast(message, attempts = 20) {
         const stack = document.getElementById("toast-stack");
-        if (!stack) return;
 
         if (!stack) {
             if (attempts > 0) {
@@ -171,10 +179,12 @@ export const environment = {
         if (document.referrer === "app-info://platform/microsoft-store" && platform === "webapp") {
             platform = "windows";
             storage.setLocalStorage("platform", platform);
+            storage.setLocalStorage("is-mobile-app", window.appConfig?.isMobileApp === true ? "true" : "false");
             return;
         }
 
-        if (platform) return; //if its already detected, exit
+        let isMobileApp = storage.getLocalStorage("is-mobile-app");
+        if (platform && isMobileApp) return; //if its already detected, exit
 
         const ua = navigator.userAgent.toLowerCase();
         platform = "webapp"; //default value
@@ -200,9 +210,10 @@ export const environment = {
         }
 
         storage.setLocalStorage("platform", platform);
+        storage.setLocalStorage("is-mobile-app", window.appConfig?.isMobileApp === true ? "true" : "false");
     },
     async validateBrowserAndPlatform() {
-        if (!window.appConfig.blazorSupported) {
+        if (window.appConfig?.blazorSupported !== true) {
             notification.showBrowserWarning();
         }
     },
@@ -274,9 +285,10 @@ export const environment = {
         });
     },
     async isAdBlocked() {
-        if (window.appConfig.isLocalhost) { return false; }
-        if (window.appConfig.isBot) { return false; }
-        if (!window.appConfig.blazorSupported) { return false; }
+        if (!window.appConfig) { return false; }
+        if (window.appConfig?.isLocalhost === true) { return false; }
+        if (window.appConfig?.isBot === true) { return false; }
+        if (window.appConfig?.blazorSupported !== true) { return false; }
         if (window.isAdBlocked === false) { return false; }
 
         //detect if adsense exists
@@ -300,6 +312,7 @@ export const environment = {
         );
 
         if (!googlesyndication) {
+            window.isAdBlocked = true;
             return true;
         }
 
@@ -313,6 +326,7 @@ export const environment = {
                 );
 
             if (!fundingchoicesmessages) {
+                window.isAdBlocked = true;
                 return true;
             }
         }
@@ -323,6 +337,7 @@ export const environment = {
         );
 
         if (!sentry) {
+            window.isAdBlocked = true;
             return true;
         }
 
@@ -331,6 +346,7 @@ export const environment = {
         );
 
         if (!clarity) {
+            window.isAdBlocked = true;
             return true;
         }
 
@@ -372,7 +388,7 @@ export const interop = {
                 }
             }
             await new Promise((resolve) => setTimeout(resolve, delay));
-            delay = Math.min(delay * 1.5, maxDelay);
+            delay = Math.min(delay * 2, maxDelay);
         }
 
         throw new Error(`Blazor runtime never ready to receive JSInvokable ${method} from assembly ${assembly}`);
@@ -442,7 +458,7 @@ export const interop = {
     }
 };
 
-if (!window.appConfig.isBot) {
+if (window.appConfig?.isBot !== true) {
     environment.detectPlatform();
     environment.validateBrowserAndPlatform();
 }

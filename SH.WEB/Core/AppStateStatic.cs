@@ -19,7 +19,7 @@ public static class AppStateStatic
     public static DateTimeOffset? LastAccess { get; set; } //control login, so we don't call api too often
 
     public static Size Size { get; set; } = Size.Small;
-    public static Breakpoint Breakpoint { get; set; } = Breakpoint.Xs;
+    public static Breakpoint Breakpoint { get; set; } = Breakpoint.Md;
     public static ActionDispatcher<Breakpoint> BreakpointChanged { get; } = new();
     public static bool IsMobile => Breakpoint == Breakpoint.Xs;
 
@@ -30,7 +30,7 @@ public static class AppStateStatic
 
     private static string? LastSnackbarMessage { get; set; }
     private static DateTime LastSnackbarAt { get; set; } = DateTime.MinValue;
-    private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(10);
+    private static readonly TimeSpan SnackbarDelay = TimeSpan.FromSeconds(15);
 
     public static bool IsLocalhost(this NavigationManager navigation)
     {
@@ -139,7 +139,7 @@ public static class AppStateStatic
             }
             else
             {
-                var code = await js.Window().InvokeAsync<string>("eval", "navigator.language");
+                var code = await js.Window().InvokeAsync<string>("eval", cancellationToken, "navigator.language");
                 code = code[..2].ToLowerInvariant();
 
                 _appLanguage = ConvertAppLanguage(code, AppLanguage.en);

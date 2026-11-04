@@ -9,6 +9,7 @@ public class Configurations
     public Here? Here { get; set; }
     public Didit? Didit { get; set; }
     public ClerkAuth? ClerkAuth { get; set; }
+    public UserJot? UserJot { get; set; }
     public ZeptoMail? ZeptoMail { get; set; }
     public bool IsMaintenanceMode { get; set; }
 }
@@ -74,7 +75,25 @@ public class Didit
 
 public class ClerkAuth
 {
+    /// <summary>
+    /// do not share with users
+    /// </summary>
     public string? SecretKey { get; set; }
+
+    /// <summary>
+    /// do not share with users
+    /// </summary>
+    public string? SigningSecret { get; set; }
+}
+
+public class UserJot
+{
+    public string? ProjectId { get; set; }
+
+    /// <summary>
+    /// do not share with users
+    /// </summary>
+    public string? Secret { get; set; }
 }
 
 public class ZeptoMail

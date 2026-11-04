@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="xx">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -22,11 +22,11 @@
     <script type="importmap"></script>
 
     <script defer src="package/splide/js/splide.min.js"></script> <!--4.1.4-->
-    <script defer src="package/webtonative/webtonative.min.js"></script> <!--https://docs.webtonative.com/javascript-apis/getting-started - 1.1.11-->
-    <script defer src="package/fa/releases/v7.2.0/js/kit.min.js"></script>
-    <script src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.14.1-->
+    <script defer src="package/webtonative/webtonative.min.js"></script> <!--https://docs.webtonative.com/javascript-apis/getting-started - 1.1.30-->
+    <script defer src="package/fa/releases/v7.3.1/js/kit.min.js"></script> <!--When you use the kit, the other files are downloaded.-->
+    <script src="package/bowser/es5.min.js"></script> <!--https://www.jsdelivr.com/package/npm/bowser - 2.15.0-->
 
-    <script defer crossorigin="anonymous" src="https://glowing-beagle-8344.clerk.accounts.dev/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
+    <script defer crossorigin="anonymous" src="https://accounts.shared-home.com/npm/@clerk/ui@1/dist/ui.browser.js" type="text/javascript"></script>
 
     <script src="js/app-version.js"></script>
     <script src="js/main.js"></script>
@@ -42,7 +42,7 @@
 
     <!-- Google Adsense -->
     <script>
-        if (window.appConfig.blazorSupported) {
+        if (window.appConfig?.blazorSupported === true) {
             const script = document.createElement("script");
             script.async = true;
             script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5145928155833172";
@@ -76,7 +76,6 @@
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <button onclick="location.reload()">Reload</button>
-        <span class="dismiss">🗙</span>
     </div>
 
     <noscript>
@@ -120,12 +119,15 @@
 
         try {
             if (window.Blazor) {
-                if (window.appConfig.blazorSupported) {
+                if (window.appConfig?.blazorSupported === true) {
                     Blazor.start({
                         configureRuntime: runtime => runtime.withConfig({
-                            loadAllSatelliteResources: window.appConfig.isPrerendering
+                            loadAllSatelliteResources: window.appConfig?.isPrerendering === true
                         })
-                    })
+                    }).catch(error => {
+                        showToast2(error.message);
+                        Sentry.captureException(error);
+                    });
                 }
                 else {
                     //todo: replace with showBrowserWarning
@@ -140,8 +142,8 @@
                 );
             }
         } catch (error) {
-            Sentry.captureException(error);
             showToast2(error.message);
+            Sentry.captureException(error);
         }
     </script>
 

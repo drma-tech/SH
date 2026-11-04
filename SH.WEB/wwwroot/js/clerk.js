@@ -2,22 +2,35 @@
 
 import { storage, interop } from "./utils.js";
 
+async function importClerkLocalization(language, moduleUrl, exportName) {
+    try {
+        return (await import(moduleUrl))[exportName];
+    } catch (cause) {
+        const error = new Error(`Failed to import Clerk localization module for "${language}": ${moduleUrl}`);
+        error.name = "ClerkLocalizationImportError";
+        error.cause = cause;
+        error.moduleUrl = moduleUrl;
+        error.language = language;
+        throw error;
+    }
+}
+
 async function getClerkLocalization(language) {
     switch (language) {
         case "pt":
-            return (await import("https://cdn.jsdelivr.net/npm/@clerk/localizations/pt-BR/+esm")).ptBR;
+            return importClerkLocalization(language, "https://cdn.jsdelivr.net/npm/@clerk/localizations/pt-BR/+esm", "ptBR");
 
         case "es":
-            return (await import("https://cdn.jsdelivr.net/npm/@clerk/localizations/es-ES/+esm")).esES;
+            return importClerkLocalization(language, "https://cdn.jsdelivr.net/npm/@clerk/localizations/es-ES/+esm", "esES");
 
         case "fr":
-            return (await import("https://cdn.jsdelivr.net/npm/@clerk/localizations/fr-FR/+esm")).frFR;
+            return importClerkLocalization(language, "https://cdn.jsdelivr.net/npm/@clerk/localizations/fr-FR/+esm", "frFR");
 
         case "de":
-            return (await import("https://cdn.jsdelivr.net/npm/@clerk/localizations/de-DE/+esm")).deDE;
+            return importClerkLocalization(language, "https://cdn.jsdelivr.net/npm/@clerk/localizations/de-DE/+esm", "deDE");
 
         case "it":
-            return (await import("https://cdn.jsdelivr.net/npm/@clerk/localizations/it-IT/+esm")).itIT;
+            return importClerkLocalization(language, "https://cdn.jsdelivr.net/npm/@clerk/localizations/it-IT/+esm", "itIT");
 
         default:
             return undefined;
@@ -33,7 +46,7 @@ async function ensureAuthReady() {
     await authReadyPromise;
 
     if (!window.clerk) {
-        throw new Error("Auth initialization failed");
+        throw new Error("Error loading authentication module");
     }
 
     return window.clerk;
@@ -50,13 +63,13 @@ function loadClerkScript() {
         const isLocalhost = window.location.hostname === "localhost";
         const isDev = location.hostname.includes("develop");
 
-        const publishableKey = isLocalhost || isDev ? window.appConfig.clerkConfig.devPk : window.appConfig.clerkConfig.prdPk;
+        const publishableKey = isLocalhost || isDev ? window.appConfig?.clerkConfig.devPk : window.appConfig?.clerkConfig.prdPk;
 
         const script = document.createElement("script");
 
         script.crossOrigin = "anonymous";
         script.type = "text/javascript";
-        script.src = "https://glowing-beagle-8344.clerk.accounts.dev/npm/@clerk/clerk-js@6/dist/clerk.browser.js";
+        script.src = "https://accounts.shared-home.com/npm/@clerk/clerk-js@6/dist/clerk.browser.js";
 
         script.dataset.clerkPublishableKey = publishableKey;
 
@@ -69,8 +82,23 @@ function loadClerkScript() {
             resolve(window.Clerk);
         };
 
-        script.onerror = () => {
-            reject(new Error("Failed to load ClerkJS."));
+        script.onerror = (event) => {
+            const error = new Error("Failed to load ClerkJS.");
+            error.name = "ClerkScriptLoadError";
+            try {
+                Sentry.withScope((scope) => {
+                    scope.setContext("clerk_script_load", {
+                        scriptUrl: script.src,
+                        pageOrigin: window.location.origin,
+                        online: navigator.onLine,
+                        publishableKeyConfigured: Boolean(publishableKey),
+                    });
+                    Sentry.captureException(error);
+                });
+            } catch {
+                // ignore
+            }
+            reject(error);
         };
 
         document.head.appendChild(script);
@@ -94,20 +122,29 @@ async function initAuth() {
     });
 
     window.clerk = Clerk;
-    window.clerkUser = Clerk.user;
 
     setupAuthListener(Clerk);
 
     authReadyResolve(); // any call to ensureAuthReady will now proceed
 }
 
-if (!window.appConfig.isBot && !window.appConfig.isPrintScreen) {
+if (window.appConfig?.isBot === false) {
     setTimeout(async () => {
         try {
             await initAuth();
         } catch (err) {
             try {
-                Sentry.captureException(err);
+                Sentry.withScope((scope) => {
+                    if (err?.moduleUrl) {
+                        scope.setContext("clerk_init_auth", {
+                            url: err.moduleUrl,
+                            language: err.language,
+                            online: navigator.onLine,
+                            userAgent: navigator.userAgent,
+                        });
+                    }
+                    Sentry.captureException(err);
+                });
             } catch {
                 // ignore
             }
@@ -118,25 +155,57 @@ if (!window.appConfig.isBot && !window.appConfig.isPrintScreen) {
     authReadyResolve();
 }
 
+async function identifyUserJot(clerkToken) {
+    if (!window.uj?.identify) return;
+
+    try {
+        const response = await fetch(`${window.appConfig?.baseApiUrl ?? ""}/api/public/userjot/identity`, {
+            method: "POST",
+            headers: {
+                "X-Clerk-Token": `Bearer ${clerkToken}`,
+                "X-App-Version": window.appVersion,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to get UserJot signed identity: ${response.status}`);
+        }
+
+        const { token } = await response.json();
+        const result = await window.uj.identify({
+            token: token,
+            user: {
+                traits: {
+                    platform: storage.getLocalStorage("platform") ?? "unknown",
+                    app_version: storage.getLocalStorage("app-version") ?? "unknown",
+                }
+            }
+        });
+    } catch (error) {
+        //ignores
+    }
+}
+
 function setupAuthListener(clerk) {
     clerk.addListener(async ({ session, user }) => {
         const authProvider = storage.getLocalStorage("auth");
         if (authProvider !== "clerk") return;
 
+        window.isAuthenticated = !!user;
+
+        const token = session ? await session.getToken() : null;
+
         setTimeout(async () => {
-            if (user && window.Userback?.identify) {
+            if (user && token) {
+                    await identifyUserJot(token);
+            } else if (!user && window.uj?.logout) {
                 try {
-                    window.Userback.identify(user.id, {
-                        name: user.fullName,
-                        email: user.primaryEmailAddress?.emailAddress,
-                    });
-                } catch {
+                    await window.uj.logout();
+                } catch (error) {
                     //ignores
                 }
             }
         }, 5000);
-
-        const token = session ? await session.getToken() : null;
 
         await interop.invokeDotNetWhenReady("SH.WEB", "ClerkAuthChanged", token);
     });
@@ -147,8 +216,7 @@ export const authentication = {
         try {
             storage.setLocalStorage("auth", "clerk");
             const clerk = await ensureAuthReady();
-            //clerk.openSignIn({ withSignUp: true });
-            clerk.openSignIn();
+            clerk.openSignIn({ withSignUp: true });
         } catch (error) {
             Sentry.captureException(error);
             throw error.message;

@@ -4,8 +4,8 @@ import { storage, notification } from "./utils.js";
 
 export const services = {
     initGoogleAnalytics(version) {
-        if (window.appConfig.isLocalhost) return;
-        if (window.appConfig.isDev) return;
+        if (window.appConfig?.isLocalhost === true) return;
+        if (window.appConfig?.isDev === true) return;
 
         const PLATFORM = storage.getLocalStorage("platform");
 
@@ -20,11 +20,11 @@ export const services = {
             platform: PLATFORM,
         };
 
-        gtag("config", window.appConfig.servicesConfig.AnalyticsCode, config);
+        gtag("config", window.appConfig?.servicesConfig?.AnalyticsCode, config);
     },
     initMicrosoftClarity(code) {
-        if (window.appConfig.isLocalhost) return;
-        if (window.appConfig.isDev) return;
+        if (window.appConfig?.isLocalhost === true) return;
+        if (window.appConfig?.isDev === true) return;
 
         (function (c, l, a, r, i, t, y) {
             c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
@@ -33,43 +33,58 @@ export const services = {
         })(window, document, "clarity", "script", code);
 
         //todo: whem implement tracking consent, modify this to wait for user consent
+        let attempts = 0;
+        const maxAttempts = 12;
         const clarityCheckInterval = setInterval(function () {
             if (window.clarity) {
-                window.clarity("consent");
                 clearInterval(clarityCheckInterval);
+                window.clarity("consentv2", {
+                    ad_Storage: "granted",
+                    analytics_Storage: "granted"
+                });
+                return;
             }
+
+            attempts++;
+            if (attempts >= maxAttempts) clearInterval(clarityCheckInterval);
         }, 5000);
     },
-    initUserBack(version) {
-        if (window.appConfig.isBot) return;
-        if (!window.appConfig.blazorSupported) return;
+    initUserJot() {
+        if (window.appConfig?.isBot === true) return;
+        if (window.appConfig?.blazorSupported !== true) return;
 
         const browserLang = navigator.language || navigator.userLanguage;
 
-        window.Userback = window.Userback || {};
+        window.uj ||= new Proxy(
+            {},
+            {
+                get: (_, property) =>
+                    property == "then"
+                        ? 0
+                        : (...args) => {
+                            (window.$ujq ||= []).push([property, ...args]);
+                        }
+            }
+        );
+        window.uj.init(window.appConfig?.servicesConfig?.UserJotToken, {
+            widget: {
+                position: 'left', // 'left' or 'right'
+                theme: 'auto', // 'auto', 'light', or 'dark'
+            },
+            locale: storage.getLocalStorage("app-language") ?? browserLang.slice(0, 2),
+        });
 
-        window.Userback.access_token = window.appConfig.servicesConfig.UserBackToken;
-
-        window.Userback.widget_settings = {
-            language: storage.getLocalStorage("language") ?? browserLang.slice(0, 2),
-            logo: location.origin + "/icon/icon-71.png",
-        };
-        window.Userback.custom_data = {
-            platform: storage.getLocalStorage("platform"),
-            app_version: version,
-        };
-
-        (function (d) {
-            let s = d.createElement('script'); s.async = true;
-            s.src = 'https://static.userback.io/widget/v1.js';
-            (d.head || d.body).appendChild(s);
-        })(document);
+        const script = document.createElement("script");
+        script.type = "module";
+        script.async = true;
+        script.src = "https://cdn.userjot.com/sdk/v3/uj.js";
+        (document.head || document.body).appendChild(script);
     },
     initAdSense(adClient, adSlot, containerId) {
-        if (window.appConfig.isBot) return;
-        if (window.appConfig.isLocalhost) return;
-        if (window.appConfig.isDev) return;
-        if (!window.appConfig.blazorSupported) return;
+        if (window.appConfig?.isBot === true) return;
+        if (window.appConfig?.isLocalhost === true) return;
+        if (window.appConfig?.isDev === true) return;
+        if (window.appConfig?.blazorSupported !== true) return;
 
         try {
             const container = document.getElementById(containerId);
@@ -92,10 +107,10 @@ export const services = {
         }
     },
     initYandex(id) {
-        if (window.appConfig.isBot) return;
-        if (window.appConfig.isLocalhost) return;
-        if (window.appConfig.isDev) return;
-        if (!window.appConfig.blazorSupported) return;
+        if (window.appConfig?.isBot === true) return;
+        if (window.appConfig?.isLocalhost === true) return;
+        if (window.appConfig?.isDev === true) return;
+        if (window.appConfig?.blazorSupported !== true) return;
 
         window.yaContextCb = window.yaContextCb || [];
         window.yaContextCb.push(() => {
@@ -107,4 +122,4 @@ export const services = {
     }
 };
 
-services.initMicrosoftClarity(window.appConfig.servicesConfig.ClarityKey);
+services.initMicrosoftClarity(window.appConfig?.servicesConfig?.ClarityKey);
